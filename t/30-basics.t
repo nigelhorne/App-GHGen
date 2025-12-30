@@ -1,44 +1,56 @@
-use 5.036;
-use strict;
-use warnings;
-use ExtUtils::MakeMaker;
+#!/usr/bin/env perl
+use v5.36;
+use Test::More;
 
-WriteMakefile(
-    NAME             => 'App::GHGen',
-    AUTHOR           => 'Your Name <your.email@example.com>',
-    VERSION_FROM     => 'lib/App/GHGen.pm',
-    ABSTRACT_FROM    => 'lib/App/GHGen.pm',
-    LICENSE          => 'perl_5',
-    MIN_PERL_VERSION => '5.036',
-    
-    META_MERGE => {
-        'meta-spec' => { version => 2 },
-        resources => {
-            repository => {
-                type => 'git',
-                url  => 'https://github.com/yourusername/App-GHGen.git',
-                web  => 'https://github.com/yourusername/App-GHGen',
-            },
-            bugtracker => {
-                web => 'https://github.com/yourusername/App-GHGen/issues',
+use_ok('App::GHGen');
+use_ok('App::GHGen::Generator', qw(generate_workflow list_workflow_types));
+use_ok('App::GHGen::Analyzer', qw(analyze_workflow));
+
+# Test workflow generation
+{
+    my $yaml = generate_workflow('perl');
+    ok($yaml, 'Generated Perl workflow');
+    like($yaml, qr/name: Perl CI/, 'Contains workflow name');
+    like($yaml, qr/shogo82148\/actions-setup-perl/, 'Uses Perl setup action');
+    like($yaml, qr/AUTOMATED_TESTING/, 'Sets environment variables');
+}
+
+# Test list_workflow_types
+{
+    my %types = list_workflow_types();
+    ok(exists $types{perl}, 'Perl type exists');
+    ok(exists $types{node}, 'Node type exists');
+    ok(exists $types{python}, 'Python type exists');
+    is(scalar keys %types, 8, 'Has 8 workflow types');
+}
+
+# Test workflow analysis
+{
+    my $workflow = {
+        name => 'Test',
+        on => { push => {} },
+        jobs => {
+            test => {
+                'runs-on' => 'ubuntu-latest',
+                steps => [
+                    { uses => 'actions/checkout@v4' },
+                    { run => 'npm test' },
+                ],
             },
         },
-    },
+    };
     
-    PREREQ_PM => {
-        'YAML::XS'         => 0,
-        'Path::Tiny'       => 0,
-        'Term::ANSIColor'  => 0,
-        'Getopt::Long'     => 0,
-    },
+    my @issues = analyze_workflow($workflow, 'test.yml');
+    ok(@issues > 0, 'Found issues in test workflow');
     
-    TEST_REQUIRES => {
-        'Test::More'      => '0.98',
-        'Test::Exception' => 0,
-    },
-    
-    EXE_FILES => ['bin/ghgen'],
-    
-    dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'App-GHGen-*' },
-);
+    my @caching_issues = grep { $_->{type} eq 'performance' } @issues;
+    ok(@caching_issues > 0, 'Found caching issue');
+}
+
+# Test invalid workflow type
+{
+    my $yaml = generate_workflow('invalid-type');
+    ok(!defined $yaml, 'Returns undef for invalid type');
+}
+
+done_testing();

@@ -1,533 +1,241 @@
-package App::GHGen::Generator;
+package App::GHGen::Analyzer;
 use v5.36;
 use warnings;
+use YAML::XS qw(LoadFile);
 use Path::Tiny;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    generate_workflow
-    list_workflow_types
-    get_workflow_description
+    analyze_workflow
+    find_workflows
+    get_cache_suggestion
 );
 
 our $VERSION = '0.01';
 
 =head1 NAME
 
-App::GHGen::Generator - Generate GitHub Actions workflows
+App::GHGen::Analyzer - Analyze GitHub Actions workflows
 
 =head1 SYNOPSIS
 
-    use App::GHGen::Generator qw(generate_workflow);
+    use App::GHGen::Analyzer qw(analyze_workflow);
     
-    my $yaml = generate_workflow('perl');
-    path('.github/workflows/ci.yml')->spew_utf8($yaml);
+    my @issues = analyze_workflow($workflow_hashref, 'ci.yml');
 
 =head1 FUNCTIONS
 
-=head2 generate_workflow($type)
+=head2 find_workflows()
 
-Generate a workflow for the specified type. Returns YAML as a string.
+Find all workflow files in .github/workflows directory.
+Returns a list of Path::Tiny objects.
 
 =cut
 
-sub generate_workflow($type) {
-    my %generators = (
-        perl   => \&_generate_perl_workflow,
-        node   => \&_generate_node_workflow,
-        python => \&_generate_python_workflow,
-        rust   => \&_generate_rust_workflow,
-        go     => \&_generate_go_workflow,
-        ruby   => \&_generate_ruby_workflow,
-        docker => \&_generate_docker_workflow,
-        static => \&_generate_static_workflow,
+sub find_workflows() {
+    my $workflows_dir = path('.github/workflows');
+    return () unless $workflows_dir->exists && $workflows_dir->is_dir;
+    return sort $workflows_dir->children(qr/\.ya?ml$/i);
+}
+
+=head2 analyze_workflow($workflow, $filename)
+
+Analyze a workflow hash for issues. Returns array of issue hashes.
+
+Each issue has: type, severity, message, fix (optional)
+
+=cut
+
+sub analyze_workflow($workflow, $filename) {
+    my @issues;
+    
+    # Check 1: Missing dependency caching
+    unless (has_caching($workflow)) {
+        my $cache_suggestion = get_cache_suggestion($workflow);
+        push @issues, {
+            type => 'performance',
+            severity => 'medium',
+            message => 'No dependency caching found - increases build times and costs',
+            fix => $cache_suggestion
+        };
+    }
+    
+    # Check 2: Using unpinned action versions
+    my @unpinned = find_unpinned_actions($workflow);
+    if (@unpinned) {
+        push @issues, {
+            type => 'security',
+            severity => 'high',
+            message => "Found " . scalar(@unpinned) . " action(s) using \@master or \@main",
+            fix => "Replace \@master/\@main with specific version tags:\n" .
+                   join("\n", map { "       $_" } map { s/\@(master|main)$/\@v4/r } @unpinned[0..min(2, $#unpinned)])
+        };
+    }
+    
+    # Check 3: Overly broad triggers
+    if (has_broad_triggers($workflow)) {
+        push @issues, {
+            type => 'cost',
+            severity => 'medium',
+            message => 'Workflow triggers on all pushes - consider path/branch filters',
+            fix => "Add trigger filters:\n" .
+                   "     on:\n" .
+                   "       push:\n" .
+                   "         branches: [main, develop]\n" .
+                   "         paths:\n" .
+                   "           - 'src/**'\n" .
+                   "           - 'package.json'"
+        };
+    }
+    
+    # Check 4: Missing concurrency controls
+    unless ($workflow->{concurrency}) {
+        push @issues, {
+            type => 'cost',
+            severity => 'low',
+            message => 'No concurrency group - old runs continue when superseded',
+            fix => "Add concurrency control:\n" .
+                   "     concurrency:\n" .
+                   "       group: \${{ github.workflow }}-\${{ github.ref }}\n" .
+                   "       cancel-in-progress: true"
+        };
+    }
+    
+    # Check 5: Outdated runner versions
+    if (has_outdated_runners($workflow)) {
+        push @issues, {
+            type => 'maintenance',
+            severity => 'low',
+            message => 'Using older runner versions - consider updating',
+            fix => 'Update to ubuntu-latest, macos-latest, or windows-latest'
+        };
+    }
+    
+    return @issues;
+}
+
+=head2 get_cache_suggestion($workflow)
+
+Generate a caching suggestion based on detected project type.
+
+=cut
+
+sub get_cache_suggestion($workflow) {
+    my $detected_type = detect_project_type($workflow);
+    
+    my %cache_configs = (
+        npm => "- uses: actions/cache\@v4\n" .
+               "       with:\n" .
+               "         path: ~/.npm\n" .
+               "         key: \${{ runner.os }}-node-\${{ hashFiles('**/package-lock.json') }}\n" .
+               "         restore-keys: |\n" .
+               "           \${{ runner.os }}-node-",
+        
+        pip => "- uses: actions/cache\@v4\n" .
+               "       with:\n" .
+               "         path: ~/.cache/pip\n" .
+               "         key: \${{ runner.os }}-pip-\${{ hashFiles('**/requirements.txt') }}\n" .
+               "         restore-keys: |\n" .
+               "           \${{ runner.os }}-pip-",
+        
+        cargo => "- uses: actions/cache\@v4\n" .
+                 "       with:\n" .
+                 "         path: |\n" .
+                 "           ~/.cargo/bin/\n" .
+                 "           ~/.cargo/registry/index/\n" .
+                 "           ~/.cargo/registry/cache/\n" .
+                 "           target/\n" .
+                 "         key: \${{ runner.os }}-cargo-\${{ hashFiles('**/Cargo.lock') }}",
+        
+        bundler => "- uses: actions/cache\@v4\n" .
+                   "       with:\n" .
+                   "         path: vendor/bundle\n" .
+                   "         key: \${{ runner.os }}-gems-\${{ hashFiles('**/Gemfile.lock') }}\n" .
+                   "         restore-keys: |\n" .
+                   "           \${{ runner.os }}-gems-",
     );
     
-    return undef unless exists $generators{$type};
-    return $generators{$type}->();
+    return $cache_configs{$detected_type} // 
+           "Add caching based on your dependency manager:\n" .
+           "       See: https://docs.github.com/en/actions/using-workflows/caching-dependencies";
 }
 
-=head2 list_workflow_types()
+# Helper functions
 
-Returns a hash of available workflow types and their descriptions.
-
-=cut
-
-sub list_workflow_types() {
-    return (
-        node   => 'Node.js/npm projects with testing and linting',
-        python => 'Python projects with pytest and coverage',
-        rust   => 'Rust projects with cargo, clippy, and formatting',
-        go     => 'Go projects with testing and race detection',
-        ruby   => 'Ruby projects with bundler and rake',
-        perl   => 'Perl projects with cpanm, prove, and coverage',
-        docker => 'Docker image build and push workflow',
-        static => 'Static site deployment to GitHub Pages',
-    );
+sub has_caching($workflow) {
+    my $jobs = $workflow->{jobs} or return 0;
+    
+    for my $job (values %$jobs) {
+        my $steps = $job->{steps} or next;
+        for my $step (@$steps) {
+            return 1 if $step->{uses} && $step->{uses} =~ /actions\/cache/;
+        }
+    }
+    return 0;
 }
 
-=head2 get_workflow_description($type)
-
-Get the description for a specific workflow type.
-
-=cut
-
-sub get_workflow_description($type) {
-    my %types = list_workflow_types();
-    return $types{$type};
+sub find_unpinned_actions($workflow) {
+    my @unpinned;
+    my $jobs = $workflow->{jobs} or return @unpinned;
+    
+    for my $job (values %$jobs) {
+        my $steps = $job->{steps} or next;
+        for my $step (@$steps) {
+            next unless $step->{uses};
+            if ($step->{uses} =~ /\@(master|main)$/) {
+                push @unpinned, $step->{uses};
+            }
+        }
+    }
+    return @unpinned;
 }
 
-# Private workflow generators
-
-sub _generate_perl_workflow() {
-    return <<'YAML';
----
-name: Perl CI
-
-'on':
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-          - windows-latest
-        perl:
-          - '5.40'
-          - '5.38'
-          - '5.36'
-          - '5.34'
-          - '5.32'
-          - '5.30'
-          - '5.28'
-          - '5.22'
-    name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
-    env:
-      AUTOMATED_TESTING: 1
-      NO_NETWORK_TESTING: 1
-      NONINTERACTIVE_TESTING: 1
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Perl
-        uses: shogo82148/actions-setup-perl@v1
-        with:
-          perl-version: ${{ matrix.perl }}
-
-      - name: Cache CPAN modules
-        uses: actions/cache@v4
-        with:
-          path: ~/perl5
-          key: ${{ runner.os }}-${{ matrix.perl }}-${{ hashFiles('cpanfile') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.perl }}-
-
-      - name: Install cpanm
-        run: cpanm --local-lib=~/perl5 local::lib
-
-      - name: Install dependencies
-        run: cpanm --local-lib=~/perl5 --notest --installdeps .
-
-      - name: Run tests
-        run: prove -lr t/
-
-      - name: Run Perl::Critic
-        if: matrix.perl == '5.40' && matrix.os == 'ubuntu-latest'
-        continue-on-error: true
-        run: |
-          cpanm --local-lib=~/perl5 --notest Perl::Critic
-          perlcritic --severity 3 lib/ || true
-
-      - name: Test coverage
-        if: matrix.perl == '5.40' && matrix.os == 'ubuntu-latest'
-        run: |
-          cpanm --local-lib=~/perl5 --notest Devel::Cover
-          cover -delete
-          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/
-          cover
-YAML
+sub has_broad_triggers($workflow) {
+    my $on = $workflow->{on};
+    return 0 unless $on;
+    
+    # Check if push trigger has no path or branch filters
+    if (ref $on eq 'HASH' && $on->{push}) {
+        my $push = $on->{push};
+        return 1 if ref $push eq '' || (!$push->{paths} && !$push->{branches});
+    }
+    
+    # Simple array of triggers including 'push'
+    if (ref $on eq 'ARRAY' && grep { $_ eq 'push' } @$on) {
+        return 1;
+    }
+    
+    return 0;
 }
 
-sub _generate_node_workflow() {
-    return <<'YAML';
----
-name: Node.js CI
-
-'on':
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 18.x
-          - 20.x
-          - 22.x
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linter
-        run: npm run lint --if-present
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build project
-        run: npm run build --if-present
-YAML
+sub has_outdated_runners($workflow) {
+    my $jobs = $workflow->{jobs} or return 0;
+    
+    for my $job (values %$jobs) {
+        my $runs_on = $job->{'runs-on'} or next;
+        return 1 if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/;
+    }
+    return 0;
 }
 
-sub _generate_python_workflow() {
-    return <<'YAML';
----
-name: Python CI
-
-'on':
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version:
-          - '3.9'
-          - '3.10'
-          - '3.11'
-          - '3.12'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Cache pip packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          pip install pytest pytest-cov flake8
-
-      - name: Lint with flake8
-        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-
-      - name: Run tests with coverage
-        run: pytest --cov=. --cov-report=xml
-YAML
+sub detect_project_type($workflow) {
+    my $jobs = $workflow->{jobs} or return 'unknown';
+    
+    for my $job (values %$jobs) {
+        my $steps = $job->{steps} or next;
+        for my $step (@$steps) {
+            my $run = $step->{run} // '';
+            return 'npm' if $run =~ /npm (install|ci)/;
+            return 'pip' if $run =~ /pip install/;
+            return 'cargo' if $run =~ /cargo (build|test)/;
+            return 'bundler' if $run =~ /bundle install/;
+        }
+    }
+    return 'unknown';
 }
 
-sub _generate_rust_workflow() {
-    return <<'YAML';
----
-name: Rust CI
-
-'on':
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Cache cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Check formatting
-        run: cargo fmt -- --check
-
-      - name: Run clippy
-        run: cargo clippy -- -D warnings
-
-      - name: Run tests
-        run: cargo test --verbose
-
-      - name: Build release
-        run: cargo build --release --verbose
-YAML
-}
-
-sub _generate_go_workflow() {
-    return <<'YAML';
----
-name: Go CI
-
-'on':
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: Cache Go modules
-        uses: actions/cache@v4
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Run go vet
-        run: go vet ./...
-
-      - name: Run tests
-        run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
-
-      - name: Build
-        run: go build -v ./...
-YAML
-}
-
-sub _generate_ruby_workflow() {
-    return <<'YAML';
----
-name: Ruby CI
-
-'on':
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version:
-          - '3.1'
-          - '3.2'
-          - '3.3'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
-
-      - name: Run tests
-        run: bundle exec rake test
-YAML
-}
-
-sub _generate_docker_workflow() {
-    return <<'YAML';
----
-name: Docker Build
-
-'on':
-  push:
-    branches:
-      - main
-    tags:
-      - v*
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-        if: github.event_name != 'pull_request'
-
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: your-username/your-image
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-YAML
-}
-
-sub _generate_static_workflow() {
-    return <<'YAML';
----
-name: Deploy Static Site
-
-'on':
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Build
-        run: echo "Add your build command here"
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-YAML
+sub min($a, $b) {
+    return $a < $b ? $a : $b;
 }
 
 =head1 AUTHOR
