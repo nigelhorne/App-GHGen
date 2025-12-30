@@ -1,0 +1,17 @@
+.github/dependabot.yml
+bin/ghgen
+bin/ghgen-analyze
+bin/ghgen-generator
+Changes
+cpanfile
+lib/App/GHGen.pm
+lib/App/GHGen/Analyzer.pm
+lib/App/GHGen/Detector.pm
+lib/App/GHGen/Generator.pm
+LICENSE
+Makefile.PL
+MANIFEST			This list of files
+MANIFEST.SKIP
+README.md
+t/30-basics.t
+t/detector.t
