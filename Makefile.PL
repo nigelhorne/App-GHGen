@@ -37,7 +37,7 @@ WriteMakefile(
         'Test::Exception' => 0,
     },
     
-    EXE_FILES => ['bin/ghgen-analyze', 'bin/ghgen-generator'],
+    EXE_FILES => ['bin/ghgen', 'bin/ghgen-analyze', 'bin/ghgen-generator'],
     
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'App-GHGen-*' },
