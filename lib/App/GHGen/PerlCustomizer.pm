@@ -102,6 +102,9 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "  group: \${{ github.workflow }}-\${{ github.ref }}\n";
     $yaml .= "  cancel-in-progress: true\n\n";
     
+    $yaml .= "permissions:\n";
+    $yaml .= "  contents: read\n\n";
+    
     $yaml .= "jobs:\n";
     $yaml .= "  test:\n";
     $yaml .= "    runs-on: \${{ matrix.os }}\n";
@@ -220,20 +223,20 @@ sub _get_perl_versions($min, $max) {
             push @selected, $version;
         }
     }
-    
+
     return reverse @selected;  # Return in ascending order
 }
 
 sub _normalize_version($version) {
-    # Convert "5.036" or "5.36" to comparable number
-    $version =~ s/^v?//;
-    my @parts = split /\./, $version;
-    return sprintf("%d.%03d", $parts[0] // 5, $parts[1] // 0);
+	# Convert "5.036" or "5.36" to comparable number
+	$version =~ s/^v?//;
+	my @parts = split /\./, $version;
+	return sprintf("%d.%03d", $parts[0] // 5, $parts[1] // 0);
 }
 
 =head1 AUTHOR
 
-Your Name <your.email@example.com>
+Nigel Horne <njh@bandsman.co.uk>
 
 =head1 LICENSE
 
