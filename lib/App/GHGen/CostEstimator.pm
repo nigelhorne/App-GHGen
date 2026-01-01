@@ -319,7 +319,7 @@ sub estimate_matrix_factor($workflow) {
         $max_matrix_size = $size if $size > $max_matrix_size;
     }
     
-    return $max_matrix_size;
+	return $max_matrix_size;
 }
 
 =head1 AUTHOR

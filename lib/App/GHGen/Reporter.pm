@@ -35,9 +35,9 @@ sub generate_markdown_report($issues, $fixes = []) {
 	my $total_issues = scalar @$issues;
 	my $total_fixes = scalar @$fixes;
 
-    $report .= "## Summary\n\n";
-    $report .= "- 📊 **Issues found:** $total_issues\n";
-    $report .= "- ✅ **Fixes applied:** $total_fixes\n\n";
+	$report .= "## Summary\n\n";
+	$report .= "- 📊 **Issues found:** $total_issues\n";
+	$report .= "- ✅ **Fixes applied:** $total_fixes\n\n";
 
     if (@$issues) {
         # Group by type
@@ -213,21 +213,21 @@ sub estimate_savings($issues) {
         }
     }
     
-    # Private repo pricing: ~$0.008 per minute
-    $savings{cost} = int($savings{minutes} * 0.008);
+	# Private repo pricing: ~$0.008 per minute
+	$savings{cost} = int($savings{minutes} * 0.008);
     
-    return \%savings;
+	return \%savings;
 }
 
 sub get_type_emoji($type) {
-    my %emojis = (
-        performance => '⚡',
-        security    => '🔒',
-        cost        => '💰',
-        maintenance => '🔧',
-    );
+	my %emojis = (
+		performance => '⚡',
+		security    => '🔒',
+		cost        => '💰',
+		maintenance => '🔧',
+	);
     
-    return $emojis{$type} // '📌';
+	return $emojis{$type} // '📌';
 }
 
 sub get_severity_badge($severity) {

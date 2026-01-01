@@ -295,7 +295,7 @@ sub has_deployment_steps($workflow) {
         }
     }
     
-    return 0;
+	return 0;
 }
 
 =head1 AUTHOR

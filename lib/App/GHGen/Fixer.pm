@@ -6,9 +6,9 @@ use Path::Tiny;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    apply_fixes
-    can_auto_fix
-    fix_workflow
+	apply_fixes
+	can_auto_fix
+	fix_workflow
 );
 
 our $VERSION = '0.01';

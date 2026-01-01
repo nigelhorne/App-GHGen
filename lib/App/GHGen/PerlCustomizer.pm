@@ -236,10 +236,10 @@ sub _get_perl_versions($min, $max) {
 }
 
 sub _normalize_version($version) {
-    # Convert "5.036" or "5.36" to comparable number
-    $version =~ s/^v?//;
-    my @parts = split /\./, $version;
-    return sprintf("%d.%03d", $parts[0] // 5, $parts[1] // 0);
+	# Convert "5.036" or "5.36" to comparable number
+	$version =~ s/^v?//;
+	my @parts = split /\./, $version;
+	return sprintf("%d.%03d", $parts[0] // 5, $parts[1] // 0);
 }
 
 =head1 AUTHOR

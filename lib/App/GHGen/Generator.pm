@@ -628,7 +628,7 @@ YAML
 }
 
 sub _generate_static_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Deploy Static Site
 

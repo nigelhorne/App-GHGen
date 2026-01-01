@@ -122,9 +122,9 @@ Returns hash of configuration options.
 =cut
 
 sub customize_workflow($type) {
-    say "";
+    say '';
     say colored(['bold cyan'], "=== Workflow Customization: " . uc($type) . " ===");
-    say "";
+    say '';
     
     my %dispatch = (
         perl   => \&_customize_perl,
@@ -157,7 +157,7 @@ sub _customize_perl() {
         \@all_versions,
         \@default_versions
     );
-    say "";
+    say '';
     
     # Operating systems
     say colored(['bold'], "Operating Systems:");
@@ -169,7 +169,7 @@ sub _customize_perl() {
         \@all_os,
         \@default_os
     );
-    say "";
+    say '';
     
     # Code quality
     say colored(['bold'], "Code Quality Tools:");
@@ -177,14 +177,14 @@ sub _customize_perl() {
         "Enable Perl::Critic?",
         'y'
     );
-    say "";
+    say '';
     
     # Coverage
     $config{enable_coverage} = prompt_yes_no(
         "Enable test coverage (Devel::Cover)?",
         'y'
     );
-    say "";
+    say '';
     
     # Branches
     say colored(['bold'], "Branch Configuration:");
@@ -193,7 +193,7 @@ sub _customize_perl() {
         'main,master'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -211,7 +211,7 @@ sub _customize_node() {
         \@all_versions,
         \@default_versions
     );
-    say "";
+    say '';
     
     # Package manager
     say colored(['bold'], "Package Manager:");
@@ -221,21 +221,21 @@ sub _customize_node() {
         0
     );
     $config{package_manager} = ['npm', 'yarn', 'pnpm']->[$pm_choice];
-    say "";
+    say '';
     
     # Linting
     $config{enable_lint} = prompt_yes_no(
         "Enable linting?",
         'y'
     );
-    say "";
+    say '';
     
     # Build step
     $config{enable_build} = prompt_yes_no(
         "Enable build step?",
         'y'
     );
-    say "";
+    say '';
     
     # Branches
     my $branches = prompt_text(
@@ -243,7 +243,7 @@ sub _customize_node() {
         'main,develop'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -261,7 +261,7 @@ sub _customize_python() {
         \@all_versions,
         \@default_versions
     );
-    say "";
+    say '';
     
     # Linting
     say colored(['bold'], "Code Quality:");
@@ -269,20 +269,20 @@ sub _customize_python() {
         "Enable flake8 linting?",
         'y'
     );
-    say "";
+    say '';
     
     $config{enable_black} = prompt_yes_no(
         "Enable black formatter check?",
         'n'
     );
-    say "";
+    say '';
     
     # Coverage
     $config{enable_coverage} = prompt_yes_no(
         "Enable test coverage?",
         'y'
     );
-    say "";
+    say '';
     
     # Branches
     my $branches = prompt_text(
@@ -290,7 +290,7 @@ sub _customize_python() {
         'main,develop'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -304,26 +304,26 @@ sub _customize_rust() {
         "Enable formatting check (cargo fmt)?",
         'y'
     );
-    say "";
+    say '';
     
     $config{enable_clippy} = prompt_yes_no(
         "Enable clippy linting?",
         'y'
     );
-    say "";
+    say '';
     
     $config{enable_release} = prompt_yes_no(
         "Build release binary?",
         'y'
     );
-    say "";
+    say '';
     
     my $branches = prompt_text(
         "Branches to run on (comma-separated)",
         'main'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -338,32 +338,32 @@ sub _customize_go() {
         '1.22'
     );
     $config{go_version} = $go_version;
-    say "";
+    say '';
     
     $config{enable_vet} = prompt_yes_no(
         "Enable go vet?",
         'y'
     );
-    say "";
+    say '';
     
     $config{enable_race} = prompt_yes_no(
         "Enable race detector?",
         'y'
     );
-    say "";
+    say '';
     
     $config{enable_coverage} = prompt_yes_no(
         "Enable test coverage?",
         'y'
     );
-    say "";
+    say '';
     
     my $branches = prompt_text(
         "Branches to run on (comma-separated)",
         'main'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -380,14 +380,14 @@ sub _customize_ruby() {
         \@all_versions,
         \@default_versions
     );
-    say "";
+    say '';
     
     my $branches = prompt_text(
         "Branches to run on (comma-separated)",
         'main'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -402,20 +402,20 @@ sub _customize_docker() {
         'your-username/your-image'
     );
     $config{image_name} = $image_name;
-    say "";
+    say '';
     
     $config{push_on_pr} = prompt_yes_no(
         "Push images on pull requests?",
         'n'
     );
-    say "";
+    say '';
     
     my $branches = prompt_text(
         "Branches to run on (comma-separated)",
         'main'
     );
     $config{branches} = [split /,\s*/, $branches];
-    say "";
+    say '';
     
     return \%config;
 }
@@ -430,16 +430,16 @@ sub _customize_static() {
         './public'
     );
     $config{build_dir} = $build_dir;
-    say "";
+    say '';
     
     my $build_command = prompt_text(
         "Build command",
         'npm run build'
     );
     $config{build_command} = $build_command;
-    say "";
+    say '';
     
-    return \%config;
+	return \%config;
 }
 
 =head1 AUTHOR
