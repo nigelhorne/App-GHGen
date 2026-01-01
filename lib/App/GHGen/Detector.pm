@@ -1,6 +1,9 @@
 package App::GHGen::Detector;
+
 use v5.36;
+use strict;
 use warnings;
+
 use Path::Tiny;
 
 use Exporter 'import';

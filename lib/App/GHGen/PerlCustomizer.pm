@@ -1,11 +1,13 @@
 package App::GHGen::PerlCustomizer;
+
 use v5.36;
+use strict;
 use warnings;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    detect_perl_requirements
-    generate_custom_perl_workflow
+	detect_perl_requirements
+	generate_custom_perl_workflow
 );
 
 our $VERSION = '0.01';

@@ -1,5 +1,7 @@
 package App::GHGen::Fixer;
+
 use v5.36;
+use strict;
 use warnings;
 use YAML::XS qw(LoadFile DumpFile);
 use Path::Tiny;

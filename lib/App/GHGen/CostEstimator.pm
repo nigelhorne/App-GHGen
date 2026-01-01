@@ -1,14 +1,16 @@
 package App::GHGen::CostEstimator;
+
 use v5.36;
+use strict;
 use warnings;
 use YAML::XS qw(LoadFile);
 use Path::Tiny;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    estimate_current_usage
-    estimate_savings
-    estimate_workflow_cost
+	estimate_current_usage
+	estimate_savings
+	estimate_workflow_cost
 );
 
 our $VERSION = '0.01';

@@ -1,14 +1,16 @@
 package App::GHGen::Generator;
+
 use v5.36;
+use strict;
 use warnings;
 use Path::Tiny;
 use App::GHGen::PerlCustomizer qw(detect_perl_requirements generate_custom_perl_workflow);
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    generate_workflow
-    list_workflow_types
-    get_workflow_description
+	generate_workflow
+	list_workflow_types
+	get_workflow_description
 );
 
 our $VERSION = '0.01';

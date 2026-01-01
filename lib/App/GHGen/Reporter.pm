@@ -1,5 +1,7 @@
 package App::GHGen::Reporter;
+
 use v5.36;
+use strict;
 use warnings;
 
 use Exporter 'import';
@@ -194,39 +196,38 @@ sub estimate_savings($issues) {
         cost => 0,
     );
     
-    for my $issue (@$issues) {
-        # Estimate savings by issue type
-        if ($issue->{type} eq 'performance') {
-            # Caching saves ~5 minutes per workflow run
-            # Assume 100 runs/month
-            $savings{minutes} += 500 if $issue->{message} =~ /caching/;
-        }
-        elsif ($issue->{type} eq 'cost') {
-            if ($issue->{message} =~ /concurrency/) {
-                # Concurrency saves ~50 minutes/month by canceling old runs
-                $savings{minutes} += 50;
-            }
-            if ($issue->{message} =~ /triggers/) {
-                # Trigger filters save ~100 minutes/month
-                $savings{minutes} += 100;
-            }
-        }
-    }
-    
+	for my $issue (@$issues) {
+	# Estimate savings by issue type
+		if ($issue->{type} eq 'performance') {
+			# Caching saves ~5 minutes per workflow run
+			# Assume 100 runs/month
+			$savings{minutes} += 500 if $issue->{message} =~ /caching/;
+		} elsif ($issue->{type} eq 'cost') {
+			if ($issue->{message} =~ /concurrency/) {
+				# Concurrency saves ~50 minutes/month by canceling old runs
+				$savings{minutes} += 50;
+			}
+			if ($issue->{message} =~ /triggers/) {
+				# Trigger filters save ~100 minutes/month
+				$savings{minutes} += 100;
+			}
+		}
+	}
+
 	# Private repo pricing: ~$0.008 per minute
 	$savings{cost} = int($savings{minutes} * 0.008);
-    
+
 	return \%savings;
 }
 
 sub get_type_emoji($type) {
 	my %emojis = (
 		performance => '⚡',
-		security    => '🔒',
-		cost        => '💰',
+		security => '🔒',
+		cost => '💰',
 		maintenance => '🔧',
 	);
-    
+
 	return $emojis{$type} // '📌';
 }
 
@@ -234,7 +235,7 @@ sub get_severity_badge($severity) {
 	my %badges = (
 		high   => '🔴',
 		medium => '🟡',
-		low    => '🟢',
+		low => '🟢',
 	);
 
 	return $badges{$severity} // '⚪';

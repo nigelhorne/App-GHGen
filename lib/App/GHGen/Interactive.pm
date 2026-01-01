@@ -1,15 +1,17 @@
 package App::GHGen::Interactive;
+
 use v5.36;
+use strict;
 use warnings;
 use Term::ANSIColor qw(colored);
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    prompt_yes_no
-    prompt_choice
-    prompt_multiselect
-    prompt_text
-    customize_workflow
+	prompt_yes_no
+	prompt_choice
+	prompt_multiselect
+	prompt_text
+	customize_workflow
 );
 
 our $VERSION = '0.01';

@@ -1,14 +1,17 @@
 package App::GHGen::Analyzer;
+
 use v5.36;
 use warnings;
+use strict;
+
 use YAML::XS qw(LoadFile);
 use Path::Tiny;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
-    analyze_workflow
-    find_workflows
-    get_cache_suggestion
+	analyze_workflow
+	find_workflows
+	get_cache_suggestion
 );
 
 our $VERSION = '0.01';
