@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+
 use v5.36;
 
 use strict;
@@ -119,16 +120,14 @@ sub cmd_generate() {
 	# Write the workflow
 	path($output_file)->spew_utf8($yaml);
 	
-	say colored(['green'], "✓ ") . "Generated workflow: " . 
-		colored(['bold'], $output_file);
+	say colored(['green'], "✓ ") . "Generated workflow: " . colored(['bold'], $output_file);
 	say '';
 	say colored(['cyan'], "Next steps:");
 	say "  1. Review the generated workflow";
 	say "  2. Customize it for your project";
 	say "  3. Commit and push to trigger the workflow";
 	say '';
-	say colored(['yellow'], "💡 Tip: ") . 
-		"Run 'ghgen analyze' to check for optimizations";
+	say colored(['yellow'], "💡 Tip: ") . "Run 'ghgen analyze' to check for optimizations";
 }
 
 sub cmd_analyze() {
@@ -166,7 +165,7 @@ sub cmd_analyze() {
 		
 		if (@{$current_usage->{workflows}} > 1) {
 			say colored(['bold'], "Per-Workflow Breakdown:");
-			for my $wf (sort { $b->{minutes_per_month} <=> $a->{minutes_per_month} } 
+			for my $wf (sort { $b->{minutes_per_month} <=> $a->{minutes_per_month} }
 						@{$current_usage->{workflows}}) {
 				say sprintf("  %-40s %4d min/month (%3d runs × %4.1f min/run)",
 					$wf->{name},
@@ -201,18 +200,15 @@ sub cmd_analyze() {
 			my @fixable = $opts{fix} ? grep { can_auto_fix($_) } @issues : @issues;
 			
 			if ($opts{fix} && @fixable) {
-				say "  " . colored(['yellow'], "⚙ ") . 
-					"Applying " . scalar(@fixable) . " fix(es)...";
+				say "  " . colored(['yellow'], "⚙ ") . "Applying " . scalar(@fixable) . " fix(es)...";
 				
 				my $fixes = fix_workflow($file, \@fixable);
 				$total_fixes += $fixes;
 				
 				if ($fixes > 0) {
-					say "  " . colored(['green'], "✓ ") . 
-						"Applied $fixes fix(es)";
+					say "  " . colored(['green'], "✓ ") . "Applied $fixes fix(es)";
 				} else {
-					say "  " . colored(['yellow'], "⚠ ") . 
-						"Could not apply some fixes automatically";
+					say "  " . colored(['yellow'], "⚠ ") . "Could not apply some fixes automatically";
 				}
 			} else {
 				# Just report issues
@@ -252,8 +248,7 @@ sub cmd_analyze() {
 		
 		if ($savings->{minutes} > 0) {
 			say colored(['bold'], "💰 Potential Savings:");
-			say "  With recommended changes: " . 
-				colored(['green'], ($current_usage->{total_minutes} - $savings->{minutes})) . 
+			say "  With recommended changes: " . colored(['green'], ($current_usage->{total_minutes} - $savings->{minutes})) .
 				" CI minutes/month";
 			say "  Reduction: " . colored(['green'], "-$savings->{minutes} minutes") .
 				" (" . colored(['green'], "$savings->{percentage}%") . ")";
@@ -280,18 +275,15 @@ sub cmd_analyze() {
 			my $count = scalar @{$by_type{$type}};
 			my $fixable = grep { can_auto_fix($_) } @{$by_type{$type}};
 			my $suffix = $fixable > 0 ? " ($fixable auto-fixable)" : '';
-			say "  • " . colored(['yellow'], "$type") . 
-				": $count workflow(s) affected$suffix";
+			say "  • " . colored(['yellow'], "$type") . ": $count workflow(s) affected$suffix";
 		}
 		
 		say '';
-		say colored(['cyan'], "💡 Tip: ") . 
-			"Run " . colored(['bold'], "ghgen analyze --fix") . 
+		say colored(['cyan'], "💡 Tip: ") .  "Run " . colored(['bold'], "ghgen analyze --fix") .
 			" to automatically apply fixes";
 		
 		if (!$opts{estimate}) {
-			say colored(['cyan'], "💡 Tip: ") . 
-				"Run " . colored(['bold'], "ghgen analyze --estimate") . 
+			say colored(['cyan'], "💡 Tip: ") . "Run " . colored(['bold'], "ghgen analyze --estimate") .
 				" to see potential cost savings";
 		}
 	}
@@ -306,8 +298,7 @@ sub list_types() {
 	my %types = list_workflow_types();
 	
 	for my $type (sort keys %types) {
-		say "  " . colored(['green'], sprintf("%-10s", $type)) . 
-			" - $types{$type}";
+		say "  " . colored(['green'], sprintf("%-10s", $type)) . " - $types{$type}";
 	}
 	
 	say '';
@@ -322,7 +313,7 @@ sub interactive_select_type() {
 	say "Select a project type:";
 	say '';
 	
-	my @types = qw(node python rust go ruby perl docker static);
+	my @types = qw(node python rust go ruby perl java cpp php docker static);
 	my %descriptions = (
 		node   => 'Node.js/npm',
 		python => 'Python',
@@ -330,6 +321,9 @@ sub interactive_select_type() {
 		go	 => 'Go',
 		ruby   => 'Ruby',
 		perl   => 'Perl',
+		java   => 'Java (Maven/Gradle)',
+		cpp	=> 'C++ (CMake)',
+		php	=> 'PHP (Composer)',
 		docker => 'Docker',
 		static => 'Static site (GitHub Pages)',
 	);
@@ -359,18 +353,15 @@ sub auto_detect_with_prompt() {
 		say colored(['yellow'], "⚠ ") . "Could not auto-detect project type.";
 		say '';
 		say "Try one of these options:";
-		say "  • " . colored(['cyan'], "ghgen generate --list") . 
-			" - see all available types";
-		say "  • " . colored(['cyan'], "ghgen generate --interactive") . 
-			" - choose interactively";
-		say "  • " . colored(['cyan'], "ghgen generate --type=<type>") . 
-			" - specify type directly";
+		say "  • " . colored(['cyan'], "ghgen generate --list") . " - see all available types";
+		say "  • " . colored(['cyan'], "ghgen generate --interactive") . " - choose interactively";
+		say "  • " . colored(['cyan'], "ghgen generate --type=<type>") . " - specify type directly";
 		return undef;
 	}
 	
 	# Show top detection
 	my $top = $detections[0];
-	say colored(['green'], "✓ ") . "Detected project type: " . 
+	say colored(['green'], "✓ ") . "Detected project type: " .
 		colored(['bold'], uc($top->{type}));
 	
 	# Show evidence
@@ -393,23 +384,20 @@ sub auto_detect_with_prompt() {
 	if (@detections > 1) {
 		say colored(['yellow'], "Other possibilities:");
 		for my $i (1 .. min(2, $#detections)) {
-			say "  • $detections[$i]->{type} (confidence: " . 
-				int($detections[$i]->{score} / $top->{score} * 100) . "%)";
+			say "  • $detections[$i]->{type} (confidence: " . int($detections[$i]->{score} / $top->{score} * 100) . "%)";
 		}
 		say '';
 	}
 	
 	# Prompt for confirmation
-	print "Generate " . colored(['bold'], uc($top->{type})) . 
-		  " workflow? [Y/n]: ";
+	print "Generate " . colored(['bold'], uc($top->{type})) . " workflow? [Y/n]: ";
 	chomp(my $response = <STDIN>);
 	
 	if ($response =~ /^(y|yes|)$/i) {
 		return $top->{type};
 	} elsif ($response =~ /^(n|no)$/i) {
 		say '';
-		say "Cancelled. Use " . colored(['cyan'], "--interactive") . 
-			" to choose manually.";
+		say "Cancelled. Use " . colored(['cyan'], "--interactive") .  " to choose manually.";
 		return undef;
 	} else {
 		say colored(['red'], "Invalid response. Cancelled.");
@@ -434,10 +422,10 @@ ghgen - GitHub Actions workflow generator and analyzer
   ghgen generate --type=perl --customize
   ghgen generate --interactive
   ghgen generate --list
-  
+
   ghgen analyze
   ghgen analyze --fix
-  
+
   ghgen --help
   ghgen --version
 
@@ -515,7 +503,9 @@ Analyze all workflows in current repository:
 
 =head1 AUTHOR
 
-Your Name <your.email@example.com>
+Nigel Horne E<lt>njh@nigelhorne.comE<gt>
+
+L<https://github.com/nigelhorne>
 
 =head1 LICENSE
 

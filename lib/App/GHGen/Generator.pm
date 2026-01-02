@@ -20,7 +20,7 @@ App::GHGen::Generator - Generate GitHub Actions workflows
 =head1 SYNOPSIS
 
     use App::GHGen::Generator qw(generate_workflow);
-    
+
     my $yaml = generate_workflow('perl');
     path('.github/workflows/ci.yml')->spew_utf8($yaml);
 
@@ -46,7 +46,7 @@ sub generate_workflow($type) {
         docker => \&_generate_docker_workflow,
         static => \&_generate_static_workflow,
     );
-    
+
     return undef unless exists $generators{$type};
     return $generators{$type}->();
 }
@@ -675,7 +675,9 @@ YAML
 
 =head1 AUTHOR
 
-Your Name <your.email@example.com>
+Nigel Horne E<lt>njh@nigelhorne.comE<gt>
+
+L<https://github.com/nigelhorne>
 
 =head1 LICENSE
 
