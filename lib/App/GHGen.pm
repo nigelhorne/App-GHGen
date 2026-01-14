@@ -64,7 +64,7 @@ and automatic fixing into a single powerful tool.
 
 =head2 From Source
 
-    git clone https://github.com/nigelhorne/ghgen.git
+    git clone https://github.com/nigelhorne/App-GHGen.git
     cd ghgen
     cpanm --installdeps .
     perl Makefile.PL
@@ -450,7 +450,7 @@ Automatically comment on PRs that modify workflows:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v6
-          - uses: nigelhorne/ghgen-action@v1
+          - uses: nigelhorne/App-GHGen-action@v1
             with:
               github-token: ${{ secrets.GITHUB_TOKEN }}
               mode: comment
@@ -492,7 +492,7 @@ Automatically create PRs with fixes on a schedule:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v6
-          - uses: nigelhorne/ghgen-action@v1
+          - uses: nigelhorne/App-GHGen-action@v1
             with:
               github-token: ${{ secrets.GITHUB_TOKEN }}
               auto-fix: true
@@ -520,7 +520,7 @@ Fail builds if workflow issues are found:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v6
-          - uses: nigelhorne/ghgen-action@v1
+          - uses: nigelhorne/App-GHGen-action@v1
             id: check
           - name: Fail if issues found
             if: steps.check.outputs.issues-found > 0
@@ -1183,7 +1183,7 @@ Contributions are welcome! GHGen is open source and hosted on GitHub.
 
 =over 4
 
-=item * B<Report bugs> - L<GitHub Issues|https://github.com/nigelhorne/ghgen/issues>
+=item * B<Report bugs> - L<GitHub Issues|https://github.com/nigelhorne/App-GHGen/issues>
 
 =item * B<Suggest features> - Open an issue with your idea
 
@@ -1241,9 +1241,9 @@ To add support for a new language:
 
 =over 4
 
-=item * L<GitHub Issues|https://github.com/nigelhorne/ghgen/issues> - Bug reports and feature requests
+=item * L<GitHub Issues|https://github.com/nigelhorne/App-GHGen/issues> - Bug reports and feature requests
 
-=item * L<GitHub Discussions|https://github.com/nigelhorne/ghgen/discussions> - Questions and community
+=item * L<GitHub Discussions|https://github.com/nigelhorne/App-GHGen/discussions> - Questions and community
 
 =item * Email: L<njh@nigelhorne.com|mailto:njh@nigelhorne.com>
 
@@ -1263,7 +1263,7 @@ L<https://github.com/nigelhorne>
 
 Thanks to all contributors who have helped improve GHGen!
 
-See L<https://github.com/nigelhorne/ghgen/graphs/contributors>
+See L<https://github.com/nigelhorne/App-GHGen/graphs/contributors>
 
 =head1 COPYRIGHT AND LICENSE
 
