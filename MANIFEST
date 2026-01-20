@@ -21,8 +21,10 @@ Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 README.md
+scripts/generate_index.pl
 t/30-basics.t
 t/detector.t
 t/eof.t
 t/eol.t
 t/pod-cm.t
+t/pod-coverage.t
