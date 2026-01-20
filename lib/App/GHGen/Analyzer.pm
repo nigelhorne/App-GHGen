@@ -23,7 +23,7 @@ App::GHGen::Analyzer - Analyze GitHub Actions workflows
 =head1 SYNOPSIS
 
     use App::GHGen::Analyzer qw(analyze_workflow);
-    
+
     my @issues = analyze_workflow($workflow_hashref, 'ci.yml');
 
 =head1 FUNCTIONS
@@ -50,8 +50,8 @@ Each issue has: type, severity, message, fix (optional)
 =cut
 
 sub analyze_workflow($workflow, $filename) {
-    my @issues;
-    
+	my @issues;
+
     # Check 1: Missing dependency caching
     unless (has_caching($workflow)) {
         my $cache_suggestion = get_cache_suggestion($workflow);
@@ -62,7 +62,7 @@ sub analyze_workflow($workflow, $filename) {
             fix => $cache_suggestion
         };
     }
-    
+
     # Check 2: Using unpinned action versions
     my @unpinned = find_unpinned_actions($workflow);
     if (@unpinned) {
@@ -74,7 +74,7 @@ sub analyze_workflow($workflow, $filename) {
                    join("\n", map { "       $_" } map { s/\@(master|main)$/\@v5/r } @unpinned[0..min(2, $#unpinned)])
         };
     }
-    
+
     # Check for outdated action versions
     my @outdated = find_outdated_actions($workflow);
     if (@outdated) {
@@ -86,7 +86,7 @@ sub analyze_workflow($workflow, $filename) {
                    join("\n", map { "       $_" } @outdated[0..min(2, $#outdated)])
         };
     }
-    
+
     # Check 3: Overly broad triggers
     if (has_broad_triggers($workflow)) {
         push @issues, {
@@ -102,7 +102,7 @@ sub analyze_workflow($workflow, $filename) {
                    "           - 'package.json'"
         };
     }
-    
+
     # Check 4: Missing concurrency controls
     unless ($workflow->{concurrency}) {
         push @issues, {
@@ -115,7 +115,7 @@ sub analyze_workflow($workflow, $filename) {
                    "       cancel-in-progress: true"
         };
     }
-    
+
     # Check 5: Outdated runner versions
     if (has_outdated_runners($workflow)) {
         push @issues, {
@@ -125,7 +125,7 @@ sub analyze_workflow($workflow, $filename) {
             fix => 'Update to ubuntu-latest, macos-latest, or windows-latest'
         };
     }
-    
+
     return @issues;
 }
 
@@ -136,8 +136,8 @@ Generate a caching suggestion based on detected project type.
 =cut
 
 sub get_cache_suggestion($workflow) {
-    my $detected_type = detect_project_type($workflow);
-    
+	my $detected_type = detect_project_type($workflow);
+
     my %cache_configs = (
         npm => "- uses: actions/cache\@v5\n" .
                "       with:\n" .
@@ -145,14 +145,14 @@ sub get_cache_suggestion($workflow) {
                "         key: \${{ runner.os }}-node-\${{ hashFiles('**/package-lock.json') }}\n" .
                "         restore-keys: |\n" .
                "           \${{ runner.os }}-node-",
-        
+
         pip => "- uses: actions/cache\@v5\n" .
                "       with:\n" .
                "         path: ~/.cache/pip\n" .
                "         key: \${{ runner.os }}-pip-\${{ hashFiles('**/requirements.txt') }}\n" .
                "         restore-keys: |\n" .
                "           \${{ runner.os }}-pip-",
-        
+
         cargo => "- uses: actions/cache\@v5\n" .
                  "       with:\n" .
                  "         path: |\n" .
@@ -161,7 +161,7 @@ sub get_cache_suggestion($workflow) {
                  "           ~/.cargo/registry/cache/\n" .
                  "           target/\n" .
                  "         key: \${{ runner.os }}-cargo-\${{ hashFiles('**/Cargo.lock') }}",
-        
+
         bundler => "- uses: actions/cache\@v5\n" .
                    "       with:\n" .
                    "         path: vendor/bundle\n" .
@@ -169,8 +169,8 @@ sub get_cache_suggestion($workflow) {
                    "         restore-keys: |\n" .
                    "           \${{ runner.os }}-gems-",
     );
-    
-    return $cache_configs{$detected_type} // 
+
+    return $cache_configs{$detected_type} //
            "Add caching based on your dependency manager:\n" .
            "       See: https://docs.github.com/en/actions/using-workflows/caching-dependencies";
 }
@@ -178,8 +178,8 @@ sub get_cache_suggestion($workflow) {
 # Helper functions
 
 sub has_caching($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
@@ -190,9 +190,9 @@ sub has_caching($workflow) {
 }
 
 sub find_unpinned_actions($workflow) {
-    my @unpinned;
-    my $jobs = $workflow->{jobs} or return @unpinned;
-    
+	my @unpinned;
+	my $jobs = $workflow->{jobs} or return @unpinned;
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
@@ -206,26 +206,26 @@ sub find_unpinned_actions($workflow) {
 }
 
 sub has_broad_triggers($workflow) {
-    my $on = $workflow->{on};
-    return 0 unless $on;
-    
+	my $on = $workflow->{on};
+	return 0 unless $on;
+
     # Check if push trigger has no path or branch filters
     if (ref $on eq 'HASH' && $on->{push}) {
         my $push = $on->{push};
         return 1 if ref $push eq '' || (!$push->{paths} && !$push->{branches});
     }
-    
+
     # Simple array of triggers including 'push'
     if (ref $on eq 'ARRAY' && grep { $_ eq 'push' } @$on) {
         return 1;
     }
-    
+
     return 0;
 }
 
 sub has_outdated_runners($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+
     for my $job (values %$jobs) {
         my $runs_on = $job->{'runs-on'} or next;
         return 1 if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/;
@@ -234,8 +234,8 @@ sub has_outdated_runners($workflow) {
 }
 
 sub detect_project_type($workflow) {
-    my $jobs = $workflow->{jobs} or return 'unknown';
-    
+	my $jobs = $workflow->{jobs} or return 'unknown';
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
@@ -254,9 +254,9 @@ sub min($a, $b) {
 }
 
 sub find_outdated_actions($workflow) {
-    my @outdated;
-    my $jobs = $workflow->{jobs} or return @outdated;
-    
+	my @outdated;
+	my $jobs = $workflow->{jobs} or return @outdated;
+
     # Known outdated versions
     my %updates = (
         'actions/cache@v4' => 'actions/cache@v5',
@@ -268,13 +268,13 @@ sub find_outdated_actions($workflow) {
         'actions/setup-python@v4' => 'actions/setup-python@v5',
         'actions/setup-go@v4' => 'actions/setup-go@v5',
     );
-    
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
             next unless $step->{uses};
             my $uses = $step->{uses};
-            
+
             for my $old (keys %updates) {
                 if ($uses =~ /^\Q$old\E/) {
                     push @outdated, "$old → $updates{$old}";
@@ -282,13 +282,13 @@ sub find_outdated_actions($workflow) {
             }
         }
     }
-    
+
     return @outdated;
 }
 
 sub has_deployment_steps($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
@@ -297,7 +297,7 @@ sub has_deployment_steps($workflow) {
             return 1 if $step->{run} && $step->{run} =~ /git push|npm publish/;
         }
     }
-    
+
 	return 0;
 }
 

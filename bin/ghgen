@@ -62,31 +62,31 @@ sub cmd_generate() {
 		list_types();
 		return;
 	}
-	
+
 	my $type = $opts{type};
 	my $config;
-	
+
 	# Auto-detect if requested
 	if ($opts{auto} || (!$type && !$opts{interactive} && !$opts{customize})) {
 		$type = auto_detect_with_prompt();
 		return unless $type;  # User cancelled
 	}
-	
+
 	# Interactive mode
 	if ($opts{interactive} && !$type) {
 		$type = interactive_select_type();
 	}
-	
+
 	unless ($type) {
 		die colored(['red'], "Error: ") .
 			"Please specify --type, use --auto, or use --interactive\n";
 	}
-	
+
 	# Customization mode
 	if ($opts{customize}) {
 		$config = customize_workflow($type);
 	}
-	
+
 	# Generate workflow with optional customization
 	my $yaml;
 	if ($config && $type eq 'perl') {
@@ -103,12 +103,12 @@ sub cmd_generate() {
 	} else {
 		$yaml = generate_workflow($type);
 	}
-	
+
 	unless ($yaml) {
 		die colored(['red'], "Error: ") .
 			"Unknown project type '$type'. Use --list to see options.\n";
 	}
-	
+
 	# Determine output file
 	my $output_file = $opts{output};
 	unless ($output_file) {
@@ -116,10 +116,10 @@ sub cmd_generate() {
 		$workflows_dir->mkpath unless $workflows_dir->exists;
 		$output_file = $workflows_dir->child("$type-ci.yml");
 	}
-	
+
 	# Write the workflow
 	path($output_file)->spew_utf8($yaml);
-	
+
 	say colored(['green'], "✓ ") . "Generated workflow: " . colored(['bold'], $output_file);
 	say '';
 	say colored(['cyan'], "Next steps:");
@@ -132,13 +132,13 @@ sub cmd_generate() {
 
 sub cmd_analyze() {
 	my @workflow_files = find_workflows();
-	
+
 	unless (@workflow_files) {
 		die colored(['red'], "Error: ") .
 			"No .github/workflows directory found\n" .
 			"Run this from the root of a repository with GitHub Actions.\n";
 	}
-	
+
 	say colored(['bold cyan'], "GitHub Actions Workflow Analyzer");
 	if ($opts{fix}) {
 		say colored(['yellow'], "(Auto-fix mode enabled)");
@@ -148,21 +148,21 @@ sub cmd_analyze() {
 	}
 	say colored(['cyan'], "=" x 50);
 	say '';
-	
+
 	# Get cost estimate first if requested
 	my $current_usage;
 	if ($opts{estimate}) {
 		say colored(['bold'], "📊 Estimating current CI usage...");
 		say '';
 		$current_usage = estimate_current_usage(\@workflow_files);
-		
+
 		say colored(['bold'], "Current Monthly Usage:");
 		say "  Total CI minutes: " . colored(['yellow'], $current_usage->{total_minutes});
 		say "  Billable minutes: " . colored(['yellow'], $current_usage->{billable_minutes}) .
 			" (after 2,000 free tier)";
 		say "  Estimated cost: " . colored(['yellow'], sprintf("\$%.2f", $current_usage->{monthly_cost}));
 		say '';
-		
+
 		if (@{$current_usage->{workflows}} > 1) {
 			say colored(['bold'], "Per-Workflow Breakdown:");
 			for my $wf (sort { $b->{minutes_per_month} <=> $a->{minutes_per_month} }
@@ -176,35 +176,35 @@ sub cmd_analyze() {
 			say '';
 		}
 	}
-	
+
 	my @all_issues;
 	my $total_workflows = 0;
 	my $total_fixes = 0;
-	
+
 	# Analyze each workflow file
 	for my $file (@workflow_files) {
 		$total_workflows++;
 		say colored(['bold'], "📄 Analyzing: ") . $file->basename;
-		
+
 		my $workflow;
 		eval { $workflow = LoadFile($file) };
 		if ($@) {
 			say colored(['red'], "  ✗ Failed to parse YAML: $@");
 			next;
 		}
-		
+
 		my @issues = analyze_workflow($workflow, $file->basename);
-		
+
 		if (@issues) {
 			# Filter to auto-fixable issues if in fix mode
 			my @fixable = $opts{fix} ? grep { can_auto_fix($_) } @issues : @issues;
-			
+
 			if ($opts{fix} && @fixable) {
 				say "  " . colored(['yellow'], "⚙ ") . "Applying " . scalar(@fixable) . " fix(es)...";
-				
+
 				my $fixes = fix_workflow($file, \@fixable);
 				$total_fixes += $fixes;
-				
+
 				if ($fixes > 0) {
 					say "  " . colored(['green'], "✓ ") . "Applied $fixes fix(es)";
 				} else {
@@ -223,38 +223,38 @@ sub cmd_analyze() {
 					}
 				}
 			}
-			
+
 			push @all_issues, map { { file => $file->basename, %$_ } } @issues;
 		} else {
 			say "  " . colored(['green'], "✓ No issues found");
 		}
 		say '';
 	}
-	
+
 	# Summary
 	say colored(['bold cyan'], "=" x 50);
 	say colored(['bold'], "Summary:");
 	say "  Workflows analyzed: $total_workflows";
 	say "  Total issues found: " . scalar(@all_issues);
-	
+
 	if ($opts{fix}) {
 		say "  Fixes applied: " . colored(['green'], $total_fixes);
 	}
-	
+
 	# Cost savings estimate
 	if ($opts{estimate} && @all_issues) {
 		say '';
 		my $savings = estimate_savings(\@all_issues, \@workflow_files);
-		
+
 		if ($savings->{minutes} > 0) {
 			say colored(['bold'], "💰 Potential Savings:");
-			say "  With recommended changes: " . colored(['green'], ($current_usage->{total_minutes} - $savings->{minutes})) .
+			say '  With recommended changes: ' . colored(['green'], ($current_usage->{total_minutes} - $savings->{minutes})) .
 				" CI minutes/month";
 			say "  Reduction: " . colored(['green'], "-$savings->{minutes} minutes") .
 				" (" . colored(['green'], "$savings->{percentage}%") . ")";
 			say "  Cost savings: " . colored(['green'], "\$savings->{cost}/month") .
 				" (for private repos)";
-			
+
 			if (@{$savings->{details}}) {
 				say '';
 				say "  Breakdown:";
@@ -264,43 +264,43 @@ sub cmd_analyze() {
 			}
 		}
 	}
-	
+
 	if (@all_issues && !$opts{fix}) {
 		say '';
 		say colored(['bold yellow'], "Recommendations:");
 		my %by_type;
 		push @{$by_type{$_->{type}}}, $_ for @all_issues;
-		
+
 		for my $type (sort keys %by_type) {
 			my $count = scalar @{$by_type{$type}};
 			my $fixable = grep { can_auto_fix($_) } @{$by_type{$type}};
 			my $suffix = $fixable > 0 ? " ($fixable auto-fixable)" : '';
 			say "  • " . colored(['yellow'], "$type") . ": $count workflow(s) affected$suffix";
 		}
-		
+
 		say '';
 		say colored(['cyan'], "💡 Tip: ") .  "Run " . colored(['bold'], "ghgen analyze --fix") .
 			" to automatically apply fixes";
-		
+
 		if (!$opts{estimate}) {
 			say colored(['cyan'], "💡 Tip: ") . "Run " . colored(['bold'], "ghgen analyze --estimate") .
 				" to see potential cost savings";
 		}
 	}
-	
+
 	exit(@all_issues ? 1 : 0);
 }
 
 sub list_types() {
 	say colored(['bold cyan'], "Available workflow templates:");
 	say '';
-	
+
 	my %types = list_workflow_types();
-	
+
 	for my $type (sort keys %types) {
 		say "  " . colored(['green'], sprintf("%-10s", $type)) . " - $types{$type}";
 	}
-	
+
 	say '';
 	say "Usage: ghgen generate --type=<type> [--output=<file>]";
 	say "   or: ghgen generate --interactive";
@@ -312,7 +312,7 @@ sub interactive_select_type() {
 	say '';
 	say "Select a project type:";
 	say '';
-	
+
 	my @types = qw(node python rust go ruby perl java cpp php docker static);
 	my %descriptions = (
 		node   => 'Node.js/npm',
@@ -327,28 +327,28 @@ sub interactive_select_type() {
 		docker => 'Docker',
 		static => 'Static site (GitHub Pages)',
 	);
-	
+
 	for my $i (0..$#types) {
 		say "  " . colored(['green'], $i + 1) . ". $descriptions{$types[$i]}";
 	}
-	
+
 	say '';
 	print "Enter number (1-" . scalar(@types) . "): ";
 	chomp(my $choice = <STDIN>);
-	
+
 	if ($choice =~ /^\d+$/ && $choice >= 1 && $choice <= @types) {
 		return $types[$choice - 1];
 	}
-	
+
 	die colored(['red'], "Invalid choice\n");
 }
 
 sub auto_detect_with_prompt() {
 	say colored(['bold cyan'], "Auto-detecting project type...");
 	say '';
-	
+
 	my @detections = detect_project_type();
-	
+
 	unless (@detections) {
 		say colored(['yellow'], "⚠ ") . "Could not auto-detect project type.";
 		say '';
@@ -358,12 +358,12 @@ sub auto_detect_with_prompt() {
 		say "  • " . colored(['cyan'], "ghgen generate --type=<type>") . " - specify type directly";
 		return undef;
 	}
-	
+
 	# Show top detection
 	my $top = $detections[0];
 	say colored(['green'], "✓ ") . "Detected project type: " .
 		colored(['bold'], uc($top->{type}));
-	
+
 	# Show evidence
 	my $indicators = get_project_indicators($top->{type});
 	my @found_indicators;
@@ -374,12 +374,12 @@ sub auto_detect_with_prompt() {
 			last if @found_indicators >= 3;  # Show max 3
 		}
 	}
-	
+
 	if (@found_indicators) {
 		say colored(['cyan'], "  Evidence: ") . join(', ', @found_indicators);
 	}
 	say '';
-	
+
 	# Show alternatives if any
 	if (@detections > 1) {
 		say colored(['yellow'], "Other possibilities:");
@@ -388,11 +388,11 @@ sub auto_detect_with_prompt() {
 		}
 		say '';
 	}
-	
+
 	# Prompt for confirmation
 	print "Generate " . colored(['bold'], uc($top->{type})) . " workflow? [Y/n]: ";
 	chomp(my $response = <STDIN>);
-	
+
 	if ($response =~ /^(y|yes|)$/i) {
 		return $top->{type};
 	} elsif ($response =~ /^(n|no)$/i) {

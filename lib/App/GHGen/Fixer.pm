@@ -22,7 +22,7 @@ App::GHGen::Fixer - Auto-fix workflow issues
 =head1 SYNOPSIS
 
     use App::GHGen::Fixer qw(apply_fixes);
-    
+
     my $fixed = apply_fixes($workflow, \@issues);
 
 =head1 FUNCTIONS
@@ -40,8 +40,8 @@ sub can_auto_fix($issue) {
         'cost'        => 1,  # Can add concurrency, filters
         'maintenance' => 1,  # Can update runners
     );
-    
-    return $fixable{$issue->{type}} // 0;
+
+	return $fixable{$issue->{type}} // 0;
 }
 
 =head2 apply_fixes($workflow, $issues)
@@ -51,11 +51,11 @@ Apply automatic fixes to a workflow. Returns modified workflow hashref.
 =cut
 
 sub apply_fixes($workflow, $issues) {
-    my $modified = 0;
-    
-    for my $issue (@$issues) {
-        next unless can_auto_fix($issue);
-        
+	my $modified = 0;
+
+	for my $issue (@$issues) {
+		next unless can_auto_fix($issue);
+
         if ($issue->{type} eq 'performance' && $issue->{message} =~ /caching/) {
             $modified += add_caching($workflow);
         }
@@ -78,7 +78,7 @@ sub apply_fixes($workflow, $issues) {
             $modified += update_runners($workflow);
         }
     }
-    
+
     return $modified;
 }
 
@@ -89,33 +89,33 @@ Fix a workflow file in place. Returns number of fixes applied.
 =cut
 
 sub fix_workflow($file, $issues) {
-    my $workflow = LoadFile($file);
-    my $fixes = apply_fixes($workflow, $issues);
-    
-    if ($fixes > 0) {
-        DumpFile($file, $workflow);
-    }
-    
+	my $workflow = LoadFile($file);
+	my $fixes = apply_fixes($workflow, $issues);
+
+	if ($fixes > 0) {
+		DumpFile($file, $workflow);
+	}
+
     return $fixes;
 }
 
 # Fix implementations
 
 sub add_caching($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    my $modified = 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+	my $modified = 0;
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
-        
+
         # Check if already has caching
         my $has_cache = grep { $_->{uses} && $_->{uses} =~ /actions\/cache/ } @$steps;
         next if $has_cache;
-        
+
         # Detect project type and add appropriate cache
         my $cache_step = detect_and_create_cache_step($steps);
         next unless $cache_step;
-        
+
         # Insert cache step after checkout
         my $insert_at = 0;
         for my $i (0 .. $#$steps) {
@@ -124,11 +124,11 @@ sub add_caching($workflow) {
                 last;
             }
         }
-        
+
         splice @$steps, $insert_at, 0, $cache_step;
         $modified++;
     }
-    
+
     return $modified;
 }
 
@@ -136,7 +136,7 @@ sub detect_and_create_cache_step($steps) {
     # Detect project type from steps
     for my $step (@$steps) {
         my $run = $step->{run} // '';
-        
+
         # Node.js
         if ($run =~ /npm (install|ci)/ || ($step->{uses} && $step->{uses} =~ /setup-node/)) {
             return {
@@ -149,7 +149,7 @@ sub detect_and_create_cache_step($steps) {
                 },
             };
         }
-        
+
         # Python
         if ($run =~ /pip install/ || ($step->{uses} && $step->{uses} =~ /setup-python/)) {
             return {
@@ -162,7 +162,7 @@ sub detect_and_create_cache_step($steps) {
                 },
             };
         }
-        
+
         # Rust
         if ($run =~ /cargo (build|test)/) {
             return {
@@ -174,7 +174,7 @@ sub detect_and_create_cache_step($steps) {
                 },
             };
         }
-        
+
         # Go
         if ($run =~ /go (build|test)/ || ($step->{uses} && $step->{uses} =~ /setup-go/)) {
             return {
@@ -188,19 +188,19 @@ sub detect_and_create_cache_step($steps) {
             };
         }
     }
-    
+
     return undef;
 }
 
 sub fix_unpinned_actions($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    my $modified = 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+	my $modified = 0;
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
             next unless $step->{uses};
-            
+
             if ($step->{uses} =~ /^(.+)\@(master|main)$/) {
                 my $action = $1;
                 # Map to appropriate version
@@ -210,21 +210,21 @@ sub fix_unpinned_actions($workflow) {
             }
         }
     }
-    
+
     return $modified;
 }
 
 sub add_permissions($workflow) {
-    return 0 if $workflow->{permissions};
-    
-    $workflow->{permissions} = { contents => 'read' };
-    return 1;
+	return 0 if $workflow->{permissions};
+
+	$workflow->{permissions} = { contents => 'read' };
+	return 1;
 }
 
 sub update_actions($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    my $modified = 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+	my $modified = 0;
+
     my %updates = (
         'actions/cache@v4' => 'actions/cache@v5',
         'actions/cache@v3' => 'actions/cache@v5',
@@ -235,12 +235,12 @@ sub update_actions($workflow) {
         'actions/setup-python@v4' => 'actions/setup-python@v5',
         'actions/setup-go@v4' => 'actions/setup-go@v5',
     );
-    
+
     for my $job (values %$jobs) {
         my $steps = $job->{steps} or next;
         for my $step (@$steps) {
             next unless $step->{uses};
-            
+
             for my $old (keys %updates) {
                 if ($step->{uses} =~ /^\Q$old\E/) {
                     $step->{uses} = $updates{$old};
@@ -249,13 +249,13 @@ sub update_actions($workflow) {
             }
         }
     }
-    
+
     return $modified;
 }
 
 sub add_concurrency($workflow) {
-    return 0 if $workflow->{concurrency};
-    
+	return 0 if $workflow->{concurrency};
+
     $workflow->{concurrency} = {
         group => '${{ github.workflow }}-${{ github.ref }}',
         'cancel-in-progress' => 'true',
@@ -264,9 +264,9 @@ sub add_concurrency($workflow) {
 }
 
 sub add_trigger_filters($workflow) {
-    my $on = $workflow->{on} or return 0;
-    my $modified = 0;
-    
+	my $on = $workflow->{on} or return 0;
+	my $modified = 0;
+
     # If 'on' is just 'push', expand it
     if (ref $on eq 'ARRAY' && grep { $_ eq 'push' } @$on) {
         $workflow->{on} = {
@@ -286,30 +286,30 @@ sub add_trigger_filters($workflow) {
         };
         $modified++;
     }
-    
+
     return $modified;
 }
 
 sub update_runners($workflow) {
-    my $jobs = $workflow->{jobs} or return 0;
-    my $modified = 0;
-    
+	my $jobs = $workflow->{jobs} or return 0;
+	my $modified = 0;
+
     my %runner_updates = (
         'ubuntu-18.04' => 'ubuntu-latest',
         'ubuntu-16.04' => 'ubuntu-latest',
         'macos-10.15'  => 'macos-latest',
         'windows-2016' => 'windows-latest',
     );
-    
+
     for my $job (values %$jobs) {
         my $runs_on = $job->{'runs-on'} or next;
-        
+
         if (exists $runner_updates{$runs_on}) {
             $job->{'runs-on'} = $runner_updates{$runs_on};
             $modified++;
         }
     }
-    
+
     return $modified;
 }
 
@@ -323,7 +323,7 @@ sub get_latest_version($action) {
         'actions/upload-artifact' => 'v4',
         'actions/download-artifact' => 'v4',
     );
-    
+
     return $versions{$action} // 'v4';  # Default fallback
 }
 

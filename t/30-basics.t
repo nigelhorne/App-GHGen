@@ -39,10 +39,10 @@ use_ok('App::GHGen::Analyzer', qw(analyze_workflow));
 			},
 		},
 	};
-	
+
 	my @issues = analyze_workflow($workflow, 'test.yml');
 	ok(@issues > 0, 'Found issues in test workflow');
-	
+
 	my @caching_issues = grep { $_->{type} eq 'performance' } @issues;
 	ok(@caching_issues > 0, 'Found caching issue');
 }

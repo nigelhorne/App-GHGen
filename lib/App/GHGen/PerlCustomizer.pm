@@ -96,9 +96,9 @@ sub generate_custom_perl_workflow($opts = {}) {
     } else {
         @perl_versions = _get_perl_versions($min_version, $max_version);
     }
-    
-    my $yaml = "---\n";
-    $yaml .= '# Created by ' . __PACKAGE__ . "\n";
+
+	my $yaml = "---\n";
+	$yaml .= '# Created by ' . __PACKAGE__ . "\n";
 
     $yaml .= "name: Perl CI\n\n";
     $yaml .= "'on':\n";
@@ -110,14 +110,14 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "    branches:\n";
     $yaml .= "      - main\n";
     $yaml .= "      - master\n\n";
- 
-    $yaml .= "concurrency:\n";
-    $yaml .= "  group: \${{ github.workflow }}-\${{ github.ref }}\n";
-    $yaml .= "  cancel-in-progress: true\n\n";
-    
-    $yaml .= "permissions:\n";
-    $yaml .= "  contents: read\n\n";
-    
+
+	$yaml .= "concurrency:\n";
+	$yaml .= "  group: \${{ github.workflow }}-\${{ github.ref }}\n";
+	$yaml .= "  cancel-in-progress: true\n\n";
+
+	$yaml .= "permissions:\n";
+	$yaml .= "  contents: read\n\n";
+
     $yaml .= "jobs:\n";
     $yaml .= "  test:\n";
     $yaml .= "    runs-on: \${{ matrix.os }}\n";
@@ -139,12 +139,12 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "      NONINTERACTIVE_TESTING: 1\n";
     $yaml .= "    steps:\n";
     $yaml .= "      - uses: actions/checkout\@v6\n\n";
-    
+
     $yaml .= "      - name: Setup Perl\n";
     $yaml .= "        uses: shogo82148/actions-setup-perl\@v1\n";
     $yaml .= "        with:\n";
     $yaml .= "          perl-version: \${{ matrix.perl }}\n\n";
-    
+
     $yaml .= "      - name: Cache CPAN modules\n";
     $yaml .= "        uses: actions/cache\@v5\n";
     $yaml .= "        with:\n";
@@ -152,22 +152,22 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "          key: \${{ runner.os }}-\${{ matrix.perl }}-\${{ hashFiles('cpanfile') }}\n";
     $yaml .= "          restore-keys: |\n";
     $yaml .= "            \${{ runner.os }}-\${{ matrix.perl }}-\n\n";
-    
+
     $yaml .= "      - name: Install cpanm and local::lib\n";
     $yaml .= "        if: runner.os != 'Windows'\n";
     $yaml .= "        run: cpanm --notest --local-lib=~/perl5 local::lib\n\n";
-    
+
     $yaml .= "      - name: Install cpanm and local::lib (Windows)\n";
     $yaml .= "        if: runner.os == 'Windows'\n";
     $yaml .= "        run: cpanm --notest App::cpanminus local::lib\n\n";
-    
+
     $yaml .= "      - name: Install dependencies\n";
     $yaml .= "        if: runner.os != 'Windows'\n";
     $yaml .= "        shell: bash\n";
     $yaml .= "        run: |\n";
     $yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
     $yaml .= "          cpanm --notest --installdeps .\n\n";
-    
+
     $yaml .= "      - name: Install dependencies (Windows)\n";
     $yaml .= "        if: runner.os == 'Windows'\n";
     $yaml .= "        shell: cmd\n";
@@ -176,14 +176,14 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "          set \"PATH=%USERPROFILE%\\perl5\\bin;%PATH%\"\n";
     $yaml .= "          set \"PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\"\n";
     $yaml .= "          cpanm --notest --installdeps .\n\n";
-    
+
     $yaml .= "      - name: Run tests\n";
     $yaml .= "        if: runner.os != 'Windows'\n";
     $yaml .= "        shell: bash\n";
     $yaml .= "        run: |\n";
     $yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
     $yaml .= "          prove -lr t/\n\n";
-    
+
     $yaml .= "      - name: Run tests (Windows)\n";
     $yaml .= "        if: runner.os == 'Windows'\n";
     $yaml .= "        shell: cmd\n";
@@ -192,7 +192,7 @@ sub generate_custom_perl_workflow($opts = {}) {
     $yaml .= "          set \"PATH=%USERPROFILE%\\perl5\\bin;%PATH%\"\n";
     $yaml .= "          set \"PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\"\n";
     $yaml .= "          prove -lr t/\n\n";
-    
+
     if ($enable_critic) {
         my $latest = $perl_versions[-1];
         $yaml .= "      - name: Run Perl::Critic\n";
@@ -204,7 +204,7 @@ sub generate_custom_perl_workflow($opts = {}) {
         $yaml .= "          perlcritic --severity 3 lib/ || true\n";
         $yaml .= "        shell: bash\n\n";
     }
- 
+
     if ($enable_coverage) {
         my $latest = $perl_versions[-1];
         $yaml .= "      - name: Test coverage\n";
