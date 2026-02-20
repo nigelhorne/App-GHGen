@@ -5,7 +5,6 @@ use v5.36;
 use strict;
 use warnings;
 
-use Path::Tiny;
 use App::GHGen::PerlCustomizer qw(detect_perl_requirements generate_custom_perl_workflow);
 
 use Exporter 'import';
@@ -24,6 +23,7 @@ App::GHGen::Generator - Generate GitHub Actions workflows
 =head1 SYNOPSIS
 
     use App::GHGen::Generator qw(generate_workflow);
+    use Path::Tiny;
 
     my $yaml = generate_workflow('perl');
     path('.github/workflows/ci.yml')->spew_utf8($yaml);

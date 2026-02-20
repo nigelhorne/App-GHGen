@@ -41,12 +41,16 @@ jobs:
           sudo apt-get -y upgrade
         if: runner.os == 'Linux'
 
+      - name: Upgrade Toolchain
+        run: cpanm -iqn ExtUtils::MakeMaker Module::Build
+
       # Install module dependencies (from cpanfile or manually)
       - name: Install dependencies
         run: |
           cpanm --notest --installdeps .
           cpanm -iqn ExtUtils::MakeMaker Test::Most Devel::Cover Devel::Cover::Report::Html POSIX File::Glob File::Slurp File::stat Readonly
-          cpanm -iqn IPC::System::Simple WWW::RT::CPAN;
+          cpanm -iqn IPC::System::Simple WWW::RT::CPAN IPC::Run3
+        timeout-minutes: 10
 
       # Optional: run Perl::Critic static checks
       # - name: Run Perl::Critic
@@ -58,6 +62,7 @@ jobs:
         env:
           AUTOMATED_TESTING: 1
           NO_NETWORK_TESTING: 1
+          NONINTERACTIVE_TESTING: 1
         run: |
           prove -l -b -v t
 
@@ -66,6 +71,9 @@ jobs:
         env:
           PERL5LIB: ${{ github.workspace }}/local/lib/perl5
           COVER_VERBOSE: 1
+          AUTOMATED_TESTING: 1
+          NO_NETWORK_TESTING: 1
+          NONINTERACTIVE_TESTING: 1
         working-directory: ${{ github.workspace }}
         run: |
           perl Makefile.PL
