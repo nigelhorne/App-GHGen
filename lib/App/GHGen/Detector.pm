@@ -94,6 +94,10 @@ sub get_project_indicators($type = undef) {
 			'CMakeLists.txt', 'Makefile', 'configure.ac',
 			'*.cpp', '*.hpp', '*.cc', '*.h'
 		],
+		c => [
+			'CMakeLists.txt', 'Makefile', 'configure.ac',
+			'*.c', '*.h',
+		],
 		docker => [
 			'Dockerfile', 'docker-compose.yml', 'docker-compose.yaml',
 			'.dockerignore'

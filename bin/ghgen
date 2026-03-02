@@ -359,10 +359,13 @@ sub auto_detect_with_prompt() {
 		return undef;
 	}
 
+	if(!defined($type)) {
+		die "Cound't autodetect the project type";
+	}
+
 	# Show top detection
 	my $top = $detections[0];
-	say colored(['green'], "✓ ") . "Detected project type: " .
-		colored(['bold'], uc($top->{type}));
+	say colored(['green'], "✓ ") . 'Detected project type: ' . colored(['bold'], uc($top->{type}));
 
 	# Show evidence
 	my $indicators = get_project_indicators($top->{type});

@@ -1,6 +1,6 @@
 # NAME
 
-App::GHGen - Comprehensive GitHub Actions workflow generator, analyzer, and optimizer
+App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
 
 # SYNOPSIS
 
@@ -32,14 +32,14 @@ reliable part of their development pipeline.
 
 ## Key Features
 
-- **🤖 Auto-detect project type** - Intelligently scans your repository to detect language and dependencies
-- **🚀 Generate optimized workflows** - Creates workflows with caching, security, concurrency, and best practices built-in
-- **🔍 Analyze existing workflows** - Comprehensive analysis for performance, security, cost, and maintenance issues
-- **🔧 Auto-fix issues** - Automatically applies fixes for detected problems (adds caching, updates versions, adds permissions, etc.)
-- **🎯 Interactive customization** - Guided workflow creation with smart defaults and multi-select options
-- **💰 Cost estimation** - Estimates current CI minutes usage and calculates potential savings from optimizations
-- **🔄 GitHub Action integration** - Run as a GitHub Action to analyze PRs, comment with suggestions, and create fix PRs
-- **📊 Per-workflow breakdown** - Detailed analysis of each workflow's cost and optimization potential
+- **Auto-detect project type** - Intelligently scans your repository to detect language and dependencies
+- **Generate optimized workflows** - Creates workflows with caching, security, concurrency, and best practices built-in
+- **Analyze existing workflows** - Comprehensive analysis for performance, security, cost, and maintenance issues
+- **Auto-fix issues** - Automatically applies fixes for detected problems (adds caching, updates versions, adds permissions, etc.)
+- **Interactive customization** - Guided workflow creation with smart defaults and multi-select options
+- **Cost estimation** - Estimates current CI minutes usage and calculates potential savings from optimizations
+- **GitHub Action integration** - Run as a GitHub Action to analyze PRs, comment with suggestions, and create fix PRs
+- **Per-workflow breakdown** - Detailed analysis of each workflow's cost and optimization potential
 
 # INSTALLATION
 
@@ -892,7 +892,7 @@ Review the remaining suggestions and apply manually.
 
 # SEE ALSO
 
-- [Test Coverage Report](https://nigelhorne.github.io/App-GHGen/coverage/)
+- [Test Dashboard](https://nigelhorne.github.io/App-GHGen/coverage/)
 
 ## GitHub Actions Documentation
 

@@ -17,7 +17,7 @@ our $VERSION = '0.03';
 
 =head1 NAME
 
-App::GHGen - Comprehensive GitHub Actions workflow generator, analyzer, and optimizer
+App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
 
 =head1 SYNOPSIS
 
@@ -53,21 +53,21 @@ reliable part of their development pipeline.
 
 =over 4
 
-=item * B<🤖 Auto-detect project type> - Intelligently scans your repository to detect language and dependencies
+=item * B<Auto-detect project type> - Intelligently scans your repository to detect language and dependencies
 
-=item * B<🚀 Generate optimized workflows> - Creates workflows with caching, security, concurrency, and best practices built-in
+=item * B<Generate optimized workflows> - Creates workflows with caching, security, concurrency, and best practices built-in
 
-=item * B<🔍 Analyze existing workflows> - Comprehensive analysis for performance, security, cost, and maintenance issues
+=item * B<Analyze existing workflows> - Comprehensive analysis for performance, security, cost, and maintenance issues
 
-=item * B<🔧 Auto-fix issues> - Automatically applies fixes for detected problems (adds caching, updates versions, adds permissions, etc.)
+=item * B<Auto-fix issues> - Automatically applies fixes for detected problems (adds caching, updates versions, adds permissions, etc.)
 
-=item * B<🎯 Interactive customization> - Guided workflow creation with smart defaults and multi-select options
+=item * B<Interactive customization> - Guided workflow creation with smart defaults and multi-select options
 
-=item * B<💰 Cost estimation> - Estimates current CI minutes usage and calculates potential savings from optimizations
+=item * B<Cost estimation> - Estimates current CI minutes usage and calculates potential savings from optimizations
 
-=item * B<🔄 GitHub Action integration> - Run as a GitHub Action to analyze PRs, comment with suggestions, and create fix PRs
+=item * B<GitHub Action integration> - Run as a GitHub Action to analyze PRs, comment with suggestions, and create fix PRs
 
-=item * B<📊 Per-workflow breakdown> - Detailed analysis of each workflow's cost and optimization potential
+=item * B<Per-workflow breakdown> - Detailed analysis of each workflow's cost and optimization potential
 
 =back
 
@@ -1166,7 +1166,7 @@ B<Solution:>
 
 =over 4
 
-=item * L<Test Coverage Report|https://nigelhorne.github.io/App-GHGen/coverage/>
+=item * L<Test Dashboard|https://nigelhorne.github.io/App-GHGen/coverage/>
 
 =back
 
