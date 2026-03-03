@@ -134,7 +134,7 @@ sub cmd_analyze() {
 	my @workflow_files = find_workflows();
 
 	unless (@workflow_files) {
-		die colored(['red'], "Error: ") .
+		die colored(['red'], 'Error: ') .
 			"No .github/workflows directory found\n" .
 			"Run this from the root of a repository with GitHub Actions.\n";
 	}
@@ -359,12 +359,12 @@ sub auto_detect_with_prompt() {
 		return undef;
 	}
 
-	if(!defined($type)) {
+	# Show top detection
+	my $top = $detections[0];
+	if(!defined($top->{type})) {
 		die "Cound't autodetect the project type";
 	}
 
-	# Show top detection
-	my $top = $detections[0];
 	say colored(['green'], "✓ ") . 'Detected project type: ' . colored(['bold'], uc($top->{type}));
 
 	# Show evidence
