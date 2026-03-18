@@ -2,6 +2,10 @@
 
 App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
 
+# VERSION
+
+Version 0.04
+
 # SYNOPSIS
 
     # Generate workflows
