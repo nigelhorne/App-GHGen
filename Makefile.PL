@@ -14,13 +14,12 @@ if($^O eq 'darwin') {
 
 WriteMakefile(
 	NAME           => 'App::GHGen',
-    AUTHOR         => 'Nigel Horne <njh@nigelhorne.com>',
-    VERSION_FROM   => 'lib/App/GHGen.pm',
-    ABSTRACT_FROM  => 'lib/App/GHGen.pm',
+	AUTHOR         => 'Nigel Horne <njh@nigelhorne.com>',
+	VERSION_FROM   => 'lib/App/GHGen.pm',
+	ABSTRACT_FROM  => 'lib/App/GHGen.pm',
 	((defined($ExtUtils::MakeMaker::VERSION) && ($ExtUtils::MakeMaker::VERSION >= 6.3002))
 		? ('LICENSE'=> 'GPL')
 		: ()),
-
 	PREREQ_PM => {
 		'YAML::XS'       => 0,
 		'Path::Tiny'     => 0,

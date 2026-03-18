@@ -36,9 +36,10 @@ Returns a list of Path::Tiny objects.
 =cut
 
 sub find_workflows() {
-    my $workflows_dir = path('.github/workflows');
-    return () unless $workflows_dir->exists && $workflows_dir->is_dir;
-    return sort $workflows_dir->children(qr/\.ya?ml$/i);
+	my $workflows_dir = path('.github/workflows');
+
+	return () unless $workflows_dir->exists && $workflows_dir->is_dir;
+	return sort $workflows_dir->children(qr/\.ya?ml$/i);
 }
 
 =head2 analyze_workflow($workflow, $filename)
@@ -69,7 +70,7 @@ sub analyze_workflow($workflow, $filename) {
         push @issues, {
             type => 'security',
             severity => 'high',
-            message => "Found " . scalar(@unpinned) . " action(s) using \@master or \@main",
+            message => 'Found ' . scalar(@unpinned) . " action(s) using \@master or \@main",
             fix => "Replace \@master/\@main with specific version tags:\n" .
                    join("\n", map { "       $_" } map { s/\@(master|main)$/\@v5/r } @unpinned[0..min(2, $#unpinned)])
         };
