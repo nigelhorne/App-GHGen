@@ -183,7 +183,7 @@ pre details.mutant-details ul {
 </span><span class="">   13: 	fix_workflow
 </span><span class="">   14: );
 </span><span class="">   15: 
-</span><span class="">   16: our $VERSION = &#39;0.03&#39;;
+</span><span class="">   16: our $VERSION = &#39;0.04&#39;;
 </span><span class="">   17: 
 </span><span class="">   18: =head1 NAME
 </span><span class="">   19: 
@@ -204,12 +204,12 @@ pre details.mutant-details ul {
 </span><span class="">   34: =cut
 </span><span class="">   35: 
 </span><span class="">   36: sub can_auto_fix($issue) {
-</span><span class="">   37:     my %fixable = (
-</span><span class="">   38:         &#39;performance&#39; =&gt; 1,  # Can add caching
-</span><span class="">   39:         &#39;security&#39;    =&gt; 1,  # Can update action versions and add permissions
-</span><span class="">   40:         &#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
-</span><span class="">   41:         &#39;maintenance&#39; =&gt; 1,  # Can update runners
-</span><span class="">   42:     );
+</span><span class="">   37: 	my %fixable = (
+</span><span class="">   38: 		&#39;performance&#39; =&gt; 1,  # Can add caching
+</span><span class="">   39: 		&#39;security&#39;    =&gt; 1,  # Can update action versions and add permissions
+</span><span class="">   40: 		&#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
+</span><span class="">   41: 		&#39;maintenance&#39; =&gt; 1,  # Can update runners
+</span><span class="">   42: 	);
 </span><span class="">   43: 
 </span><span class="">   44: 	return $fixable{$issue-&gt;{type}} // 0;
 </span><span class="">   45: }
