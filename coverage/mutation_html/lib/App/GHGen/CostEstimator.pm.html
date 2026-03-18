@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+/* --------------------------------------------------
+   CSS Variables (Light Mode Default)
+-------------------------------------------------- */
+
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --table-header: #333;
+    --table-header-text: #ffffff;
+
+    --survived-1: #f8d7da;
+    --survived-2: #f5b7b1;
+    --survived-3: #ec7063;
+
+    --killed: #d4edda;
+    --border: #cccccc;
+}
+
+/* --------------------------------------------------
+   Dark Mode Overrides
+-------------------------------------------------- */
+
+html[data-theme='dark'] {
+    --bg: #1e1e1e;
+    --text: #dddddd;
+    --table-header: #222;
+    --table-header-text: #ffffff;
+
+    --survived-1: #5c2b2e;
+    --survived-2: #7b2c2f;
+    --survived-3: #a93226;
+
+    --killed: #1e4620;
+    --border: #555;
+}
+
+/* --------------------------------------------------
+   Global Styles
+-------------------------------------------------- */
+
+body {
+    font-family: sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background: var(--table-header);
+    color: var(--table-header-text);
+}
+
+.survived-1 { background-color: var(--survived-1); }
+.survived-2 { background-color: var(--survived-2); }
+.survived-3 { background-color: var(--survived-3); }
+
+.killed { background-color: var(--killed); }
+
+.legend-box {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 6px 0 20px;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+}
+
+/* White box for non-mutated lines */
+.legend-box.none {
+	background-color: var(--bg);
+}
+
+pre { line-height: 1.4; }
+
+pre > details {
+    margin: 0.2em 0;
+}
+
+pre > details:first-child {
+    margin-top: 0;
+}
+
+pre > details:last-child {
+    margin-bottom: 0;
+}
+
+pre details,
+pre summary,
+pre ul,
+pre li {
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.nav { margin-bottom: 1em; }
+
+.toggle {
+    float: right;
+    cursor: pointer;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	cursor: help;
+}
+
+/* Tooltip bubble */
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: var(--table-header);
+    color: var(--table-header-text);
+    padding: 6px 10px;
+    white-space: normal;
+    max-width: 300px;
+    min-width: 30ch;
+    font-size: 12px;
+    border-radius: 6px;
+    z-index: 1000;
+    margin-left: 10ch;   /* move tooltip ~10 characters to the right */
+}
+
+.mutant-details {
+	margin-left: 2em;
+	font-size: 0.9em;
+}
+
+/* Indent the list of mutations that displays when expanding by 8 characters */
+pre details.mutant-details ul {
+    padding-left: 8ch;
+    margin: 0.2em 0;
+}
+
+.mutant-details summary {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+<h1>lib/App/GHGen/CostEstimator.pm</h1>
+<div class="nav"><a href="Analyzer.pm.html">⬅ Previous</a> <a href="../../../index.html">Index</a> <a href="Detector.pm.html">Next ➡</a></div>
+		<div class="legend">
+			<span class="legend-box survived-1"></span> Survived (tests missed this)
+			<span class="legend-box killed"></span> Killed (tests detected this)
+			<span class="legend-box none"></span> No mutation
+		</div>
+	<pre>
+<span class="">    1: package App::GHGen::CostEstimator;
+</span><span class="">    2: 
+</span><span class="">    3: use v5.36;
+</span><span class="">    4: use strict;
+</span><span class="">    5: use warnings;
+</span><span class="">    6: use YAML::XS qw(LoadFile);
+</span><span class="">    7: use Path::Tiny;
+</span><span class="">    8: 
+</span><span class="">    9: use Exporter &#39;import&#39;;
+</span><span class="">   10: our @EXPORT_OK = qw(
+</span><span class="">   11: 	estimate_current_usage
+</span><span class="">   12: 	estimate_savings
+</span><span class="">   13: 	estimate_workflow_cost
+</span><span class="">   14: );
+</span><span class="">   15: 
+</span><span class="">   16: our $VERSION = &#39;0.03&#39;;
+</span><span class="">   17: 
+</span><span class="">   18: =head1 NAME
+</span><span class="">   19: 
+</span><span class="">   20: App::GHGen::CostEstimator - Estimate CI costs and savings
+</span><span class="">   21: 
+</span><span class="">   22: =head1 SYNOPSIS
+</span><span class="">   23: 
+</span><span class="">   24:     use App::GHGen::CostEstimator qw(estimate_current_usage);
+</span><span class="">   25: 
+</span><span class="">   26:     my $estimate = estimate_current_usage(\@workflows);
+</span><span class="">   27: 
+</span><span class="">   28: =head1 FUNCTIONS
+</span><span class="">   29: 
+</span><span class="">   30: =head2 estimate_current_usage($workflows)
+</span><span class="">   31: 
+</span><span class="">   32: Estimate current monthly CI usage based on workflow configurations.
+</span><span class="">   33: 
+</span><span class="">   34: =cut
+</span><span class="">   35: 
+</span><span class="">   36: sub estimate_current_usage($workflows) {
+</span><span class="">   37: 	my $total_minutes = 0;
+</span><span class="">   38: 	my @workflow_costs;
+</span><span class="">   39: 
+</span><span class="">   40: 	for my $wf_file (@$workflows) {
+</span><span class="">   41: 		my $workflow = LoadFile($wf_file);
+</span><span class="">   42: 		my $cost = estimate_workflow_cost($workflow, $wf_file-&gt;basename);
+</span><span class="">   43: 
+</span><span class="">   44: 		$total_minutes += $cost-&gt;{minutes_per_month};
+</span><span class="">   45: 		push @workflow_costs, $cost;
+</span><span class="">   46: 	}
+</span><span class="">   47: 
+</span><span class="">   48: 	# GitHub pricing (approximate)
+</span><span class="">   49: 	# Free tier: 2,000 minutes/month for private repos
+</span><span class="">   50: 	# Additional: $0.008 per minute
+</span><span class="">   51: 	my $cost_per_minute = 0.008;
+</span><span class="">   52: 	my $free_tier = 2000;
+</span><span class="">   53: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   54: 	my $billable_minutes = $total_minutes &gt; $free_tier ? ($total_minutes - $free_tier) : 0;
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 4, Killed: 4, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_54: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_54: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_54: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_54: Numeric boundary flip > to ==</b></li>
+</ul></details>
+<span class="">   55: 
+</span><span class="">   56: 	my $monthly_cost = $billable_minutes * $cost_per_minute;
+</span><span class="">   57: 
+</span><span class="">   58: 	return {
+</span><span class="">   59: 		total_minutes =&gt; $total_minutes,
+</span><span class="">   60: 		billable_minutes =&gt; $billable_minutes,
+</span><span class="">   61: 		monthly_cost =&gt; $monthly_cost,
+</span><span class="">   62: 		workflows =&gt; \@workflow_costs,
+</span><span class="">   63: 	};
+</span><span class="">   64: }
+</span><span class="">   65: 
+</span><span class="">   66: =head2 estimate_workflow_cost($workflow, $filename)
+</span><span class="">   67: 
+</span><span class="">   68: Estimate the cost of a single workflow.
+</span><span class="">   69: 
+</span><span class="">   70: =cut
+</span><span class="">   71: 
+</span><span class="">   72: sub estimate_workflow_cost($workflow, $filename) {
+</span><span class="">   73: 	my $name = $workflow-&gt;{name} // $filename;
+</span><span class="">   74: 
+</span><span class="">   75: 	# Estimate triggers per month
+</span><span class="">   76: 	my $runs_per_month = estimate_runs_per_month($workflow);
+</span><span class="">   77: 
+</span><span class="">   78: 	# Estimate duration per run
+</span><span class="">   79: 	my $minutes_per_run = estimate_duration($workflow);
+</span><span class="">   80: 
+</span><span class="">   81: 	# Calculate total
+</span><span class="">   82: 	my $minutes_per_month = $runs_per_month * $minutes_per_run;
+</span><span class="">   83: 
+</span><span class="">   84:     return {
+</span><span class="">   85:         name =&gt; $name,
+</span><span class="">   86:         file =&gt; $filename,
+</span><span class="">   87:         runs_per_month =&gt; $runs_per_month,
+</span><span class="">   88:         minutes_per_run =&gt; $minutes_per_run,
+</span><span class="">   89:         minutes_per_month =&gt; $minutes_per_month,
+</span><span class="">   90:     };
+</span><span class="">   91: }
+</span><span class="">   92: 
+</span><span class="">   93: =head2 estimate_savings($issues, $workflows)
+</span><span class="">   94: 
+</span><span class="">   95: Estimate potential savings from fixing issues.
+</span><span class="">   96: 
+</span><span class="">   97: =cut
+</span><span class="">   98: 
+</span><span class="">   99: sub estimate_savings($issues, $workflows = []) {
+</span><span class="">  100:     my %savings = (
+</span><span class="">  101:         minutes =&gt; 0,
+</span><span class="">  102:         percentage =&gt; 0,
+</span><span class="">  103:         cost =&gt; 0,
+</span><span class="">  104:         details =&gt; [],
+</span><span class="">  105:     );
+</span><span class="">  106: 
+</span><span class="">  107: 	# Get current usage if workflows provided
+</span><span class="">  108: 	my $current_usage = @$workflows ? estimate_current_usage($workflows) : undef;
+</span><span class="">  109: 
+</span><span class="">  110:     for my $issue (@$issues) {
+</span><span class="">  111:         my $saving = 0;
+</span><span class="">  112:         my $description = &#39;&#39;;
+</span><span class="">  113: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  114:         if ($issue-&gt;{type} eq &#39;performance&#39;) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_114: Invert condition</b></li>
+</ul></details>
+<span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  115:             if ($issue-&gt;{message} =~ /caching/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_115: Invert condition</b></li>
+</ul></details>
+<span class="">  116:                 # Caching typically saves 30-60 seconds per run
+</span><span class="">  117:                 # Estimate 100 runs/month affected
+</span><span class="">  118:                 $saving = 100 * 0.75;  # 75 minutes
+</span><span class="">  119:                 $description = &#39;Adding dependency caching&#39;;
+</span><span class="">  120:             }
+</span><span class="">  121:         }
+</span><span class="">  122:         elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  123:             if ($issue-&gt;{message} =~ /concurrency/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_123: Invert condition</b></li>
+</ul></details>
+<span class="">  124:                 # Concurrency saves by canceling superseded runs
+</span><span class="">  125:                 # Estimate 10-20% of runs are canceled
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  126:                 if ($current_usage) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_126: Invert condition</b></li>
+</ul></details>
+<span class="">  127:                     $saving = $current_usage-&gt;{total_minutes} * 0.15;
+</span><span class="">  128:                 } else {
+</span><span class="">  129:                     $saving = 50;  # Conservative estimate
+</span><span class="">  130:                 }
+</span><span class="">  131:                 $description = &#39;Adding concurrency controls&#39;;
+</span><span class="">  132:             }
+</span><span class="">  133:             elsif ($issue-&gt;{message} =~ /triggers/) {
+</span><span class="">  134:                 # Trigger filters reduce unnecessary runs
+</span><span class="">  135:                 # Estimate 20-30% of runs avoided
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136:                 if ($current_usage) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_136: Invert condition</b></li>
+</ul></details>
+<span class="">  137:                     $saving = $current_usage-&gt;{total_minutes} * 0.25;
+</span><span class="">  138:                 } else {
+</span><span class="">  139:                     $saving = 100;  # Conservative estimate
+</span><span class="">  140:                 }
+</span><span class="">  141:                 $description = &#39;Optimizing workflow triggers&#39;;
+</span><span class="">  142:             }
+</span><span class="">  143:         }
+</span><span class="">  144: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  145:         if ($saving &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_145: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_145: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_145: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_145: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_145: Invert condition</b></li>
+</ul></details>
+<span class="">  146:             $savings{minutes} += $saving;
+</span><span class="">  147:             push @{$savings{details}}, {
+</span><span class="">  148:                 description =&gt; $description,
+</span><span class="">  149:                 minutes =&gt; int($saving),
+</span><span class="">  150:                 issue_type =&gt; $issue-&gt;{type},
+</span><span class="">  151:             };
+</span><span class="">  152:         }
+</span><span class="">  153:     }
+</span><span class="">  154: 
+</span><span class="">  155:     # Calculate percentage and cost
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  156:     if ($current_usage &amp;&amp; $current_usage-&gt;{total_minutes} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_156: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_156: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_156: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_156: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_156: Invert condition</b></li>
+</ul></details>
+<span class="">  157:         $savings{percentage} = int(($savings{minutes} / $current_usage-&gt;{total_minutes}) * 100);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  158:     } elsif ($savings{minutes} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 4, Killed: 4, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_158: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_158: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_158: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_158: Numeric boundary flip > to ==</b></li>
+</ul></details>
+<span class="">  159:         $savings{percentage} = 30;  # Estimate 30% savings
+</span><span class="">  160:     }
+</span><span class="">  161: 
+</span><span class="">  162: 	$savings{cost} = sprintf(&#39;%.2f&#39;, $savings{minutes} * 0.008);
+</span><span class="">  163: 	$savings{minutes} = int($savings{minutes});
+</span><span class="">  164: 
+</span><span class="">  165: 	return \%savings;
+</span><span class="">  166: }
+</span><span class="">  167: 
+</span><span class="">  168: sub estimate_runs_per_month($workflow) {
+</span><span class="">  169: 	my $on = $workflow-&gt;{on} or return 50;  # Default estimate
+</span><span class="">  170: 
+</span><span class="">  171: 	my $runs = 0;
+</span><span class="">  172: 
+</span><span class="">  173: 	# Parse different trigger formats
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  174:     if (ref $on eq &#39;ARRAY&#39;) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_174: Invert condition</b></li>
+</ul></details>
+<span class="">  175:         for my $trigger (@$on) {
+</span><span class="">  176:             $runs += estimate_trigger_frequency($trigger);
+</span><span class="">  177:         }
+</span><span class="">  178:     }
+</span><span class="">  179:     elsif (ref $on eq &#39;HASH&#39;) {
+</span><span class="">  180:         for my $trigger (keys %$on) {
+</span><span class="">  181:             $runs += estimate_trigger_frequency($trigger, $on-&gt;{$trigger});
+</span><span class="">  182:         }
+</span><span class="">  183:     } else {
+</span><span class="">  184:         $runs += estimate_trigger_frequency($on);
+</span><span class="">  185:     }
+</span><span class="">  186: 
+</span><span class="">  187:     return $runs || 50;  # Minimum estimate
+</span><span class="">  188: }
+</span><span class="">  189: 
+</span><span class="">  190: sub estimate_trigger_frequency($trigger, $config = undef) {
+</span><span class="">  191:     # Estimates based on typical project activity
+</span><span class="">  192:     my %frequencies = (
+</span><span class="">  193:         push =&gt; 100,           # ~5 pushes/day for active projects
+</span><span class="">  194:         pull_request =&gt; 60,    # ~2-3 PRs/day
+</span><span class="">  195:         schedule =&gt; 30,        # Depends on cron, assume daily
+</span><span class="">  196:         workflow_dispatch =&gt; 10,  # Manual runs
+</span><span class="">  197:         release =&gt; 4,          # ~1 per week
+</span><span class="">  198:         issues =&gt; 20,          # Issue activity
+</span><span class="">  199:     );
+</span><span class="">  200: 
+</span><span class="">  201: 	my $base = $frequencies{$trigger} // 20;
+</span><span class="">  202: 
+</span><span class="">  203:     # Adjust based on configuration
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  204:     if ($config &amp;&amp; ref $config eq &#39;HASH&#39;) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_204: Invert condition</b></li>
+</ul></details>
+<span class="">  205:         # If it has branches filter, likely fewer runs
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  206:         if ($config-&gt;{branches}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_206: Invert condition</b></li>
+</ul></details>
+<span class="">  207:             $base *= 0.6;  # 40% reduction
+</span><span class="">  208:         }
+</span><span class="">  209: 
+</span><span class="">  210:         # If it has paths filter, significantly fewer runs
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  211:         if ($config-&gt;{paths}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_211: Invert condition</b></li>
+</ul></details>
+<span class="">  212:             $base *= 0.3;  # 70% reduction
+</span><span class="">  213:         }
+</span><span class="">  214:     }
+</span><span class="">  215: 
+</span><span class="">  216:     return int($base);
+</span><span class="">  217: }
+</span><span class="">  218: 
+</span><span class="">  219: sub estimate_duration($workflow) {
+</span><span class="">  220: 	my $jobs = $workflow-&gt;{jobs} or return 5;  # Default 5 minutes
+</span><span class="">  221: 
+</span><span class="">  222: 	my $total_duration = 0;
+</span><span class="">  223: 	my $max_parallel_duration = 0;
+</span><span class="">  224: 
+</span><span class="">  225:     # Check if jobs run in parallel or sequence
+</span><span class="">  226:     my $has_dependencies = 0;
+</span><span class="">  227:     for my $job (values %$jobs) {
+</span><span class="">  228:         $has_dependencies = 1 if $job-&gt;{needs};
+</span><span class="">  229:     }
+</span><span class="">  230: 
+</span><span class="">  231:     for my $job (values %$jobs) {
+</span><span class="">  232:         my $duration = estimate_job_duration($job);
+</span><span class="">  233: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  234:         if ($has_dependencies) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_234: Invert condition</b></li>
+</ul></details>
+<span class="">  235:             # Sequential - add durations
+</span><span class="">  236:             $total_duration += $duration;
+</span><span class="">  237:         } else {
+</span><span class="">  238:             # Parallel - track maximum
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  239:             $max_parallel_duration = $duration if $duration &gt; $max_parallel_duration;
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 4, Killed: 4, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_239: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_239: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_239: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_239: Numeric boundary flip > to ==</b></li>
+</ul></details>
+<span class="">  240:         }
+</span><span class="">  241:     }
+</span><span class="">  242: 
+</span><span class="">  243: 	my $estimated = $has_dependencies ? $total_duration : $max_parallel_duration;
+</span><span class="">  244: 
+</span><span class="">  245: 	# Factor in matrix multiplier
+</span><span class="">  246: 	my $matrix_factor = estimate_matrix_factor($workflow);
+</span><span class="">  247: 
+</span><span class="">  248:     return int($estimated * $matrix_factor) || 5;
+</span><span class="">  249: }
+</span><span class="">  250: 
+</span><span class="">  251: sub estimate_job_duration($job) {
+</span><span class="">  252: 	my $steps = $job-&gt;{steps} or return 3;
+</span><span class="">  253: 
+</span><span class="">  254: 	my $duration = 0;
+</span><span class="">  255: 
+</span><span class="">  256:     for my $step (@$steps) {
+</span><span class="">  257:         # Estimate based on step type
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  258:         if ($step-&gt;{uses}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_258: Invert condition</b></li>
+</ul></details>
+<span class="">  259:             my $uses = $step-&gt;{uses};
+</span><span class="">  260: 
+</span><span class="">  261:             # Common actions and their typical durations
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  262:             if ($uses =~ /checkout/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_262: Invert condition</b></li>
+</ul></details>
+<span class="">  263:                 $duration += 0.5;
+</span><span class="">  264:             }
+</span><span class="">  265:             elsif ($uses =~ /setup-(node|python|go|ruby)/) {
+</span><span class="">  266:                 $duration += 1;
+</span><span class="">  267:             }
+</span><span class="">  268:             elsif ($uses =~ /cache/) {
+</span><span class="">  269:                 # Cache hit: ~10s, miss: ~30s
+</span><span class="">  270:                 $duration += 0.3;
+</span><span class="">  271:             }
+</span><span class="">  272:         }
+</span><span class="">  273:         elsif ($step-&gt;{run}) {
+</span><span class="">  274:             my $run = $step-&gt;{run};
+</span><span class="">  275: 
+</span><span class="">  276:             # Estimate based on command
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  277:             if ($run =~ /npm (install|ci)/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_277: Invert condition</b></li>
+</ul></details>
+<span class="">  278:                 $duration += 2;  # npm install takes time
+</span><span class="">  279:             }
+</span><span class="">  280:             elsif ($run =~ /pip install/) {
+</span><span class="">  281:                 $duration += 1.5;
+</span><span class="">  282:             }
+</span><span class="">  283:             elsif ($run =~ /cargo build/) {
+</span><span class="">  284:                 $duration += 5;  # Rust builds are slow
+</span><span class="">  285:             }
+</span><span class="">  286:             elsif ($run =~ /(npm|pytest|cargo|go) test/) {
+</span><span class="">  287:                 $duration += 2;  # Test suites
+</span><span class="">  288:             }
+</span><span class="">  289:             else {
+</span><span class="">  290:                 $duration += 0.5;  # Generic command
+</span><span class="">  291:             }
+</span><span class="">  292:         }
+</span><span class="">  293:     }
+</span><span class="">  294: 
+</span><span class="">  295:     return $duration || 3;
+</span><span class="">  296: }
+</span><span class="">  297: 
+</span><span class="">  298: sub estimate_matrix_factor($workflow) {
+</span><span class="">  299: 	my $jobs = $workflow-&gt;{jobs} or return 1;
+</span><span class="">  300: 
+</span><span class="">  301: 	my $max_matrix_size = 1;
+</span><span class="">  302: 
+</span><span class="">  303:     for my $job (values %$jobs) {
+</span><span class="">  304:         next unless $job-&gt;{strategy};
+</span><span class="">  305:         next unless $job-&gt;{strategy}-&gt;{matrix};
+</span><span class="">  306: 
+</span><span class="">  307:         my $matrix = $job-&gt;{strategy}-&gt;{matrix};
+</span><span class="">  308:         my $size = 1;
+</span><span class="">  309: 
+</span><span class="">  310:         # Calculate matrix size
+</span><span class="">  311:         for my $key (keys %$matrix) {
+</span><span class="">  312:             next if $key eq &#39;include&#39; || $key eq &#39;exclude&#39;;
+</span><span class="">  313:             my $values = $matrix-&gt;{$key};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  314:             if (ref $values eq &#39;ARRAY&#39;) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_314: Invert condition</b></li>
+</ul></details>
+<span class="">  315:                 $size *= scalar @$values;
+</span><span class="">  316:             }
+</span><span class="">  317:         }
+</span><span class="">  318: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  319:         $max_matrix_size = $size if $size &gt; $max_matrix_size;
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 4, Killed: 4, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_319: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_319: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_319: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_319: Numeric boundary flip > to ==</b></li>
+</ul></details>
+<span class="">  320:     }
+</span><span class="">  321: 
+</span><span class="">  322: 	return $max_matrix_size;
+</span><span class="">  323: }
+</span><span class="">  324: 
+</span><span class="">  325: =head1 AUTHOR
+</span><span class="">  326: 
+</span><span class="">  327: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  328: 
+</span><span class="">  329: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  330: 
+</span><span class="">  331: =head1 LICENSE
+</span><span class="">  332: 
+</span><span class="">  333: This is free software; you can redistribute it and/or modify it under
+</span><span class="">  334: the same terms as the Perl 5 programming language system itself.
+</span><span class="">  335: 
+</span><span class="">  336: =cut
+</span><span class="">  337: 
+</span><span class="">  338: 1;
+</span></pre>
+
+<script>
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+}
+
+(function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+    }
+})();
+</script>
+</body>
+</html>
+	

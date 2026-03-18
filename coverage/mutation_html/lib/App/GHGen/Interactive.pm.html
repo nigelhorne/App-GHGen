@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+/* --------------------------------------------------
+   CSS Variables (Light Mode Default)
+-------------------------------------------------- */
+
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --table-header: #333;
+    --table-header-text: #ffffff;
+
+    --survived-1: #f8d7da;
+    --survived-2: #f5b7b1;
+    --survived-3: #ec7063;
+
+    --killed: #d4edda;
+    --border: #cccccc;
+}
+
+/* --------------------------------------------------
+   Dark Mode Overrides
+-------------------------------------------------- */
+
+html[data-theme='dark'] {
+    --bg: #1e1e1e;
+    --text: #dddddd;
+    --table-header: #222;
+    --table-header-text: #ffffff;
+
+    --survived-1: #5c2b2e;
+    --survived-2: #7b2c2f;
+    --survived-3: #a93226;
+
+    --killed: #1e4620;
+    --border: #555;
+}
+
+/* --------------------------------------------------
+   Global Styles
+-------------------------------------------------- */
+
+body {
+    font-family: sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background: var(--table-header);
+    color: var(--table-header-text);
+}
+
+.survived-1 { background-color: var(--survived-1); }
+.survived-2 { background-color: var(--survived-2); }
+.survived-3 { background-color: var(--survived-3); }
+
+.killed { background-color: var(--killed); }
+
+.legend-box {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 6px 0 20px;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+}
+
+/* White box for non-mutated lines */
+.legend-box.none {
+	background-color: var(--bg);
+}
+
+pre { line-height: 1.4; }
+
+pre > details {
+    margin: 0.2em 0;
+}
+
+pre > details:first-child {
+    margin-top: 0;
+}
+
+pre > details:last-child {
+    margin-bottom: 0;
+}
+
+pre details,
+pre summary,
+pre ul,
+pre li {
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.nav { margin-bottom: 1em; }
+
+.toggle {
+    float: right;
+    cursor: pointer;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	cursor: help;
+}
+
+/* Tooltip bubble */
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: var(--table-header);
+    color: var(--table-header-text);
+    padding: 6px 10px;
+    white-space: normal;
+    max-width: 300px;
+    min-width: 30ch;
+    font-size: 12px;
+    border-radius: 6px;
+    z-index: 1000;
+    margin-left: 10ch;   /* move tooltip ~10 characters to the right */
+}
+
+.mutant-details {
+	margin-left: 2em;
+	font-size: 0.9em;
+}
+
+/* Indent the list of mutations that displays when expanding by 8 characters */
+pre details.mutant-details ul {
+    padding-left: 8ch;
+    margin: 0.2em 0;
+}
+
+.mutant-details summary {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+<h1>lib/App/GHGen/Interactive.pm</h1>
+<div class="nav"><a href="Fixer.pm.html">⬅ Previous</a> <a href="../../../index.html">Index</a> <a href="PerlCustomizer.pm.html">Next ➡</a></div>
+		<div class="legend">
+			<span class="legend-box survived-1"></span> Survived (tests missed this)
+			<span class="legend-box killed"></span> Killed (tests detected this)
+			<span class="legend-box none"></span> No mutation
+		</div>
+	<pre>
+<span class="">    1: package App::GHGen::Interactive;
+</span><span class="">    2: 
+</span><span class="">    3: use v5.36;
+</span><span class="">    4: use strict;
+</span><span class="">    5: use warnings;
+</span><span class="">    6: use Term::ANSIColor qw(colored);
+</span><span class="">    7: 
+</span><span class="">    8: use Exporter &#39;import&#39;;
+</span><span class="">    9: our @EXPORT_OK = qw(
+</span><span class="">   10: 	prompt_yes_no
+</span><span class="">   11: 	prompt_choice
+</span><span class="">   12: 	prompt_multiselect
+</span><span class="">   13: 	prompt_text
+</span><span class="">   14: 	customize_workflow
+</span><span class="">   15: );
+</span><span class="">   16: 
+</span><span class="">   17: our $VERSION = &#39;0.03&#39;;
+</span><span class="">   18: 
+</span><span class="">   19: =head1 NAME
+</span><span class="">   20: 
+</span><span class="">   21: App::GHGen::Interactive - Interactive workflow customization
+</span><span class="">   22: 
+</span><span class="">   23: =head1 SYNOPSIS
+</span><span class="">   24: 
+</span><span class="">   25:     use App::GHGen::Interactive qw(customize_workflow);
+</span><span class="">   26: 
+</span><span class="">   27:     my $config = customize_workflow(&#39;perl&#39;);
+</span><span class="">   28:     # Returns hash of user choices
+</span><span class="">   29: 
+</span><span class="">   30: =head1 FUNCTIONS
+</span><span class="">   31: 
+</span><span class="">   32: =head2 prompt_yes_no($question, $default)
+</span><span class="">   33: 
+</span><span class="">   34: Prompt for yes/no answer. Default is &#39;y&#39; or &#39;n&#39;.
+</span><span class="">   35: 
+</span><span class="">   36: =cut
+</span><span class="">   37: 
+</span><span class="">   38: sub prompt_yes_no($question, $default = &#39;y&#39;) {
+</span><span class="">   39: 	my $prompt = $default eq &#39;y&#39; ? &#39;[Y/n]&#39; : &#39;[y/N]&#39;;
+</span><span class="">   40: 	print &quot;$question $prompt: &quot;;
+</span><span class="">   41: 	chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">   42: 
+</span><span class="">   43: 	return 1 if $answer =~ /^y(es)?$/i;
+</span><span class="">   44: 	return 0 if $answer =~ /^n(o)?$/i;
+</span><span class="">   45: 	return $default eq &#39;y&#39; ? 1 : 0;
+</span><span class="">   46: }
+</span><span class="">   47: 
+</span><span class="">   48: =head2 prompt_choice($question, $choices, $default)
+</span><span class="">   49: 
+</span><span class="">   50: Prompt user to select one option from a list.
+</span><span class="">   51: 
+</span><span class="">   52: =cut
+</span><span class="">   53: 
+</span><span class="">   54: sub prompt_choice($question, $choices, $default = 0) {
+</span><span class="">   55:     say $question;
+</span><span class="">   56:     for my $i (0 .. $#$choices) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   57:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_57: Numeric boundary flip == to !=</b></li>
+</ul></details>
+<span class="">   58:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
+</span><span class="">   59:     }
+</span><span class="">   60: 
+</span><span class="">   61:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
+</span><span class="">   62:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">   63: 
+</span><span class="">   64:     return $default if $answer eq &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   65:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 6, Killed: 6, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_65: Numeric boundary flip >= to ></b></li>
+<li><b>NUM_BOUNDARY_65: Numeric boundary flip >= to <</b></li>
+<li><b>NUM_BOUNDARY_65: Numeric boundary flip >= to <=</b></li>
+<li><b>NUM_BOUNDARY_65: Numeric boundary flip <= to <</b></li>
+<li><b>NUM_BOUNDARY_65: Numeric boundary flip <= to ></b></li>
+<li><b>NUM_BOUNDARY_65: Numeric boundary flip <= to >=</b></li>
+</ul></details>
+<span class="">   66:     return $default;
+</span><span class="">   67: }
+</span><span class="">   68: 
+</span><span class="">   69: =head2 prompt_multiselect($question, $options, $defaults)
+</span><span class="">   70: 
+</span><span class="">   71: Prompt user to select multiple options. Returns array ref of selected items.
+</span><span class="">   72: 
+</span><span class="">   73: =cut
+</span><span class="">   74: 
+</span><span class="">   75: sub prompt_multiselect($question, $options, $defaults = []) {
+</span><span class="">   76:     say $question;
+</span><span class="">   77:     say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
+</span><span class="">   78: 
+</span><span class="">   79:     my %is_default = map { $_ =&gt; 1 } @$defaults;
+</span><span class="">   80: 
+</span><span class="">   81:     for my $i (0 .. $#$options) {
+</span><span class="">   82:         my $marker = $is_default{$options-&gt;[$i]} ? colored([&#39;green&#39;], &#39;&acirc;&#156;&#147;&#39;) : &#39; &#39;;
+</span><span class="">   83:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
+</span><span class="">   84:     }
+</span><span class="">   85: 
+</span><span class="">   86:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
+</span><span class="">   87:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">   88: 
+</span><span class="">   89:     return $defaults if $answer eq &#39;&#39;;
+</span><span class="">   90: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   91:     if ($answer =~ /^all$/i) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_91: Invert condition</b></li>
+</ul></details>
+<span class="">   92:         return $options;
+</span><span class="">   93:     }
+</span><span class="">   94: 
+</span><span class="">   95:     my @selected;
+</span><span class="">   96:     for my $num (split /[,\s]+/, $answer) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   97:         if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 7, Killed: 7, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_97: Numeric boundary flip >= to ></b></li>
+<li><b>NUM_BOUNDARY_97: Numeric boundary flip >= to <</b></li>
+<li><b>NUM_BOUNDARY_97: Numeric boundary flip >= to <=</b></li>
+<li><b>NUM_BOUNDARY_97: Numeric boundary flip <= to <</b></li>
+<li><b>NUM_BOUNDARY_97: Numeric boundary flip <= to ></b></li>
+<li><b>NUM_BOUNDARY_97: Numeric boundary flip <= to >=</b></li>
+<li><b>COND_INV_97: Invert condition</b></li>
+</ul></details>
+<span class="">   98:             push @selected, $options-&gt;[$num - 1];
+</span><span class="">   99:         }
+</span><span class="">  100:     }
+</span><span class="">  101: 
+</span><span class="">  102:     return @selected ? \@selected : $defaults;
+</span><span class="">  103: }
+</span><span class="">  104: 
+</span><span class="">  105: =head2 prompt_text($question, $default)
+</span><span class="">  106: 
+</span><span class="">  107: Prompt for text input.
+</span><span class="">  108: 
+</span><span class="">  109: =cut
+</span><span class="">  110: 
+</span><span class="">  111: sub prompt_text($question, $default = &#39;&#39;) {
+</span><span class="">  112:     my $prompt = $default ? &quot;[$default]&quot; : &#39;&#39;;
+</span><span class="">  113:     print &quot;$question $prompt: &quot;;
+</span><span class="">  114:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  115: 
+</span><span class="">  116:     return $answer eq &#39;&#39; ? $default : $answer;
+</span><span class="">  117: }
+</span><span class="">  118: 
+</span><span class="">  119: =head2 customize_workflow($type)
+</span><span class="">  120: 
+</span><span class="">  121: Interactive customization for a specific workflow type.
+</span><span class="">  122: Returns hash of configuration options.
+</span><span class="">  123: 
+</span><span class="">  124: =cut
+</span><span class="">  125: 
+</span><span class="">  126: sub customize_workflow($type) {
+</span><span class="">  127:     say &#39;&#39;;
+</span><span class="">  128:     say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
+</span><span class="">  129:     say &#39;&#39;;
+</span><span class="">  130: 
+</span><span class="">  131:     my %dispatch = (
+</span><span class="">  132:         perl   =&gt; \&amp;_customize_perl,
+</span><span class="">  133:         node   =&gt; \&amp;_customize_node,
+</span><span class="">  134:         python =&gt; \&amp;_customize_python,
+</span><span class="">  135:         rust   =&gt; \&amp;_customize_rust,
+</span><span class="">  136:         go     =&gt; \&amp;_customize_go,
+</span><span class="">  137:         ruby   =&gt; \&amp;_customize_ruby,
+</span><span class="">  138:         docker =&gt; \&amp;_customize_docker,
+</span><span class="">  139:         static =&gt; \&amp;_customize_static,
+</span><span class="">  140:     );
+</span><span class="">  141: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  142:     if (exists $dispatch{$type}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_142: Invert condition</b></li>
+</ul></details>
+<span class="">  143:         return $dispatch{$type}-&gt;();
+</span><span class="">  144:     }
+</span><span class="">  145: 
+</span><span class="">  146:     return {};
+</span><span class="">  147: }
+</span><span class="">  148: 
+</span><span class="">  149: sub _customize_perl() {
+</span><span class="">  150:     my %config;
+</span><span class="">  151: 
+</span><span class="">  152:     # Perl versions
+</span><span class="">  153:     say colored([&#39;bold&#39;], &quot;Perl Versions to Test:&quot;);
+</span><span class="">  154:     my @all_versions = qw(5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
+</span><span class="">  155:     my @default_versions = qw(5.40 5.38 5.36);
+</span><span class="">  156: 
+</span><span class="">  157:     $config{perl_versions} = prompt_multiselect(
+</span><span class="">  158:         &quot;Which Perl versions?&quot;,
+</span><span class="">  159:         \@all_versions,
+</span><span class="">  160:         \@default_versions
+</span><span class="">  161:     );
+</span><span class="">  162:     say &#39;&#39;;
+</span><span class="">  163: 
+</span><span class="">  164:     # Operating systems
+</span><span class="">  165:     say colored([&#39;bold&#39;], &quot;Operating Systems:&quot;);
+</span><span class="">  166:     my @all_os = (&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;);
+</span><span class="">  167:     my @default_os = @all_os;
+</span><span class="">  168: 
+</span><span class="">  169:     $config{os} = prompt_multiselect(
+</span><span class="">  170:         &quot;Which operating systems?&quot;,
+</span><span class="">  171:         \@all_os,
+</span><span class="">  172:         \@default_os
+</span><span class="">  173:     );
+</span><span class="">  174:     say &#39;&#39;;
+</span><span class="">  175: 
+</span><span class="">  176:     # Code quality
+</span><span class="">  177:     say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);
+</span><span class="">  178:     $config{enable_critic} = prompt_yes_no(
+</span><span class="">  179:         &quot;Enable Perl::Critic?&quot;,
+</span><span class="">  180:         &#39;y&#39;
+</span><span class="">  181:     );
+</span><span class="">  182:     say &#39;&#39;;
+</span><span class="">  183: 
+</span><span class="">  184:     # Coverage
+</span><span class="">  185:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  186:         &quot;Enable test coverage (Devel::Cover)?&quot;,
+</span><span class="">  187:         &#39;y&#39;
+</span><span class="">  188:     );
+</span><span class="">  189:     say &#39;&#39;;
+</span><span class="">  190: 
+</span><span class="">  191:     # Branches
+</span><span class="">  192:     say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);
+</span><span class="">  193:     my $branches = prompt_text(
+</span><span class="">  194:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  195:         &#39;main,master&#39;
+</span><span class="">  196:     );
+</span><span class="">  197:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  198:     say &#39;&#39;;
+</span><span class="">  199: 
+</span><span class="">  200:     return \%config;
+</span><span class="">  201: }
+</span><span class="">  202: 
+</span><span class="">  203: sub _customize_node() {
+</span><span class="">  204:     my %config;
+</span><span class="">  205: 
+</span><span class="">  206:     # Node versions
+</span><span class="">  207:     say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);
+</span><span class="">  208:     my @all_versions = qw(18.x 20.x 22.x 23.x);
+</span><span class="">  209:     my @default_versions = qw(20.x 22.x);
+</span><span class="">  210: 
+</span><span class="">  211:     $config{node_versions} = prompt_multiselect(
+</span><span class="">  212:         &quot;Which Node.js versions?&quot;,
+</span><span class="">  213:         \@all_versions,
+</span><span class="">  214:         \@default_versions
+</span><span class="">  215:     );
+</span><span class="">  216:     say &#39;&#39;;
+</span><span class="">  217: 
+</span><span class="">  218:     # Package manager
+</span><span class="">  219:     say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);
+</span><span class="">  220:     my $pm_choice = prompt_choice(
+</span><span class="">  221:         &quot;Which package manager?&quot;,
+</span><span class="">  222:         [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],
+</span><span class="">  223:         0
+</span><span class="">  224:     );
+</span><span class="">  225:     $config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];
+</span><span class="">  226:     say &#39;&#39;;
+</span><span class="">  227: 
+</span><span class="">  228:     # Linting
+</span><span class="">  229:     $config{enable_lint} = prompt_yes_no(
+</span><span class="">  230:         &quot;Enable linting?&quot;,
+</span><span class="">  231:         &#39;y&#39;
+</span><span class="">  232:     );
+</span><span class="">  233:     say &#39;&#39;;
+</span><span class="">  234: 
+</span><span class="">  235:     # Build step
+</span><span class="">  236:     $config{enable_build} = prompt_yes_no(
+</span><span class="">  237:         &quot;Enable build step?&quot;,
+</span><span class="">  238:         &#39;y&#39;
+</span><span class="">  239:     );
+</span><span class="">  240:     say &#39;&#39;;
+</span><span class="">  241: 
+</span><span class="">  242:     # Branches
+</span><span class="">  243:     my $branches = prompt_text(
+</span><span class="">  244:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  245:         &#39;main,develop&#39;
+</span><span class="">  246:     );
+</span><span class="">  247:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  248:     say &#39;&#39;;
+</span><span class="">  249: 
+</span><span class="">  250:     return \%config;
+</span><span class="">  251: }
+</span><span class="">  252: 
+</span><span class="">  253: sub _customize_python() {
+</span><span class="">  254:     my %config;
+</span><span class="">  255: 
+</span><span class="">  256:     # Python versions
+</span><span class="">  257:     say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);
+</span><span class="">  258:     my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);
+</span><span class="">  259:     my @default_versions = qw(3.11 3.12);
+</span><span class="">  260: 
+</span><span class="">  261:     $config{python_versions} = prompt_multiselect(
+</span><span class="">  262:         &quot;Which Python versions?&quot;,
+</span><span class="">  263:         \@all_versions,
+</span><span class="">  264:         \@default_versions
+</span><span class="">  265:     );
+</span><span class="">  266:     say &#39;&#39;;
+</span><span class="">  267: 
+</span><span class="">  268:     # Linting
+</span><span class="">  269:     say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);
+</span><span class="">  270:     $config{enable_flake8} = prompt_yes_no(
+</span><span class="">  271:         &quot;Enable flake8 linting?&quot;,
+</span><span class="">  272:         &#39;y&#39;
+</span><span class="">  273:     );
+</span><span class="">  274:     say &#39;&#39;;
+</span><span class="">  275: 
+</span><span class="">  276:     $config{enable_black} = prompt_yes_no(
+</span><span class="">  277:         &quot;Enable black formatter check?&quot;,
+</span><span class="">  278:         &#39;n&#39;
+</span><span class="">  279:     );
+</span><span class="">  280:     say &#39;&#39;;
+</span><span class="">  281: 
+</span><span class="">  282:     # Coverage
+</span><span class="">  283:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  284:         &quot;Enable test coverage?&quot;,
+</span><span class="">  285:         &#39;y&#39;
+</span><span class="">  286:     );
+</span><span class="">  287:     say &#39;&#39;;
+</span><span class="">  288: 
+</span><span class="">  289:     # Branches
+</span><span class="">  290:     my $branches = prompt_text(
+</span><span class="">  291:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  292:         &#39;main,develop&#39;
+</span><span class="">  293:     );
+</span><span class="">  294:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  295:     say &#39;&#39;;
+</span><span class="">  296: 
+</span><span class="">  297:     return \%config;
+</span><span class="">  298: }
+</span><span class="">  299: 
+</span><span class="">  300: sub _customize_rust() {
+</span><span class="">  301:     my %config;
+</span><span class="">  302: 
+</span><span class="">  303:     say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);
+</span><span class="">  304: 
+</span><span class="">  305:     $config{enable_fmt} = prompt_yes_no(
+</span><span class="">  306:         &quot;Enable formatting check (cargo fmt)?&quot;,
+</span><span class="">  307:         &#39;y&#39;
+</span><span class="">  308:     );
+</span><span class="">  309:     say &#39;&#39;;
+</span><span class="">  310: 
+</span><span class="">  311:     $config{enable_clippy} = prompt_yes_no(
+</span><span class="">  312:         &quot;Enable clippy linting?&quot;,
+</span><span class="">  313:         &#39;y&#39;
+</span><span class="">  314:     );
+</span><span class="">  315:     say &#39;&#39;;
+</span><span class="">  316: 
+</span><span class="">  317:     $config{enable_release} = prompt_yes_no(
+</span><span class="">  318:         &quot;Build release binary?&quot;,
+</span><span class="">  319:         &#39;y&#39;
+</span><span class="">  320:     );
+</span><span class="">  321:     say &#39;&#39;;
+</span><span class="">  322: 
+</span><span class="">  323:     my $branches = prompt_text(
+</span><span class="">  324:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  325:         &#39;main&#39;
+</span><span class="">  326:     );
+</span><span class="">  327:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  328:     say &#39;&#39;;
+</span><span class="">  329: 
+</span><span class="">  330:     return \%config;
+</span><span class="">  331: }
+</span><span class="">  332: 
+</span><span class="">  333: sub _customize_go() {
+</span><span class="">  334:     my %config;
+</span><span class="">  335: 
+</span><span class="">  336:     say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);
+</span><span class="">  337: 
+</span><span class="">  338:     my $go_version = prompt_text(
+</span><span class="">  339:         &quot;Go version&quot;,
+</span><span class="">  340:         &#39;1.22&#39;
+</span><span class="">  341:     );
+</span><span class="">  342:     $config{go_version} = $go_version;
+</span><span class="">  343:     say &#39;&#39;;
+</span><span class="">  344: 
+</span><span class="">  345:     $config{enable_vet} = prompt_yes_no(
+</span><span class="">  346:         &quot;Enable go vet?&quot;,
+</span><span class="">  347:         &#39;y&#39;
+</span><span class="">  348:     );
+</span><span class="">  349:     say &#39;&#39;;
+</span><span class="">  350: 
+</span><span class="">  351:     $config{enable_race} = prompt_yes_no(
+</span><span class="">  352:         &quot;Enable race detector?&quot;,
+</span><span class="">  353:         &#39;y&#39;
+</span><span class="">  354:     );
+</span><span class="">  355:     say &#39;&#39;;
+</span><span class="">  356: 
+</span><span class="">  357:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  358:         &quot;Enable test coverage?&quot;,
+</span><span class="">  359:         &#39;y&#39;
+</span><span class="">  360:     );
+</span><span class="">  361:     say &#39;&#39;;
+</span><span class="">  362: 
+</span><span class="">  363:     my $branches = prompt_text(
+</span><span class="">  364:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  365:         &#39;main&#39;
+</span><span class="">  366:     );
+</span><span class="">  367:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  368:     say &#39;&#39;;
+</span><span class="">  369: 
+</span><span class="">  370:     return \%config;
+</span><span class="">  371: }
+</span><span class="">  372: 
+</span><span class="">  373: sub _customize_ruby() {
+</span><span class="">  374:     my %config;
+</span><span class="">  375: 
+</span><span class="">  376:     say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);
+</span><span class="">  377:     my @all_versions = qw(3.1 3.2 3.3);
+</span><span class="">  378:     my @default_versions = qw(3.2 3.3);
+</span><span class="">  379: 
+</span><span class="">  380:     $config{ruby_versions} = prompt_multiselect(
+</span><span class="">  381:         &quot;Which Ruby versions?&quot;,
+</span><span class="">  382:         \@all_versions,
+</span><span class="">  383:         \@default_versions
+</span><span class="">  384:     );
+</span><span class="">  385:     say &#39;&#39;;
+</span><span class="">  386: 
+</span><span class="">  387:     my $branches = prompt_text(
+</span><span class="">  388:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  389:         &#39;main&#39;
+</span><span class="">  390:     );
+</span><span class="">  391:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  392:     say &#39;&#39;;
+</span><span class="">  393: 
+</span><span class="">  394:     return \%config;
+</span><span class="">  395: }
+</span><span class="">  396: 
+</span><span class="">  397: sub _customize_docker() {
+</span><span class="">  398:     my %config;
+</span><span class="">  399: 
+</span><span class="">  400:     say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);
+</span><span class="">  401: 
+</span><span class="">  402:     my $image_name = prompt_text(
+</span><span class="">  403:         &quot;Docker image name (user/image)&quot;,
+</span><span class="">  404:         &#39;your-username/your-image&#39;
+</span><span class="">  405:     );
+</span><span class="">  406:     $config{image_name} = $image_name;
+</span><span class="">  407:     say &#39;&#39;;
+</span><span class="">  408: 
+</span><span class="">  409: 	$config{push_on_pr} = prompt_yes_no(
+</span><span class="">  410: 		&#39;Push images on pull requests?&#39;,
+</span><span class="">  411: 		&#39;n&#39;
+</span><span class="">  412: 	);
+</span><span class="">  413: 	say &#39;&#39;;
+</span><span class="">  414: 
+</span><span class="">  415: 	my $branches = prompt_text(
+</span><span class="">  416: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  417: 		&#39;main&#39;
+</span><span class="">  418: 	);
+</span><span class="">  419: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  420: 	say &#39;&#39;;
+</span><span class="">  421: 
+</span><span class="">  422: 	return \%config;
+</span><span class="">  423: }
+</span><span class="">  424: 
+</span><span class="">  425: sub _customize_static() {
+</span><span class="">  426: 	my %config;
+</span><span class="">  427: 
+</span><span class="">  428: 	say colored([&#39;bold&#39;], &quot;Static Site Deployment:&quot;);
+</span><span class="">  429: 
+</span><span class="">  430: 	my $build_dir = prompt_text(&quot;Build output directory&quot;, &#39;./public&#39;);
+</span><span class="">  431: 	$config{build_dir} = $build_dir;
+</span><span class="">  432: 	say &#39;&#39;;
+</span><span class="">  433: 
+</span><span class="">  434: 	my $build_command = prompt_text(&quot;Build command&quot;, &#39;npm run build&#39;);
+</span><span class="">  435: 	$config{build_command} = $build_command;
+</span><span class="">  436: 	say &#39;&#39;;
+</span><span class="">  437: 
+</span><span class="">  438: 	return \%config;
+</span><span class="">  439: }
+</span><span class="">  440: 
+</span><span class="">  441: =head1 AUTHOR
+</span><span class="">  442: 
+</span><span class="">  443: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  444: 
+</span><span class="">  445: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  446: 
+</span><span class="">  447: =head1 LICENSE
+</span><span class="">  448: 
+</span><span class="">  449: This is free software; you can redistribute it and/or modify it under
+</span><span class="">  450: the same terms as the Perl 5 programming language system itself.
+</span><span class="">  451: 
+</span><span class="">  452: =cut
+</span><span class="">  453: 
+</span><span class="">  454: 1;
+</span></pre>
+
+<script>
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+}
+
+(function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+    }
+})();
+</script>
+</body>
+</html>
+	

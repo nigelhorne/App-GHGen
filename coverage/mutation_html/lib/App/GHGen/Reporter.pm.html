@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+/* --------------------------------------------------
+   CSS Variables (Light Mode Default)
+-------------------------------------------------- */
+
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --table-header: #333;
+    --table-header-text: #ffffff;
+
+    --survived-1: #f8d7da;
+    --survived-2: #f5b7b1;
+    --survived-3: #ec7063;
+
+    --killed: #d4edda;
+    --border: #cccccc;
+}
+
+/* --------------------------------------------------
+   Dark Mode Overrides
+-------------------------------------------------- */
+
+html[data-theme='dark'] {
+    --bg: #1e1e1e;
+    --text: #dddddd;
+    --table-header: #222;
+    --table-header-text: #ffffff;
+
+    --survived-1: #5c2b2e;
+    --survived-2: #7b2c2f;
+    --survived-3: #a93226;
+
+    --killed: #1e4620;
+    --border: #555;
+}
+
+/* --------------------------------------------------
+   Global Styles
+-------------------------------------------------- */
+
+body {
+    font-family: sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background: var(--table-header);
+    color: var(--table-header-text);
+}
+
+.survived-1 { background-color: var(--survived-1); }
+.survived-2 { background-color: var(--survived-2); }
+.survived-3 { background-color: var(--survived-3); }
+
+.killed { background-color: var(--killed); }
+
+.legend-box {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 6px 0 20px;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+}
+
+/* White box for non-mutated lines */
+.legend-box.none {
+	background-color: var(--bg);
+}
+
+pre { line-height: 1.4; }
+
+pre > details {
+    margin: 0.2em 0;
+}
+
+pre > details:first-child {
+    margin-top: 0;
+}
+
+pre > details:last-child {
+    margin-bottom: 0;
+}
+
+pre details,
+pre summary,
+pre ul,
+pre li {
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.nav { margin-bottom: 1em; }
+
+.toggle {
+    float: right;
+    cursor: pointer;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	cursor: help;
+}
+
+/* Tooltip bubble */
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: var(--table-header);
+    color: var(--table-header-text);
+    padding: 6px 10px;
+    white-space: normal;
+    max-width: 300px;
+    min-width: 30ch;
+    font-size: 12px;
+    border-radius: 6px;
+    z-index: 1000;
+    margin-left: 10ch;   /* move tooltip ~10 characters to the right */
+}
+
+.mutant-details {
+	margin-left: 2em;
+	font-size: 0.9em;
+}
+
+/* Indent the list of mutations that displays when expanding by 8 characters */
+pre details.mutant-details ul {
+    padding-left: 8ch;
+    margin: 0.2em 0;
+}
+
+.mutant-details summary {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
+<h1>lib/App/GHGen/Reporter.pm</h1>
+<div class="nav"><a href="PerlCustomizer.pm.html">⬅ Previous</a> <a href="../../../index.html">Index</a></div>
+		<div class="legend">
+			<span class="legend-box survived-1"></span> Survived (tests missed this)
+			<span class="legend-box killed"></span> Killed (tests detected this)
+			<span class="legend-box none"></span> No mutation
+		</div>
+	<pre>
+<span class="">    1: package App::GHGen::Reporter;
+</span><span class="">    2: 
+</span><span class="">    3: use v5.36;
+</span><span class="">    4: use strict;
+</span><span class="">    5: use warnings;
+</span><span class="">    6: 
+</span><span class="">    7: use Exporter &#39;import&#39;;
+</span><span class="">    8: our @EXPORT_OK = qw(
+</span><span class="">    9: 	generate_markdown_report
+</span><span class="">   10: 	generate_github_comment
+</span><span class="">   11: 	estimate_savings
+</span><span class="">   12: );
+</span><span class="">   13: 
+</span><span class="">   14: our $VERSION = &#39;0.03&#39;;
+</span><span class="">   15: 
+</span><span class="">   16: =head1 NAME
+</span><span class="">   17: 
+</span><span class="">   18: App::GHGen::Reporter - Generate reports for GitHub integration
+</span><span class="">   19: 
+</span><span class="">   20: =head1 SYNOPSIS
+</span><span class="">   21: 
+</span><span class="">   22:     use App::GHGen::Reporter qw(generate_github_comment);
+</span><span class="">   23: 
+</span><span class="">   24:     my $comment = generate_github_comment(\@issues, \@fixes);
+</span><span class="">   25: 
+</span><span class="">   26: =head1 FUNCTIONS
+</span><span class="">   27: 
+</span><span class="">   28: =head2 generate_markdown_report($issues, $fixes)
+</span><span class="">   29: 
+</span><span class="">   30: Generate a markdown report of issues and fixes.
+</span><span class="">   31: 
+</span><span class="">   32: =cut
+</span><span class="">   33: 
+</span><span class="">   34: sub generate_markdown_report($issues, $fixes = []) {
+</span><span class="">   35: 	my $report = &quot;# GHGen Workflow Analysis\n\n&quot;;
+</span><span class="">   36: 
+</span><span class="">   37: 	my $total_issues = scalar @$issues;
+</span><span class="">   38: 	my $total_fixes = scalar @$fixes;
+</span><span class="">   39: 
+</span><span class="">   40: 	$report .= &quot;## Summary\n\n&quot;;
+</span><span class="">   41: 	$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;
+</span><span class="">   42: 	$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;
+</span><span class="">   43: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   44:     if (@$issues) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_44: Invert condition</b></li>
+</ul></details>
+<span class="">   45:         # Group by type
+</span><span class="">   46:         my %by_type;
+</span><span class="">   47:         push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
+</span><span class="">   48: 
+</span><span class="">   49:         $report .= &quot;## Issues by Category\n\n&quot;;
+</span><span class="">   50: 
+</span><span class="">   51:         for my $type (sort keys %by_type) {
+</span><span class="">   52:             my $count = scalar @{$by_type{$type}};
+</span><span class="">   53:             my $emoji = get_type_emoji($type);
+</span><span class="">   54:             $report .= &quot;### $emoji &quot; . ucfirst($type) . &quot; ($count)\n\n&quot;;
+</span><span class="">   55: 
+</span><span class="">   56:             for my $issue (@{$by_type{$type}}) {
+</span><span class="">   57:                 my $severity_badge = get_severity_badge($issue-&gt;{severity});
+</span><span class="">   58:                 $report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;
+</span><span class="">   59: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   60:                 if ($issue-&gt;{fix}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_60: Invert condition</b></li>
+</ul></details>
+<span class="">   61:                     $report .= &quot;&lt;details&gt;\n&quot;;
+</span><span class="">   62:                     $report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;
+</span><span class="">   63:                     $report .= &quot;```yaml\n&quot;;
+</span><span class="">   64:                     $report .= &quot;$issue-&gt;{fix}\n&quot;;
+</span><span class="">   65:                     $report .= &quot;```\n\n&quot;;
+</span><span class="">   66:                     $report .= &quot;&lt;/details&gt;\n\n&quot;;
+</span><span class="">   67:                 }
+</span><span class="">   68:             }
+</span><span class="">   69:         }
+</span><span class="">   70:     }
+</span><span class="">   71: 
+</span><span class="">   72:     # Add savings estimate if available
+</span><span class="">   73:     my $savings = estimate_savings($issues);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   74:     if ($savings-&gt;{minutes} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_74: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_74: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_74: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_74: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_74: Invert condition</b></li>
+</ul></details>
+<span class="">   75:         $report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;
+</span><span class="">   76:         $report .= &quot;By fixing these issues, you could save:\n\n&quot;;
+</span><span class="">   77:         $report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><span class="">   78: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   79:         if ($savings-&gt;{cost} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_79: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_79: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_79: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_79: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_79: Invert condition</b></li>
+</ul></details>
+<span class="">   80:             $report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
+</span><span class="">   81:         }
+</span><span class="">   82: 
+</span><span class="">   83:         $report .= &quot;\n&quot;;
+</span><span class="">   84:     }
+</span><span class="">   85: 
+</span><span class="">   86:     return $report;
+</span><span class="">   87: }
+</span><span class="">   88: 
+</span><span class="">   89: =head2 generate_github_comment($issues, $fixes, $options)
+</span><span class="">   90: 
+</span><span class="">   91: Generate a GitHub-friendly comment with issues and recommendations.
+</span><span class="">   92: 
+</span><span class="">   93: =cut
+</span><span class="">   94: 
+</span><span class="">   95: sub generate_github_comment($issues, $fixes = [], $options = {}) {
+</span><span class="">   96: 	my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;
+</span><span class="">   97: 
+</span><span class="">   98:     my $total_issues = scalar @$issues;
+</span><span class="">   99:     my $total_fixes = scalar @$fixes;
+</span><span class="">  100: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  101:     if ($total_fixes &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_101: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_101: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_101: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_101: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_101: Invert condition</b></li>
+</ul></details>
+<span class="">  102:         $comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;
+</span><span class="">  103:     }
+</span><span class="">  104: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  105:     if ($total_issues == 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 2, Killed: 2, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_105: Numeric boundary flip == to !=</b></li>
+<li><b>COND_INV_105: Invert condition</b></li>
+</ul></details>
+<span class="">  106:         $comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;
+</span><span class="">  107:         return $comment;
+</span><span class="">  108:     }
+</span><span class="">  109: 
+</span><span class="">  110:     # Summary table
+</span><span class="">  111:     $comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;
+</span><span class="">  112:     $comment .= &quot;|----------|-------|-------------|\n&quot;;
+</span><span class="">  113: 
+</span><span class="">  114:     my %by_type;
+</span><span class="">  115:     push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
+</span><span class="">  116: 
+</span><span class="">  117:     for my $type (sort keys %by_type) {
+</span><span class="">  118:         my $count = scalar @{$by_type{$type}};
+</span><span class="">  119:         my $fixable = grep { $_-&gt;{auto_fixable} // 1 } @{$by_type{$type}};
+</span><span class="">  120:         my $emoji = get_type_emoji($type);
+</span><span class="">  121:         $comment .= &quot;| $emoji &quot; . ucfirst($type) . &quot; | $count | $fixable |\n&quot;;
+</span><span class="">  122:     }
+</span><span class="">  123: 
+</span><span class="">  124:     $comment .= &quot;\n&quot;;
+</span><span class="">  125: 
+</span><span class="">  126:     # Detailed issues
+</span><span class="">  127:     $comment .= &quot;&lt;details&gt;\n&quot;;
+</span><span class="">  128:     $comment .= &quot;&lt;summary&gt;&eth;&#159;&#147;&#139; View Details&lt;/summary&gt;\n\n&quot;;
+</span><span class="">  129: 
+</span><span class="">  130:     for my $type (sort keys %by_type) {
+</span><span class="">  131:         $comment .= &quot;### &quot; . get_type_emoji($type) . &quot; &quot; . ucfirst($type) . &quot;\n\n&quot;;
+</span><span class="">  132: 
+</span><span class="">  133:         for my $issue (@{$by_type{$type}}) {
+</span><span class="">  134:             my $badge = get_severity_badge($issue-&gt;{severity});
+</span><span class="">  135:             $comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;
+</span><span class="">  136: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  137:             if ($issue-&gt;{file}) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_137: Invert condition</b></li>
+</ul></details>
+<span class="">  138:                 $comment .= &quot;  - File: `$issue-&gt;{file}`\n&quot;;
+</span><span class="">  139:             }
+</span><span class="">  140:         }
+</span><span class="">  141: 
+</span><span class="">  142:         $comment .= &quot;\n&quot;;
+</span><span class="">  143:     }
+</span><span class="">  144: 
+</span><span class="">  145:     $comment .= &quot;&lt;/details&gt;\n\n&quot;;
+</span><span class="">  146: 
+</span><span class="">  147:     # Add recommendations
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  148:     if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 6, Killed: 6, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_148: Numeric boundary flip == to !=</b></li>
+<li><b>NUM_BOUNDARY_148: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_148: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_148: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_148: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_148: Invert condition</b></li>
+</ul></details>
+<span class="">  149:         $comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;
+</span><span class="">  150:         $comment .= &quot;Run these commands locally:\n\n&quot;;
+</span><span class="">  151:         $comment .= &quot;```bash\n&quot;;
+</span><span class="">  152:         $comment .= &quot;# Install ghgen\n&quot;;
+</span><span class="">  153:         $comment .= &quot;cpanm App::GHGen\n\n&quot;;
+</span><span class="">  154:         $comment .= &quot;# Analyze and fix\n&quot;;
+</span><span class="">  155:         $comment .= &quot;ghgen analyze --fix\n&quot;;
+</span><span class="">  156:         $comment .= &quot;```\n\n&quot;;
+</span><span class="">  157: 
+</span><span class="">  158:         $comment .= &quot;Or enable auto-fix in this action:\n\n&quot;;
+</span><span class="">  159:         $comment .= &quot;```yaml\n&quot;;
+</span><span class="">  160:         $comment .= &quot;- uses: nigelhorne/ghgen-action\@v1\n&quot;;
+</span><span class="">  161:         $comment .= &quot;  with:\n&quot;;
+</span><span class="">  162:         $comment .= &quot;    auto-fix: true\n&quot;;
+</span><span class="">  163:         $comment .= &quot;    create-pr: true\n&quot;;
+</span><span class="">  164:         $comment .= &quot;```\n\n&quot;;
+</span><span class="">  165:     }
+</span><span class="">  166: 
+</span><span class="">  167:     # Add savings estimate
+</span><span class="">  168:     my $savings = estimate_savings($issues);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  169:     if ($savings-&gt;{minutes} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_169: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_169: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_169: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_169: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_169: Invert condition</b></li>
+</ul></details>
+<span class="">  170:         $comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
+</span><span class="">  171:         $comment .= &quot;By fixing these issues:\n&quot;;
+</span><span class="">  172:         $comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><span class="">  173: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  174:         if ($savings-&gt;{cost} &gt; 0) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 5, Killed: 5, Survived: 0)</summary>
+				<ul>
+			<li><b>NUM_BOUNDARY_174: Numeric boundary flip > to <</b></li>
+<li><b>NUM_BOUNDARY_174: Numeric boundary flip > to >=</b></li>
+<li><b>NUM_BOUNDARY_174: Numeric boundary flip > to <=</b></li>
+<li><b>NUM_BOUNDARY_174: Numeric boundary flip > to ==</b></li>
+<li><b>COND_INV_174: Invert condition</b></li>
+</ul></details>
+<span class="">  175:             $comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
+</span><span class="">  176:         }
+</span><span class="">  177: 
+</span><span class="">  178:         $comment .= &quot;\n&quot;;
+</span><span class="">  179:     }
+</span><span class="">  180: 
+</span><span class="">  181:     $comment .= &quot;---\n&quot;;
+</span><span class="">  182:     $comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;
+</span><span class="">  183: 
+</span><span class="">  184:     return $comment;
+</span><span class="">  185: }
+</span><span class="">  186: 
+</span><span class="">  187: =head2 estimate_savings($issues)
+</span><span class="">  188: 
+</span><span class="">  189: Estimate potential CI minutes and cost savings from fixing issues.
+</span><span class="">  190: 
+</span><span class="">  191: =cut
+</span><span class="">  192: 
+</span><span class="">  193: sub estimate_savings($issues) {
+</span><span class="">  194: 	my %savings = (
+</span><span class="">  195: 		minutes =&gt; 0,
+</span><span class="">  196: 		cost =&gt; 0,
+</span><span class="">  197: 	);
+</span><span class="">  198: 
+</span><span class="">  199: 	for my $issue (@$issues) {
+</span><span class="">  200: 	# Estimate savings by issue type
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  201: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_201: Invert condition</b></li>
+</ul></details>
+<span class="">  202: 			# Caching saves ~5 minutes per workflow run
+</span><span class="">  203: 			# Assume 100 runs/month
+</span><span class="">  204: 			$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;
+</span><span class="">  205: 		} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  206: 			if ($issue-&gt;{message} =~ /concurrency/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_206: Invert condition</b></li>
+</ul></details>
+<span class="">  207: 				# Concurrency saves ~50 minutes/month by canceling old runs
+</span><span class="">  208: 				$savings{minutes} += 50;
+</span><span class="">  209: 			}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  210: 			if ($issue-&gt;{message} =~ /triggers/) {
+</span>
+				<details class="mutant-details">
+				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
+				<ul>
+			<li><b>COND_INV_210: Invert condition</b></li>
+</ul></details>
+<span class="">  211: 				# Trigger filters save ~100 minutes/month
+</span><span class="">  212: 				$savings{minutes} += 100;
+</span><span class="">  213: 			}
+</span><span class="">  214: 		}
+</span><span class="">  215: 	}
+</span><span class="">  216: 
+</span><span class="">  217: 	# Private repo pricing: ~$0.008 per minute
+</span><span class="">  218: 	$savings{cost} = int($savings{minutes} * 0.008);
+</span><span class="">  219: 
+</span><span class="">  220: 	return \%savings;
+</span><span class="">  221: }
+</span><span class="">  222: 
+</span><span class="">  223: sub get_type_emoji($type) {
+</span><span class="">  224: 	my %emojis = (
+</span><span class="">  225: 		performance =&gt; &#39;&acirc;&#154;&iexcl;&#39;,
+</span><span class="">  226: 		security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,
+</span><span class="">  227: 		cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,
+</span><span class="">  228: 		maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,
+</span><span class="">  229: 	);
+</span><span class="">  230: 
+</span><span class="">  231: 	return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;
+</span><span class="">  232: }
+</span><span class="">  233: 
+</span><span class="">  234: sub get_severity_badge($severity) {
+</span><span class="">  235: 	my %badges = (
+</span><span class="">  236: 		high   =&gt; &#39;&eth;&#159;&#148;&acute;&#39;,
+</span><span class="">  237: 		medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,
+</span><span class="">  238: 		low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,
+</span><span class="">  239: 	);
+</span><span class="">  240: 
+</span><span class="">  241: 	return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;
+</span><span class="">  242: }
+</span><span class="">  243: 
+</span><span class="">  244: =head1 AUTHOR
+</span><span class="">  245: 
+</span><span class="">  246: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  247: 
+</span><span class="">  248: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  249: 
+</span><span class="">  250: =head1 LICENSE
+</span><span class="">  251: 
+</span><span class="">  252: This is free software; you can redistribute it and/or modify it under
+</span><span class="">  253: the same terms as the Perl 5 programming language system itself.
+</span><span class="">  254: 
+</span><span class="">  255: =cut
+</span><span class="">  256: 
+</span><span class="">  257: 1;
+</span></pre>
+
+<script>
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+}
+
+(function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+    }
+})();
+</script>
+</body>
+</html>
+	
