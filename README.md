@@ -893,6 +893,7 @@ Review the remaining suggestions and apply manually.
 # SEE ALSO
 
 - [Test Dashboard](https://nigelhorne.github.io/App-GHGen/coverage/)
+- [App::Test::Generator](https://metacpan.org/pod/App%3A%3ATest%3A%3AGenerator)
 
 ## GitHub Actions Documentation
 
@@ -906,6 +907,10 @@ Review the remaining suggestions and apply manually.
 - [act](https://github.com/nektos/act) - Run GitHub Actions locally
 - [actionlint](https://github.com/rhysd/actionlint) - Linter for GitHub Actions
 - [yamllint](https://github.com/adrienverge/yamllint) - YAML linter
+
+# REPOSITORY
+
+[https://github.com/nigelhorne/App-GHGen](https://github.com/nigelhorne/App-GHGen)
 
 # CONTRIBUTING
 
@@ -922,7 +927,7 @@ Contributions are welcome! GHGen is open source and hosted on GitHub.
 ## Development Setup
 
     # Fork and clone
-    git clone https://github.com/YOUR-USERNAME/ghgen.git
+    git clone https://github.com/nigelhorne/ghgen.git
     cd ghgen
 
     # Install dependencies

@@ -1168,6 +1168,8 @@ B<Solution:>
 
 =item * L<Test Dashboard|https://nigelhorne.github.io/App-GHGen/coverage/>
 
+=item * L<App::Test::Generator>
+
 =back
 
 =head2 GitHub Actions Documentation
@@ -1196,6 +1198,10 @@ B<Solution:>
 
 =back
 
+=head1 REPOSITORY
+
+L<https://github.com/nigelhorne/App-GHGen>
+
 =head1 CONTRIBUTING
 
 Contributions are welcome! GHGen is open source and hosted on GitHub.
@@ -1219,7 +1225,7 @@ Contributions are welcome! GHGen is open source and hosted on GitHub.
 =head2 Development Setup
 
     # Fork and clone
-    git clone https://github.com/YOUR-USERNAME/ghgen.git
+    git clone https://github.com/nigelhorne/ghgen.git
     cd ghgen
 
     # Install dependencies
