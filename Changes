@@ -1,6 +1,6 @@
 Revision history for App-GHGen
 
-0.04
+0.04	Wed Mar 18 11:44:12 EDT 2026
 	- Bump maximum Perl version
 	- Show debug on fail
 	- Understand C.

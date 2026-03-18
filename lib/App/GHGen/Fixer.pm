@@ -13,7 +13,7 @@ our @EXPORT_OK = qw(
 	fix_workflow
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -34,12 +34,12 @@ Check if an issue can be automatically fixed.
 =cut
 
 sub can_auto_fix($issue) {
-    my %fixable = (
-        'performance' => 1,  # Can add caching
-        'security'    => 1,  # Can update action versions and add permissions
-        'cost'        => 1,  # Can add concurrency, filters
-        'maintenance' => 1,  # Can update runners
-    );
+	my %fixable = (
+		'performance' => 1,  # Can add caching
+		'security'    => 1,  # Can update action versions and add permissions
+		'cost'        => 1,  # Can add concurrency, filters
+		'maintenance' => 1,  # Can update runners
+	);
 
 	return $fixable{$issue->{type}} // 0;
 }

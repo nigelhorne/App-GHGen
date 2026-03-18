@@ -13,11 +13,17 @@ use v5.36;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
-
 =head1 NAME
 
 App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
+
+=head1 VERSION
+
+Version 0.04
+
+=cut
+
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
