@@ -30,7 +30,7 @@ WriteMakefile(
 		'IPC::Run3' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::Exception' => 0,
-		'Test::More'  => '0.98',
+		'Test::Most'  => 0
 	},
 
 	# EXE_FILES => ['bin/ghgen', 'bin/ghgen-analyze', 'bin/ghgen-generator'],
