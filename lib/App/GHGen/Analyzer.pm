@@ -126,7 +126,22 @@ sub analyze_workflow($workflow, $filename) {
         };
     }
 
-    return @issues;
+# Check 6: Missing timeout-minutes
+my $jobs = $workflow->{jobs} // {};
+for my $job_name (keys %$jobs) {
+    my $job = $jobs->{$job_name};
+
+    unless (exists $job->{'timeout-minutes'}) {
+        push @issues, {
+            type     => 'performance',
+            severity => 'low',
+            message  => "Job '$job_name' is missing timeout-minutes",
+            fix      => "Add:\n     timeout-minutes: 30",
+        };
+    }
+}
+
+	return @issues;
 }
 
 =head2 get_cache_suggestion($workflow)
@@ -136,7 +151,7 @@ Generate a caching suggestion based on detected project type.
 =cut
 
 sub get_cache_suggestion($workflow) {
-	my $detected_type = detect_project_type($workflow);
+	my $detected_type = detect_project_type({ jobs => $workflow->{jobs} });
 
     my %cache_configs = (
         npm => "- uses: actions/cache\@v5\n" .
@@ -234,6 +249,8 @@ sub has_outdated_runners($workflow) {
 }
 
 sub detect_project_type($workflow) {
+	return 'unknown' unless ref $workflow eq 'HASH';
+
 	my $jobs = $workflow->{jobs} or return 'unknown';
 
     for my $job (values %$jobs) {
@@ -307,10 +324,11 @@ Nigel Horne E<lt>njh@nigelhorne.comE<gt>
 
 L<https://github.com/nigelhorne>
 
-=head1 LICENSE
+=head1 LICENCE
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+Copyright 2025-2026 Nigel Horne.
+
+Usage is subject to license terms.
 
 =cut
 
