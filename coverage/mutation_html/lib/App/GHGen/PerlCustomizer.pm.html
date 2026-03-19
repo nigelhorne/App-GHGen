@@ -345,7 +345,7 @@ pre details.mutant-details ul {
 </span><span class="">  145: 	$yaml .= &quot;      - name: Setup Perl\n&quot;;
 </span><span class="">  146: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1\n&quot;;
 </span><span class="">  147: 	$yaml .= &quot;        with:\n&quot;;
-</span><span class="">  148: 	$yaml .= &quot;         perl-version: \${{ matrix.perl }}\n\n&quot;;
+</span><span class="">  148: 	$yaml .= &quot;          perl-version: \${{ matrix.perl }}\n\n&quot;;
 </span><span class="">  149: 
 </span><span class="">  150: 	$yaml .= &quot;      - name: Cache CPAN modules\n&quot;;
 </span><span class="">  151: 	$yaml .= &quot;        uses: actions/cache\@v5\n&quot;;
