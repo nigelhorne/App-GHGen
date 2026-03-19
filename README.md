@@ -896,6 +896,7 @@ Review the remaining suggestions and apply manually.
 
 # SEE ALSO
 
+- [GitHub Marketplace Releases](https://github.com/marketplace/actions/ghgen-workflow-analyzer)
 - [Test Dashboard](https://nigelhorne.github.io/App-GHGen/coverage/)
 - [App::Test::Generator](https://metacpan.org/pod/App%3A%3ATest%3A%3AGenerator)
 

@@ -1172,6 +1172,8 @@ B<Solution:>
 
 =over 4
 
+=item * L<GitHub Marketplace Releases|https://github.com/marketplace/actions/ghgen-workflow-analyzer>
+
 =item * L<Test Dashboard|https://nigelhorne.github.io/App-GHGen/coverage/>
 
 =item * L<App::Test::Generator>
