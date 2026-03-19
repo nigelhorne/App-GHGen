@@ -12,7 +12,7 @@ our @EXPORT_OK = qw(
 	generate_custom_perl_workflow
 );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
