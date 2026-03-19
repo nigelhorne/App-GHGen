@@ -145,7 +145,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	$yaml .= "      - name: Setup Perl\n";
 	$yaml .= "        uses: shogo82148/actions-setup-perl\@v1\n";
 	$yaml .= "        with:\n";
-	$yaml .= "         perl-version: \${{ matrix.perl }}\n\n";
+	$yaml .= "          perl-version: \${{ matrix.perl }}\n\n";
 
 	$yaml .= "      - name: Cache CPAN modules\n";
 	$yaml .= "        uses: actions/cache\@v5\n";

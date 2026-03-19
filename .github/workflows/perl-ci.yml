@@ -45,7 +45,7 @@ jobs:
       - name: Setup Perl
         uses: shogo82148/actions-setup-perl@v1
         with:
-         perl-version: ${{ matrix.perl }}
+          perl-version: ${{ matrix.perl }}
 
       - name: Cache CPAN modules
         uses: actions/cache@v5

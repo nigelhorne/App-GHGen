@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      
+
       - name: Analyze workflows
         uses: nigelhorne/ghgen-action@v1
         with:
