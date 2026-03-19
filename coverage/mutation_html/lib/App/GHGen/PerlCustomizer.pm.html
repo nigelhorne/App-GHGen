@@ -334,66 +334,66 @@ pre details.mutant-details ul {
 </span><span class="">  134: 	for my $version (@perl_versions) {
 </span><span class="">  135: 		$yaml .= &quot;          - &#39;$version&#39;\n&quot;;
 </span><span class="">  136: 	}
-</span><span class="">  137: 	$yaml .= &quot;      name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
-</span><span class="">  138: 	$yaml .= &quot;      env:\n&quot;;
-</span><span class="">  139: 	$yaml .= &quot;        AUTOMATED_TESTING: 1\n&quot;;
-</span><span class="">  140: 	$yaml .= &quot;        NO_NETWORK_TESTING: 1\n&quot;;
-</span><span class="">  141: 	$yaml .= &quot;        NONINTERACTIVE_TESTING: 1\n&quot;;
-</span><span class="">  142: 	$yaml .= &quot;      steps:\n&quot;;
-</span><span class="">  143: 	$yaml .= &quot;        - uses: actions/checkout\@v6\n\n&quot;;
+</span><span class="">  137: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
+</span><span class="">  138: 	$yaml .= &quot;    env:\n&quot;;
+</span><span class="">  139: 	$yaml .= &quot;      AUTOMATED_TESTING: 1\n&quot;;
+</span><span class="">  140: 	$yaml .= &quot;      NO_NETWORK_TESTING: 1\n&quot;;
+</span><span class="">  141: 	$yaml .= &quot;      NONINTERACTIVE_TESTING: 1\n&quot;;
+</span><span class="">  142: 	$yaml .= &quot;    steps:\n&quot;;
+</span><span class="">  143: 	$yaml .= &quot;      - uses: actions/checkout\@v6\n\n&quot;;
 </span><span class="">  144: 
-</span><span class="">  145: 	$yaml .= &quot;        - name: Setup Perl\n&quot;;
-</span><span class="">  146: 	$yaml .= &quot;          uses: shogo82148/actions-setup-perl\@v1\n&quot;;
-</span><span class="">  147: 	$yaml .= &quot;          with:\n&quot;;
-</span><span class="">  148: 	$yaml .= &quot;            perl-version: \${{ matrix.perl }}\n\n&quot;;
+</span><span class="">  145: 	$yaml .= &quot;      - name: Setup Perl\n&quot;;
+</span><span class="">  146: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1\n&quot;;
+</span><span class="">  147: 	$yaml .= &quot;        with:\n&quot;;
+</span><span class="">  148: 	$yaml .= &quot;         perl-version: \${{ matrix.perl }}\n\n&quot;;
 </span><span class="">  149: 
-</span><span class="">  150: 	$yaml .= &quot;        - name: Cache CPAN modules\n&quot;;
-</span><span class="">  151: 	$yaml .= &quot;          uses: actions/cache\@v5\n&quot;;
-</span><span class="">  152: 	$yaml .= &quot;          with:\n&quot;;
-</span><span class="">  153: 	$yaml .= &quot;            path: ~/perl5\n&quot;;
-</span><span class="">  154: 	$yaml .= &quot;            key: \${{ runner.os }}-\${{ matrix.perl }}-\${{ hashFiles(&#39;cpanfile&#39;) }}\n&quot;;
-</span><span class="">  155: 	$yaml .= &quot;            restore-keys: |\n&quot;;
-</span><span class="">  156: 	$yaml .= &quot;              \${{ runner.os }}-\${{ matrix.perl }}-\n\n&quot;;
+</span><span class="">  150: 	$yaml .= &quot;      - name: Cache CPAN modules\n&quot;;
+</span><span class="">  151: 	$yaml .= &quot;        uses: actions/cache\@v5\n&quot;;
+</span><span class="">  152: 	$yaml .= &quot;        with:\n&quot;;
+</span><span class="">  153: 	$yaml .= &quot;          path: ~/perl5\n&quot;;
+</span><span class="">  154: 	$yaml .= &quot;          key: \${{ runner.os }}-\${{ matrix.perl }}-\${{ hashFiles(&#39;cpanfile&#39;) }}\n&quot;;
+</span><span class="">  155: 	$yaml .= &quot;          restore-keys: |\n&quot;;
+</span><span class="">  156: 	$yaml .= &quot;            \${{ runner.os }}-\${{ matrix.perl }}-\n\n&quot;;
 </span><span class="">  157: 
-</span><span class="">  158: 	$yaml .= &quot;        - name: Install cpanm and local::lib\n&quot;;
-</span><span class="">  159: 	$yaml .= &quot;          if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  160: 	$yaml .= &quot;          run: cpanm --notest --local-lib=~/perl5 local::lib\n\n&quot;;
+</span><span class="">  158: 	$yaml .= &quot;      - name: Install cpanm and local::lib\n&quot;;
+</span><span class="">  159: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  160: 	$yaml .= &quot;        run: cpanm --notest --local-lib=~/perl5 local::lib\n\n&quot;;
 </span><span class="">  161: 
-</span><span class="">  162: 	$yaml .= &quot;        - name: Install cpanm and local::lib (Windows)\n&quot;;
-</span><span class="">  163: 	$yaml .= &quot;          if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  164: 	$yaml .= &quot;          run: cpanm --notest App::cpanminus local::lib\n\n&quot;;
+</span><span class="">  162: 	$yaml .= &quot;      - name: Install cpanm and local::lib (Windows)\n&quot;;
+</span><span class="">  163: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  164: 	$yaml .= &quot;        run: cpanm --notest App::cpanminus local::lib\n\n&quot;;
 </span><span class="">  165: 
-</span><span class="">  166: 	$yaml .= &quot;        - name: Install dependencies\n&quot;;
-</span><span class="">  167: 	$yaml .= &quot;          if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  168: 	$yaml .= &quot;          shell: bash\n&quot;;
-</span><span class="">  169: 	$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  170: 	$yaml .= &quot;            eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  171: 	$yaml .= &quot;            cpanm --notest --installdeps .\n\n&quot;;
+</span><span class="">  166: 	$yaml .= &quot;      - name: Install dependencies\n&quot;;
+</span><span class="">  167: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  168: 	$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  169: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  170: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  171: 	$yaml .= &quot;          cpanm --notest --installdeps .\n\n&quot;;
 </span><span class="">  172: 
-</span><span class="">  173: 	$yaml .= &quot;        - name: Install dependencies (Windows)\n&quot;;
-</span><span class="">  174: 	$yaml .= &quot;          if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  175: 	$yaml .= &quot;          shell: cmd\n&quot;;
-</span><span class="">  176: 	$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  177: 	$yaml .= &quot;            \@echo off\n&quot;;
-</span><span class="">  178: 	$yaml .= &quot;            set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
-</span><span class="">  179: 	$yaml .= &quot;            set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="">  180: 	$yaml .= &quot;            cpanm --notest --installdeps .\n\n&quot;;
+</span><span class="">  173: 	$yaml .= &quot;      - name: Install dependencies (Windows)\n&quot;;
+</span><span class="">  174: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  175: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  176: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  177: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  178: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  179: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
+</span><span class="">  180: 	$yaml .= &quot;          cpanm --notest --installdeps .\n\n&quot;;
 </span><span class="">  181: 
-</span><span class="">  182: 	$yaml .= &quot;        - name: Run tests\n&quot;;
-</span><span class="">  183: 	$yaml .= &quot;          if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  184: 	$yaml .= &quot;          shell: bash\n&quot;;
-</span><span class="">  185: 	$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  186: 	$yaml .= &quot;            eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  187: 	$yaml .= &quot;            prove -lr t/\n\n&quot;;
+</span><span class="">  182: 	$yaml .= &quot;      - name: Run tests\n&quot;;
+</span><span class="">  183: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  184: 	$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  185: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  186: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  187: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
 </span><span class="">  188: 
-</span><span class="">  189: 	$yaml .= &quot;        - name: Run tests (Windows)\n&quot;;
-</span><span class="">  190: 	$yaml .= &quot;          if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  191: 	$yaml .= &quot;          shell: cmd\n&quot;;
-</span><span class="">  192: 	$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  193: 	$yaml .= &quot;            \@echo off\n&quot;;
-</span><span class="">  194: 	$yaml .= &quot;            set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
-</span><span class="">  195: 	$yaml .= &quot;            set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="">  196: 	$yaml .= &quot;            prove -lr t/\n\n&quot;;
+</span><span class="">  189: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
+</span><span class="">  190: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  191: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  192: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  193: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  194: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  195: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
+</span><span class="">  196: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
 </span><span class="">  197: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  198: 	if ($enable_critic) {
 </span>
@@ -403,14 +403,14 @@ pre details.mutant-details ul {
 			<li><b>COND_INV_198: Invert condition</b></li>
 </ul></details>
 <span class="">  199: 		my $latest = $perl_versions[-1];
-</span><span class="">  200: 		$yaml .= &quot;        - name: Run Perl::Critic\n&quot;;
-</span><span class="">  201: 		$yaml .= &quot;          if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  202: 		$yaml .= &quot;          continue-on-error: true\n&quot;;
-</span><span class="">  203: 		$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  204: 		$yaml .= &quot;            eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  205: 		$yaml .= &quot;            cpanm --notest Perl::Critic\n&quot;;
-</span><span class="">  206: 		$yaml .= &quot;            perlcritic --severity 3 lib/ || true\n&quot;;
-</span><span class="">  207: 		$yaml .= &quot;          shell: bash\n\n&quot;;
+</span><span class="">  200: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
+</span><span class="">  201: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
+</span><span class="">  202: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
+</span><span class="">  203: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  204: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  205: 		$yaml .= &quot;          cpanm --notest Perl::Critic\n&quot;;
+</span><span class="">  206: 		$yaml .= &quot;          perlcritic --severity 3 lib/ || true\n&quot;;
+</span><span class="">  207: 		$yaml .= &quot;        shell: bash\n\n&quot;;
 </span><span class="">  208: 	}
 </span><span class="">  209: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  210: 	if ($enable_coverage) {
@@ -421,27 +421,27 @@ pre details.mutant-details ul {
 			<li><b>COND_INV_210: Invert condition</b></li>
 </ul></details>
 <span class="">  211: 		my $latest = $perl_versions[-1];
-</span><span class="">  212: 		$yaml .= &quot;        - name: Test coverage\n&quot;;
-</span><span class="">  213: 		$yaml .= &quot;          if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  214: 		$yaml .= &quot;          run: |\n&quot;;
-</span><span class="">  215: 		$yaml .= &quot;            eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  216: 		$yaml .= &quot;            cpanm --notest Devel::Cover\n&quot;;
-</span><span class="">  217: 		$yaml .= &quot;            cover -delete\n&quot;;
-</span><span class="">  218: 		$yaml .= &quot;            HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n&quot;;
-</span><span class="">  219: 		$yaml .= &quot;            cover\n&quot;;
-</span><span class="">  220: 		$yaml .= &quot;          shell: bash\n&quot;;
+</span><span class="">  212: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
+</span><span class="">  213: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
+</span><span class="">  214: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  215: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  216: 		$yaml .= &quot;          cpanm --notest Devel::Cover\n&quot;;
+</span><span class="">  217: 		$yaml .= &quot;          cover -delete\n&quot;;
+</span><span class="">  218: 		$yaml .= &quot;          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n&quot;;
+</span><span class="">  219: 		$yaml .= &quot;          cover\n&quot;;
+</span><span class="">  220: 		$yaml .= &quot;        shell: bash\n&quot;;
 </span><span class="">  221: 	}
 </span><span class="">  222: 
 </span><span class="">  223: 	$yaml .= &lt;&lt;&#39;YAML&#39;;
 </span><span class="">  224: 
-</span><span class="">  225:         - name: Show cpanm build log on failure (Windows)
-</span><span class="">  226:           if: runner.os == &#39;Windows&#39; &amp;&amp; failure()
-</span><span class="">  227:           shell: pwsh
-</span><span class="">  228:           run: Get-Content &quot;$env:USERPROFILE\.cpanm\work\*\build.log&quot; -Tail 100
+</span><span class="">  225:       - name: Show cpanm build log on failure (Windows)
+</span><span class="">  226:         if: runner.os == &#39;Windows&#39; &amp;&amp; failure()
+</span><span class="">  227:         shell: pwsh
+</span><span class="">  228:         run: Get-Content &quot;$env:USERPROFILE\.cpanm\work\*\build.log&quot; -Tail 100
 </span><span class="">  229: 
-</span><span class="">  230:         - name: Show cpanm build log on failure (non-Windows)
-</span><span class="">  231:           if: runner.os != &#39;Windows&#39; &amp;&amp; failure()
-</span><span class="">  232:           run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
+</span><span class="">  230:       - name: Show cpanm build log on failure (non-Windows)
+</span><span class="">  231:         if: runner.os != &#39;Windows&#39; &amp;&amp; failure()
+</span><span class="">  232:         run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
 </span><span class="">  233: YAML
 </span><span class="">  234: 
 </span><span class="">  235: 	return $yaml;
