@@ -4,6 +4,13 @@ use v5.36;
 use strict;
 use warnings;
 
+# TODO: consider something like this:
+# - name: Lint, Syntax & Tests
+# run: |
+#   perl -MO=Lint Allow.pm
+#   perl -cwT -Mwarnings::unused $(find lib -name *.pm)
+#   prove -I. t/
+
 use Path::Tiny;
 
 use Exporter 'import';

@@ -31,10 +31,8 @@ WriteMakefile(
 		'Test::Exception' => 0,
 		'Test::Most'  => 0
 	},
-
 	# EXE_FILES => ['bin/ghgen', 'bin/ghgen-analyze', 'bin/ghgen-generator'],
 	EXE_FILES => ['bin/ghgen'],
-
 	dist => $dist,
 	clean => { FILES => 'App-GHGen-*' },
 	META_MERGE => {	# https://perldoc.perl.org/CPAN::Meta::Spec
