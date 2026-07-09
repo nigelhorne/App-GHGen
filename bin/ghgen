@@ -256,7 +256,7 @@ sub cmd_analyze() {
 				" CI minutes/month";
 			say "  Reduction: " . colored(['green'], "-$savings->{minutes} minutes") .
 				" (" . colored(['green'], "$savings->{percentage}%") . ")";
-			say "  Cost savings: " . colored(['green'], "\$savings->{cost}/month") .
+			say "  Cost savings: " . colored(['green'], "\$$savings->{cost}/month") .
 				" (for private repos)";
 
 			if (@{$savings->{details}}) {
