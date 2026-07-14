@@ -12,7 +12,9 @@ on 'test' => sub {
 	requires 'Test::DescribeMe';
 	requires 'Test::Exception';
 	requires 'Test::Most';
+	requires 'Test::Returns';
 };
+
 on 'develop' => sub {
 	requires 'Devel::Cover';
 	requires 'Perl::Critic';

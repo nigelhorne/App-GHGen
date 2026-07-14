@@ -21,15 +21,16 @@ WriteMakefile(
 		? ('LICENSE'=> 'gpl_2')
 		: ()),
 	PREREQ_PM => {
-		'YAML::XS'       => 0,
-		'Path::Tiny'     => 0,
+		'YAML::XS' => 0,
+		'Path::Tiny' => 0,
 		'Term::ANSIColor'=> 0,
-		'Getopt::Long'   => 0,
+		'Getopt::Long' => 0,
 	}, TEST_REQUIRES => {
 		'IPC::Run3' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::Exception' => 0,
-		'Test::Most'  => 0
+		'Test::Most' => 0,
+		'Test::Returns' => 0,
 	},
 	# EXE_FILES => ['bin/ghgen', 'bin/ghgen-analyze', 'bin/ghgen-generator'],
 	EXE_FILES => ['bin/ghgen'],
@@ -44,7 +45,7 @@ WriteMakefile(
 				type => 'git',
 				url => 'git://github.com/nigelhorne/App-GHGen.git',
 				web => 'https://github.com/nigelhorne/App-GHGen',
-				# license    => 'http://dev.perl.org/licenses/',
+				# license => 'http://dev.perl.org/licenses/',
 			}, bugtracker => {
 				web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=App-GHGen',
 				url => 'https://rt.cpan.org/Public/Dist/Display.html?Name=App-GHGen',
