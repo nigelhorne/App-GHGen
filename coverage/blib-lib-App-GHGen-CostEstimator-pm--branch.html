@@ -20,22 +20,22 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/App/GHGen/CostEstimator.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">74.4%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c1">82.1%</td></tr>
 </table>
 <div><br/></div>
 <table>
 <tr><th>line</th><th>%</th><th colspan="2">coverage</th><th>branch</th></tr>
 <tr><td class="h"><a id="L129">129</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$total_minutes &gt; $free_tier ? :</td></tr>
-<tr><td class="h"><a id="L341">341</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">@$workflows ? :</td></tr>
+<tr><td class="h"><a id="L341">341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">@$workflows ? :</td></tr>
 <tr><td class="h"><a id="L347">347</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;type&#39;} eq &#39;performance&#39;) { }</td></tr>
-<tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;cost&#39;) { }</td></tr>
-<tr><td class="h"><a id="L348">348</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($issue-&gt;{&#39;message&#39;} =~ /caching/u)</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;cost&#39;) { }</td></tr>
+<tr><td class="h"><a id="L348">348</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;message&#39;} =~ /caching/u)</td></tr>
 <tr><td class="h"><a id="L356">356</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;message&#39;} =~ /concurrency/u) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($issue-&gt;{&#39;message&#39;} =~ /triggers/u) { }</td></tr>
 <tr><td class="h"><a id="L359">359</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($current_usage) { }</td></tr>
 <tr><td class="h"><a id="L369">369</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($current_usage) { }</td></tr>
-<tr><td class="h"><a id="L378">378</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($saving &gt; 0)</td></tr>
-<tr><td class="h"><a id="L389">389</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($current_usage and $current_usage-&gt;{&#39;total_minutes&#39;} &gt; 0) { }</td></tr>
+<tr><td class="h"><a id="L378">378</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($saving &gt; 0)</td></tr>
+<tr><td class="h"><a id="L389">389</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($current_usage and $current_usage-&gt;{&#39;total_minutes&#39;} &gt; 0) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($savings{&#39;minutes&#39;} &gt; 0) { }</td></tr>
 <tr><td class="h"><a id="L402">402</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $on = $workflow-&gt;{&#39;on&#39;}</td></tr>
 <tr><td class="h"><a id="L407">407</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $on eq &#39;ARRAY&#39;) { }</td></tr>
@@ -57,7 +57,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L510">510</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (install|ci)/u) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /pip install/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /cargo build/u) { }</td></tr>
-<tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($run =~ /(npm|pytest|cargo|go) test/u) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /(npm|pytest|cargo|go) test/u) { }</td></tr>
 <tr><td class="h"><a id="L532">532</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L537">537</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $job-&gt;{&#39;strategy&#39;}</td></tr>
 <tr><td class="h"><a id="L538">538</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $job-&gt;{&#39;strategy&#39;}{&#39;matrix&#39;}</td></tr>
