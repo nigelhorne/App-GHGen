@@ -175,6 +175,18 @@ sub _customize_perl() {
 
     # Code quality
     say colored(['bold'], "Code Quality Tools:");
+    $config{enable_linter} = prompt_yes_no(
+        "Enable syntax linting (perl -c on all matrix cells)?",
+        'y'
+    );
+    say '';
+
+    $config{enable_linter_unused} = prompt_yes_no(
+        "Enable unused-variable check (warnings::unused, latest+ubuntu only)?",
+        'n'
+    );
+    say '';
+
     $config{enable_critic} = prompt_yes_no(
         "Enable Perl::Critic?",
         'y'

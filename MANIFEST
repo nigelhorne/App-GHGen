@@ -22,6 +22,7 @@ t/detector.t
 t/eof.t
 t/eol.t
 t/kwalitee.t
+t/linter.t
 t/pod-cm.t
 t/pod-coverage.t
 t/pod-synopsis.t

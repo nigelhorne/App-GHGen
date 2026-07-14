@@ -200,13 +200,17 @@ For Perl, you'll be asked:
 
 =over 4
 
-=item * B<Perl versions to test> - Select from 5.22 through 5.40 (multi-select with defaults)
+=item * B<Perl versions to test> - Select from 5.22 through 5.42 (multi-select with defaults)
 
 =item * B<Operating systems> - Ubuntu, macOS, Windows (multi-select)
 
-=item * B<Enable Perl::Critic> - Code quality analysis (yes/no)
+=item * B<Enable syntax linting> - C<perl -c> check on all C<.pm> files, run across every matrix cell; requires no extra CPAN modules (yes/no, default: yes)
 
-=item * B<Enable Devel::Cover> - Test coverage (yes/no)
+=item * B<Enable unused-variable check> - C<warnings::unused> check, latest Perl + Ubuntu only (yes/no, default: no)
+
+=item * B<Enable Perl::Critic> - Code quality analysis, latest Perl + Ubuntu only (yes/no, default: yes)
+
+=item * B<Enable Devel::Cover> - Test coverage, latest Perl + Ubuntu only (yes/no, default: yes)
 
 =item * B<Branch configuration> - Which branches to run on
 
@@ -234,6 +238,11 @@ Example session:
       ✓ 3. windows-latest
 
     Enter choices [1,2,3]: 1,2
+
+    Code Quality Tools:
+    Enable syntax linting (perl -c on all matrix cells)? [Y/n]: y
+
+    Enable unused-variable check (warnings::unused, latest+ubuntu only)? [y/N]: n
 
     Enable Perl::Critic? [Y/n]: y
     Enable test coverage? [Y/n]: y
@@ -561,19 +570,23 @@ B<Features:>
 
 =item * Multi-OS testing (Ubuntu, macOS, Windows)
 
-=item * Multiple Perl versions (5.22 through 5.40, customizable)
+=item * Multiple Perl versions (5.22 through 5.42, customizable)
 
-=item * Smart version detection from cpanfile, Makefile.PL, dist.ini
+=item * Smart minimum-version detection from cpanfile, Makefile.PL, or dist.ini
 
 =item * CPAN module caching with local::lib
 
-=item * Perl::Critic integration for code quality
+=item * B<Syntax linting> with C<perl -c> across every matrix cell — catches compile-time errors on every tested OS and Perl version with no extra CPAN dependencies
 
-=item * Devel::Cover for test coverage
+=item * Optional B<unused-variable check> via L<warnings::unused> (latest Perl + Ubuntu only)
+
+=item * Perl::Critic integration for code quality (latest Perl + Ubuntu only)
+
+=item * Devel::Cover for test coverage (latest Perl + Ubuntu only)
 
 =item * Proper environment variables (AUTOMATED_TESTING, NO_NETWORK_TESTING, NONINTERACTIVE_TESTING)
 
-=item * Cross-platform compatibility (bash for Unix, cmd for Windows)
+=item * Cross-platform compatibility (C<shell: perl {0}> for linting; bash/cmd for tests)
 
 =back
 
@@ -581,25 +594,43 @@ B<Example:>
 
     ghgen generate --type=perl --customize
 
-B<Generated workflow includes:>
+B<Generated workflow step order:>
 
 =over 4
 
-=item * actions/checkout@v6
+=item 1. C<actions/checkout@v6>
 
-=item * actions/cache@v5 for CPAN modules
+=item 2. Setup Perl — C<shogo82148/actions-setup-perl@v1>
 
-=item * shogo82148/actions-setup-perl@v1
+=item 3. Cache CPAN modules — C<actions/cache@v5>
 
-=item * Matrix testing across OS and Perl versions
+=item 4. Install cpanm and C<local::lib>
 
-=item * Conditional Perl::Critic (latest Perl + Ubuntu only)
+=item 5. Install project dependencies
 
-=item * Conditional coverage (latest Perl + Ubuntu only)
+=item 6. B<Lint and syntax check> — all matrix cells (enabled by default)
 
-=item * Security permissions
+=item 7. Run tests
 
-=item * Concurrency controls
+=item 8. B<Check for unused variables> — latest Perl + Ubuntu only (opt-in)
+
+=item 9. Run Perl::Critic — latest Perl + Ubuntu only (enabled by default)
+
+=item 10. Test coverage — latest Perl + Ubuntu only (enabled by default)
+
+=item 11. Show cpanm build log on failure
+
+=back
+
+B<Workflow-level features:>
+
+=over 4
+
+=item * Security C<permissions: contents: read>
+
+=item * Concurrency group cancels superseded runs
+
+=item * C<fail-fast: false> so every matrix cell completes
 
 =back
 
@@ -1318,9 +1349,9 @@ See L<https://github.com/nigelhorne/App-GHGen/graphs/contributors>
 
 Copyright 2025-2026 Nigel Horne.
 
-Usage is subject to license terms.
-
-The license terms of this software are as follows:
+Usage is subject to the GPL2 licence terms.
+If you use it,
+please let me know.
 
 =cut
 

@@ -6,6 +6,20 @@ Revision history for App-GHGen
 	  Missing unescaped $ failed to interpolate variable into double-quoted string
 	  Thanks to https://github.com/chromatic
 
+	[ New Features ]
+	- Added Perl syntax linting step to generated workflows (enable_linter, default: on)
+	  Uses shell: perl {0} so it runs cross-platform without OS-specific branching.
+	  Searches lib/ and bin/, runs perl -Mstrict -Mwarnings -c on every .pm file,
+	  and covers every matrix cell (all OS × Perl version combinations).
+	  No extra CPAN dependencies required.
+	- Added optional unused-variable check step (enable_linter_unused, default: off)
+	  Installs warnings::unused from CPAN and runs on latest Perl + ubuntu-latest only.
+	  Marked continue-on-error: true as warnings can be noisy on some codebases.
+	- Both options are exposed in the interactive --customize prompt for Perl workflows
+	  under the "Code Quality Tools" heading.
+	- Regression test added in t/pull_6.t for the PR #6 cost-display bug fix.
+	- Tests added in t/linter.t covering presence/absence and ordering of new steps.
+
 0.05	Thu Mar 19 10:36:44 EDT 2026
 	- Fix tabs that had crept in
 

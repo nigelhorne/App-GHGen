@@ -99,6 +99,8 @@ sub cmd_generate() {
 			max_perl_version => $perl_versions[-1],
 			perl_versions => \@perl_versions,
 			os => $config->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest'],
+			enable_linter => $config->{enable_linter} // 1,
+			enable_linter_unused => $config->{enable_linter_unused} // 0,
 			enable_critic => $config->{enable_critic} // 1,
 			enable_coverage => $config->{enable_coverage} // 1,
 			timeout => $opts{timeout},
@@ -418,6 +420,8 @@ sub min($a, $b) {
 
 __END__
 
+=encoding utf-8
+
 =head1 NAME
 
 ghgen - GitHub Actions workflow generator and analyzer
@@ -463,6 +467,26 @@ Options:
    --interactive, -i   Interactive mode to select type
    --list, -l          List available workflow types
    --timeout MINUTES   Set job timeout-minutes for Perl workflows (default: 30)
+
+For Perl projects, C<--customize> presents the following options:
+
+=over 4
+
+=item * Which Perl versions to test (5.22 through 5.42)
+
+=item * Which operating systems to target (Ubuntu, macOS, Windows)
+
+=item * B<Syntax linting> — C<perl -c> on every matrix cell, no extra CPAN deps (default: enabled)
+
+=item * B<Unused-variable check> — C<warnings::unused>, latest Perl + Ubuntu only (default: disabled)
+
+=item * B<Perl::Critic> code quality analysis, latest Perl + Ubuntu only (default: enabled)
+
+=item * B<Devel::Cover> test coverage, latest Perl + Ubuntu only (default: enabled)
+
+=item * Which branches to run on
+
+=back
 
 =head2 analyze
 

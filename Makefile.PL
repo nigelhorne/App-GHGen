@@ -18,7 +18,7 @@ WriteMakefile(
 	VERSION_FROM   => 'lib/App/GHGen.pm',
 	ABSTRACT_FROM  => 'lib/App/GHGen.pm',
 	((defined($ExtUtils::MakeMaker::VERSION) && ($ExtUtils::MakeMaker::VERSION >= 6.3002))
-		? ('LICENSE'=> 'GPL')
+		? ('LICENSE'=> 'gpl_2')
 		: ()),
 	PREREQ_PM => {
 		'YAML::XS'       => 0,
