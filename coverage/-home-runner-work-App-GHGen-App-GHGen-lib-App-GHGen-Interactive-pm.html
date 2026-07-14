@@ -20,17 +20,17 @@ https://pjcj.net
 <h1>File Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">/home/runner/work/App-GHGen/App-GHGen/lib/App/GHGen/Interactive.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">7.1%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">7.0%</td></tr>
 </table>
 <div><br/></div>
 <table>
 <tr><th>line</th><th>stmt</th><th>bran</th><th>cond</th><th>sub</th><th>time</th><th>code</th></tr>
 <tr><td class="h">1</td><td></td><td></td><td></td><td></td><td></td><td class="s">package App::GHGen::Interactive;</td></tr>
 <tr><td class="h">2</td><td colspan="6"></td></tr><tr><td class="h">3</td><td><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L3">1</a></div></td><td><div>4</div><div>2</div></td><td class="s">use v5.36;</td></tr>
-<tr><td class="h">4</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L4">1</a></div></td><td><div>1</div><div>0</div><div>8</div></td><td class="s">use strict;</td></tr>
-<tr><td class="h">5</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L5">1</a></div></td><td><div>1</div><div>0</div><div>20</div></td><td class="s">use warnings;</td></tr>
-<tr><td class="h">6</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L6">1</a></div></td><td><div>1</div><div>0</div><div>19</div></td><td class="s">use Term::ANSIColor qw(colored);</td></tr>
-<tr><td class="h">7</td><td colspan="6"></td></tr><tr><td class="h">8</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L8">1</a></div></td><td><div>1</div><div>0</div><div>894</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
+<tr><td class="h">4</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L4">1</a></div></td><td><div>1</div><div>1</div><div>7</div></td><td class="s">use strict;</td></tr>
+<tr><td class="h">5</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L5">1</a></div></td><td><div>1</div><div>1</div><div>17</div></td><td class="s">use warnings;</td></tr>
+<tr><td class="h">6</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L6">1</a></div></td><td><div>1</div><div>0</div><div>46</div></td><td class="s">use Term::ANSIColor qw(colored);</td></tr>
+<tr><td class="h">7</td><td colspan="6"></td></tr><tr><td class="h">8</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L8">1</a></div></td><td><div>2</div><div>1</div><div>836</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
 <tr><td class="h">9</td><td></td><td></td><td></td><td></td><td></td><td class="s">our @EXPORT_OK = qw(</td></tr>
 <tr><td class="h">10</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt_yes_no</td></tr>
 <tr><td class="h">11</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt_choice</td></tr>
@@ -169,219 +169,229 @@ Returns hash of configuration options.
 <tr><td class="h">174</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
 <tr><td class="h">175</td><td colspan="6"></td></tr><tr><td class="h">176</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Code quality</td></tr>
 <tr><td class="h">177</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);</td></tr>
-<tr><td class="h">178</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_critic} = prompt_yes_no(</td></tr>
-<tr><td class="h">179</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable Perl::Critic?&quot;,</td></tr>
+<tr><td class="h">178</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_linter} = prompt_yes_no(</td></tr>
+<tr><td class="h">179</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable syntax linting (perl -c on all matrix cells)?&quot;,</td></tr>
 <tr><td class="h">180</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
 <tr><td class="h">181</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
 <tr><td class="h">182</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">183</td><td colspan="6"></td></tr><tr><td class="h">184</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Coverage</td></tr>
-<tr><td class="h">185</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
-<tr><td class="h">186</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage (Devel::Cover)?&quot;,</td></tr>
-<tr><td class="h">187</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">188</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">189</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">190</td><td colspan="6"></td></tr><tr><td class="h">191</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
-<tr><td class="h">192</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);</td></tr>
-<tr><td class="h">193</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">194</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">195</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,master&#39;</td></tr>
-<tr><td class="h">196</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">197</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">198</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">199</td><td colspan="6"></td></tr><tr><td class="h">200</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">201</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">202</td><td colspan="6"></td></tr><tr><td class="h">203</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L203">0</a></div></td><td></td><td class="s">sub _customize_node() {</td></tr>
-<tr><td class="h">204</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">205</td><td colspan="6"></td></tr><tr><td class="h">206</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Node versions</td></tr>
-<tr><td class="h">207</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);</td></tr>
-<tr><td class="h">208</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(18.x 20.x 22.x 23.x);</td></tr>
-<tr><td class="h">209</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(20.x 22.x);</td></tr>
-<tr><td class="h">210</td><td colspan="6"></td></tr><tr><td class="h">211</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{node_versions} = prompt_multiselect(</td></tr>
-<tr><td class="h">212</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Node.js versions?&quot;,</td></tr>
-<tr><td class="h">213</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
-<tr><td class="h">214</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
-<tr><td class="h">215</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">216</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">217</td><td colspan="6"></td></tr><tr><td class="h">218</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Package manager</td></tr>
-<tr><td class="h">219</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);</td></tr>
-<tr><td class="h">220</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $pm_choice = prompt_choice(</td></tr>
-<tr><td class="h">221</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which package manager?&quot;,</td></tr>
-<tr><td class="h">222</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],</td></tr>
-<tr><td class="h">223</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td></tr>
-<tr><td class="h">224</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">225</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];</td></tr>
-<tr><td class="h">226</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">227</td><td colspan="6"></td></tr><tr><td class="h">228</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Linting</td></tr>
-<tr><td class="h">229</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_lint} = prompt_yes_no(</td></tr>
-<tr><td class="h">230</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable linting?&quot;,</td></tr>
-<tr><td class="h">231</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">232</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">233</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">234</td><td colspan="6"></td></tr><tr><td class="h">235</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Build step</td></tr>
-<tr><td class="h">236</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_build} = prompt_yes_no(</td></tr>
-<tr><td class="h">237</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable build step?&quot;,</td></tr>
-<tr><td class="h">238</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">239</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">240</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">241</td><td colspan="6"></td></tr><tr><td class="h">242</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
-<tr><td class="h">243</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">244</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">245</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,develop&#39;</td></tr>
-<tr><td class="h">246</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">247</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">248</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">249</td><td colspan="6"></td></tr><tr><td class="h">250</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">251</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">252</td><td colspan="6"></td></tr><tr><td class="h">253</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L253">0</a></div></td><td></td><td class="s">sub _customize_python() {</td></tr>
-<tr><td class="h">254</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">255</td><td colspan="6"></td></tr><tr><td class="h">256</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Python versions</td></tr>
-<tr><td class="h">257</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);</td></tr>
-<tr><td class="h">258</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);</td></tr>
-<tr><td class="h">259</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(3.11 3.12);</td></tr>
-<tr><td class="h">260</td><td colspan="6"></td></tr><tr><td class="h">261</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{python_versions} = prompt_multiselect(</td></tr>
-<tr><td class="h">262</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Python versions?&quot;,</td></tr>
-<tr><td class="h">263</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
-<tr><td class="h">264</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
-<tr><td class="h">265</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">266</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">267</td><td colspan="6"></td></tr><tr><td class="h">268</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Linting</td></tr>
-<tr><td class="h">269</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);</td></tr>
-<tr><td class="h">270</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_flake8} = prompt_yes_no(</td></tr>
-<tr><td class="h">271</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable flake8 linting?&quot;,</td></tr>
-<tr><td class="h">272</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">273</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">274</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">275</td><td colspan="6"></td></tr><tr><td class="h">276</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_black} = prompt_yes_no(</td></tr>
-<tr><td class="h">277</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable black formatter check?&quot;,</td></tr>
-<tr><td class="h">278</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;n&#39;</td></tr>
-<tr><td class="h">279</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">280</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">281</td><td colspan="6"></td></tr><tr><td class="h">282</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Coverage</td></tr>
-<tr><td class="h">283</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
-<tr><td class="h">284</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage?&quot;,</td></tr>
-<tr><td class="h">285</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">286</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">287</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">288</td><td colspan="6"></td></tr><tr><td class="h">289</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
-<tr><td class="h">290</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">291</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">292</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,develop&#39;</td></tr>
-<tr><td class="h">293</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">294</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">295</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">296</td><td colspan="6"></td></tr><tr><td class="h">297</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">298</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">299</td><td colspan="6"></td></tr><tr><td class="h">300</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L300">0</a></div></td><td></td><td class="s">sub _customize_rust() {</td></tr>
-<tr><td class="h">301</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">302</td><td colspan="6"></td></tr><tr><td class="h">303</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);</td></tr>
-<tr><td class="h">304</td><td colspan="6"></td></tr><tr><td class="h">305</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_fmt} = prompt_yes_no(</td></tr>
-<tr><td class="h">306</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable formatting check (cargo fmt)?&quot;,</td></tr>
-<tr><td class="h">307</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">308</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">309</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">310</td><td colspan="6"></td></tr><tr><td class="h">311</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_clippy} = prompt_yes_no(</td></tr>
-<tr><td class="h">312</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable clippy linting?&quot;,</td></tr>
-<tr><td class="h">313</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">314</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">315</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">316</td><td colspan="6"></td></tr><tr><td class="h">317</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_release} = prompt_yes_no(</td></tr>
-<tr><td class="h">318</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Build release binary?&quot;,</td></tr>
+<tr><td class="h">183</td><td colspan="6"></td></tr><tr><td class="h">184</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_linter_unused} = prompt_yes_no(</td></tr>
+<tr><td class="h">185</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable unused-variable check (warnings::unused, latest+ubuntu only)?&quot;,</td></tr>
+<tr><td class="h">186</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;n&#39;</td></tr>
+<tr><td class="h">187</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">188</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">189</td><td colspan="6"></td></tr><tr><td class="h">190</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_critic} = prompt_yes_no(</td></tr>
+<tr><td class="h">191</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable Perl::Critic?&quot;,</td></tr>
+<tr><td class="h">192</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">193</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">194</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">195</td><td colspan="6"></td></tr><tr><td class="h">196</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Coverage</td></tr>
+<tr><td class="h">197</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
+<tr><td class="h">198</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage (Devel::Cover)?&quot;,</td></tr>
+<tr><td class="h">199</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">200</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">201</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">202</td><td colspan="6"></td></tr><tr><td class="h">203</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
+<tr><td class="h">204</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);</td></tr>
+<tr><td class="h">205</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">206</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">207</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,master&#39;</td></tr>
+<tr><td class="h">208</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">209</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">210</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">211</td><td colspan="6"></td></tr><tr><td class="h">212</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">213</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">214</td><td colspan="6"></td></tr><tr><td class="h">215</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L215">0</a></div></td><td></td><td class="s">sub _customize_node() {</td></tr>
+<tr><td class="h">216</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">217</td><td colspan="6"></td></tr><tr><td class="h">218</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Node versions</td></tr>
+<tr><td class="h">219</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);</td></tr>
+<tr><td class="h">220</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(18.x 20.x 22.x 23.x);</td></tr>
+<tr><td class="h">221</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(20.x 22.x);</td></tr>
+<tr><td class="h">222</td><td colspan="6"></td></tr><tr><td class="h">223</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{node_versions} = prompt_multiselect(</td></tr>
+<tr><td class="h">224</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Node.js versions?&quot;,</td></tr>
+<tr><td class="h">225</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
+<tr><td class="h">226</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
+<tr><td class="h">227</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">228</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">229</td><td colspan="6"></td></tr><tr><td class="h">230</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Package manager</td></tr>
+<tr><td class="h">231</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);</td></tr>
+<tr><td class="h">232</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $pm_choice = prompt_choice(</td></tr>
+<tr><td class="h">233</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which package manager?&quot;,</td></tr>
+<tr><td class="h">234</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],</td></tr>
+<tr><td class="h">235</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</td></tr>
+<tr><td class="h">236</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">237</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];</td></tr>
+<tr><td class="h">238</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">239</td><td colspan="6"></td></tr><tr><td class="h">240</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Linting</td></tr>
+<tr><td class="h">241</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_lint} = prompt_yes_no(</td></tr>
+<tr><td class="h">242</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable linting?&quot;,</td></tr>
+<tr><td class="h">243</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">244</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">245</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">246</td><td colspan="6"></td></tr><tr><td class="h">247</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Build step</td></tr>
+<tr><td class="h">248</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_build} = prompt_yes_no(</td></tr>
+<tr><td class="h">249</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable build step?&quot;,</td></tr>
+<tr><td class="h">250</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">251</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">252</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">253</td><td colspan="6"></td></tr><tr><td class="h">254</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
+<tr><td class="h">255</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">256</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">257</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,develop&#39;</td></tr>
+<tr><td class="h">258</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">259</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">260</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">261</td><td colspan="6"></td></tr><tr><td class="h">262</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">263</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">264</td><td colspan="6"></td></tr><tr><td class="h">265</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L265">0</a></div></td><td></td><td class="s">sub _customize_python() {</td></tr>
+<tr><td class="h">266</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">267</td><td colspan="6"></td></tr><tr><td class="h">268</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Python versions</td></tr>
+<tr><td class="h">269</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);</td></tr>
+<tr><td class="h">270</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);</td></tr>
+<tr><td class="h">271</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(3.11 3.12);</td></tr>
+<tr><td class="h">272</td><td colspan="6"></td></tr><tr><td class="h">273</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{python_versions} = prompt_multiselect(</td></tr>
+<tr><td class="h">274</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Python versions?&quot;,</td></tr>
+<tr><td class="h">275</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
+<tr><td class="h">276</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
+<tr><td class="h">277</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">278</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">279</td><td colspan="6"></td></tr><tr><td class="h">280</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Linting</td></tr>
+<tr><td class="h">281</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);</td></tr>
+<tr><td class="h">282</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_flake8} = prompt_yes_no(</td></tr>
+<tr><td class="h">283</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable flake8 linting?&quot;,</td></tr>
+<tr><td class="h">284</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">285</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">286</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">287</td><td colspan="6"></td></tr><tr><td class="h">288</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_black} = prompt_yes_no(</td></tr>
+<tr><td class="h">289</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable black formatter check?&quot;,</td></tr>
+<tr><td class="h">290</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;n&#39;</td></tr>
+<tr><td class="h">291</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">292</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">293</td><td colspan="6"></td></tr><tr><td class="h">294</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Coverage</td></tr>
+<tr><td class="h">295</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
+<tr><td class="h">296</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage?&quot;,</td></tr>
+<tr><td class="h">297</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">298</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">299</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">300</td><td colspan="6"></td></tr><tr><td class="h">301</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Branches</td></tr>
+<tr><td class="h">302</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">303</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">304</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main,develop&#39;</td></tr>
+<tr><td class="h">305</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">306</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">307</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">308</td><td colspan="6"></td></tr><tr><td class="h">309</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">310</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">311</td><td colspan="6"></td></tr><tr><td class="h">312</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L312">0</a></div></td><td></td><td class="s">sub _customize_rust() {</td></tr>
+<tr><td class="h">313</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">314</td><td colspan="6"></td></tr><tr><td class="h">315</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);</td></tr>
+<tr><td class="h">316</td><td colspan="6"></td></tr><tr><td class="h">317</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_fmt} = prompt_yes_no(</td></tr>
+<tr><td class="h">318</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable formatting check (cargo fmt)?&quot;,</td></tr>
 <tr><td class="h">319</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
 <tr><td class="h">320</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
 <tr><td class="h">321</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">322</td><td colspan="6"></td></tr><tr><td class="h">323</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">324</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">325</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">322</td><td colspan="6"></td></tr><tr><td class="h">323</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_clippy} = prompt_yes_no(</td></tr>
+<tr><td class="h">324</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable clippy linting?&quot;,</td></tr>
+<tr><td class="h">325</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
 <tr><td class="h">326</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">327</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">328</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">329</td><td colspan="6"></td></tr><tr><td class="h">330</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">331</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">332</td><td colspan="6"></td></tr><tr><td class="h">333</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L333">0</a></div></td><td></td><td class="s">sub _customize_go() {</td></tr>
-<tr><td class="h">334</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">335</td><td colspan="6"></td></tr><tr><td class="h">336</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);</td></tr>
-<tr><td class="h">337</td><td colspan="6"></td></tr><tr><td class="h">338</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $go_version = prompt_text(</td></tr>
-<tr><td class="h">339</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Go version&quot;,</td></tr>
-<tr><td class="h">340</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;1.22&#39;</td></tr>
-<tr><td class="h">341</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">342</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{go_version} = $go_version;</td></tr>
-<tr><td class="h">343</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">344</td><td colspan="6"></td></tr><tr><td class="h">345</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_vet} = prompt_yes_no(</td></tr>
-<tr><td class="h">346</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable go vet?&quot;,</td></tr>
-<tr><td class="h">347</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">348</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">349</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">350</td><td colspan="6"></td></tr><tr><td class="h">351</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_race} = prompt_yes_no(</td></tr>
-<tr><td class="h">352</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable race detector?&quot;,</td></tr>
-<tr><td class="h">353</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
-<tr><td class="h">354</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">327</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">328</td><td colspan="6"></td></tr><tr><td class="h">329</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_release} = prompt_yes_no(</td></tr>
+<tr><td class="h">330</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Build release binary?&quot;,</td></tr>
+<tr><td class="h">331</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">332</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">333</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">334</td><td colspan="6"></td></tr><tr><td class="h">335</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">336</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">337</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">338</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">339</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">340</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">341</td><td colspan="6"></td></tr><tr><td class="h">342</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">343</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">344</td><td colspan="6"></td></tr><tr><td class="h">345</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L345">0</a></div></td><td></td><td class="s">sub _customize_go() {</td></tr>
+<tr><td class="h">346</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">347</td><td colspan="6"></td></tr><tr><td class="h">348</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);</td></tr>
+<tr><td class="h">349</td><td colspan="6"></td></tr><tr><td class="h">350</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $go_version = prompt_text(</td></tr>
+<tr><td class="h">351</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Go version&quot;,</td></tr>
+<tr><td class="h">352</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;1.22&#39;</td></tr>
+<tr><td class="h">353</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">354</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{go_version} = $go_version;</td></tr>
 <tr><td class="h">355</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">356</td><td colspan="6"></td></tr><tr><td class="h">357</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
-<tr><td class="h">358</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage?&quot;,</td></tr>
+<tr><td class="h">356</td><td colspan="6"></td></tr><tr><td class="h">357</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_vet} = prompt_yes_no(</td></tr>
+<tr><td class="h">358</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable go vet?&quot;,</td></tr>
 <tr><td class="h">359</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
 <tr><td class="h">360</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
 <tr><td class="h">361</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">362</td><td colspan="6"></td></tr><tr><td class="h">363</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">364</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">365</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">362</td><td colspan="6"></td></tr><tr><td class="h">363</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_race} = prompt_yes_no(</td></tr>
+<tr><td class="h">364</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable race detector?&quot;,</td></tr>
+<tr><td class="h">365</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
 <tr><td class="h">366</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">367</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">368</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">369</td><td colspan="6"></td></tr><tr><td class="h">370</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">371</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">372</td><td colspan="6"></td></tr><tr><td class="h">373</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L373">0</a></div></td><td></td><td class="s">sub _customize_ruby() {</td></tr>
-<tr><td class="h">374</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">375</td><td colspan="6"></td></tr><tr><td class="h">376</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);</td></tr>
-<tr><td class="h">377</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(3.1 3.2 3.3);</td></tr>
-<tr><td class="h">378</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(3.2 3.3);</td></tr>
-<tr><td class="h">379</td><td colspan="6"></td></tr><tr><td class="h">380</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{ruby_versions} = prompt_multiselect(</td></tr>
-<tr><td class="h">381</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Ruby versions?&quot;,</td></tr>
-<tr><td class="h">382</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
-<tr><td class="h">383</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
-<tr><td class="h">384</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">385</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">386</td><td colspan="6"></td></tr><tr><td class="h">387</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">388</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">389</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
-<tr><td class="h">390</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">391</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">392</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">393</td><td colspan="6"></td></tr><tr><td class="h">394</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">395</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">396</td><td colspan="6"></td></tr><tr><td class="h">397</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L397">0</a></div></td><td></td><td class="s">sub _customize_docker() {</td></tr>
-<tr><td class="h">398</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">399</td><td colspan="6"></td></tr><tr><td class="h">400</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);</td></tr>
-<tr><td class="h">401</td><td colspan="6"></td></tr><tr><td class="h">402</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $image_name = prompt_text(</td></tr>
-<tr><td class="h">403</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Docker image name (user/image)&quot;,</td></tr>
-<tr><td class="h">404</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;your-username/your-image&#39;</td></tr>
-<tr><td class="h">405</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">406</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{image_name} = $image_name;</td></tr>
-<tr><td class="h">407</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">408</td><td colspan="6"></td></tr><tr><td class="h">409</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{push_on_pr} = prompt_yes_no(</td></tr>
-<tr><td class="h">410</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;Push images on pull requests?&#39;,</td></tr>
-<tr><td class="h">411</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;n&#39;</td></tr>
-<tr><td class="h">412</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">413</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">414</td><td colspan="6"></td></tr><tr><td class="h">415</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
-<tr><td class="h">416</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
-<tr><td class="h">417</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
-<tr><td class="h">418</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">419</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
-<tr><td class="h">420</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">421</td><td colspan="6"></td></tr><tr><td class="h">422</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">423</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">424</td><td colspan="6"></td></tr><tr><td class="h">425</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L425">0</a></div></td><td></td><td class="s">sub _customize_static() {</td></tr>
-<tr><td class="h">426</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
-<tr><td class="h">427</td><td colspan="6"></td></tr><tr><td class="h">428</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Static Site Deployment:&quot;);</td></tr>
-<tr><td class="h">429</td><td colspan="6"></td></tr><tr><td class="h">430</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $build_dir = prompt_text(&quot;Build output directory&quot;, &#39;./public&#39;);</td></tr>
-<tr><td class="h">431</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{build_dir} = $build_dir;</td></tr>
+<tr><td class="h">367</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">368</td><td colspan="6"></td></tr><tr><td class="h">369</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{enable_coverage} = prompt_yes_no(</td></tr>
+<tr><td class="h">370</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Enable test coverage?&quot;,</td></tr>
+<tr><td class="h">371</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;y&#39;</td></tr>
+<tr><td class="h">372</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">373</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">374</td><td colspan="6"></td></tr><tr><td class="h">375</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">376</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">377</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">378</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">379</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">380</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">381</td><td colspan="6"></td></tr><tr><td class="h">382</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">383</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">384</td><td colspan="6"></td></tr><tr><td class="h">385</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L385">0</a></div></td><td></td><td class="s">sub _customize_ruby() {</td></tr>
+<tr><td class="h">386</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">387</td><td colspan="6"></td></tr><tr><td class="h">388</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);</td></tr>
+<tr><td class="h">389</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @all_versions = qw(3.1 3.2 3.3);</td></tr>
+<tr><td class="h">390</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @default_versions = qw(3.2 3.3);</td></tr>
+<tr><td class="h">391</td><td colspan="6"></td></tr><tr><td class="h">392</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{ruby_versions} = prompt_multiselect(</td></tr>
+<tr><td class="h">393</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Which Ruby versions?&quot;,</td></tr>
+<tr><td class="h">394</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@all_versions,</td></tr>
+<tr><td class="h">395</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\@default_versions</td></tr>
+<tr><td class="h">396</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">397</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">398</td><td colspan="6"></td></tr><tr><td class="h">399</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">400</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">401</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">402</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">403</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
+<tr><td class="h">404</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">405</td><td colspan="6"></td></tr><tr><td class="h">406</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">407</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">408</td><td colspan="6"></td></tr><tr><td class="h">409</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L409">0</a></div></td><td></td><td class="s">sub _customize_docker() {</td></tr>
+<tr><td class="h">410</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">411</td><td colspan="6"></td></tr><tr><td class="h">412</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);</td></tr>
+<tr><td class="h">413</td><td colspan="6"></td></tr><tr><td class="h">414</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $image_name = prompt_text(</td></tr>
+<tr><td class="h">415</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Docker image name (user/image)&quot;,</td></tr>
+<tr><td class="h">416</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;your-username/your-image&#39;</td></tr>
+<tr><td class="h">417</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">418</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$config{image_name} = $image_name;</td></tr>
+<tr><td class="h">419</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">420</td><td colspan="6"></td></tr><tr><td class="h">421</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{push_on_pr} = prompt_yes_no(</td></tr>
+<tr><td class="h">422</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;Push images on pull requests?&#39;,</td></tr>
+<tr><td class="h">423</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;n&#39;</td></tr>
+<tr><td class="h">424</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">425</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">426</td><td colspan="6"></td></tr><tr><td class="h">427</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $branches = prompt_text(</td></tr>
+<tr><td class="h">428</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Branches to run on (comma-separated)&quot;,</td></tr>
+<tr><td class="h">429</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#39;main&#39;</td></tr>
+<tr><td class="h">430</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">431</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{branches} = [split /,\s*/, $branches];</td></tr>
 <tr><td class="h">432</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">433</td><td colspan="6"></td></tr><tr><td class="h">434</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $build_command = prompt_text(&quot;Build command&quot;, &#39;npm run build&#39;);</td></tr>
-<tr><td class="h">435</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{build_command} = $build_command;</td></tr>
-<tr><td class="h">436</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
-<tr><td class="h">437</td><td colspan="6"></td></tr><tr><td class="h">438</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
-<tr><td class="h">439</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">440</td><td colspan="6"></td></tr><tr><td class="h">441 - 452</td><td colspan="5"></td><td class="s"><pre>=head1 AUTHOR
+<tr><td class="h">433</td><td colspan="6"></td></tr><tr><td class="h">434</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">435</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">436</td><td colspan="6"></td></tr><tr><td class="h">437</td><td><div class="c0">0</div><div class="c0">0</div></td><td></td><td></td><td><div class="c0"><a href="-home-runner-work-App-GHGen-App-GHGen-lib-App-GHGen-Interactive-pm--subroutine.html#L437">0</a></div></td><td></td><td class="s">sub _customize_static() {</td></tr>
+<tr><td class="h">438</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %config;</td></tr>
+<tr><td class="h">439</td><td colspan="6"></td></tr><tr><td class="h">440</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say colored([&#39;bold&#39;], &quot;Static Site Deployment:&quot;);</td></tr>
+<tr><td class="h">441</td><td colspan="6"></td></tr><tr><td class="h">442</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $build_dir = prompt_text(&quot;Build output directory&quot;, &#39;./public&#39;);</td></tr>
+<tr><td class="h">443</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{build_dir} = $build_dir;</td></tr>
+<tr><td class="h">444</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">445</td><td colspan="6"></td></tr><tr><td class="h">446</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $build_command = prompt_text(&quot;Build command&quot;, &#39;npm run build&#39;);</td></tr>
+<tr><td class="h">447</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$config{build_command} = $build_command;</td></tr>
+<tr><td class="h">448</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &#39;&#39;;</td></tr>
+<tr><td class="h">449</td><td colspan="6"></td></tr><tr><td class="h">450</td><td><div class="c0">0</div></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%config;</td></tr>
+<tr><td class="h">451</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">452</td><td colspan="6"></td></tr><tr><td class="h">453 - 464</td><td colspan="5"></td><td class="s"><pre>=head1 AUTHOR
 
 Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 
@@ -393,7 +403,7 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut</pre></td></tr>
-<tr><td class="h">453</td><td colspan="6"></td></tr><tr><td class="h">454</td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
+<tr><td class="h">465</td><td colspan="6"></td></tr><tr><td class="h">466</td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
 </table>
 </body>
 </html>
