@@ -13,6 +13,7 @@ on 'test' => sub {
 	requires 'Test::Exception';
 	requires 'Test::Most';
 	requires 'Test::Returns';
+	requires 'Test::Without::Module';
 };
 
 on 'develop' => sub {
