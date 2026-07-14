@@ -1,8 +1,3 @@
-.github/dependabot.yml
-.github/workflows/dashboard.yml
-.github/workflows/ghgen-check.yml
-.github/workflows/ghgen-comment.yml
-.github/workflows/perl-ci.yml
 action.yml
 bin/ghgen
 Changes
@@ -30,4 +25,5 @@ t/kwalitee.t
 t/pod-cm.t
 t/pod-coverage.t
 t/pod-synopsis.t
+t/pull_6.t
 t/timeout.t
