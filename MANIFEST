@@ -22,6 +22,7 @@ t/detector.t
 t/eof.t
 t/eol.t
 t/function.t
+t/integration.t
 t/kwalitee.t
 t/linter.t
 t/pod-cm.t
