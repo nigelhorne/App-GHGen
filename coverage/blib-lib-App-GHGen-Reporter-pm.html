@@ -26,17 +26,17 @@ https://pjcj.net
 <table>
 <tr><th>line</th><th>stmt</th><th>bran</th><th>cond</th><th>sub</th><th>time</th><th>code</th></tr>
 <tr><td class="h">1</td><td></td><td></td><td></td><td></td><td></td><td class="s">package App::GHGen::Reporter;</td></tr>
-<tr><td class="h">2</td><td colspan="6"></td></tr><tr><td class="h">3</td><td><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L3">1</a></div></td><td><div>209</div><div>1</div></td><td class="s">use v5.36;</td></tr>
-<tr><td class="h">4</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L4">1</a></div></td><td><div>1</div><div>1</div><div>8</div></td><td class="s">use strict;</td></tr>
-<tr><td class="h">5</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L5">1</a></div></td><td><div>1</div><div>0</div><div>18</div></td><td class="s">use warnings;</td></tr>
-<tr><td class="h">6</td><td colspan="6"></td></tr><tr><td class="h">7</td><td><div class="c3">1</div><div class="c3">1</div><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L7">1</a></div></td><td><div>2</div><div>0</div><div>615</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
+<tr><td class="h">2</td><td colspan="6"></td></tr><tr><td class="h">3</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L3">2</a></div></td><td><div>914</div><div>5</div></td><td class="s">use v5.36;</td></tr>
+<tr><td class="h">4</td><td><div class="c3">2</div><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L4">2</a></div></td><td><div>5</div><div>2</div><div>24</div></td><td class="s">use strict;</td></tr>
+<tr><td class="h">5</td><td><div class="c3">2</div><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L5">2</a></div></td><td><div>4</div><div>1</div><div>96</div></td><td class="s">use warnings;</td></tr>
+<tr><td class="h">6</td><td colspan="6"></td></tr><tr><td class="h">7</td><td><div class="c3">2</div><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L7">2</a></div></td><td><div>5</div><div>3</div><div>1349</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
 <tr><td class="h">8</td><td></td><td></td><td></td><td></td><td></td><td class="s">our @EXPORT_OK = qw(</td></tr>
 <tr><td class="h">9</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generate_markdown_report</td></tr>
 <tr><td class="h">10</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generate_github_comment</td></tr>
 <tr><td class="h">11</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;estimate_savings</td></tr>
 <tr><td class="h">12</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
 <tr><td class="h">13</td><td colspan="6"></td></tr><tr><td class="h">14</td><td></td><td></td><td></td><td></td><td></td><td class="s">our $VERSION = &#39;0.05&#39;;</td></tr>
-<tr><td class="h">15</td><td colspan="6"></td></tr><tr><td class="h">16 - 32</td><td colspan="5"></td><td class="s"><pre>=head1 NAME
+<tr><td class="h">15</td><td colspan="6"></td></tr><tr><td class="h">16 - 89</td><td colspan="5"></td><td class="s"><pre>=head1 NAME
 
 App::GHGen::Reporter - Generate reports for GitHub integration
 
@@ -50,177 +50,363 @@ App::GHGen::Reporter - Generate reports for GitHub integration
 
 =head2 generate_markdown_report($issues, $fixes)
 
-Generate a markdown report of issues and fixes.
+Produce a Markdown-formatted report of workflow issues and applied fixes.
+
+=head3 Purpose
+
+Render a structured Markdown document that summarises detected issues grouped
+by category, includes suggested fixes, and appends an estimated savings
+section when applicable.
+
+=head3 Arguments
+
+=over 4
+
+=item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+
+Issues to report.&nbsp;&nbsp;Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
+optional C&lt;fix&gt; key renders a collapsible C&lt;E&lt;lt&gt;detailsE&lt;gt&gt;&gt; block.
+
+=item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
+
+List of fixes already applied (used only for the summary count).
+
+=back
+
+=head3 Returns
+
+A non-empty Markdown string beginning with C&lt;# GHGen Workflow Analysis&gt;.
+
+=head3 Side Effects
+
+None.&nbsp;&nbsp;Pure function.
+
+=head3 Usage Example
+
+&nbsp;&nbsp;&nbsp;&nbsp;my $md = generate_markdown_report(\@issues, \@fixes);
+&nbsp;&nbsp;&nbsp;&nbsp;path(&#39;report.md&#39;)-&gt;spew_utf8($md);
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fixes&nbsp;&nbsp;=&gt; { type =&gt; &#39;arrayref&#39;, default&nbsp;&nbsp;=&gt; [] },
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+=head4 Output
+
+&nbsp;&nbsp;&nbsp;&nbsp;{ type =&gt; &#39;scalar&#39; }&nbsp;&nbsp;&nbsp;# Markdown string
+
+=head3 FORMAL SPECIFICATION
+
+&nbsp;&nbsp;&nbsp;&nbsp;generate_markdown_report : seq Issue &Atilde;&#151; seq Fix &acirc;&#134;&#146; &acirc;&#132;&curren;*
+
+&nbsp;&nbsp;&nbsp;&nbsp;result begins with &quot;# GHGen Workflow Analysis&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;|issues| &gt; 0 &acirc;&#135;&#146; result contains &quot;## Issues by Category&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;|issues| = 0 &acirc;&#135;&#146; result does not contain &quot;## Issues by Category&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;|fixes|&nbsp;&nbsp;&gt; 0 &acirc;&#135;&#146; result contains &quot;Fixes applied&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;savings.minutes &gt; 0 &acirc;&#135;&#146; result contains &quot;## &eth;&#159;&#146;&deg; Estimated Savings&quot;
 
 =cut</pre></td></tr>
-<tr><td class="h">33</td><td colspan="6"></td></tr><tr><td class="h">34</td><td><div class="c3">3</div><div class="c3">3</div><div class="c3">3</div><div class="c3">3</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L34">3</a></div></td><td><div>3169</div><div>2</div><div>3</div><div>3</div></td><td class="s">sub generate_markdown_report($issues, $fixes = []) {</td></tr>
-<tr><td class="h">35</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $report = &quot;# GHGen Workflow Analysis\n\n&quot;;</td></tr>
-<tr><td class="h">36</td><td colspan="6"></td></tr><tr><td class="h">37</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $total_issues = scalar @$issues;</td></tr>
-<tr><td class="h">38</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $total_fixes = scalar @$fixes;</td></tr>
-<tr><td class="h">39</td><td colspan="6"></td></tr><tr><td class="h">40</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## Summary\n\n&quot;;</td></tr>
-<tr><td class="h">41</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;</td></tr>
-<tr><td class="h">42</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;</td></tr>
-<tr><td class="h">43</td><td colspan="6"></td></tr><tr><td class="h">44</td><td><div class="c3">3</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L44">100</a></div></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if (@$issues) {</td></tr>
-<tr><td class="h">45</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Group by type</td></tr>
-<tr><td class="h">46</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %by_type;</td></tr>
-<tr><td class="h">47</td><td><div class="c3">2</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;</td></tr>
-<tr><td class="h">48</td><td colspan="6"></td></tr><tr><td class="h">49</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## Issues by Category\n\n&quot;;</td></tr>
-<tr><td class="h">50</td><td colspan="6"></td></tr><tr><td class="h">51</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
-<tr><td class="h">52</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $count = scalar @{$by_type{$type}};</td></tr>
-<tr><td class="h">53</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $emoji = get_type_emoji($type);</td></tr>
-<tr><td class="h">54</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;### $emoji &quot; . ucfirst($type) . &quot; ($count)\n\n&quot;;</td></tr>
-<tr><td class="h">55</td><td colspan="6"></td></tr><tr><td class="h">56</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>2</div><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@{$by_type{$type}}) {</td></tr>
-<tr><td class="h">57</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $severity_badge = get_severity_badge($issue-&gt;{severity});</td></tr>
-<tr><td class="h">58</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;</td></tr>
-<tr><td class="h">59</td><td colspan="6"></td></tr><tr><td class="h">60</td><td><div class="c3">4</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L60">50</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{fix}) {</td></tr>
-<tr><td class="h">61</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;details&gt;\n&quot;;</td></tr>
-<tr><td class="h">62</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;</td></tr>
-<tr><td class="h">63</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;```yaml\n&quot;;</td></tr>
-<tr><td class="h">64</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;$issue-&gt;{fix}\n&quot;;</td></tr>
-<tr><td class="h">65</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;```\n\n&quot;;</td></tr>
-<tr><td class="h">66</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;/details&gt;\n\n&quot;;</td></tr>
-<tr><td class="h">67</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">68</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">69</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">70</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">71</td><td colspan="6"></td></tr><tr><td class="h">72</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add savings estimate if available</td></tr>
-<tr><td class="h">73</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $savings = estimate_savings($issues);</td></tr>
-<tr><td class="h">74</td><td><div class="c3">3</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L74">100</a></div></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{minutes} &gt; 0) {</td></tr>
-<tr><td class="h">75</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;</td></tr>
-<tr><td class="h">76</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;By fixing these issues, you could save:\n\n&quot;;</td></tr>
-<tr><td class="h">77</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;</td></tr>
-<tr><td class="h">78</td><td colspan="6"></td></tr><tr><td class="h">79</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L79">50</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{cost} &gt; 0) {</td></tr>
-<tr><td class="h">80</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;</td></tr>
-<tr><td class="h">81</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">82</td><td colspan="6"></td></tr><tr><td class="h">83</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;\n&quot;;</td></tr>
-<tr><td class="h">84</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">85</td><td colspan="6"></td></tr><tr><td class="h">86</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $report;</td></tr>
-<tr><td class="h">87</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">88</td><td colspan="6"></td></tr><tr><td class="h">89 - 93</td><td colspan="5"></td><td class="s"><pre>=head2 generate_github_comment($issues, $fixes, $options)
+<tr><td class="h">90</td><td colspan="6"></td></tr><tr><td class="h">91</td><td><div class="c3">6</div><div class="c3">6</div><div class="c3">6</div><div class="c3">6</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L91">6</a></div></td><td><div>8298</div><div>8</div><div>9</div><div>4</div></td><td class="s">sub generate_markdown_report($issues, $fixes = []) {</td></tr>
+<tr><td class="h">92</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $report = &quot;# GHGen Workflow Analysis\n\n&quot;;</td></tr>
+<tr><td class="h">93</td><td colspan="6"></td></tr><tr><td class="h">94</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $total_issues = scalar @$issues;</td></tr>
+<tr><td class="h">95</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $total_fixes = scalar @$fixes;</td></tr>
+<tr><td class="h">96</td><td colspan="6"></td></tr><tr><td class="h">97</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## Summary\n\n&quot;;</td></tr>
+<tr><td class="h">98</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;</td></tr>
+<tr><td class="h">99</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;</td></tr>
+<tr><td class="h">100</td><td colspan="6"></td></tr><tr><td class="h">101</td><td><div class="c3">6</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L101">100</a></div></td><td></td><td></td><td><div>15</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if (@$issues) {</td></tr>
+<tr><td class="h">102</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Group by type</td></tr>
+<tr><td class="h">103</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %by_type;</td></tr>
+<tr><td class="h">104</td><td><div class="c3">4</div><div class="c3">8</div></td><td></td><td></td><td></td><td><div>27</div><div>15</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;</td></tr>
+<tr><td class="h">105</td><td colspan="6"></td></tr><tr><td class="h">106</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## Issues by Category\n\n&quot;;</td></tr>
+<tr><td class="h">107</td><td colspan="6"></td></tr><tr><td class="h">108</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>15</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
+<tr><td class="h">109</td><td><div class="c3">8</div><div class="c3">8</div></td><td></td><td></td><td></td><td><div>8</div><div>9</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $count = scalar @{$by_type{$type}};</td></tr>
+<tr><td class="h">110</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>14</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $emoji = get_type_emoji($type);</td></tr>
+<tr><td class="h">111</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>17</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;### $emoji &quot; . ucfirst($type) . &quot; ($count)\n\n&quot;;</td></tr>
+<tr><td class="h">112</td><td colspan="6"></td></tr><tr><td class="h">113</td><td><div class="c3">8</div><div class="c3">8</div></td><td></td><td></td><td></td><td><div>9</div><div>9</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@{$by_type{$type}}) {</td></tr>
+<tr><td class="h">114</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>11</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $severity_badge = get_severity_badge($issue-&gt;{severity});</td></tr>
+<tr><td class="h">115</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>12</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;</td></tr>
+<tr><td class="h">116</td><td colspan="6"></td></tr><tr><td class="h">117</td><td><div class="c3">8</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L117">50</a></div></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{fix}) {</td></tr>
+<tr><td class="h">118</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;details&gt;\n&quot;;</td></tr>
+<tr><td class="h">119</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;</td></tr>
+<tr><td class="h">120</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;```yaml\n&quot;;</td></tr>
+<tr><td class="h">121</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>9</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;$issue-&gt;{fix}\n&quot;;</td></tr>
+<tr><td class="h">122</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;```\n\n&quot;;</td></tr>
+<tr><td class="h">123</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;&lt;/details&gt;\n\n&quot;;</td></tr>
+<tr><td class="h">124</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">125</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">126</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">127</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">128</td><td colspan="6"></td></tr><tr><td class="h">129</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add savings estimate if available</td></tr>
+<tr><td class="h">130</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $savings = estimate_savings($issues);</td></tr>
+<tr><td class="h">131</td><td><div class="c3">6</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L131">100</a></div></td><td></td><td></td><td><div>15</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{minutes} &gt; 0) {</td></tr>
+<tr><td class="h">132</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;</td></tr>
+<tr><td class="h">133</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;By fixing these issues, you could save:\n\n&quot;;</td></tr>
+<tr><td class="h">134</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;</td></tr>
+<tr><td class="h">135</td><td colspan="6"></td></tr><tr><td class="h">136</td><td><div class="c3">4</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L136">50</a></div></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{cost} &gt; 0) {</td></tr>
+<tr><td class="h">137</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;</td></tr>
+<tr><td class="h">138</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">139</td><td colspan="6"></td></tr><tr><td class="h">140</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$report .= &quot;\n&quot;;</td></tr>
+<tr><td class="h">141</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">142</td><td colspan="6"></td></tr><tr><td class="h">143</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $report;</td></tr>
+<tr><td class="h">144</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">145</td><td colspan="6"></td></tr><tr><td class="h">146 - 215</td><td colspan="5"></td><td class="s"><pre>=head2 generate_github_comment($issues, $fixes, $options)
 
-Generate a GitHub-friendly comment with issues and recommendations.
+Generate a GitHub Pull-Request comment summarising workflow issues.
 
-=cut</pre></td></tr>
-<tr><td class="h">94</td><td colspan="6"></td></tr><tr><td class="h">95</td><td><div class="c3">3</div><div class="c3">3</div><div class="c3">3</div><div class="c3">3</div><div class="c3">3</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L95">3</a></div></td><td><div>2777</div><div>3</div><div>1</div><div>3</div><div>2</div></td><td class="s">sub generate_github_comment($issues, $fixes = [], $options = {}) {</td></tr>
-<tr><td class="h">96</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;</td></tr>
-<tr><td class="h">97</td><td colspan="6"></td></tr><tr><td class="h">98</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $total_issues = scalar @$issues;</td></tr>
-<tr><td class="h">99</td><td><div class="c3">3</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $total_fixes = scalar @$fixes;</td></tr>
-<tr><td class="h">100</td><td colspan="6"></td></tr><tr><td class="h">101</td><td><div class="c3">3</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L101">100</a></div></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_fixes &gt; 0) {</td></tr>
-<tr><td class="h">102</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;</td></tr>
-<tr><td class="h">103</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">104</td><td colspan="6"></td></tr><tr><td class="h">105</td><td><div class="c3">3</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L105">100</a></div></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_issues == 0) {</td></tr>
-<tr><td class="h">106</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;</td></tr>
-<tr><td class="h">107</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $comment;</td></tr>
-<tr><td class="h">108</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">109</td><td colspan="6"></td></tr><tr><td class="h">110</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Summary table</td></tr>
-<tr><td class="h">111</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;</td></tr>
-<tr><td class="h">112</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;|----------|-------|-------------|\n&quot;;</td></tr>
-<tr><td class="h">113</td><td colspan="6"></td></tr><tr><td class="h">114</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %by_type;</td></tr>
-<tr><td class="h">115</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;</td></tr>
-<tr><td class="h">116</td><td colspan="6"></td></tr><tr><td class="h">117</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
-<tr><td class="h">118</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $count = scalar @{$by_type{$type}};</td></tr>
-<tr><td class="h">119</td><td><div class="c3">2</div><div class="c3">2</div><div class="c3">2</div></td><td></td><td><div class="c0"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L119">50</a></div></td><td></td><td><div>2</div><div>6</div><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $fixable = grep { $_-&gt;{auto_fixable} // 1 } @{$by_type{$type}};</td></tr>
-<tr><td class="h">120</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $emoji = get_type_emoji($type);</td></tr>
-<tr><td class="h">121</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;| $emoji &quot; . ucfirst($type) . &quot; | $count | $fixable |\n&quot;;</td></tr>
-<tr><td class="h">122</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">123</td><td colspan="6"></td></tr><tr><td class="h">124</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
-<tr><td class="h">125</td><td colspan="6"></td></tr><tr><td class="h">126</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Detailed issues</td></tr>
-<tr><td class="h">127</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;details&gt;\n&quot;;</td></tr>
-<tr><td class="h">128</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;summary&gt;&eth;&#159;&#147;&#139; View Details&lt;/summary&gt;\n\n&quot;;</td></tr>
-<tr><td class="h">129</td><td colspan="6"></td></tr><tr><td class="h">130</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
-<tr><td class="h">131</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &quot; . get_type_emoji($type) . &quot; &quot; . ucfirst($type) . &quot;\n\n&quot;;</td></tr>
-<tr><td class="h">132</td><td colspan="6"></td></tr><tr><td class="h">133</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@{$by_type{$type}}) {</td></tr>
-<tr><td class="h">134</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $badge = get_severity_badge($issue-&gt;{severity});</td></tr>
-<tr><td class="h">135</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;</td></tr>
-<tr><td class="h">136</td><td colspan="6"></td></tr><tr><td class="h">137</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L137">50</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{file}) {</td></tr>
-<tr><td class="h">138</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;- File: `$issue-&gt;{file}`\n&quot;;</td></tr>
-<tr><td class="h">139</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">140</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">141</td><td colspan="6"></td></tr><tr><td class="h">142</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
-<tr><td class="h">143</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">144</td><td colspan="6"></td></tr><tr><td class="h">145</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;/details&gt;\n\n&quot;;</td></tr>
-<tr><td class="h">146</td><td colspan="6"></td></tr><tr><td class="h">147</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add recommendations</td></tr>
-<tr><td class="h">148</td><td><div class="c3">2</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L148">100</a></div></td><td><div class="c0"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L148">67</a></div></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {</td></tr>
-<tr><td class="h">149</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>0</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;</td></tr>
-<tr><td class="h">150</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;Run these commands locally:\n\n&quot;;</td></tr>
-<tr><td class="h">151</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```bash\n&quot;;</td></tr>
-<tr><td class="h">152</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;# Install ghgen\n&quot;;</td></tr>
-<tr><td class="h">153</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;cpanm App::GHGen\n\n&quot;;</td></tr>
-<tr><td class="h">154</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;# Analyze and fix\n&quot;;</td></tr>
-<tr><td class="h">155</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;ghgen analyze --fix\n&quot;;</td></tr>
-<tr><td class="h">156</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>0</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```\n\n&quot;;</td></tr>
-<tr><td class="h">157</td><td colspan="6"></td></tr><tr><td class="h">158</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;Or enable auto-fix in this action:\n\n&quot;;</td></tr>
-<tr><td class="h">159</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```yaml\n&quot;;</td></tr>
-<tr><td class="h">160</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- uses: nigelhorne/ghgen-action\@v1\n&quot;;</td></tr>
-<tr><td class="h">161</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;with:\n&quot;;</td></tr>
-<tr><td class="h">162</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>0</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;&nbsp;&nbsp;auto-fix: true\n&quot;;</td></tr>
-<tr><td class="h">163</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;&nbsp;&nbsp;create-pr: true\n&quot;;</td></tr>
-<tr><td class="h">164</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```\n\n&quot;;</td></tr>
-<tr><td class="h">165</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">166</td><td colspan="6"></td></tr><tr><td class="h">167</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add savings estimate</td></tr>
-<tr><td class="h">168</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $savings = estimate_savings($issues);</td></tr>
-<tr><td class="h">169</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L169">50</a></div></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{minutes} &gt; 0) {</td></tr>
-<tr><td class="h">170</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;</td></tr>
-<tr><td class="h">171</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>0</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;By fixing these issues:\n&quot;;</td></tr>
-<tr><td class="h">172</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;</td></tr>
-<tr><td class="h">173</td><td colspan="6"></td></tr><tr><td class="h">174</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L174">50</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{cost} &gt; 0) {</td></tr>
-<tr><td class="h">175</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;</td></tr>
-<tr><td class="h">176</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">177</td><td colspan="6"></td></tr><tr><td class="h">178</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
-<tr><td class="h">179</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">180</td><td colspan="6"></td></tr><tr><td class="h">181</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;---\n&quot;;</td></tr>
-<tr><td class="h">182</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;</td></tr>
-<tr><td class="h">183</td><td colspan="6"></td></tr><tr><td class="h">184</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $comment;</td></tr>
-<tr><td class="h">185</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">186</td><td colspan="6"></td></tr><tr><td class="h">187 - 191</td><td colspan="5"></td><td class="s"><pre>=head2 estimate_savings($issues)
+=head3 Purpose
 
-Estimate potential CI minutes and cost savings from fixing issues.
+Produce a compact Markdown comment suitable for posting as a PR review
+comment.&nbsp;&nbsp;Includes a summary table, a collapsible detail block, a how-to-fix
+section when no fixes were applied, and a potential savings estimate.
+
+=head3 Arguments
+
+=over 4
+
+=item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+
+Issues to display.&nbsp;&nbsp;Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
+optional C&lt;file&gt; key adds a file reference line.
+
+=item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
+
+Fixes already applied (used only for the applied-fix count in the header).
+
+=item C&lt;$options&gt; (HashRef, optional, default C&lt;{}&gt;)
+
+Reserved for future use; currently unused.
+
+=back
+
+=head3 Returns
+
+A non-empty Markdown string starting with C&lt;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis&gt;.
+
+When C&lt;$issues&gt; is empty, the comment contains the phrase
+C&lt;No issues found!&gt; and is returned early without a table or details block.
+
+=head3 Side Effects
+
+None.&nbsp;&nbsp;Pure function.
+
+=head3 Usage Example
+
+&nbsp;&nbsp;&nbsp;&nbsp;my $comment = generate_github_comment(\@issues, \@fixes);
+&nbsp;&nbsp;&nbsp;&nbsp;# Post $comment via GitHub API
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;issues&nbsp;&nbsp;=&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fixes&nbsp;&nbsp;&nbsp;=&gt; { type =&gt; &#39;arrayref&#39;, default&nbsp;&nbsp;=&gt; [] },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;options =&gt; { type =&gt; &#39;hashref&#39;,&nbsp;&nbsp;default&nbsp;&nbsp;=&gt; {} },
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+=head4 Output
+
+&nbsp;&nbsp;&nbsp;&nbsp;{ type =&gt; &#39;scalar&#39; }&nbsp;&nbsp;&nbsp;# Markdown string
+
+=head3 FORMAL SPECIFICATION
+
+&nbsp;&nbsp;&nbsp;&nbsp;generate_github_comment : seq Issue &Atilde;&#151; seq Fix &Atilde;&#151; Options &acirc;&#134;&#146; &acirc;&#132;&curren;*
+
+&nbsp;&nbsp;&nbsp;&nbsp;result begins with &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;|issues| = 0 &acirc;&#135;&#146; result contains &quot;No issues found!&quot; &acirc;&#136;&sect; early return
+&nbsp;&nbsp;&nbsp;&nbsp;|fixes|&nbsp;&nbsp;&gt; 0 &acirc;&#135;&#146; result contains &quot;Applied&quot; &acirc;&#136;&sect; fix count
+&nbsp;&nbsp;&nbsp;&nbsp;|issues| &gt; 0 &acirc;&#136;&sect; |fixes| = 0 &acirc;&#135;&#146; result contains &quot;How to Fix&quot;
+&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#136;&#131; i &acirc;&#136;&#136; issues: i.file defined &acirc;&#135;&#146; result contains i.file
 
 =cut</pre></td></tr>
-<tr><td class="h">192</td><td colspan="6"></td></tr><tr><td class="h">193</td><td><div class="c3">8</div><div class="c3">8</div><div class="c3">8</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L193">8</a></div></td><td><div>1446</div><div>4</div><div>4</div></td><td class="s">sub estimate_savings($issues) {</td></tr>
-<tr><td class="h">194</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %savings = (</td></tr>
-<tr><td class="h">195</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minutes =&gt; 0,</td></tr>
-<tr><td class="h">196</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost =&gt; 0,</td></tr>
-<tr><td class="h">197</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">198</td><td colspan="6"></td></tr><tr><td class="h">199</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@$issues) {</td></tr>
-<tr><td class="h">200</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Estimate savings by issue type</td></tr>
-<tr><td class="h">201</td><td><div class="c3">9</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L201">100</a></div><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L201">100</a></div></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{type} eq &#39;performance&#39;) {</td></tr>
-<tr><td class="h">202</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Caching saves ~5 minutes per workflow run</td></tr>
-<tr><td class="h">203</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Assume 100 runs/month</td></tr>
-<tr><td class="h">204</td><td><div class="c3">5</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L204">50</a></div></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;</td></tr>
-<tr><td class="h">205</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {</td></tr>
-<tr><td class="h">206</td><td><div class="c3">2</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L206">100</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{message} =~ /concurrency/) {</td></tr>
-<tr><td class="h">207</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Concurrency saves ~50 minutes/month by canceling old runs</td></tr>
-<tr><td class="h">208</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 50;</td></tr>
-<tr><td class="h">209</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">210</td><td><div class="c3">2</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L210">100</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{message} =~ /triggers/) {</td></tr>
-<tr><td class="h">211</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Trigger filters save ~100 minutes/month</td></tr>
-<tr><td class="h">212</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 100;</td></tr>
-<tr><td class="h">213</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">214</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">215</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
-<tr><td class="h">216</td><td colspan="6"></td></tr><tr><td class="h">217</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Private repo pricing: ~$0.008 per minute</td></tr>
-<tr><td class="h">218</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>12</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{cost} = int($savings{minutes} * 0.008);</td></tr>
-<tr><td class="h">219</td><td colspan="6"></td></tr><tr><td class="h">220</td><td><div class="c3">8</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%savings;</td></tr>
-<tr><td class="h">221</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">222</td><td colspan="6"></td></tr><tr><td class="h">223</td><td><div class="c3">13</div><div class="c3">13</div><div class="c3">13</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L223">13</a></div></td><td><div>2165</div><div>7</div><div>7</div></td><td class="s">sub get_type_emoji($type) {</td></tr>
-<tr><td class="h">224</td><td><div class="c3">13</div></td><td></td><td></td><td></td><td><div>15</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %emojis = (</td></tr>
-<tr><td class="h">225</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;performance =&gt; &#39;&acirc;&#154;&iexcl;&#39;,</td></tr>
-<tr><td class="h">226</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,</td></tr>
-<tr><td class="h">227</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,</td></tr>
-<tr><td class="h">228</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,</td></tr>
-<tr><td class="h">229</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">230</td><td colspan="6"></td></tr><tr><td class="h">231</td><td><div class="c3">13</div></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L231">100</a></div></td><td></td><td><div>18</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;</td></tr>
-<tr><td class="h">232</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">233</td><td colspan="6"></td></tr><tr><td class="h">234</td><td><div class="c3">10</div><div class="c3">10</div><div class="c3">10</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L234">10</a></div></td><td><div>1442</div><div>9</div><div>3</div></td><td class="s">sub get_severity_badge($severity) {</td></tr>
-<tr><td class="h">235</td><td><div class="c3">10</div></td><td></td><td></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %badges = (</td></tr>
-<tr><td class="h">236</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;high&nbsp;&nbsp;&nbsp;=&gt; &#39;&eth;&#159;&#148;&acute;&#39;,</td></tr>
-<tr><td class="h">237</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,</td></tr>
-<tr><td class="h">238</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,</td></tr>
-<tr><td class="h">239</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">240</td><td colspan="6"></td></tr><tr><td class="h">241</td><td><div class="c3">10</div></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L241">100</a></div></td><td></td><td><div>17</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;</td></tr>
-<tr><td class="h">242</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">243</td><td colspan="6"></td></tr><tr><td class="h">244 - 255</td><td colspan="5"></td><td class="s"><pre>=head1 AUTHOR
+<tr><td class="h">216</td><td colspan="6"></td></tr><tr><td class="h">217</td><td><div class="c3">6</div><div class="c3">6</div><div class="c3">6</div><div class="c3">6</div><div class="c3">6</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L217">6</a></div></td><td><div>6802</div><div>7</div><div>9</div><div>7</div><div>4</div></td><td class="s">sub generate_github_comment($issues, $fixes = [], $options = {}) {</td></tr>
+<tr><td class="h">218</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;</td></tr>
+<tr><td class="h">219</td><td colspan="6"></td></tr><tr><td class="h">220</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $total_issues = scalar @$issues;</td></tr>
+<tr><td class="h">221</td><td><div class="c3">6</div></td><td></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $total_fixes = scalar @$fixes;</td></tr>
+<tr><td class="h">222</td><td colspan="6"></td></tr><tr><td class="h">223</td><td><div class="c3">6</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L223">100</a></div></td><td></td><td></td><td><div>12</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_fixes &gt; 0) {</td></tr>
+<tr><td class="h">224</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;</td></tr>
+<tr><td class="h">225</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">226</td><td colspan="6"></td></tr><tr><td class="h">227</td><td><div class="c3">6</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L227">100</a></div></td><td></td><td></td><td><div>14</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_issues == 0) {</td></tr>
+<tr><td class="h">228</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;</td></tr>
+<tr><td class="h">229</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $comment;</td></tr>
+<tr><td class="h">230</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">231</td><td colspan="6"></td></tr><tr><td class="h">232</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Summary table</td></tr>
+<tr><td class="h">233</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;</td></tr>
+<tr><td class="h">234</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;|----------|-------|-------------|\n&quot;;</td></tr>
+<tr><td class="h">235</td><td colspan="6"></td></tr><tr><td class="h">236</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %by_type;</td></tr>
+<tr><td class="h">237</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>8</div><div>12</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;</td></tr>
+<tr><td class="h">238</td><td colspan="6"></td></tr><tr><td class="h">239</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
+<tr><td class="h">240</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $count = scalar @{$by_type{$type}};</td></tr>
+<tr><td class="h">241</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td><div class="c0"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L241">50</a></div></td><td></td><td><div>5</div><div>14</div><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $fixable = grep { $_-&gt;{auto_fixable} // 1 } @{$by_type{$type}};</td></tr>
+<tr><td class="h">242</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>9</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $emoji = get_type_emoji($type);</td></tr>
+<tr><td class="h">243</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>11</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;| $emoji &quot; . ucfirst($type) . &quot; | $count | $fixable |\n&quot;;</td></tr>
+<tr><td class="h">244</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">245</td><td colspan="6"></td></tr><tr><td class="h">246</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
+<tr><td class="h">247</td><td colspan="6"></td></tr><tr><td class="h">248</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Detailed issues</td></tr>
+<tr><td class="h">249</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;details&gt;\n&quot;;</td></tr>
+<tr><td class="h">250</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;summary&gt;&eth;&#159;&#147;&#139; View Details&lt;/summary&gt;\n\n&quot;;</td></tr>
+<tr><td class="h">251</td><td colspan="6"></td></tr><tr><td class="h">252</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;for my $type (sort keys %by_type) {</td></tr>
+<tr><td class="h">253</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &quot; . get_type_emoji($type) . &quot; &quot; . ucfirst($type) . &quot;\n\n&quot;;</td></tr>
+<tr><td class="h">254</td><td colspan="6"></td></tr><tr><td class="h">255</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@{$by_type{$type}}) {</td></tr>
+<tr><td class="h">256</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $badge = get_severity_badge($issue-&gt;{severity});</td></tr>
+<tr><td class="h">257</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;</td></tr>
+<tr><td class="h">258</td><td colspan="6"></td></tr><tr><td class="h">259</td><td><div class="c3">4</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L259">50</a></div></td><td></td><td></td><td><div>9</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{file}) {</td></tr>
+<tr><td class="h">260</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;- File: `$issue-&gt;{file}`\n&quot;;</td></tr>
+<tr><td class="h">261</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">262</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">263</td><td colspan="6"></td></tr><tr><td class="h">264</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
+<tr><td class="h">265</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">266</td><td colspan="6"></td></tr><tr><td class="h">267</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&lt;/details&gt;\n\n&quot;;</td></tr>
+<tr><td class="h">268</td><td colspan="6"></td></tr><tr><td class="h">269</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add recommendations</td></tr>
+<tr><td class="h">270</td><td><div class="c3">4</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L270">100</a></div></td><td><div class="c0"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L270">67</a></div></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {</td></tr>
+<tr><td class="h">271</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;</td></tr>
+<tr><td class="h">272</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;Run these commands locally:\n\n&quot;;</td></tr>
+<tr><td class="h">273</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```bash\n&quot;;</td></tr>
+<tr><td class="h">274</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;# Install ghgen\n&quot;;</td></tr>
+<tr><td class="h">275</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;cpanm App::GHGen\n\n&quot;;</td></tr>
+<tr><td class="h">276</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;# Analyze and fix\n&quot;;</td></tr>
+<tr><td class="h">277</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;ghgen analyze --fix\n&quot;;</td></tr>
+<tr><td class="h">278</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```\n\n&quot;;</td></tr>
+<tr><td class="h">279</td><td colspan="6"></td></tr><tr><td class="h">280</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;Or enable auto-fix in this action:\n\n&quot;;</td></tr>
+<tr><td class="h">281</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```yaml\n&quot;;</td></tr>
+<tr><td class="h">282</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- uses: nigelhorne/ghgen-action\@v1\n&quot;;</td></tr>
+<tr><td class="h">283</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>0</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;with:\n&quot;;</td></tr>
+<tr><td class="h">284</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;&nbsp;&nbsp;auto-fix: true\n&quot;;</td></tr>
+<tr><td class="h">285</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;&nbsp;&nbsp;&nbsp;&nbsp;create-pr: true\n&quot;;</td></tr>
+<tr><td class="h">286</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;```\n\n&quot;;</td></tr>
+<tr><td class="h">287</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">288</td><td colspan="6"></td></tr><tr><td class="h">289</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Add savings estimate</td></tr>
+<tr><td class="h">290</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $savings = estimate_savings($issues);</td></tr>
+<tr><td class="h">291</td><td><div class="c3">4</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L291">50</a></div></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{minutes} &gt; 0) {</td></tr>
+<tr><td class="h">292</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;</td></tr>
+<tr><td class="h">293</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;By fixing these issues:\n&quot;;</td></tr>
+<tr><td class="h">294</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;</td></tr>
+<tr><td class="h">295</td><td colspan="6"></td></tr><tr><td class="h">296</td><td><div class="c3">4</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L296">50</a></div></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($savings-&gt;{cost} &gt; 0) {</td></tr>
+<tr><td class="h">297</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;</td></tr>
+<tr><td class="h">298</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">299</td><td colspan="6"></td></tr><tr><td class="h">300</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>2</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;\n&quot;;</td></tr>
+<tr><td class="h">301</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">302</td><td colspan="6"></td></tr><tr><td class="h">303</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;---\n&quot;;</td></tr>
+<tr><td class="h">304</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;</td></tr>
+<tr><td class="h">305</td><td colspan="6"></td></tr><tr><td class="h">306</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $comment;</td></tr>
+<tr><td class="h">307</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">308</td><td colspan="6"></td></tr><tr><td class="h">309 - 377</td><td colspan="5"></td><td class="s"><pre>=head2 estimate_savings($issues)
+
+Estimate CI-minute savings and associated cost reduction from fixing a set of issues.
+
+=head3 Purpose
+
+For each C&lt;performance&gt; (caching) or C&lt;cost&gt; (concurrency, triggers) issue,
+add a fixed minute estimate to the running total and compute the equivalent
+USD saving at the GitHub private-repo rate of $0.008/minute.
+
+=head3 Arguments
+
+=over 4
+
+=item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+
+Issue hashes with at least C&lt;type&gt; and C&lt;message&gt;.
+
+=back
+
+=head3 Returns
+
+A hash reference:
+
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minutes =&gt; Int,&nbsp;&nbsp;&nbsp;# total estimated minutes saved per month; 0 when no savings
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost&nbsp;&nbsp;&nbsp;&nbsp;=&gt; Int,&nbsp;&nbsp;&nbsp;# floor(minutes * 0.008); 0 when no savings
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+=head3 Side Effects
+
+None.&nbsp;&nbsp;Pure function.
+
+=head3 Usage Example
+
+&nbsp;&nbsp;&nbsp;&nbsp;my $s = estimate_savings(\@issues);
+&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Save $s-&gt;{minutes} min/month&quot;;
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+&nbsp;&nbsp;&nbsp;&nbsp;{ issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 } }
+
+=head4 Output
+
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type =&gt; &#39;hashref&#39;,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys =&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minutes =&gt; { type =&gt; &#39;scalar&#39; },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost&nbsp;&nbsp;&nbsp;&nbsp;=&gt; { type =&gt; &#39;scalar&#39; },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+=head3 FORMAL SPECIFICATION
+
+&nbsp;&nbsp;&nbsp;&nbsp;estimate_savings : seq Issue &acirc;&#134;&#146; { minutes: &acirc;&#132;&#149;, cost: &acirc;&#132;&#149; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;RATE &acirc;&#137;&#148; 0.008
+&nbsp;&nbsp;&nbsp;&nbsp;savings(i) &acirc;&#137;&#148;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.type = performance &acirc;&#136;&sect; i.message =~ /caching/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#134;&#146; 500
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.type = cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#136;&sect; i.message =~ /concurrency/ &acirc;&#134;&#146; 50
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.type = cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#136;&sect; i.message =~ /triggers/&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#134;&#146; 100
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&acirc;&#134;&#146; 0
+
+&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;&nbsp;&acirc;&#137;&#148; &acirc;&#136;&#145; { savings(i) &acirc;&#136;&pound; i &acirc;&#136;&#136; issues }
+&nbsp;&nbsp;&nbsp;&nbsp;result &acirc;&#137;&#148; { minutes &acirc;&#134;&brvbar; total, cost &acirc;&#134;&brvbar; floor(total &Atilde;&#151; RATE) }
+
+=cut</pre></td></tr>
+<tr><td class="h">378</td><td colspan="6"></td></tr><tr><td class="h">379</td><td><div class="c3">17</div><div class="c3">17</div><div class="c3">17</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L379">17</a></div></td><td><div>6447</div><div>18</div><div>15</div></td><td class="s">sub estimate_savings($issues) {</td></tr>
+<tr><td class="h">380</td><td><div class="c3">17</div></td><td></td><td></td><td></td><td><div>37</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %savings = (</td></tr>
+<tr><td class="h">381</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minutes =&gt; 0,</td></tr>
+<tr><td class="h">382</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost =&gt; 0,</td></tr>
+<tr><td class="h">383</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">384</td><td colspan="6"></td></tr><tr><td class="h">385</td><td><div class="c3">17</div></td><td></td><td></td><td></td><td><div>23</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for my $issue (@$issues) {</td></tr>
+<tr><td class="h">386</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Estimate savings by issue type</td></tr>
+<tr><td class="h">387</td><td><div class="c3">18</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L387">100</a></div><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L387">100</a></div></td><td></td><td></td><td><div>43</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{type} eq &#39;performance&#39;) {</td></tr>
+<tr><td class="h">388</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Caching saves ~5 minutes per workflow run</td></tr>
+<tr><td class="h">389</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Assume 100 runs/month</td></tr>
+<tr><td class="h">390</td><td><div class="c3">10</div></td><td><div class="c0" title="T/-"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L390">50</a></div></td><td></td><td></td><td><div>37</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;</td></tr>
+<tr><td class="h">391</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {</td></tr>
+<tr><td class="h">392</td><td><div class="c3">4</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L392">100</a></div></td><td></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{message} =~ /concurrency/) {</td></tr>
+<tr><td class="h">393</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Concurrency saves ~50 minutes/month by canceling old runs</td></tr>
+<tr><td class="h">394</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 50;</td></tr>
+<tr><td class="h">395</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">396</td><td><div class="c3">4</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Reporter-pm--branch.html#L396">100</a></div></td><td></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($issue-&gt;{message} =~ /triggers/) {</td></tr>
+<tr><td class="h">397</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Trigger filters save ~100 minutes/month</td></tr>
+<tr><td class="h">398</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{minutes} += 100;</td></tr>
+<tr><td class="h">399</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">400</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">401</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="h">402</td><td colspan="6"></td></tr><tr><td class="h">403</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Private repo pricing: ~$0.008 per minute</td></tr>
+<tr><td class="h">404</td><td><div class="c3">17</div></td><td></td><td></td><td></td><td><div>36</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$savings{cost} = int($savings{minutes} * 0.008);</td></tr>
+<tr><td class="h">405</td><td colspan="6"></td></tr><tr><td class="h">406</td><td><div class="c3">17</div></td><td></td><td></td><td></td><td><div>26</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return \%savings;</td></tr>
+<tr><td class="h">407</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">408</td><td colspan="6"></td></tr><tr><td class="h">409</td><td><div class="c3">21</div><div class="c3">21</div><div class="c3">21</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L409">21</a></div></td><td><div>4134</div><div>15</div><div>14</div></td><td class="s">sub get_type_emoji($type) {</td></tr>
+<tr><td class="h">410</td><td><div class="c3">21</div></td><td></td><td></td><td></td><td><div>51</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %emojis = (</td></tr>
+<tr><td class="h">411</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;performance =&gt; &#39;&acirc;&#154;&iexcl;&#39;,</td></tr>
+<tr><td class="h">412</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,</td></tr>
+<tr><td class="h">413</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,</td></tr>
+<tr><td class="h">414</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,</td></tr>
+<tr><td class="h">415</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">416</td><td colspan="6"></td></tr><tr><td class="h">417</td><td><div class="c3">21</div></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L417">100</a></div></td><td></td><td><div>51</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;</td></tr>
+<tr><td class="h">418</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">419</td><td colspan="6"></td></tr><tr><td class="h">420</td><td><div class="c3">16</div><div class="c3">16</div><div class="c3">16</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--subroutine.html#L420">16</a></div></td><td><div>2780</div><div>11</div><div>11</div></td><td class="s">sub get_severity_badge($severity) {</td></tr>
+<tr><td class="h">421</td><td><div class="c3">16</div></td><td></td><td></td><td></td><td><div>30</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %badges = (</td></tr>
+<tr><td class="h">422</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;high&nbsp;&nbsp;&nbsp;=&gt; &#39;&eth;&#159;&#148;&acute;&#39;,</td></tr>
+<tr><td class="h">423</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,</td></tr>
+<tr><td class="h">424</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,</td></tr>
+<tr><td class="h">425</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
+<tr><td class="h">426</td><td colspan="6"></td></tr><tr><td class="h">427</td><td><div class="c3">16</div></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Reporter-pm--condition.html#L427">100</a></div></td><td></td><td><div>38</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;</td></tr>
+<tr><td class="h">428</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">429</td><td colspan="6"></td></tr><tr><td class="h">430 - 441</td><td colspan="5"></td><td class="s"><pre>=head1 AUTHOR
 
 Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 
@@ -232,7 +418,7 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut</pre></td></tr>
-<tr><td class="h">256</td><td colspan="6"></td></tr><tr><td class="h">257</td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
+<tr><td class="h">442</td><td colspan="6"></td></tr><tr><td class="h">443</td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
 </table>
 </body>
 </html>
