@@ -29,3 +29,4 @@ t/pod-coverage.t
 t/pod-synopsis.t
 t/pull_6.t
 t/timeout.t
+t/unit.t

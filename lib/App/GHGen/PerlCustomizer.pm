@@ -31,7 +31,75 @@ App::GHGen::PerlCustomizer - Customize Perl workflows based on project requireme
 
 =head2 detect_perl_requirements()
 
-Detect Perl version requirements from cpanfile, Makefile.PL, or dist.ini.
+Detect Perl version requirements and dependency-file presence in the current directory.
+
+=head3 Purpose
+
+Inspect the current working directory for common Perl distribution files
+(C<cpanfile>, C<Makefile.PL>, C<dist.ini>, C<Build.PL>) and extract the
+minimum Perl version declared in any of them.
+
+=head3 Arguments
+
+None.
+
+=head3 Returns
+
+A hash reference with the following keys, all of which are always present:
+
+    {
+        min_version    => Str | undef,  # e.g. '5.036'; undef when undetected
+        has_cpanfile   => Bool,
+        has_makefile_pl => Bool,
+        has_dist_ini   => Bool,
+        has_build_pl   => Bool,
+    }
+
+=head3 Side Effects
+
+Reads files from the current working directory.
+
+=head3 Usage Example
+
+    use App::GHGen::PerlCustomizer qw(detect_perl_requirements);
+    my $reqs = detect_perl_requirements();
+    say $reqs->{min_version} // 'not specified';
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    # No parameters.
+
+=head4 Output
+
+    {
+        type => 'hashref',
+        keys => {
+            min_version     => { type => 'scalar', optional => 1 },
+            has_cpanfile    => { type => 'scalar' },
+            has_makefile_pl => { type => 'scalar' },
+            has_dist_ini    => { type => 'scalar' },
+            has_build_pl    => { type => 'scalar' },
+        },
+    }
+
+=head3 FORMAL SPECIFICATION
+
+    detect_perl_requirements : → Requirements
+
+    Requirements ≔ {
+        min_version:     ℤ* ∪ { ⊥ },
+        has_cpanfile:    𝔹,
+        has_makefile_pl: 𝔹,
+        has_dist_ini:    𝔹,
+        has_build_pl:    𝔹,
+    }
+
+    min_version ≔
+        cpanfile exists ∧ version parseable from cpanfile  → version
+        Makefile.PL exists ∧ MIN_PERL_VERSION parseable   → version
+        otherwise                                           → ⊥
 
 =cut
 
@@ -165,6 +233,47 @@ B<Generated step order:>
 =item 11. Show cpanm build log on failure
 
 =back
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    {
+        opts => {
+            type     => 'hashref',
+            default  => {},
+            keys     => {
+                perl_versions        => { type => 'arrayref', optional => 1 },
+                min_perl_version     => { type => 'scalar',  default  => '5.36' },
+                max_perl_version     => { type => 'scalar',  default  => '5.40' },
+                os                   => { type => 'arrayref', optional => 1 },
+                timeout              => { type => 'scalar',  default  => 30 },
+                enable_linter        => { type => 'scalar',  default  => 1 },
+                enable_linter_unused => { type => 'scalar',  default  => 0 },
+                enable_critic        => { type => 'scalar',  default  => 1 },
+                enable_coverage      => { type => 'scalar',  default  => 1 },
+            },
+        },
+    }
+
+=head4 Output
+
+    { type => 'scalar' }   # multi-line YAML string starting with '---'
+
+=head3 FORMAL SPECIFICATION
+
+    generate_custom_perl_workflow : Opts → YAML
+
+    versions ≔ opts.perl_versions ?? range(min, max)
+    latest   ≔ versions[|versions|−1]
+
+    yaml contains "Lint and syntax check" step  ↔  opts.enable_linter = 1
+    yaml contains "Check for unused variables"   ↔  opts.enable_linter_unused = 1
+    yaml contains "Run Perl::Critic"             ↔  opts.enable_critic = 1
+    yaml contains "Test coverage"               ↔  opts.enable_coverage = 1
+
+    step ordering invariant:
+      pos(lint) < pos(tests) < pos(unused) < pos(critic) < pos(coverage)
 
 =cut
 

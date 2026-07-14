@@ -31,7 +31,59 @@ App::GHGen::Generator - Generate GitHub Actions workflows
 
 =head2 generate_workflow($type)
 
-Generate a workflow for the specified type. Returns YAML as a string.
+Generate a complete GitHub Actions workflow YAML string for the given project type.
+
+=head3 Purpose
+
+Dispatch to the appropriate language-specific workflow generator and return
+the resulting YAML string ready to be written to a C<.github/workflows/> file.
+
+=head3 Arguments
+
+=over 4
+
+=item C<$type> (Str, required)
+
+A project-type identifier.  Supported values: C<perl>, C<node>, C<python>,
+C<rust>, C<go>, C<ruby>, C<java>, C<cpp>, C<php>, C<docker>, C<static>.
+
+=back
+
+=head3 Returns
+
+A multi-line YAML string beginning with C<---> when C<$type> is recognised,
+or C<undef> when the type is not supported.
+
+=head3 Side Effects
+
+The C<perl> type reads the current directory to detect project requirements
+(via L<App::GHGen::PerlCustomizer>).
+
+=head3 Usage Example
+
+    use App::GHGen::Generator qw(generate_workflow);
+    my $yaml = generate_workflow('node') // die "unsupported type";
+    path('.github/workflows/ci.yml')->spew_utf8($yaml);
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    { type => { type => 'scalar', required => 1 } }
+
+=head4 Output
+
+    known type   → { type => 'scalar' }   # YAML string
+    unknown type → undef
+
+=head3 FORMAL SPECIFICATION
+
+    SupportedTypes ≔ { perl, node, python, rust, go, ruby, java, cpp, php, docker, static }
+
+    generate_workflow : ℤ* → ℤ* ∪ { ⊥ }
+
+    t ∈ SupportedTypes → generators[t]()    (non-empty YAML string)
+    t ∉ SupportedTypes → ⊥                  (undef)
 
 =cut
 
@@ -56,7 +108,48 @@ sub generate_workflow($type) {
 
 =head2 list_workflow_types()
 
-Returns a hash of available workflow types and their descriptions.
+Return a flat hash of all supported workflow types and their descriptions.
+
+=head3 Purpose
+
+Enumerate every type that C<generate_workflow> can handle, with a one-line
+human-readable description for each.
+
+=head3 Arguments
+
+None.
+
+=head3 Returns
+
+A flat hash (not a reference) mapping type strings to description strings.
+Contains exactly eleven entries: C<perl>, C<node>, C<python>, C<rust>,
+C<go>, C<ruby>, C<java>, C<cpp>, C<php>, C<docker>, C<static>.
+
+=head3 Side Effects
+
+None.  Pure function.
+
+=head3 Usage Example
+
+    my %types = list_workflow_types();
+    say "$_: $types{$_}" for sort keys %types;
+
+=head3 API SPECIFICATION
+
+=head4 Input
+
+    # No parameters.
+
+=head4 Output
+
+    { type => 'hashref', keys => { '*' => { type => 'scalar' } } }
+
+=head3 FORMAL SPECIFICATION
+
+    list_workflow_types : → ℤ* → ℤ*
+
+    result ≔ { t ↦ desc(t) ∣ t ∈ SupportedTypes }
+    |result| = 11
 
 =cut
 
