@@ -21,6 +21,7 @@ t/30-basics.t
 t/detector.t
 t/eof.t
 t/eol.t
+t/function.t
 t/kwalitee.t
 t/linter.t
 t/pod-cm.t
