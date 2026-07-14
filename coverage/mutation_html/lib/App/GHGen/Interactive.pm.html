@@ -244,9 +244,9 @@ pre details.mutant-details ul {
 <div class="nav"><a href="../../../../index.html">Index</a>
  <a href="PerlCustomizer.pm.html">Next ➡</a></div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
-TER1 (Statement): 6.60%<br>
-TER2 (Branch): 0.00%<br>
-TER3 (LCSAJ): 0.0% (0/5)<br>
+TER1 (Statement): 36.79%<br>
+TER2 (Branch): 86.67%<br>
+TER3 (LCSAJ): 100.0% (5/5)<br>
 Approximate LCSAJ segments: 31<br>
 </div>
 
@@ -354,7 +354,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   44: 	return 0 if $answer =~ /^n(o)?$/i;
+<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   44: 	return 0 if $answer =~ /^n(o)?$/i;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -376,7 +376,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   45: 	return $default eq &#39;y&#39; ? 1 : 0;
+<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   45: 	return $default eq &#39;y&#39; ? 1 : 0;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -407,7 +407,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">   52: =cut
 </span><span class="">   53: 
 </span><span class="">   54: sub prompt_choice($question, $choices, $default = 0) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot-uncovered">●</span><span class="lcsaj-tip-text">[NOT COVERED] 55 → 56 → 61</span></span>   55:     say $question;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">55 → 56 → 61</span></span>   55:     say $question;
 </span><span class="">   56:     for my $i (0 .. $#$choices) {
 </span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">   57:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
 </span>
@@ -429,7 +429,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">   61:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
 </span><span class="">   62:     chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">   63: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   64:     return $default if $answer eq &#39;&#39;;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   64:     return $default if $answer eq &#39;&#39;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -451,7 +451,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-3 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">   65:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
+<span class="survived-3 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Boolean logic mutation survived. Add tests covering both true and false paths.">   65:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 8, Killed: 0, Survived: 8)</summary>
@@ -552,7 +552,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">   73: =cut
 </span><span class="">   74: 
 </span><span class="">   75: sub prompt_multiselect($question, $options, $defaults = []) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot-uncovered">●</span><span class="lcsaj-tip-text">[NOT COVERED] 76 → 81 → 86</span></span>   76:     say $question;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">76 → 81 → 86</span></span>   76:     say $question;
 </span><span class="">   77:     say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
 </span><span class="">   78: 
 </span><span class="">   79:     my %is_default = map { $_ =&gt; 1 } @$defaults;
@@ -562,10 +562,10 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">   83:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
 </span><span class="">   84:     }
 </span><span class="">   85: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot-uncovered">●</span><span class="lcsaj-tip-text">[NOT COVERED] 86 → 91 → 95</span></span>   86:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">86 → 91 → 95</span></span>   86:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
 </span><span class="">   87:     chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">   88: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   89:     return $defaults if $answer eq &#39;&#39;;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   89:     return $defaults if $answer eq &#39;&#39;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -595,7 +595,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 					<ul>
 				<li><b>COND_INV_91_5: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   92:         return $options;
+<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   92:         return $options;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -619,7 +619,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 							</li></ul></details>
 <span class="">   93:     }
 </span><span class="">   94: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot-uncovered">●</span><span class="lcsaj-tip-text">[NOT COVERED] 95 → 96 → 102</span></span>   95:     my @selected;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">95 → 96 → 102</span></span>   95:     my @selected;
 </span><span class="">   96:     for my $num (split /[,\s]+/, $answer) {
 </span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">   97:         if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
 </span>
@@ -715,7 +715,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  113:     print &quot;$question $prompt: &quot;;
 </span><span class="">  114:     chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  115: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  116:     return $answer eq &#39;&#39; ? $default : $answer;
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  116:     return $answer eq &#39;&#39; ? $default : $answer;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -747,7 +747,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  124: =cut
 </span><span class="">  125: 
 </span><span class="">  126: sub customize_workflow($type) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot-uncovered">●</span><span class="lcsaj-tip-text">[NOT COVERED] 127 → 142 → 146</span></span>  127:     say &#39;&#39;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">127 → 142 → 146</span></span>  127:     say &#39;&#39;;
 </span><span class="">  128:     say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
 </span><span class="">  129:     say &#39;&#39;;
 </span><span class="">  130: 
@@ -859,7 +859,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  209:     $config{branches} = [split /,\s*/, $branches];
 </span><span class="">  210:     say &#39;&#39;;
 </span><span class="">  211: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  212:     return \%config;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  212:     return \%config;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1113,7 +1113,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  379:     $config{branches} = [split /,\s*/, $branches];
 </span><span class="">  380:     say &#39;&#39;;
 </span><span class="">  381: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  382:     return \%config;
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  382:     return \%config;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1158,7 +1158,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  403:     $config{branches} = [split /,\s*/, $branches];
 </span><span class="">  404:     say &#39;&#39;;
 </span><span class="">  405: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  406:     return \%config;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  406:     return \%config;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1244,7 +1244,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  447: 	$config{build_command} = $build_command;
 </span><span class="">  448: 	say &#39;&#39;;
 </span><span class="">  449: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  450: 	return \%config;
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  450: 	return \%config;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>

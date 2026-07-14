@@ -20,7 +20,7 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/App/GHGen/Detector.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">57.9%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">61.0%</td></tr>
 </table>
 <div><br/></div>
 <table>
@@ -31,16 +31,16 @@ https://pjcj.net
 <tr><td class="h"><a id="L107">107</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$type ? :</td></tr>
 <tr><td class="h"><a id="L116">116</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;cpanfile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L117">117</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;dist.ini&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L118">118</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Makefile.PL&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L118">118</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;Makefile.PL&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L119">119</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Build.PL&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L122">122</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;META.json&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L123">123</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;META.yml&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L126">126</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;lib&quot;)-&gt;exists and path(&quot;lib&quot;)-&gt;is_dir</td></tr>
-<tr><td class="h"><a id="L127">127</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;t&quot;)-&gt;exists and path(&quot;t&quot;)-&gt;is_dir</td></tr>
+<tr><td class="h"><a id="L127">127</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;t&quot;)-&gt;exists and path(&quot;t&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L130">130</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (path(&quot;lib&quot;)-&gt;exists)</td></tr>
 <tr><td class="h"><a id="L132">132</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @pm_files &gt; 0</td></tr>
-<tr><td class="h"><a id="L136">136</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if (path(&quot;t&quot;)-&gt;exists)</td></tr>
-<tr><td class="h"><a id="L138">138</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if @t_files &gt; 0</td></tr>
+<tr><td class="h"><a id="L136">136</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (path(&quot;t&quot;)-&gt;exists)</td></tr>
+<tr><td class="h"><a id="L138">138</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if @t_files &gt; 0</td></tr>
 <tr><td class="h"><a id="L148">148</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;package.json&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L149">149</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;package-lock.json&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L150">150</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;yarn.lock&quot;)-&gt;exists</td></tr>
@@ -99,7 +99,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L297">297</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;src/test/java&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L301">301</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @java_files &gt; 0</td></tr>
 <tr><td class="h"><a id="L310">310</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;CMakeLists.txt&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L311">311</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Makefile&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L311">311</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;Makefile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L312">312</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;configure.ac&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L313">313</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;configure&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L316">316</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;meson.build&quot;)-&gt;exists</td></tr>

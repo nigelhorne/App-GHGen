@@ -244,8 +244,8 @@ pre details.mutant-details ul {
 <div class="nav"><a href="Interactive.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
-TER1 (Statement): 96.79%<br>
-TER2 (Branch): 55.00%<br>
+TER1 (Statement): 98.40%<br>
+TER2 (Branch): 80.00%<br>
 TER3 (LCSAJ): 100.0% (10/10)<br>
 Approximate LCSAJ segments: 21<br>
 </div>
@@ -693,7 +693,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  371: 	my @selected;
 </span><span class="">  372: 	for my $version (@all_versions) {
 </span><span class="">  373: 		my $v_normalized = _normalize_version($version);
-</span><span class="survived-3 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  374: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">  374: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 7, Killed: 0, Survived: 7)</summary>
@@ -759,7 +759,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  383: 	# Convert &quot;5.036&quot; or &quot;5.36&quot; to comparable number
 </span><span class="">  384: 	$version =~ s/^v?//;
 </span><span class="">  385: 	my @parts = split /\./, $version;
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  386: 	return sprintf(&quot;%d.%03d&quot;, $parts[0] // 5, $parts[1] // 0);
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  386: 	return sprintf(&quot;%d.%03d&quot;, $parts[0] // 5, $parts[1] // 0);
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
