@@ -244,9 +244,9 @@ pre details.mutant-details ul {
 <div class="nav"><a href="Interactive.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
 </div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
-TER1 (Statement): 98.40%<br>
+TER1 (Statement): 98.32%<br>
 TER2 (Branch): 80.00%<br>
-TER3 (LCSAJ): 100.0% (10/10)<br>
+TER3 (LCSAJ): 100.0% (9/9)<br>
 Approximate LCSAJ segments: 21<br>
 </div>
 
@@ -480,7 +480,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  182: C&lt;perl -Mstrict -Mwarnings -c&gt; for each C&lt;.pm&gt; file found, and exits
 </span><span class="">  183: non-zero if any file fails.  B&lt;No additional CPAN modules are required.&gt;
 </span><span class="">  184: 
-</span><span class="">  185: =item C&lt;enable_linter_unused&gt; (boolean, default C&lt;0&gt;)
+</span><span class="">  185: =item C&lt;enable_linter_unused&gt; (boolean, default C&lt;1&gt;)
 </span><span class="">  186: 
 </span><span class="">  187: When true, inserts a B&lt;&quot;Check for unused variables&quot;&gt; step immediately after
 </span><span class="">  188: the test run and before Perl::Critic.  The step installs L&lt;warnings::unused&gt;
@@ -547,7 +547,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  249:                 os                   =&gt; { type =&gt; &#39;arrayref&#39;, optional =&gt; 1 },
 </span><span class="">  250:                 timeout              =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 30 },
 </span><span class="">  251:                 enable_linter        =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 1 },
-</span><span class="">  252:                 enable_linter_unused =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 0 },
+</span><span class="">  252:                 enable_linter_unused =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 1 },
 </span><span class="">  253:                 enable_critic        =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 1 },
 </span><span class="">  254:                 enable_coverage      =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 1 },
 </span><span class="">  255:             },
@@ -581,7 +581,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  283: 	my $timeout = $opts-&gt;{timeout} // 30;
 </span><span class="">  284: 	my @os = @{$opts-&gt;{os} // [&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;]};
 </span><span class="">  285: 	my $enable_linter = $opts-&gt;{enable_linter} // 1;
-</span><span class="">  286: 	my $enable_linter_unused = $opts-&gt;{enable_linter_unused} // 0;
+</span><span class="">  286: 	my $enable_linter_unused = $opts-&gt;{enable_linter_unused} // 1;
 </span><span class="">  287: 	my $enable_critic = $opts-&gt;{enable_critic} // 1;
 </span><span class="">  288: 	my $enable_coverage = $opts-&gt;{enable_coverage} // 1;
 </span><span class="">  289: 
@@ -629,7 +629,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  331: 	for my $version (@perl_versions) {
 </span><span class="">  332: 		$yaml .= &quot;          - &#39;$version&#39;\n&quot;;
 </span><span class="">  333: 	}
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">334 → 379 → 404</span></span>  334: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">334 → 379 → 416</span></span>  334: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
 </span><span class="">  335: 	$yaml .= &quot;    env:\n&quot;;
 </span><span class="">  336: 	$yaml .= &quot;      AUTOMATED_TESTING: 1\n&quot;;
 </span><span class="">  337: 	$yaml .= &quot;      NO_NETWORK_TESTING: 1\n&quot;;
@@ -682,52 +682,52 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  384:           use strict;
 </span><span class="">  385:           use warnings;
 </span><span class="">  386:           use File::Find;
-</span><span class="">  387:           my @failed;
-</span><span class="">  388:           my @dirs = grep { -d } qw(lib bin);
-</span><span class="">  389:           @dirs = (&#39;.&#39;) unless @dirs;
-</span><span class="">  390:           find(sub {
-</span><span class="">  391:               return unless -f &amp;&amp; /\.pm$/;
-</span><span class="">  392:               my $file = $File::Find::name;
-</span><span class="">  393:               system($^X, &#39;-Mstrict&#39;, &#39;-Mwarnings&#39;, &#39;-c&#39;, $file) != 0
-</span><span class="">  394:                   and push @failed, $file;
-</span><span class="">  395:           }, @dirs);
-</span><span class="">  396:           if (@failed) {
-</span><span class="">  397:               warn &quot;Syntax check failed: $_&quot; for @failed;
-</span><span class="">  398:               exit 1;
-</span><span class="">  399:           }
-</span><span class="">  400: 
-</span><span class="">  401: LINT_STEP
-</span><span class="">  402: 	}
-</span><span class="">  403: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">404 → 420 → 432</span></span>  404: 	$yaml .= &quot;      - name: Run tests\n&quot;;
-</span><span class="">  405: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  406: 	$yaml .= &quot;        shell: bash\n&quot;;
-</span><span class="">  407: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  408: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  409: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
-</span><span class="">  410: 
-</span><span class="">  411: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
-</span><span class="">  412: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  413: 	$yaml .= &quot;        shell: cmd\n&quot;;
-</span><span class="">  414: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  415: 	$yaml .= &quot;          \@echo off\n&quot;;
-</span><span class="">  416: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
-</span><span class="">  417: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="">  418: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
-</span><span class="">  419: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  420: 	if ($enable_linter_unused) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  421: 		my $latest = $perl_versions[-1];
-</span><span class="">  422: 		$yaml .= &quot;      - name: Check for unused variables\n&quot;;
-</span><span class="">  423: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  424: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
-</span><span class="">  425: 		$yaml .= &quot;        shell: bash\n&quot;;
-</span><span class="">  426: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  427: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  428: 		$yaml .= &quot;          cpanm --notest warnings::unused\n&quot;;
-</span><span class="">  429: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; -exec perl -Mwarnings::unused -c {} \\;\n\n&quot;;
-</span><span class="">  430: 	}
+</span><span class="">  387:           use lib &#39;lib&#39;;
+</span><span class="">  388:           my @failed;
+</span><span class="">  389:           push @INC, sub { open my $h, &#39;&lt;&#39;, \qq{1;\n}; $h };
+</span><span class="">  390:           my @dirs = grep { -d } qw(lib bin);
+</span><span class="">  391:           @dirs = (&#39;.&#39;) unless @dirs;
+</span><span class="">  392:           find({ wanted =&gt; sub {
+</span><span class="">  393:               return unless -f &amp;&amp; /\.pm$/;
+</span><span class="">  394:               my $file = $File::Find::name;
+</span><span class="">  395:               do $file;
+</span><span class="">  396:               if ($@) {
+</span><span class="">  397:                   warn &quot;Syntax check failed: $file\n&quot;;
+</span><span class="">  398:                   push @failed, $file;
+</span><span class="">  399:               }
+</span><span class="">  400:           }, no_chdir =&gt; 1 }, @dirs);
+</span><span class="">  401:           exit @failed ? 1 : 0;
+</span><span class="">  402: 
+</span><span class="">  403: LINT_STEP
+</span><span class="">  404: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  405: 		if ($enable_linter_unused) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  406: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
+</span><span class="">  407:           if (($ENV{RUNNER_OS} // &#39;&#39;) eq &#39;Linux&#39;) {
+</span><span class="">  408:               system(&#39;cpanm --notest --quiet warnings::unused 2&gt;/dev/null&#39;);
+</span><span class="">  409:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused || true&#39;);
+</span><span class="">  410:           }
+</span><span class="">  411: 
+</span><span class="">  412: UNUSED_CODE
+</span><span class="">  413: 		}
+</span><span class="">  414: 	}
+</span><span class="">  415: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">416 → 432 → 444</span></span>  416: 	$yaml .= &quot;      - name: Run tests\n&quot;;
+</span><span class="">  417: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  418: 	$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  419: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  420: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  421: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
+</span><span class="">  422: 
+</span><span class="">  423: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
+</span><span class="">  424: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  425: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  426: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  427: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  428: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  429: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
+</span><span class="">  430: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
 </span><span class="">  431: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">432 → 432 → 444</span></span>  432: 	if ($enable_critic) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  432: 	if ($enable_critic) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  433: 		my $latest = $perl_versions[-1];
 </span><span class="">  434: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
 </span><span class="">  435: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
