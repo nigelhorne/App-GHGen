@@ -394,7 +394,7 @@ sub generate_custom_perl_workflow($opts = {}) {
                   and push @failed, $file;
           }, @dirs);
           if (@failed) {
-              warn "Syntax check failed: $_\n" for @failed;
+              warn "Syntax check failed: $_" for @failed;
               exit 1;
           }
 
