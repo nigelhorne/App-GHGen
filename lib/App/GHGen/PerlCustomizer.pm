@@ -337,7 +337,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	$yaml .= "      NO_NETWORK_TESTING: 1\n";
 	$yaml .= "      NONINTERACTIVE_TESTING: 1\n";
 	$yaml .= "    steps:\n";
-	$yaml .= "      - uses: actions/checkout\@v6\n\n";
+	$yaml .= "      - uses: actions/checkout\@v7\n\n";
 
 	$yaml .= "      - name: Setup Perl\n";
 	$yaml .= "        uses: shogo82148/actions-setup-perl\@v1\n";
@@ -345,7 +345,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	$yaml .= "          perl-version: \${{ matrix.perl }}\n\n";
 
 	$yaml .= "      - name: Cache CPAN modules\n";
-	$yaml .= "        uses: actions/cache\@v5\n";
+	$yaml .= "        uses: actions/cache\@v6\n";
 	$yaml .= "        with:\n";
 	$yaml .= "          path: ~/perl5\n";
 	$yaml .= "          key: \${{ runner.os }}-\${{ matrix.perl }}-\${{ hashFiles('cpanfile') }}\n";
@@ -503,8 +503,9 @@ L<https://github.com/nigelhorne>
 
 =head1 LICENSE
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+Usage is subject to the GPL2 licence terms.
+If you use it,
+please let me know.
 
 =cut
 
