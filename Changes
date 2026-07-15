@@ -5,20 +5,38 @@ Revision history for App-GHGen
 	- Approved https://github.com/nigelhorne/App-GHGen/pull/6
 	  Missing unescaped $ failed to interpolate variable into double-quoted string
 	  Thanks to https://github.com/chromatic
+	- Fixed lint step failing on Windows with "Not enough arguments for push at -e line 1".
+	  The previous implementation spawned a subprocess (perl -e '...') whose single-quoted
+	  argument was mangled by cmd.exe quoting. Replaced with an inline do $file approach
+	  that runs entirely within the shell: perl {0} process — no subprocess, no quoting issues.
+	- Fixed lint step failing with "Can't open perl script" due to File::Find chdir behaviour.
+	  Added no_chdir => 1 to the find() options so $File::Find::name remains valid.
+	- Fixed lint step false failures when CPAN dependencies are not installed. perl -c runs
+	  BEGIN/use blocks, so missing modules caused compile errors on valid files. The new
+	  inline do $file approach pushes a stub @INC handler that returns "1;\n" for any module
+	  that cannot be found, suppressing false negatives while still catching real syntax errors.
+	- Fixed enable_linter_unused having no effect when set to 1 via the non-interactive code
+	  path. The POD Params::Validate block (default => 0) is documentation only; the actual
+	  runtime default was the // 0 on the assignment line (line 286). Changed to // 1.
 
 	[ New Features ]
 	- Added Perl syntax linting step to generated workflows (enable_linter, default: on)
 	  Uses shell: perl {0} so it runs cross-platform without OS-specific branching.
-	  Searches lib/ and bin/, runs perl -Mstrict -Mwarnings -c on every .pm file,
+	  Searches lib/ and bin/, uses do $file with a stub @INC handler for every .pm file,
 	  and covers every matrix cell (all OS × Perl version combinations).
 	  No extra CPAN dependencies required.
-	- Added optional unused-variable check step (enable_linter_unused, default: off)
-	  Installs warnings::unused from CPAN and runs on latest Perl + ubuntu-latest only.
-	  Marked continue-on-error: true as warnings can be noisy on some codebases.
-	- Both options are exposed in the interactive --customize prompt for Perl workflows
-	  under the "Code Quality Tools" heading.
+	- Added unused-variable check (enable_linter_unused, default: on). The check is embedded
+	  inside the lint step and runs PERL5OPT=-Mwarnings::unused prove -lr t/ so variable
+	  lifetimes are exercised at runtime (perl -c is compile-only and cannot detect unused
+	  vars). Gated on RUNNER_OS == Linux and continue-on-error: true.
+	- Added import-hygiene check (enable_perlimports, default: on). Installs App::perlimports
+	  and runs perlimports --lint across all .pm files under lib/. Scoped to latest Perl +
+	  ubuntu-latest; continue-on-error: true so it is advisory rather than blocking.
+	- Both enable_linter_unused and enable_perlimports are exposed in the interactive
+	  --customize prompt for Perl workflows under the "Code Quality Tools" heading.
 	- Regression test added in t/pull_6.t for the PR #6 cost-display bug fix.
-	- Tests added in t/linter.t covering presence/absence and ordering of new steps.
+	- Tests added/extended in t/linter.t covering presence/absence, ordering, and
+	  platform-gating of all lint-stage steps.
 
 0.05	Thu Mar 19 10:36:44 EDT 2026
 	- Fix tabs that had crept in
