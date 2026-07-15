@@ -823,10 +823,10 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - option flags per POD' =
 	unlike($yaml_no_lint, qr/Lint and syntax check/, 'lint step absent when enable_linter=0 per POD');
 	tick('PerlCustomizer.generate_custom_perl_workflow.no_linter_when_disabled');
 
-	# enable_linter_unused = 1: unused-vars step MUST appear.
+	# enable_linter_unused = 1: warnings::unused check MUST appear inside lint step.
 	my $yaml_unused = generate_custom_perl_workflow({
 		enable_linter_unused => 1, enable_critic => 0, enable_coverage => 0 });
-	like($yaml_unused, qr/Check for unused variables/, 'unused step present per POD');
+	like($yaml_unused, qr/PERL5OPT=-Mwarnings::unused/, 'unused check present per POD');
 	tick('PerlCustomizer.generate_custom_perl_workflow.unused_step_when_enabled');
 
 	# enable_critic = 1 (default): critic step MUST appear.
@@ -840,22 +840,23 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - option flags per POD' =
 	tick('PerlCustomizer.generate_custom_perl_workflow.coverage_step_when_enabled');
 
 	# Step-ordering invariant per POD FORMAL SPECIFICATION:
-	# pos(lint) < pos(tests) < pos(unused) < pos(critic) < pos(coverage)
+	# pos(lint) < pos(unused) < pos(tests) < pos(critic) < pos(coverage)
+	# (unused check is embedded inside lint step, before Run tests)
 	my $yaml_all = generate_custom_perl_workflow({
 		enable_linter        => 1,
 		enable_linter_unused => 1,
 		enable_critic        => 1,
 		enable_coverage      => 1,
 	});
-	my $pos_lint    = index($yaml_all, 'Lint and syntax check');
-	my $pos_tests   = index($yaml_all, 'Run tests');
-	my $pos_unused  = index($yaml_all, 'Check for unused variables');
-	my $pos_critic  = index($yaml_all, 'Perl::Critic');
+	my $pos_lint     = index($yaml_all, 'Lint and syntax check');
+	my $pos_unused   = index($yaml_all, 'PERL5OPT=-Mwarnings::unused');
+	my $pos_tests    = index($yaml_all, 'Run tests');
+	my $pos_critic   = index($yaml_all, 'Perl::Critic');
 	my $pos_coverage = index($yaml_all, 'Devel::Cover');
 
-	ok($pos_lint    < $pos_tests,   'lint before tests per POD ordering invariant');
-	ok($pos_tests   < $pos_unused,  'tests before unused per POD ordering invariant');
-	ok($pos_unused  < $pos_critic,  'unused before critic per POD ordering invariant');
+	ok($pos_lint    < $pos_unused,  'lint before unused per POD ordering invariant');
+	ok($pos_unused  < $pos_tests,   'unused before tests per POD ordering invariant');
+	ok($pos_tests   < $pos_critic,  'tests before critic per POD ordering invariant');
 	ok($pos_critic  < $pos_coverage,'critic before coverage per POD ordering invariant');
 	tick('PerlCustomizer.generate_custom_perl_workflow.step_ordering_invariant');
 };

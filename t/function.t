@@ -1012,14 +1012,16 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_linter_unused=1 
 		enable_critic        => 0,
 		enable_coverage      => 0,
 	});
-	like($yaml,  qr/Check for unused variables/, 'unused-var step present');
-	like($yaml,  qr/warnings::unused/,           'installs warnings::unused');
-	like($yaml,  qr/continue-on-error: true/,    'step is continue-on-error');
+	# warnings::unused is now embedded inside the lint step (before Run tests),
+	# run via PERL5OPT so it applies to the entire test suite execution.
+	like($yaml,  qr/PERL5OPT=-Mwarnings::unused/, 'unused-var check present in lint step');
+	like($yaml,  qr/warnings::unused/,            'installs warnings::unused');
+	like($yaml,  qr/\|\| true/,                   'check is non-blocking');
 
-	# Step must appear after "Run tests" and before Critic (which is off here).
+	# Check appears before "Run tests" (it lives inside the lint step).
 	my $pos_tests  = index($yaml, 'Run tests');
-	my $pos_unused = index($yaml, 'Check for unused variables');
-	ok($pos_unused > $pos_tests, 'unused-var step comes after test step');
+	my $pos_unused = index($yaml, 'PERL5OPT=-Mwarnings::unused');
+	ok($pos_unused < $pos_tests, 'unused-var check comes before test step (inside lint step)');
 };
 
 subtest 'PerlCustomizer::generate_custom_perl_workflow - explicit perl_versions list' => sub {

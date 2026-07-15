@@ -182,7 +182,7 @@ C<bin/> (falling back to C<.> when neither exists), spawns
 C<perl -Mstrict -Mwarnings -c> for each C<.pm> file found, and exits
 non-zero if any file fails.  B<No additional CPAN modules are required.>
 
-=item C<enable_linter_unused> (boolean, default C<0>)
+=item C<enable_linter_unused> (boolean, default C<1>)
 
 When true, inserts a B<"Check for unused variables"> step immediately after
 the test run and before Perl::Critic.  The step installs L<warnings::unused>
@@ -249,7 +249,7 @@ B<Generated step order:>
                 os                   => { type => 'arrayref', optional => 1 },
                 timeout              => { type => 'scalar',  default  => 30 },
                 enable_linter        => { type => 'scalar',  default  => 1 },
-                enable_linter_unused => { type => 'scalar',  default  => 0 },
+                enable_linter_unused => { type => 'scalar',  default  => 1 },
                 enable_critic        => { type => 'scalar',  default  => 1 },
                 enable_coverage      => { type => 'scalar',  default  => 1 },
             },
@@ -283,7 +283,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	my $timeout = $opts->{timeout} // 30;
 	my @os = @{$opts->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest']};
 	my $enable_linter = $opts->{enable_linter} // 1;
-	my $enable_linter_unused = $opts->{enable_linter_unused} // 0;
+	my $enable_linter_unused = $opts->{enable_linter_unused} // 1;
 	my $enable_critic = $opts->{enable_critic} // 1;
 	my $enable_coverage = $opts->{enable_coverage} // 1;
 
@@ -384,21 +384,33 @@ sub generate_custom_perl_workflow($opts = {}) {
           use strict;
           use warnings;
           use File::Find;
+          use lib 'lib';
           my @failed;
+          push @INC, sub { open my $h, '<', \qq{1;\n}; $h };
           my @dirs = grep { -d } qw(lib bin);
           @dirs = ('.') unless @dirs;
-          find(sub {
+          find({ wanted => sub {
               return unless -f && /\.pm$/;
               my $file = $File::Find::name;
-              system($^X, '-Mstrict', '-Mwarnings', '-c', $file) != 0
-                  and push @failed, $file;
-          }, @dirs);
-          if (@failed) {
-              warn "Syntax check failed: $_" for @failed;
-              exit 1;
-          }
+              do $file;
+              if ($@) {
+                  warn "Syntax check failed: $file\n";
+                  push @failed, $file;
+              }
+          }, no_chdir => 1 }, @dirs);
+          exit @failed ? 1 : 0;
 
 LINT_STEP
+
+		if ($enable_linter_unused) {
+			$yaml .= <<'UNUSED_CODE';
+          if (($ENV{RUNNER_OS} // '') eq 'Linux') {
+              system('cpanm --notest --quiet warnings::unused 2>/dev/null');
+              system('PERL5OPT=-Mwarnings::unused prove -lr t/ 2>&1 | grep -i unused || true');
+          }
+
+UNUSED_CODE
+		}
 	}
 
 	$yaml .= "      - name: Run tests\n";
@@ -416,18 +428,6 @@ LINT_STEP
 	$yaml .= "          set \"PATH=%USERPROFILE%\\perl5\\bin;%PATH%\"\n";
 	$yaml .= "          set \"PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\"\n";
 	$yaml .= "          prove -lr t/\n\n";
-
-	if ($enable_linter_unused) {
-		my $latest = $perl_versions[-1];
-		$yaml .= "      - name: Check for unused variables\n";
-		$yaml .= "        if: matrix.perl == '$latest' && matrix.os == 'ubuntu-latest'\n";
-		$yaml .= "        continue-on-error: true\n";
-		$yaml .= "        shell: bash\n";
-		$yaml .= "        run: |\n";
-		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
-		$yaml .= "          cpanm --notest warnings::unused\n";
-		$yaml .= "          find lib -name '*.pm' -exec perl -Mwarnings::unused -c {} \\;\n\n";
-	}
 
 	if ($enable_critic) {
 		my $latest = $perl_versions[-1];

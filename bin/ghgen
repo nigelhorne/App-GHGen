@@ -100,7 +100,7 @@ sub cmd_generate() {
 			perl_versions => \@perl_versions,
 			os => $config->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest'],
 			enable_linter => $config->{enable_linter} // 1,
-			enable_linter_unused => $config->{enable_linter_unused} // 0,
+			enable_linter_unused => $config->{enable_linter_unused} // 1,
 			enable_critic => $config->{enable_critic} // 1,
 			enable_coverage => $config->{enable_coverage} // 1,
 			timeout => $opts{timeout},
@@ -478,7 +478,7 @@ For Perl projects, C<--customize> presents the following options:
 
 =item * B<Syntax linting> — C<perl -c> on every matrix cell, no extra CPAN deps (default: enabled)
 
-=item * B<Unused-variable check> — C<warnings::unused>, latest Perl + Ubuntu only (default: disabled)
+=item * B<Unused-variable check> — C<warnings::unused>, latest Perl + Ubuntu only (default: enabled)
 
 =item * B<Perl::Critic> code quality analysis, latest Perl + Ubuntu only (default: enabled)
 
