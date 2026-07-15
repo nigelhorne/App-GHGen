@@ -693,7 +693,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  371: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
 </span><span class="">  372: 	$yaml .= &quot;        shell: cmd\n&quot;;
 </span><span class="">  373: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="survived-3 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  374: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">  374: 	$yaml .= &quot;          \@echo off\n&quot;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 7, Killed: 0, Survived: 7)</summary>
@@ -759,7 +759,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  383: 		$yaml .= &lt;&lt;&#39;LINT_STEP&#39;;
 </span><span class="">  384:           use strict;
 </span><span class="">  385:           use warnings;
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  386:           use File::Find;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  386:           use File::Find;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>

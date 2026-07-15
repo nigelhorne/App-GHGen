@@ -26,11 +26,11 @@ https://pjcj.net
 <table>
 <tr><th>line</th><th>stmt</th><th>bran</th><th>cond</th><th>sub</th><th>time</th><th>code</th></tr>
 <tr><td class="h">1</td><td></td><td></td><td></td><td></td><td></td><td class="s">package App::GHGen::Generator;</td></tr>
-<tr><td class="h">2</td><td colspan="6"></td></tr><tr><td class="h">3</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L3">4</a></div></td><td><div>1101</div><div>8</div></td><td class="s">use v5.36;</td></tr>
-<tr><td class="h">4</td><td colspan="6"></td></tr><tr><td class="h">5</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L5">4</a></div></td><td><div>7</div><div>3</div><div>41</div></td><td class="s">use strict;</td></tr>
-<tr><td class="h">6</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L6">4</a></div></td><td><div>12</div><div>2</div><div>77</div></td><td class="s">use warnings;</td></tr>
-<tr><td class="h">7</td><td colspan="6"></td></tr><tr><td class="h">8</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L8">4</a></div></td><td><div>641</div><div>5</div><div>122</div></td><td class="s">use App::GHGen::PerlCustomizer qw(detect_perl_requirements generate_custom_perl_workflow);</td></tr>
-<tr><td class="h">9</td><td colspan="6"></td></tr><tr><td class="h">10</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L10">4</a></div></td><td><div>10</div><div>4</div><div>939</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
+<tr><td class="h">2</td><td colspan="6"></td></tr><tr><td class="h">3</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L3">4</a></div></td><td><div>1110</div><div>6</div></td><td class="s">use v5.36;</td></tr>
+<tr><td class="h">4</td><td colspan="6"></td></tr><tr><td class="h">5</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L5">4</a></div></td><td><div>5</div><div>12</div><div>33</div></td><td class="s">use strict;</td></tr>
+<tr><td class="h">6</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L6">4</a></div></td><td><div>5</div><div>3</div><div>80</div></td><td class="s">use warnings;</td></tr>
+<tr><td class="h">7</td><td colspan="6"></td></tr><tr><td class="h">8</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L8">4</a></div></td><td><div>617</div><div>4</div><div>119</div></td><td class="s">use App::GHGen::PerlCustomizer qw(detect_perl_requirements generate_custom_perl_workflow);</td></tr>
+<tr><td class="h">9</td><td colspan="6"></td></tr><tr><td class="h">10</td><td><div class="c3">4</div><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L10">4</a></div></td><td><div>8</div><div>4</div><div>930</div></td><td class="s">use Exporter &#39;import&#39;;</td></tr>
 <tr><td class="h">11</td><td></td><td></td><td></td><td></td><td></td><td class="s">our @EXPORT_OK = qw(</td></tr>
 <tr><td class="h">12</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generate_workflow</td></tr>
 <tr><td class="h">13</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_workflow_types</td></tr>
@@ -107,8 +107,8 @@ The C&lt;perl&gt; type reads the current directory to detect project requirement
 &nbsp;&nbsp;&nbsp;&nbsp;t &acirc;&#136;&#137; SupportedTypes &acirc;&#134;&#146; &acirc;&#138;&yen;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(undef)
 
 =cut</pre></td></tr>
-<tr><td class="h">89</td><td colspan="6"></td></tr><tr><td class="h">90</td><td><div class="c3">28</div><div class="c3">28</div><div class="c3">28</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L90">28</a></div></td><td><div>15329</div><div>27</div><div>33</div></td><td class="s">sub generate_workflow($type) {</td></tr>
-<tr><td class="h">91</td><td><div class="c3">28</div></td><td></td><td></td><td></td><td><div>89</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %generators = (</td></tr>
+<tr><td class="h">89</td><td colspan="6"></td></tr><tr><td class="h">90</td><td><div class="c3">28</div><div class="c3">28</div><div class="c3">28</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L90">28</a></div></td><td><div>17648</div><div>48</div><div>37</div></td><td class="s">sub generate_workflow($type) {</td></tr>
+<tr><td class="h">91</td><td><div class="c3">28</div></td><td></td><td></td><td></td><td><div>91</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my %generators = (</td></tr>
 <tr><td class="h">92</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl&nbsp;&nbsp;&nbsp;=&gt; \&amp;_generate_perl_workflow,</td></tr>
 <tr><td class="h">93</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;&nbsp;&nbsp;=&gt; \&amp;_generate_node_workflow,</td></tr>
 <tr><td class="h">94</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;python =&gt; \&amp;_generate_python_workflow,</td></tr>
@@ -121,8 +121,8 @@ The C&lt;perl&gt; type reads the current directory to detect project requirement
 <tr><td class="h">101</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;docker =&gt; \&amp;_generate_docker_workflow,</td></tr>
 <tr><td class="h">102</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static =&gt; \&amp;_generate_static_workflow,</td></tr>
 <tr><td class="h">103</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
-<tr><td class="h">104</td><td colspan="6"></td></tr><tr><td class="h">105</td><td><div class="c3">28</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Generator-pm--branch.html#L105">100</a></div></td><td></td><td></td><td><div>37</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return undef unless exists $generators{$type};</td></tr>
-<tr><td class="h">106</td><td><div class="c3">25</div></td><td></td><td></td><td></td><td><div>36</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $generators{$type}-&gt;();</td></tr>
+<tr><td class="h">104</td><td colspan="6"></td></tr><tr><td class="h">105</td><td><div class="c3">28</div></td><td><div class="c3" title="T/F"><a href="blib-lib-App-GHGen-Generator-pm--branch.html#L105">100</a></div></td><td></td><td></td><td><div>43</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return undef unless exists $generators{$type};</td></tr>
+<tr><td class="h">106</td><td><div class="c3">25</div></td><td></td><td></td><td></td><td><div>33</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $generators{$type}-&gt;();</td></tr>
 <tr><td class="h">107</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
 <tr><td class="h">108</td><td colspan="6"></td></tr><tr><td class="h">109 - 154</td><td colspan="5"></td><td class="s"><pre>=head2 list_workflow_types()
 
@@ -170,7 +170,7 @@ None.&nbsp;&nbsp;Pure function.
 &nbsp;&nbsp;&nbsp;&nbsp;|result| = 11
 
 =cut</pre></td></tr>
-<tr><td class="h">155</td><td colspan="6"></td></tr><tr><td class="h">156</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L156">4</a></div></td><td><div>8819</div><div>3</div></td><td class="s">sub list_workflow_types() {</td></tr>
+<tr><td class="h">155</td><td colspan="6"></td></tr><tr><td class="h">156</td><td><div class="c3">4</div><div class="c3">4</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L156">4</a></div></td><td><div>10845</div><div>2</div></td><td class="s">sub list_workflow_types() {</td></tr>
 <tr><td class="h">157</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return (</td></tr>
 <tr><td class="h">158</td><td><div class="c3">4</div></td><td></td><td></td><td></td><td><div>23</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;&nbsp;&nbsp;=&gt; &#39;Node.js/npm projects with testing and linting&#39;,</td></tr>
 <tr><td class="h">159</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;python =&gt; &#39;Python projects with pytest and coverage&#39;,</td></tr>
@@ -186,13 +186,13 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">169</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;);</td></tr>
 <tr><td class="h">170</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
 <tr><td class="h">171</td><td colspan="6"></td></tr><tr><td class="h">172</td><td></td><td></td><td></td><td></td><td></td><td class="s"># Private workflow generators</td></tr>
-<tr><td class="h">173</td><td colspan="6"></td></tr><tr><td class="h">174</td><td><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L174">5</a></div></td><td><div>1207</div><div>4</div></td><td class="s">sub _generate_perl_workflow() {</td></tr>
+<tr><td class="h">173</td><td colspan="6"></td></tr><tr><td class="h">174</td><td><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L174">5</a></div></td><td><div>1614</div><div>5</div></td><td class="s">sub _generate_perl_workflow() {</td></tr>
 <tr><td class="h">175</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Try to detect requirements from project</td></tr>
-<tr><td class="h">176</td><td><div class="c3">5</div></td><td></td><td></td><td></td><td><div>11</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $reqs = detect_perl_requirements();</td></tr>
+<tr><td class="h">176</td><td><div class="c3">5</div></td><td></td><td></td><td></td><td><div>13</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $reqs = detect_perl_requirements();</td></tr>
 <tr><td class="h">177</td><td colspan="6"></td></tr><tr><td class="h">178</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Use detected min version or default to 5.36</td></tr>
-<tr><td class="h">179</td><td><div class="c3">5</div></td><td></td><td><div class="c0"><a href="blib-lib-App-GHGen-Generator-pm--condition.html#L179">50</a></div></td><td></td><td><div>8</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $min_version = $reqs-&gt;{min_version} // &#39;5.36&#39;;</td></tr>
+<tr><td class="h">179</td><td><div class="c3">5</div></td><td></td><td><div class="c0"><a href="blib-lib-App-GHGen-Generator-pm--condition.html#L179">50</a></div></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $min_version = $reqs-&gt;{min_version} // &#39;5.36&#39;;</td></tr>
 <tr><td class="h">180</td><td colspan="6"></td></tr><tr><td class="h">181</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Generate custom workflow with detected settings</td></tr>
-<tr><td class="h">182</td><td><div class="c3">5</div></td><td></td><td></td><td></td><td><div>24</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return generate_custom_perl_workflow({</td></tr>
+<tr><td class="h">182</td><td><div class="c3">5</div></td><td></td><td></td><td></td><td><div>22</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return generate_custom_perl_workflow({</td></tr>
 <tr><td class="h">183</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_perl_version =&gt; $min_version,</td></tr>
 <tr><td class="h">184</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_perl_version =&gt; &#39;5.40&#39;,</td></tr>
 <tr><td class="h">185</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;os =&gt; [&#39;macos-latest&#39;, &#39;ubuntu-latest&#39;, &#39;windows-latest&#39;],</td></tr>
@@ -229,13 +229,13 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">221</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 22.x</td></tr>
 <tr><td class="h">222</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">223</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">224</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">224</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@76</td></tr>
 <tr><td class="h">225</td><td colspan="6"></td></tr><tr><td class="h">226</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Setup Node.js ${{ matrix.node-version }}</td></tr>
 <tr><td class="h">227</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/setup-node@v4</td></tr>
 <tr><td class="h">228</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">229</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node-version: ${{ matrix.node-version }}</td></tr>
 <tr><td class="h">230</td><td colspan="6"></td></tr><tr><td class="h">231</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache dependencies</td></tr>
-<tr><td class="h">232</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">232</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">233</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">234</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: ~/.npm</td></tr>
 <tr><td class="h">235</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: ${{ runner.os }}-node-${{ hashFiles(&#39;**/package-lock.json&#39;) }}</td></tr>
@@ -251,7 +251,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">249</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: npm run build --if-present</td></tr>
 <tr><td class="h">250</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">251</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">252</td><td colspan="6"></td></tr><tr><td class="h">253</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L253">2</a></div></td><td><div>0</div><div>2</div></td><td class="s">sub _generate_python_workflow() {</td></tr>
+<tr><td class="h">252</td><td colspan="6"></td></tr><tr><td class="h">253</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L253">2</a></div></td><td><div>3</div><div>2</div></td><td class="s">sub _generate_python_workflow() {</td></tr>
 <tr><td class="h">254</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">255</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">256</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Python CI</td></tr>
@@ -281,13 +281,13 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">284</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- &#39;3.12&#39;</td></tr>
 <tr><td class="h">285</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">286</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">287</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">287</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">288</td><td colspan="6"></td></tr><tr><td class="h">289</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Set up Python ${{ matrix.python-version }}</td></tr>
 <tr><td class="h">290</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/setup-python@v5</td></tr>
 <tr><td class="h">291</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">292</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;python-version: ${{ matrix.python-version }}</td></tr>
 <tr><td class="h">293</td><td colspan="6"></td></tr><tr><td class="h">294</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache pip packages</td></tr>
-<tr><td class="h">295</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">295</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">296</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">297</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: ~/.cache/pip</td></tr>
 <tr><td class="h">298</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: ${{ runner.os }}-pip-${{ hashFiles(&#39;**/requirements.txt&#39;) }}</td></tr>
@@ -303,8 +303,8 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">311</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: pytest --cov=. --cov-report=xml</td></tr>
 <tr><td class="h">312</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">313</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">314</td><td colspan="6"></td></tr><tr><td class="h">315</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L315">2</a></div></td><td><div>2</div><div>2</div></td><td class="s">sub _generate_rust_workflow() {</td></tr>
-<tr><td class="h">316</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">314</td><td colspan="6"></td></tr><tr><td class="h">315</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L315">2</a></div></td><td><div>2</div><div>1</div></td><td class="s">sub _generate_rust_workflow() {</td></tr>
+<tr><td class="h">316</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">317</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">318</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Rust CI</td></tr>
 <tr><td class="h">319</td><td colspan="6"></td></tr><tr><td class="h">320</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -324,11 +324,11 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">337</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest</td></tr>
 <tr><td class="h">338</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">339</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">340</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">340</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">341</td><td colspan="6"></td></tr><tr><td class="h">342</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Setup Rust</td></tr>
 <tr><td class="h">343</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: dtolnay/rust-toolchain@stable</td></tr>
 <tr><td class="h">344</td><td colspan="6"></td></tr><tr><td class="h">345</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache cargo</td></tr>
-<tr><td class="h">346</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">346</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">347</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">348</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: |</td></tr>
 <tr><td class="h">349</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~/.cargo/bin/</td></tr>
@@ -347,8 +347,8 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">366</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: cargo build --release --verbose</td></tr>
 <tr><td class="h">367</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">368</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">369</td><td colspan="6"></td></tr><tr><td class="h">370</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L370">2</a></div></td><td><div>2</div><div>1</div></td><td class="s">sub _generate_go_workflow() {</td></tr>
-<tr><td class="h">371</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">369</td><td colspan="6"></td></tr><tr><td class="h">370</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L370">2</a></div></td><td><div>3</div><div>1</div></td><td class="s">sub _generate_go_workflow() {</td></tr>
+<tr><td class="h">371</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">372</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">373</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Go CI</td></tr>
 <tr><td class="h">374</td><td colspan="6"></td></tr><tr><td class="h">375</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -368,13 +368,13 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">392</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest</td></tr>
 <tr><td class="h">393</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">394</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">395</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">395</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">396</td><td colspan="6"></td></tr><tr><td class="h">397</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Setup Go</td></tr>
 <tr><td class="h">398</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/setup-go@v5</td></tr>
 <tr><td class="h">399</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">400</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go-version: &#39;1.22&#39;</td></tr>
 <tr><td class="h">401</td><td colspan="6"></td></tr><tr><td class="h">402</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache Go modules</td></tr>
-<tr><td class="h">403</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">403</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">404</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">405</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: ~/go/pkg/mod</td></tr>
 <tr><td class="h">406</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: ${{ runner.os }}-go-${{ hashFiles(&#39;**/go.sum&#39;) }}</td></tr>
@@ -390,8 +390,8 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">420</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: go build -v ./...</td></tr>
 <tr><td class="h">421</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">422</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">423</td><td colspan="6"></td></tr><tr><td class="h">424</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L424">2</a></div></td><td><div>1</div><div>2</div></td><td class="s">sub _generate_ruby_workflow() {</td></tr>
-<tr><td class="h">425</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">423</td><td colspan="6"></td></tr><tr><td class="h">424</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L424">2</a></div></td><td><div>2</div><div>2</div></td><td class="s">sub _generate_ruby_workflow() {</td></tr>
+<tr><td class="h">425</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">426</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">427</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Ruby CI</td></tr>
 <tr><td class="h">428</td><td colspan="6"></td></tr><tr><td class="h">429</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -417,7 +417,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">452</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- &#39;3.3&#39;</td></tr>
 <tr><td class="h">453</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">454</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">455</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">455</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">456</td><td colspan="6"></td></tr><tr><td class="h">457</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Set up Ruby</td></tr>
 <tr><td class="h">458</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: ruby/setup-ruby@v1</td></tr>
 <tr><td class="h">459</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
@@ -427,7 +427,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">464</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: bundle exec rake test</td></tr>
 <tr><td class="h">465</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">466</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">467</td><td colspan="6"></td></tr><tr><td class="h">468</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L468">2</a></div></td><td><div>0</div><div>2</div></td><td class="s">sub _generate_docker_workflow() {</td></tr>
+<tr><td class="h">467</td><td colspan="6"></td></tr><tr><td class="h">468</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L468">2</a></div></td><td><div>4</div><div>1</div></td><td class="s">sub _generate_docker_workflow() {</td></tr>
 <tr><td class="h">469</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">470</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">471</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Docker Build</td></tr>
@@ -451,7 +451,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">493</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest</td></tr>
 <tr><td class="h">494</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">495</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">496</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">496</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">497</td><td colspan="6"></td></tr><tr><td class="h">498</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Set up Docker Buildx</td></tr>
 <tr><td class="h">499</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: docker/setup-buildx-action@v3</td></tr>
 <tr><td class="h">500</td><td colspan="6"></td></tr><tr><td class="h">501</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Log in to Docker Hub</td></tr>
@@ -476,8 +476,8 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">522</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache-to: type=gha,mode=max</td></tr>
 <tr><td class="h">523</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">524</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">525</td><td colspan="6"></td></tr><tr><td class="h">526</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L526">2</a></div></td><td><div>2</div><div>1</div></td><td class="s">sub _generate_static_workflow() {</td></tr>
-<tr><td class="h">527</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">525</td><td colspan="6"></td></tr><tr><td class="h">526</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L526">2</a></div></td><td><div>3</div><div>2</div></td><td class="s">sub _generate_static_workflow() {</td></tr>
+<tr><td class="h">527</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">528</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">529</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Deploy Static Site</td></tr>
 <tr><td class="h">530</td><td colspan="6"></td></tr><tr><td class="h">531</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -496,7 +496,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">547</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest</td></tr>
 <tr><td class="h">548</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">549</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout</td></tr>
-<tr><td class="h">550</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">550</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">551</td><td colspan="6"></td></tr><tr><td class="h">552</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Setup Pages</td></tr>
 <tr><td class="h">553</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/configure-pages@v4</td></tr>
 <tr><td class="h">554</td><td colspan="6"></td></tr><tr><td class="h">555</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Build</td></tr>
@@ -517,8 +517,8 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">572</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/deploy-pages@v4</td></tr>
 <tr><td class="h">573</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">574</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">575</td><td colspan="6"></td></tr><tr><td class="h">576</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L576">2</a></div></td><td><div>3</div><div>1</div></td><td class="s">sub _generate_java_workflow() {</td></tr>
-<tr><td class="h">577</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">575</td><td colspan="6"></td></tr><tr><td class="h">576</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L576">2</a></div></td><td><div>2</div><div>2</div></td><td class="s">sub _generate_java_workflow() {</td></tr>
+<tr><td class="h">577</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">578</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">579</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: Java CI</td></tr>
 <tr><td class="h">580</td><td colspan="6"></td></tr><tr><td class="h">581</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -546,14 +546,14 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">606</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- &#39;21&#39;</td></tr>
 <tr><td class="h">607</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">608</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">609</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">609</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">610</td><td colspan="6"></td></tr><tr><td class="h">611</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Set up JDK ${{ matrix.java-version }}</td></tr>
 <tr><td class="h">612</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/setup-java@v4</td></tr>
 <tr><td class="h">613</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">614</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java-version: ${{ matrix.java-version }}</td></tr>
 <tr><td class="h">615</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distribution: &#39;temurin&#39;</td></tr>
 <tr><td class="h">616</td><td colspan="6"></td></tr><tr><td class="h">617</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache Maven packages</td></tr>
-<tr><td class="h">618</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">618</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">619</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">620</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: ~/.m2/repository</td></tr>
 <tr><td class="h">621</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: ${{ runner.os }}-maven-${{ hashFiles(&#39;**/pom.xml&#39;) }}</td></tr>
@@ -568,7 +568,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">633</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: mvn surefire-report:report</td></tr>
 <tr><td class="h">634</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">635</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">636</td><td colspan="6"></td></tr><tr><td class="h">637</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L637">2</a></div></td><td><div>2</div><div>2</div></td><td class="s">sub _generate_cpp_workflow() {</td></tr>
+<tr><td class="h">636</td><td colspan="6"></td></tr><tr><td class="h">637</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L637">2</a></div></td><td><div>2</div><div>0</div></td><td class="s">sub _generate_cpp_workflow() {</td></tr>
 <tr><td class="h">638</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">639</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">640</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: C++ CI</td></tr>
@@ -598,11 +598,11 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">668</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Release</td></tr>
 <tr><td class="h">669</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">670</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">671</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">671</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">672</td><td colspan="6"></td></tr><tr><td class="h">673</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Install CMake</td></tr>
 <tr><td class="h">674</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: lukka/get-cmake@latest</td></tr>
 <tr><td class="h">675</td><td colspan="6"></td></tr><tr><td class="h">676</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache build artifacts</td></tr>
-<tr><td class="h">677</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">677</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">678</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">679</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: |</td></tr>
 <tr><td class="h">680</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build</td></tr>
@@ -618,7 +618,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">693</td><td></td><td></td><td></td><td></td><td></td><td class="s">YAML</td></tr>
 <tr><td class="h">694</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
 <tr><td class="h">695</td><td colspan="6"></td></tr><tr><td class="h">696</td><td><div class="c3">2</div><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="blib-lib-App-GHGen-Generator-pm--subroutine.html#L696">2</a></div></td><td><div>2</div><div>2</div></td><td class="s">sub _generate_php_workflow() {</td></tr>
-<tr><td class="h">697</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
+<tr><td class="h">697</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return &lt;&lt;&#39;YAML&#39;;</td></tr>
 <tr><td class="h">698</td><td></td><td></td><td></td><td></td><td></td><td class="s">---</td></tr>
 <tr><td class="h">699</td><td></td><td></td><td></td><td></td><td></td><td class="s">name: PHP CI</td></tr>
 <tr><td class="h">700</td><td colspan="6"></td></tr><tr><td class="h">701</td><td></td><td></td><td></td><td></td><td></td><td class="s">&#39;on&#39;:</td></tr>
@@ -646,7 +646,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">726</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- &#39;8.3&#39;</td></tr>
 <tr><td class="h">727</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;steps:</td></tr>
 <tr><td class="h">728</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Checkout code</td></tr>
-<tr><td class="h">729</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v6</td></tr>
+<tr><td class="h">729</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/checkout@v7</td></tr>
 <tr><td class="h">730</td><td colspan="6"></td></tr><tr><td class="h">731</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Setup PHP ${{ matrix.php-version }}</td></tr>
 <tr><td class="h">732</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: shivammathur/setup-php@v2</td></tr>
 <tr><td class="h">733</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
@@ -656,7 +656,7 @@ None.&nbsp;&nbsp;Pure function.
 <tr><td class="h">737</td><td colspan="6"></td></tr><tr><td class="h">738</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Validate composer.json</td></tr>
 <tr><td class="h">739</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;run: composer validate --strict</td></tr>
 <tr><td class="h">740</td><td colspan="6"></td></tr><tr><td class="h">741</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: Cache Composer packages</td></tr>
-<tr><td class="h">742</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v5</td></tr>
+<tr><td class="h">742</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uses: actions/cache@v6</td></tr>
 <tr><td class="h">743</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</td></tr>
 <tr><td class="h">744</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: vendor</td></tr>
 <tr><td class="h">745</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: ${{ runner.os }}-php-${{ hashFiles(&#39;**/composer.lock&#39;) }}</td></tr>
