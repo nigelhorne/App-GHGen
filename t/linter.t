@@ -122,4 +122,47 @@ subtest 'options are independent' => sub {
     like($yaml_both, qr/warnings::unused/,      'warnings::unused present when both enabled');
 };
 
+# ── perlimports present by default ───────────────────────────────────────────
+
+subtest 'perlimports step present by default' => sub {
+    my $yaml = generate_custom_perl_workflow({});
+
+    like($yaml, qr/Check imports with perlimports/, 'perlimports step present by default');
+    like($yaml, qr/App::perlimports/,               'installs App::perlimports');
+    like($yaml, qr/perlimports --lint/,             'runs perlimports --lint');
+};
+
+subtest 'perlimports step absent when explicitly disabled' => sub {
+    my $yaml = generate_custom_perl_workflow({ enable_perlimports => 0 });
+
+    unlike($yaml, qr/Check imports with perlimports/, 'perlimports step absent when disabled');
+    unlike($yaml, qr/App::perlimports/,               'App::perlimports not installed when disabled');
+};
+
+subtest 'perlimports step is advisory and scoped to latest Perl + ubuntu' => sub {
+    my $yaml = generate_custom_perl_workflow({ enable_perlimports => 1 });
+
+    like($yaml, qr/continue-on-error: true/,                      'perlimports is non-blocking');
+    like($yaml, qr/ubuntu-latest/,                                'perlimports scoped to ubuntu-latest');
+    like($yaml, qr/Check imports with perlimports.*continue-on-error/s, 'continue-on-error on the right step');
+};
+
+subtest 'perlimports comes after critic and before coverage' => sub {
+    my $yaml = generate_custom_perl_workflow({
+        enable_critic      => 1,
+        enable_perlimports => 1,
+        enable_coverage    => 1,
+    });
+
+    my $critic_pos     = index($yaml, 'Perl::Critic');
+    my $perlimports_pos = index($yaml, 'App::perlimports');
+    my $coverage_pos   = index($yaml, 'Devel::Cover');
+
+    ok($critic_pos      > 0, 'critic step present');
+    ok($perlimports_pos > 0, 'perlimports step present');
+    ok($coverage_pos    > 0, 'coverage step present');
+    ok($critic_pos      < $perlimports_pos, 'perlimports comes after critic');
+    ok($perlimports_pos < $coverage_pos,    'perlimports comes before coverage');
+};
+
 done_testing();

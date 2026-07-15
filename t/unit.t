@@ -139,9 +139,10 @@ my %LEDGER = (
 	'PerlCustomizer.generate_custom_perl_workflow.linter_step_when_enabled'  => 1,
 	'PerlCustomizer.generate_custom_perl_workflow.no_linter_when_disabled'   => 1,
 	'PerlCustomizer.generate_custom_perl_workflow.unused_step_when_enabled'  => 1,
-	'PerlCustomizer.generate_custom_perl_workflow.critic_step_when_enabled'  => 1,
-	'PerlCustomizer.generate_custom_perl_workflow.coverage_step_when_enabled' => 1,
-	'PerlCustomizer.generate_custom_perl_workflow.step_ordering_invariant'   => 1,
+	'PerlCustomizer.generate_custom_perl_workflow.critic_step_when_enabled'       => 1,
+	'PerlCustomizer.generate_custom_perl_workflow.coverage_step_when_enabled'    => 1,
+	'PerlCustomizer.generate_custom_perl_workflow.perlimports_step_when_enabled' => 1,
+	'PerlCustomizer.generate_custom_perl_workflow.step_ordering_invariant'       => 1,
 
 	# App::GHGen::Reporter
 	'Reporter.estimate_savings.caching_issue'             => 1,
@@ -839,25 +840,33 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - option flags per POD' =
 	like($yaml_cov, qr/Devel::Cover/, 'coverage step present per POD');
 	tick('PerlCustomizer.generate_custom_perl_workflow.coverage_step_when_enabled');
 
+	# enable_perlimports = 1 (default): perlimports step MUST appear.
+	my $yaml_pi = generate_custom_perl_workflow({ enable_perlimports => 1, enable_coverage => 0, enable_critic => 0 });
+	like($yaml_pi, qr/App::perlimports/, 'perlimports step present per POD');
+	tick('PerlCustomizer.generate_custom_perl_workflow.perlimports_step_when_enabled');
+
 	# Step-ordering invariant per POD FORMAL SPECIFICATION:
-	# pos(lint) < pos(unused) < pos(tests) < pos(critic) < pos(coverage)
+	# pos(lint) < pos(unused) < pos(tests) < pos(critic) < pos(perlimports) < pos(coverage)
 	# (unused check is embedded inside lint step, before Run tests)
 	my $yaml_all = generate_custom_perl_workflow({
 		enable_linter        => 1,
 		enable_linter_unused => 1,
 		enable_critic        => 1,
+		enable_perlimports   => 1,
 		enable_coverage      => 1,
 	});
-	my $pos_lint     = index($yaml_all, 'Lint and syntax check');
-	my $pos_unused   = index($yaml_all, 'PERL5OPT=-Mwarnings::unused');
-	my $pos_tests    = index($yaml_all, 'Run tests');
-	my $pos_critic   = index($yaml_all, 'Perl::Critic');
-	my $pos_coverage = index($yaml_all, 'Devel::Cover');
+	my $pos_lint        = index($yaml_all, 'Lint and syntax check');
+	my $pos_unused      = index($yaml_all, 'PERL5OPT=-Mwarnings::unused');
+	my $pos_tests       = index($yaml_all, 'Run tests');
+	my $pos_critic      = index($yaml_all, 'Perl::Critic');
+	my $pos_perlimports = index($yaml_all, 'App::perlimports');
+	my $pos_coverage    = index($yaml_all, 'Devel::Cover');
 
-	ok($pos_lint    < $pos_unused,  'lint before unused per POD ordering invariant');
-	ok($pos_unused  < $pos_tests,   'unused before tests per POD ordering invariant');
-	ok($pos_tests   < $pos_critic,  'tests before critic per POD ordering invariant');
-	ok($pos_critic  < $pos_coverage,'critic before coverage per POD ordering invariant');
+	ok($pos_lint        < $pos_unused,      'lint before unused per POD ordering invariant');
+	ok($pos_unused      < $pos_tests,       'unused before tests per POD ordering invariant');
+	ok($pos_tests       < $pos_critic,      'tests before critic per POD ordering invariant');
+	ok($pos_critic      < $pos_perlimports, 'critic before perlimports per POD ordering invariant');
+	ok($pos_perlimports < $pos_coverage,    'perlimports before coverage per POD ordering invariant');
 	tick('PerlCustomizer.generate_custom_perl_workflow.step_ordering_invariant');
 };
 

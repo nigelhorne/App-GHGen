@@ -204,6 +204,14 @@ C<ubuntu-latest>.
 When true, adds a Devel::Cover test-coverage step on the latest matrix Perl
 version and C<ubuntu-latest>.
 
+=item C<enable_perlimports> (boolean, default C<1>)
+
+When true, adds a B<"Check imports with perlimports"> step on the latest matrix
+Perl version and C<ubuntu-latest>.  The step installs L<App::perlimports> from
+CPAN and runs C<perlimports --lint> across all C<.pm> files under C<lib/>.  It
+is marked C<continue-on-error: true> because import hygiene warnings are
+advisory; they should not block a CI run in established codebases.
+
 =back
 
 B<Generated step order:>
@@ -220,13 +228,13 @@ B<Generated step order:>
 
 =item 5. Install project dependencies
 
-=item 6. B<Lint and syntax check> — all matrix cells (when C<enable_linter> is true)
+=item 6. B<Lint and syntax check> — all matrix cells (when C<enable_linter> is true); the unused-variable check via C<PERL5OPT=-Mwarnings::unused> is embedded at the end of this step when C<enable_linter_unused> is true
 
 =item 7. Run tests
 
-=item 8. B<Check for unused variables> — latest Perl + Ubuntu only (when C<enable_linter_unused> is true)
+=item 8. Run Perl::Critic — latest Perl + Ubuntu only (when C<enable_critic> is true)
 
-=item 9. Run Perl::Critic — latest Perl + Ubuntu only (when C<enable_critic> is true)
+=item 9. B<Check imports with perlimports> — latest Perl + Ubuntu only (when C<enable_perlimports> is true)
 
 =item 10. Test coverage — latest Perl + Ubuntu only (when C<enable_coverage> is true)
 
@@ -252,6 +260,7 @@ B<Generated step order:>
                 enable_linter_unused => { type => 'scalar',  default  => 1 },
                 enable_critic        => { type => 'scalar',  default  => 1 },
                 enable_coverage      => { type => 'scalar',  default  => 1 },
+                enable_perlimports   => { type => 'scalar',  default  => 1 },
             },
         },
     }
@@ -267,13 +276,14 @@ B<Generated step order:>
     versions ≔ opts.perl_versions ?? range(min, max)
     latest   ≔ versions[|versions|−1]
 
-    yaml contains "Lint and syntax check" step  ↔  opts.enable_linter = 1
-    yaml contains "Check for unused variables"   ↔  opts.enable_linter_unused = 1
-    yaml contains "Run Perl::Critic"             ↔  opts.enable_critic = 1
-    yaml contains "Test coverage"               ↔  opts.enable_coverage = 1
+    yaml contains "Lint and syntax check" step       ↔  opts.enable_linter = 1
+    yaml contains "PERL5OPT=-Mwarnings::unused"      ↔  opts.enable_linter_unused = 1
+    yaml contains "Run Perl::Critic"                 ↔  opts.enable_critic = 1
+    yaml contains "Test coverage"                    ↔  opts.enable_coverage = 1
+    yaml contains "Check imports with perlimports"   ↔  opts.enable_perlimports = 1
 
     step ordering invariant:
-      pos(lint) < pos(tests) < pos(unused) < pos(critic) < pos(coverage)
+      pos(lint) < pos(unused) < pos(tests) < pos(critic) < pos(perlimports) < pos(coverage)
 
 =cut
 
@@ -286,6 +296,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	my $enable_linter_unused = $opts->{enable_linter_unused} // 1;
 	my $enable_critic = $opts->{enable_critic} // 1;
 	my $enable_coverage = $opts->{enable_coverage} // 1;
+	my $enable_perlimports = $opts->{enable_perlimports} // 1;
 
 	# Generate Perl version list - use explicit list if provided, otherwise min/max
 	my @perl_versions;
@@ -438,6 +449,18 @@ UNUSED_CODE
 		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
 		$yaml .= "          cpanm --notest Perl::Critic\n";
 		$yaml .= "          perlcritic --severity 3 lib/ || true\n";
+		$yaml .= "        shell: bash\n\n";
+	}
+
+	if ($enable_perlimports) {
+		my $latest = $perl_versions[-1];
+		$yaml .= "      - name: Check imports with perlimports\n";
+		$yaml .= "        if: matrix.perl == '$latest' && matrix.os == 'ubuntu-latest'\n";
+		$yaml .= "        continue-on-error: true\n";
+		$yaml .= "        run: |\n";
+		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+		$yaml .= "          cpanm --notest App::perlimports\n";
+		$yaml .= "          find lib -name '*.pm' | xargs perlimports --lint\n";
 		$yaml .= "        shell: bash\n\n";
 	}
 

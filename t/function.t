@@ -1024,6 +1024,29 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_linter_unused=1 
 	ok($pos_unused < $pos_tests, 'unused-var check comes before test step (inside lint step)');
 };
 
+subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_perlimports=1 adds perlimports step' => sub {
+	my $yaml = generate_custom_perl_workflow({
+		enable_perlimports => 1,
+		enable_critic      => 0,
+		enable_coverage    => 0,
+	});
+	like($yaml, qr/Check imports with perlimports/, 'perlimports step present');
+	like($yaml, qr/App::perlimports/,               'installs App::perlimports');
+	like($yaml, qr/perlimports --lint/,             'runs perlimports in lint mode');
+	like($yaml, qr/continue-on-error: true/,        'perlimports is non-blocking');
+
+	# perlimports step must appear after Run tests.
+	my $pos_tests       = index($yaml, 'Run tests');
+	my $pos_perlimports = index($yaml, 'App::perlimports');
+	ok($pos_perlimports > $pos_tests, 'perlimports step comes after Run tests');
+};
+
+subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_perlimports=0 omits step' => sub {
+	my $yaml = generate_custom_perl_workflow({ enable_perlimports => 0 });
+	unlike($yaml, qr/Check imports with perlimports/, 'perlimports step absent when disabled');
+	unlike($yaml, qr/App::perlimports/,               'App::perlimports not installed when disabled');
+};
+
 subtest 'PerlCustomizer::generate_custom_perl_workflow - explicit perl_versions list' => sub {
 	my $yaml = generate_custom_perl_workflow({
 		perl_versions => ['5.36', '5.38'],
