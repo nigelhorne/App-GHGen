@@ -343,46 +343,22 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">   51:         min_version    =&gt; Str | undef,  # e.g. &#39;5.036&#39;; undef when undetected
 </span><span class="">   52:         has_cpanfile   =&gt; Bool,
 </span><span class="">   53:         has_makefile_pl =&gt; Bool,
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   54:         has_dist_ini   =&gt; Bool,
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_54_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">   55:         has_build_pl   =&gt; Bool,
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   56:     }
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_56_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">   57: 
+</span><span class="">   54:         has_dist_ini   =&gt; Bool,
+</span><span class="">   55:         has_build_pl   =&gt; Bool,
+</span><span class="">   56:     }
+</span><span class="">   57: 
 </span><span class="">   58: =head3 Side Effects
 </span><span class="">   59: 
 </span><span class="">   60: Reads files from the current working directory.
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   61: 
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_61_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">   62: =head3 Usage Example
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   63: 
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_63_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">   64:     use App::GHGen::PerlCustomizer qw(detect_perl_requirements);
+</span><span class="">   61: 
+</span><span class="">   62: =head3 Usage Example
+</span><span class="">   63: 
+</span><span class="">   64:     use App::GHGen::PerlCustomizer qw(detect_perl_requirements);
 </span><span class="">   65:     my $reqs = detect_perl_requirements();
 </span><span class="">   66:     say $reqs-&gt;{min_version} // &#39;not specified&#39;;
 </span><span class="">   67: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   68: =head3 API SPECIFICATION
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">   69: 
+</span><span class="">   68: =head3 API SPECIFICATION
+</span><span class="">   69: 
 </span><span class="">   70: =head4 Input
 </span><span class="">   71: 
 </span><span class="">   72:     # No parameters.
@@ -435,22 +411,28 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  119: 	$reqs{has_build_pl} = path(&#39;Build.PL&#39;)-&gt;exists;
 </span><span class="">  120: 
 </span><span class="">  121: 	# Try to detect minimum Perl version
-</span><span class="">  122: 	if ($reqs{has_cpanfile}) {
-</span><span class="">  123: 		my $content = path(&#39;cpanfile&#39;)-&gt;slurp_utf8;
-</span><span class="">  124: 		if ($content =~ /requires\s+[&#39;&quot;]perl[&#39;&quot;],?\s+[&#39;&quot;]([0-9.]+)[&#39;&quot;]/) {
-</span><span class="">  125: 			$reqs{min_version} = $1;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  122: 	if ($reqs{has_cpanfile}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  123: 		my $content = path(&#39;cpanfile&#39;)-&gt;slurp_utf8;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  124: 		if ($content =~ /requires\s+[&#39;&quot;]perl[&#39;&quot;],?\s+[&#39;&quot;]([0-9.]+)[&#39;&quot;]/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  125: 			$reqs{min_version} = $1;
 </span><span class="">  126: 		}
 </span><span class="">  127: 	}
 </span><span class="">  128: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">129 → 129 → 136</span></span>  129: 	if (!$reqs{min_version} &amp;&amp; $reqs{has_makefile_pl}) {
-</span><span class="">  130: 		my $content = path(&#39;Makefile.PL&#39;)-&gt;slurp_utf8;
-</span><span class="">  131: 		if ($content =~ /MIN_PERL_VERSION\s*=&gt;\s*[&#39;&quot;]([0-9.]+)[&#39;&quot;]/) {
-</span><span class="">  132: 			$reqs{min_version} = $1;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">129 → 129 → 136</span></span>  129: 	if (!$reqs{min_version} &amp;&amp; $reqs{has_makefile_pl}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  130: 		my $content = path(&#39;Makefile.PL&#39;)-&gt;slurp_utf8;
+</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">  131: 		if ($content =~ /MIN_PERL_VERSION\s*=&gt;\s*[&#39;&quot;]([0-9.]+)[&#39;&quot;]/) {
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
+					<ul>
+				<li><b>COND_INV_131_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
+</li></ul></details>
+<span class="">  132: 			$reqs{min_version} = $1;
 </span><span class="">  133: 		}
 </span><span class="">  134: 	}
 </span><span class="">  135: 
-</span><span class="">  136: 	return \%reqs;
-</span><span class="">  137: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136: 	return \%reqs;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  137: }
 </span><span class="">  138: 
 </span><span class="">  139: =head2 generate_custom_perl_workflow($options)
 </span><span class="">  140: 
@@ -496,8 +478,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  180: and Windows without any OS-specific branching.  It searches C&lt;lib/&gt; and
 </span><span class="">  181: C&lt;bin/&gt; (falling back to C&lt;.&gt; when neither exists), spawns
 </span><span class="">  182: C&lt;perl -Mstrict -Mwarnings -c&gt; for each C&lt;.pm&gt; file found, and exits
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  183: non-zero if any file fails.  B&lt;No additional CPAN modules are required.&gt;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  184: 
+</span><span class="">  183: non-zero if any file fails.  B&lt;No additional CPAN modules are required.&gt;
+</span><span class="">  184: 
 </span><span class="">  185: =item C&lt;enable_linter_unused&gt; (boolean, default C&lt;0&gt;)
 </span><span class="">  186: 
 </span><span class="">  187: When true, inserts a B&lt;&quot;Check for unused variables&quot;&gt; step immediately after
@@ -583,8 +565,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  267:     versions &acirc;&#137;&#148; opts.perl_versions ?? range(min, max)
 </span><span class="">  268:     latest   &acirc;&#137;&#148; versions[|versions|&acirc;&#136;&#146;1]
 </span><span class="">  269: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  270:     yaml contains &quot;Lint and syntax check&quot; step  &acirc;&#134;&#148;  opts.enable_linter = 1
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  271:     yaml contains &quot;Check for unused variables&quot;   &acirc;&#134;&#148;  opts.enable_linter_unused = 1
+</span><span class="">  270:     yaml contains &quot;Lint and syntax check&quot; step  &acirc;&#134;&#148;  opts.enable_linter = 1
+</span><span class="">  271:     yaml contains &quot;Check for unused variables&quot;   &acirc;&#134;&#148;  opts.enable_linter_unused = 1
 </span><span class="">  272:     yaml contains &quot;Run Perl::Critic&quot;             &acirc;&#134;&#148;  opts.enable_critic = 1
 </span><span class="">  273:     yaml contains &quot;Test coverage&quot;               &acirc;&#134;&#148;  opts.enable_coverage = 1
 </span><span class="">  274: 
@@ -605,8 +587,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  289: 
 </span><span class="">  290: 	# Generate Perl version list - use explicit list if provided, otherwise min/max
 </span><span class="">  291: 	my @perl_versions;
-</span><span class="">  292: 	if ($opts-&gt;{perl_versions} &amp;&amp; @{$opts-&gt;{perl_versions}}) {
-</span><span class="">  293: 		@perl_versions = @{$opts-&gt;{perl_versions}};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  292: 	if ($opts-&gt;{perl_versions} &amp;&amp; @{$opts-&gt;{perl_versions}}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  293: 		@perl_versions = @{$opts-&gt;{perl_versions}};
 </span><span class="">  294: 	} else {
 </span><span class="">  295: 		@perl_versions = _get_perl_versions($min_version, $max_version);
 </span><span class="">  296: 	}
@@ -624,8 +606,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  308: 	$yaml .= &quot;    branches:\n&quot;;
 </span><span class="">  309: 	$yaml .= &quot;      - main\n&quot;;
 </span><span class="">  310: 	$yaml .= &quot;      - master\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  311: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  312: 	$yaml .= &quot;concurrency:\n&quot;;
+</span><span class="">  311: 
+</span><span class="">  312: 	$yaml .= &quot;concurrency:\n&quot;;
 </span><span class="">  313: 	$yaml .= &quot;  group: \${{ github.workflow }}-\${{ github.ref }}\n&quot;;
 </span><span class="">  314: 	$yaml .= &quot;  cancel-in-progress: true\n\n&quot;;
 </span><span class="">  315: 
@@ -636,8 +618,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  320: 	$yaml .= &quot;  test:\n&quot;;
 </span><span class="">  321: 	$yaml .= &quot;    runs-on: \${{ matrix.os }}\n&quot;;
 </span><span class="">  322: 	$yaml .= &quot;    timeout-minutes: $timeout\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  323: 	$yaml .= &quot;    strategy:\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  324: 	$yaml .= &quot;      fail-fast: false\n&quot;;
+</span><span class="">  323: 	$yaml .= &quot;    strategy:\n&quot;;
+</span><span class="">  324: 	$yaml .= &quot;      fail-fast: false\n&quot;;
 </span><span class="">  325: 	$yaml .= &quot;      matrix:\n&quot;;
 </span><span class="">  326: 	$yaml .= &quot;        os:\n&quot;;
 </span><span class="">  327: 	for my $os (@os) {
@@ -648,18 +630,12 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  332: 		$yaml .= &quot;          - &#39;$version&#39;\n&quot;;
 </span><span class="">  333: 	}
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">334 → 379 → 404</span></span>  334: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">  335: 	$yaml .= &quot;    env:\n&quot;;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_335_2: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">  336: 	$yaml .= &quot;      AUTOMATED_TESTING: 1\n&quot;;
+</span><span class="">  335: 	$yaml .= &quot;    env:\n&quot;;
+</span><span class="">  336: 	$yaml .= &quot;      AUTOMATED_TESTING: 1\n&quot;;
 </span><span class="">  337: 	$yaml .= &quot;      NO_NETWORK_TESTING: 1\n&quot;;
 </span><span class="">  338: 	$yaml .= &quot;      NONINTERACTIVE_TESTING: 1\n&quot;;
 </span><span class="">  339: 	$yaml .= &quot;    steps:\n&quot;;
-</span><span class="">  340: 	$yaml .= &quot;      - uses: actions/checkout\@v6\n\n&quot;;
+</span><span class="">  340: 	$yaml .= &quot;      - uses: actions/checkout\@v7\n\n&quot;;
 </span><span class="">  341: 
 </span><span class="">  342: 	$yaml .= &quot;      - name: Setup Perl\n&quot;;
 </span><span class="">  343: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1\n&quot;;
@@ -667,7 +643,7 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  345: 	$yaml .= &quot;          perl-version: \${{ matrix.perl }}\n\n&quot;;
 </span><span class="">  346: 
 </span><span class="">  347: 	$yaml .= &quot;      - name: Cache CPAN modules\n&quot;;
-</span><span class="">  348: 	$yaml .= &quot;        uses: actions/cache\@v5\n&quot;;
+</span><span class="">  348: 	$yaml .= &quot;        uses: actions/cache\@v6\n&quot;;
 </span><span class="">  349: 	$yaml .= &quot;        with:\n&quot;;
 </span><span class="">  350: 	$yaml .= &quot;          path: ~/perl5\n&quot;;
 </span><span class="">  351: 	$yaml .= &quot;          key: \${{ runner.os }}-\${{ matrix.perl }}-\${{ hashFiles(&#39;cpanfile&#39;) }}\n&quot;;
@@ -679,8 +655,8 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  357: 	$yaml .= &quot;        run: cpanm --notest --local-lib=~/perl5 local::lib\n\n&quot;;
 </span><span class="">  358: 
 </span><span class="">  359: 	$yaml .= &quot;      - name: Install cpanm and local::lib (Windows)\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  360: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  361: 	$yaml .= &quot;        run: cpanm --notest App::cpanminus local::lib\n\n&quot;;
+</span><span class="">  360: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  361: 	$yaml .= &quot;        run: cpanm --notest App::cpanminus local::lib\n\n&quot;;
 </span><span class="">  362: 
 </span><span class="">  363: 	$yaml .= &quot;      - name: Install dependencies\n&quot;;
 </span><span class="">  364: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
@@ -693,95 +669,20 @@ Approximate LCSAJ segments: 21<br>
 </span><span class="">  371: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
 </span><span class="">  372: 	$yaml .= &quot;        shell: cmd\n&quot;;
 </span><span class="">  373: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">  374: 	$yaml .= &quot;          \@echo off\n&quot;;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 7, Killed: 0, Survived: 7)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_374_57_<: Numeric boundary flip <= to <</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_374_57_>: Numeric boundary flip <= to ></b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_374_57_>=: Numeric boundary flip <= to >=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_374_21_>: Numeric boundary flip >= to ></b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_374_21_<: Numeric boundary flip >= to <</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_374_21_<=: Numeric boundary flip >= to <=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>COND_INV_374_3: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">  375: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  374: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  375: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
 </span><span class="">  376: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
 </span><span class="">  377: 	$yaml .= &quot;          cpanm --notest --installdeps .\n\n&quot;;
 </span><span class="">  378: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  379: 	if ($enable_linter) {
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  380: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  380: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
 </span><span class="">  381: 		$yaml .= &quot;        shell: perl {0}\n&quot;;
 </span><span class="">  382: 		$yaml .= &quot;        run: |\n&quot;;
 </span><span class="">  383: 		$yaml .= &lt;&lt;&#39;LINT_STEP&#39;;
 </span><span class="">  384:           use strict;
 </span><span class="">  385:           use warnings;
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  386:           use File::Find;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
-					<ul>
-				<li><b>BOOL_NEGATE_386_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boolean branch test suggestion
-ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>RETURN_UNDEF_386_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Return value assertion
-is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">  387:           my @failed;
+</span><span class="">  386:           use File::Find;
+</span><span class="">  387:           my @failed;
 </span><span class="">  388:           my @dirs = grep { -d } qw(lib bin);
 </span><span class="">  389:           @dirs = (&#39;.&#39;) unless @dirs;
 </span><span class="">  390:           find(sub {
@@ -791,7 +692,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  394:                   and push @failed, $file;
 </span><span class="">  395:           }, @dirs);
 </span><span class="">  396:           if (@failed) {
-</span><span class="">  397:               warn &quot;Syntax check failed: $_\n&quot; for @failed;
+</span><span class="">  397:               warn &quot;Syntax check failed: $_&quot; for @failed;
 </span><span class="">  398:               exit 1;
 </span><span class="">  399:           }
 </span><span class="">  400: 
@@ -814,8 +715,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  417: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
 </span><span class="">  418: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
 </span><span class="">  419: 
-</span><span class="">  420: 	if ($enable_linter_unused) {
-</span><span class="">  421: 		my $latest = $perl_versions[-1];
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  420: 	if ($enable_linter_unused) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  421: 		my $latest = $perl_versions[-1];
 </span><span class="">  422: 		$yaml .= &quot;      - name: Check for unused variables\n&quot;;
 </span><span class="">  423: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  424: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
@@ -826,8 +727,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  429: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; -exec perl -Mwarnings::unused -c {} \\;\n\n&quot;;
 </span><span class="">  430: 	}
 </span><span class="">  431: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">432 → 432 → 444</span></span>  432: 	if ($enable_critic) {
-</span><span class="">  433: 		my $latest = $perl_versions[-1];
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">432 → 432 → 444</span></span>  432: 	if ($enable_critic) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  433: 		my $latest = $perl_versions[-1];
 </span><span class="">  434: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
 </span><span class="">  435: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  436: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
@@ -838,8 +739,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  441: 		$yaml .= &quot;        shell: bash\n\n&quot;;
 </span><span class="">  442: 	}
 </span><span class="">  443: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">444 → 444 → 457</span></span>  444: 	if ($enable_coverage) {
-</span><span class="">  445: 		my $latest = $perl_versions[-1];
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">444 → 444 → 457</span></span>  444: 	if ($enable_coverage) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  445: 		my $latest = $perl_versions[-1];
 </span><span class="">  446: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
 </span><span class="">  447: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  448: 		$yaml .= &quot;        run: |\n&quot;;
@@ -863,8 +764,8 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  466:         run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
 </span><span class="">  467: YAML
 </span><span class="">  468: 
-</span><span class="">  469: 	return $yaml;
-</span><span class="">  470: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  469: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  470: }
 </span><span class="">  471: 
 </span><span class="">  472: sub _get_perl_versions($min, $max) {
 </span><span class="">  473: 	# All available Perl versions in descending order
@@ -877,20 +778,20 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  480: 	my @selected;
 </span><span class="">  481: 	for my $version (@all_versions) {
 </span><span class="">  482: 		my $v_normalized = _normalize_version($version);
-</span><span class="">  483: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
-</span><span class="">  484: 			push @selected, $version;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  483: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
+</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  484: 			push @selected, $version;
 </span><span class="">  485: 		}
 </span><span class="">  486: 	}
 </span><span class="">  487: 
-</span><span class="">  488: 	return reverse @selected;	# Return in ascending order
-</span><span class="">  489: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  488: 	return reverse @selected;	# Return in ascending order
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  489: }
 </span><span class="">  490: 
 </span><span class="">  491: sub _normalize_version($version) {
 </span><span class="">  492: 	# Convert &quot;5.036&quot; or &quot;5.36&quot; to comparable number
 </span><span class="">  493: 	$version =~ s/^v?//;
 </span><span class="">  494: 	my @parts = split /\./, $version;
-</span><span class="">  495: 	return sprintf(&quot;%d.%03d&quot;, $parts[0] // 5, $parts[1] // 0);
-</span><span class="">  496: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495: 	return sprintf(&quot;%d.%03d&quot;, $parts[0] // 5, $parts[1] // 0);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  496: }
 </span><span class="">  497: 
 </span><span class="">  498: =head1 AUTHOR
 </span><span class="">  499: 
@@ -900,12 +801,13 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  503: 
 </span><span class="">  504: =head1 LICENSE
 </span><span class="">  505: 
-</span><span class="">  506: This is free software; you can redistribute it and/or modify it under
-</span><span class="">  507: the same terms as the Perl 5 programming language system itself.
-</span><span class="">  508: 
-</span><span class="">  509: =cut
-</span><span class="">  510: 
-</span><span class="">  511: 1;
+</span><span class="">  506: Usage is subject to the GPL2 licence terms.
+</span><span class="">  507: If you use it,
+</span><span class="">  508: please let me know.
+</span><span class="">  509: 
+</span><span class="">  510: =cut
+</span><span class="">  511: 
+</span><span class="">  512: 1;
 </span></pre>
 
 <script>
