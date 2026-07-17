@@ -1016,7 +1016,7 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_linter_unused=1 
 	# run via PERL5OPT so it applies to the entire test suite execution.
 	like($yaml,  qr/PERL5OPT=-Mwarnings::unused/, 'unused-var check present in lint step');
 	like($yaml,  qr/warnings::unused/,            'installs warnings::unused');
-	like($yaml,  qr/\|\| true/,                   'check is non-blocking');
+	like($yaml,  qr/\|\| echo/,                   'check is non-blocking');
 
 	# Check appears before "Run tests" (it lives inside the lint step).
 	my $pos_tests  = index($yaml, 'Run tests');

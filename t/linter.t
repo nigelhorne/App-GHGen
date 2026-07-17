@@ -64,7 +64,7 @@ subtest 'warnings::unused run via prove when enable_linter_unused => 1' => sub {
     like($yaml, qr/warnings::unused/,            'warnings::unused referenced');
     like($yaml, qr/PERL5OPT=-Mwarnings::unused/, 'warnings::unused loaded via PERL5OPT');
     like($yaml, qr/prove -lr t\//,               'runs the full test suite');
-    like($yaml, qr/\|\| true/,                   'check is non-blocking');
+    like($yaml, qr/\|\| echo/,                   'check is non-blocking');
 };
 
 # ── warnings::unused conditioned on Linux at runtime ──────────────────────

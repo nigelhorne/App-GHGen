@@ -416,7 +416,7 @@ LINT_STEP
 			$yaml .= <<'UNUSED_CODE';
           if (($ENV{RUNNER_OS} // '') eq 'Linux') {
               system('cpanm --notest --quiet warnings::unused 2>/dev/null');
-              system('PERL5OPT=-Mwarnings::unused prove -lr t/ 2>&1 | grep -i unused || true');
+              system('PERL5OPT=-Mwarnings::unused prove -lr t/ 2>&1 | grep -i unused && true || echo "warnings::unused: no unused variables detected"');
           }
 
 UNUSED_CODE
