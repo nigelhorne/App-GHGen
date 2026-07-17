@@ -409,7 +409,6 @@ sub generate_custom_perl_workflow($opts = {}) {
                   push @failed, $file;
               }
           }, no_chdir => 1 }, @dirs);
-          exit @failed ? 1 : 0;
 
 LINT_STEP
 
@@ -422,6 +421,8 @@ LINT_STEP
 
 UNUSED_CODE
 		}
+
+		$yaml .= "          exit(\@failed ? 1 : 0);\n\n";
 	}
 
 	$yaml .= "      - name: Run tests\n";
