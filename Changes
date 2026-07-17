@@ -1,6 +1,6 @@
 Revision history for App-GHGen
 
-0.06
+0.06	Fri Jul 17 11:39:03 EDT 2026
 	[ Bug Fixes ]
 	- Approved https://github.com/nigelhorne/App-GHGen/pull/6
 	  Missing unescaped $ failed to interpolate variable into double-quoted string

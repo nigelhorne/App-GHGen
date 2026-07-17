@@ -1,7 +1,8 @@
 package App::GHGen;
 
-# Try this to update GitHub Marketplace released, but bear in mind it tends to not work, marketplace does not detect the update
+# Try this to update GitHub Marketplace release, but bear in mind it tends to not work, marketplace does not detect the update
 # Update the @v1 to @v2 in action.yml
+# Commit and push release v2
 # git tag -a v2 -m 'Release v0.02'
 # git push origin v2
 # Go to https://github.com/nigelhorne/App-GHGen/releases
