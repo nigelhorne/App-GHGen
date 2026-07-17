@@ -714,7 +714,7 @@ Approximate LCSAJ segments: 23<br>
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  416: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
 </span><span class="">  417:           if (($ENV{RUNNER_OS} // &#39;&#39;) eq &#39;Linux&#39;) {
 </span><span class="">  418:               system(&#39;cpanm --notest --quiet warnings::unused 2&gt;/dev/null&#39;);
-</span><span class="">  419:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused || true&#39;);
+</span><span class="">  419:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused &amp;&amp; true || echo &quot;warnings::unused: no unused variables detected&quot;&#39;);
 </span><span class="">  420:           }
 </span><span class="">  421: 
 </span><span class="">  422: UNUSED_CODE
