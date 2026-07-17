@@ -99,12 +99,13 @@ jobs:
                   push @failed, $file;
               }
           }, no_chdir => 1 }, @dirs);
-          exit @failed ? 1 : 0;
 
           if (($ENV{RUNNER_OS} // '') eq 'Linux') {
               system('cpanm --notest --quiet warnings::unused 2>/dev/null');
               system('PERL5OPT=-Mwarnings::unused prove -lr t/ 2>&1 | grep -i unused || true');
           }
+
+          exit(@failed ? 1 : 0);
 
       - name: Run tests
         if: runner.os != 'Windows'

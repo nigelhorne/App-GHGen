@@ -5,6 +5,9 @@ use v5.36;
 use strict;
 use warnings;
 
+use FindBin qw($RealBin);
+use lib "$RealBin/../lib";	# prefer local lib/ over any installed version
+
 use Getopt::Long qw(:config no_ignore_case);
 use Pod::Usage;
 use Term::ANSIColor qw(colored);
