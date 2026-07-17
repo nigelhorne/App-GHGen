@@ -21,6 +21,7 @@ t/30-basics.t
 t/detector.t
 t/eof.t
 t/eol.t
+t/extended_tests.t
 t/function.t
 t/integration.t
 t/kwalitee.t

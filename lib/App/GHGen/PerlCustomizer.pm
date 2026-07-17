@@ -155,10 +155,20 @@ and C<max_perl_version> when supplied.
 Lowest Perl version to include in the matrix when C<perl_versions> is not
 given.  Accepts both C<'5.036'> and C<'5.36'> notation.
 
-=item C<max_perl_version> (string, default C<'5.40'>)
+=item C<max_perl_version> (string, default C<'5.42'>)
 
-Highest Perl version to include in the matrix when C<perl_versions> is not
-given.
+Highest Perl version to include in the default matrix when C<perl_versions>
+is not given.  The built-in version table currently spans C<5.22> through
+C<5.44>; the default produces the matrix C<5.36, 5.38, 5.40, 5.42>.
+
+To test against B<Perl 5.44> (opt-in, not tested by default), pass
+C<< max_perl_version => '5.44' >> or set C<perl_versions> explicitly:
+
+    generate_custom_perl_workflow({ max_perl_version => '5.44' });
+    # matrix: 5.36, 5.38, 5.40, 5.42, 5.44
+
+    generate_custom_perl_workflow({ perl_versions => ['5.42', '5.44'] });
+    # matrix: 5.42, 5.44
 
 =item C<os> (array ref)
 
@@ -253,7 +263,7 @@ B<Generated step order:>
             keys     => {
                 perl_versions        => { type => 'arrayref', optional => 1 },
                 min_perl_version     => { type => 'scalar',  default  => '5.36' },
-                max_perl_version     => { type => 'scalar',  default  => '5.40' },
+                max_perl_version     => { type => 'scalar',  default  => '5.42' },
                 os                   => { type => 'arrayref', optional => 1 },
                 timeout              => { type => 'scalar',  default  => 30 },
                 enable_linter        => { type => 'scalar',  default  => 1 },
@@ -289,7 +299,7 @@ B<Generated step order:>
 
 sub generate_custom_perl_workflow($opts = {}) {
 	my $min_version = $opts->{min_perl_version} // '5.36';
-	my $max_version = $opts->{max_perl_version} // '5.40';
+	my $max_version = $opts->{max_perl_version} // '5.42';
 	my $timeout = $opts->{timeout} // 30;
 	my @os = @{$opts->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest']};
 	my $enable_linter = $opts->{enable_linter} // 1;
@@ -494,8 +504,10 @@ YAML
 }
 
 sub _get_perl_versions($min, $max) {
-	# All available Perl versions in descending order
-	my @all_versions = qw(5.42 5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
+	# All available Perl versions in descending order.
+	# 5.44 is listed so projects can opt in via max_perl_version => '5.44',
+	# but it is not included in the default matrix (max defaults to 5.42).
+	my @all_versions = qw(5.44 5.42 5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
 
 	# Normalize version strings for comparison
 	my $min_normalized = _normalize_version($min);

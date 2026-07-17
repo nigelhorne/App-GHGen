@@ -27,6 +27,21 @@ Revision history for App-GHGen
 	- Regression test added in t/pull_6.t for the PR #6 cost-display bug fix.
 	- Tests added/extended in t/linter.t covering presence/absence, ordering, and
 	  platform-gating of all lint-stage steps.
+	- Added t/extended_tests.t: 99 branch-coverage tests targeting uncovered paths across all
+	  8 modules (Analyzer, CostEstimator, Detector, Fixer, Generator, Interactive,
+	  PerlCustomizer, Reporter). Flags Analyzer::has_deployment_steps as dead code (defined
+	  but not exported and not called from analyze_workflow).
+
+	[ CI Matrix ]
+	- Default Perl matrix is now 5.36, 5.38, 5.40, 5.42 (max_perl_version bumped from
+	  5.40 to 5.42). Perl::Critic, perlimports, and coverage steps are now gated on
+	  5.42 (always the latest version in the matrix).
+	- Perl 5.44 added to the known-versions table as an opt-in. Projects wanting to test
+	  against 5.44 before it becomes the default can pass max_perl_version => '5.44' to
+	  generate_custom_perl_workflow, or set perl_versions explicitly. No code change
+	  needed on the caller's side.
+	- POD for generate_custom_perl_workflow updated: max_perl_version default corrected to
+	  5.42, opt-in examples for 5.44 added under the max_perl_version item.
 
 0.05	Thu Mar 19 10:36:44 EDT 2026
 	- Fix tabs that had crept in
