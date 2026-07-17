@@ -12,6 +12,7 @@ on 'test' => sub {
 	requires 'IPC::System::Simple';
 	requires 'Test::DescribeMe';
 	requires 'Test::Exception';
+	requires 'Test::Mockingbird';
 	requires 'Test::Most';
 	requires 'Test::Returns';
 	requires 'Test::Without::Module';
