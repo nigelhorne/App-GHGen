@@ -20,7 +20,7 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/App/GHGen/Detector.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">62.8%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c0">69.5%</td></tr>
 </table>
 <div><br/></div>
 <table>
@@ -43,7 +43,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L250">250</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if @t_files &gt; 0</td></tr>
 <tr><td class="h"><a id="L260">260</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;package.json&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L261">261</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;package-lock.json&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L262">262</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;yarn.lock&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L262">262</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;yarn.lock&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L263">263</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;pnpm-lock.yaml&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L266">266</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;node_modules&quot;)-&gt;exists and path(&quot;node_modules&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L267">267</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;tsconfig.json&quot;)-&gt;exists</td></tr>
@@ -51,7 +51,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L271">271</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;src&quot;)-&gt;exists and path(&quot;src&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L280">280</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;requirements.txt&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L281">281</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;setup.py&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L282">282</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;pyproject.toml&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L282">282</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;pyproject.toml&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L283">283</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Pipfile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L284">284</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;poetry.lock&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L287">287</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;setup.cfg&quot;)-&gt;exists</td></tr>
@@ -67,10 +67,10 @@ https://pjcj.net
 <tr><td class="h"><a id="L314">314</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;target&quot;)-&gt;exists and path(&quot;target&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L323">323</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;go.mod&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L324">324</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;go.sum&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L327">327</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;main.go&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L331">331</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @go_files &gt; 0</td></tr>
-<tr><td class="h"><a id="L332">332</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @go_files &gt; 3</td></tr>
-<tr><td class="h"><a id="L341">341</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Gemfile&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L327">327</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;main.go&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L331">331</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if @go_files &gt; 0</td></tr>
+<tr><td class="h"><a id="L332">332</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if @go_files &gt; 3</td></tr>
+<tr><td class="h"><a id="L341">341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;Gemfile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L342">342</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Gemfile.lock&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L345">345</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;Rakefile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L346">346</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;.ruby-version&quot;)-&gt;exists</td></tr>
@@ -78,9 +78,9 @@ https://pjcj.net
 <tr><td class="h"><a id="L351">351</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @rb_files &gt; 0</td></tr>
 <tr><td class="h"><a id="L360">360</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;Dockerfile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L361">361</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;docker-compose.yml&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L362">362</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;docker-compose.yaml&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L362">362</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;docker-compose.yaml&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L365">365</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;.dockerignore&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L374">374</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;composer.json&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L374">374</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;composer.json&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L375">375</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;composer.lock&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L378">378</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;phpunit.xml&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L379">379</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;phpunit.xml.dist&quot;)-&gt;exists</td></tr>
@@ -88,8 +88,8 @@ https://pjcj.net
 <tr><td class="h"><a id="L383">383</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;src&quot;)-&gt;exists and path(&quot;src&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L384">384</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;tests&quot;)-&gt;exists and path(&quot;tests&quot;)-&gt;is_dir</td></tr>
 <tr><td class="h"><a id="L388">388</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @php_files &gt; 0</td></tr>
-<tr><td class="h"><a id="L397">397</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;pom.xml&quot;)-&gt;exists</td></tr>
-<tr><td class="h"><a id="L398">398</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;build.gradle&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L397">397</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;pom.xml&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L398">398</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;build.gradle&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L399">399</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;build.gradle.kts&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L402">402</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;gradlew&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L403">403</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;mvnw&quot;)-&gt;exists</td></tr>
@@ -98,7 +98,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L408">408</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;src/main/java&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L409">409</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;src/test/java&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L413">413</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if @java_files &gt; 0</td></tr>
-<tr><td class="h"><a id="L422">422</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;CMakeLists.txt&quot;)-&gt;exists</td></tr>
+<tr><td class="h"><a id="L422">422</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;CMakeLists.txt&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L423">423</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if path(&quot;Makefile&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L424">424</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;configure.ac&quot;)-&gt;exists</td></tr>
 <tr><td class="h"><a id="L425">425</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if path(&quot;configure&quot;)-&gt;exists</td></tr>

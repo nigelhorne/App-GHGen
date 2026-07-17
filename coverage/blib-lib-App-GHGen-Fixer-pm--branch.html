@@ -20,7 +20,7 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/App/GHGen/Fixer.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c1">76.3%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c1">82.9%</td></tr>
 </table>
 <div><br/></div>
 <table>
@@ -28,8 +28,8 @@ https://pjcj.net
 <tr><td class="h"><a id="L160">160</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless can_auto_fix($issue)</td></tr>
 <tr><td class="h"><a id="L162">162</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;type&#39;} eq &#39;performance&#39; and $issue-&gt;{&#39;message&#39;} =~ /caching/u) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;security&#39; and $issue-&gt;{&#39;message&#39;} =~ /unpinned/u) { }</td></tr>
-<tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;security&#39; and $issue-&gt;{&#39;message&#39;} =~ /permissions/u) { }</td></tr>
-<tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;maintenance&#39; and $issue-&gt;{&#39;message&#39;} =~ /outdated action/u) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;security&#39; and $issue-&gt;{&#39;message&#39;} =~ /permissions/u) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;maintenance&#39; and $issue-&gt;{&#39;message&#39;} =~ /outdated action/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;cost&#39; and $issue-&gt;{&#39;message&#39;} =~ /concurrency/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;cost&#39; and $issue-&gt;{&#39;message&#39;} =~ /triggers/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($issue-&gt;{&#39;type&#39;} eq &#39;maintenance&#39; and $issue-&gt;{&#39;message&#39;} =~ /runner/u) { }</td></tr>
@@ -44,7 +44,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L303">303</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
 <tr><td class="h"><a id="L316">316</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /pip install/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-python/u)</td></tr>
 <tr><td class="h"><a id="L329">329</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (build|test)/u)</td></tr>
-<tr><td class="h"><a id="L341">341</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
+<tr><td class="h"><a id="L341">341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
 <tr><td class="h"><a id="L358">358</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L362">362</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
 <tr><td class="h"><a id="L364">364</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
@@ -55,9 +55,9 @@ https://pjcj.net
 <tr><td class="h"><a id="L404">404</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
 <tr><td class="h"><a id="L407">407</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^\Q$old\E/u)</td></tr>
 <tr><td class="h"><a id="L419">419</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;concurrency&#39;}</td></tr>
-<tr><td class="h"><a id="L429">429</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $on = $workflow-&gt;{&#39;on&#39;}</td></tr>
+<tr><td class="h"><a id="L429">429</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $on = $workflow-&gt;{&#39;on&#39;}</td></tr>
 <tr><td class="h"><a id="L433">433</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $on eq &#39;ARRAY&#39; and grep {$_ eq &#39;push&#39;;} @$on) { }</td></tr>
-<tr><td class="h"></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">elsif (ref $on eq &#39;HASH&#39; and $on-&gt;{&#39;push&#39;} and ref $on-&gt;{&#39;push&#39;} eq &#39;&#39;) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif (ref $on eq &#39;HASH&#39; and $on-&gt;{&#39;push&#39;} and ref $on-&gt;{&#39;push&#39;} eq &#39;&#39;) { }</td></tr>
 <tr><td class="h"><a id="L456">456</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L463">463</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $job-&gt;{&#39;timeout-minutes&#39;}</td></tr>
 <tr><td class="h"><a id="L474">474</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
