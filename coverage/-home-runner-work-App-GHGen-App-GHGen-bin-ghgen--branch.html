@@ -25,52 +25,52 @@ https://pjcj.net
 <div><br/></div>
 <table>
 <tr><th>line</th><th>%</th><th colspan="2">coverage</th><th>branch</th></tr>
-<tr><td class="h"><a id="L43">43</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless &amp;GetOptions(&quot;help|h&quot;, \$opts{&#39;help&#39;}, &quot;version|v&quot;, \$opts{&#39;version&#39;}, &quot;type|t=s&quot;, \$opts{&#39;type&#39;}, &quot;output|o=s&quot;, \$opts{&#39;output&#39;}, &quot;list|l&quot;, \$opts{&#39;list&#39;}, &quot;interactive|i&quot;, \$opts{&#39;interactive&#39;}, &quot;auto|a&quot;, \$opts{&#39;auto&#39;}, &quot;customize|c&quot;, \$opts{&#39;customize&#39;}, &quot;fix|f&quot;, \$opts{&#39;fix&#39;}, &quot;estimate|e&quot;, \$opts{&#39;estimate&#39;}, &quot;timeout=i&quot;, \$opts{&#39;timeout&#39;})</td></tr>
-<tr><td class="h"><a id="L45">45</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if $opts{&#39;help&#39;}</td></tr>
-<tr><td class="h"><a id="L47">47</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($opts{&#39;version&#39;})</td></tr>
-<tr><td class="h"><a id="L54">54</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($command eq &#39;generate&#39;) { }</td></tr>
+<tr><td class="h"><a id="L46">46</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless &amp;GetOptions(&quot;help|h&quot;, \$opts{&#39;help&#39;}, &quot;version|v&quot;, \$opts{&#39;version&#39;}, &quot;type|t=s&quot;, \$opts{&#39;type&#39;}, &quot;output|o=s&quot;, \$opts{&#39;output&#39;}, &quot;list|l&quot;, \$opts{&#39;list&#39;}, &quot;interactive|i&quot;, \$opts{&#39;interactive&#39;}, &quot;auto|a&quot;, \$opts{&#39;auto&#39;}, &quot;customize|c&quot;, \$opts{&#39;customize&#39;}, &quot;fix|f&quot;, \$opts{&#39;fix&#39;}, &quot;estimate|e&quot;, \$opts{&#39;estimate&#39;}, &quot;timeout=i&quot;, \$opts{&#39;timeout&#39;})</td></tr>
+<tr><td class="h"><a id="L48">48</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if $opts{&#39;help&#39;}</td></tr>
+<tr><td class="h"><a id="L50">50</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($opts{&#39;version&#39;})</td></tr>
+<tr><td class="h"><a id="L57">57</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($command eq &#39;generate&#39;) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($command eq &#39;analyze&#39;) { }</td></tr>
-<tr><td class="h"><a id="L63">63</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;list&#39;})</td></tr>
-<tr><td class="h"><a id="L72">72</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;auto&#39;} or not $type || $opts{&#39;interactive&#39;} || $opts{&#39;customize&#39;})</td></tr>
-<tr><td class="h"><a id="L74">74</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $type</td></tr>
-<tr><td class="h"><a id="L78">78</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;interactive&#39;} and not $type)</td></tr>
-<tr><td class="h"><a id="L82">82</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($type)</td></tr>
-<tr><td class="h"><a id="L88">88</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;customize&#39;})</td></tr>
-<tr><td class="h"><a id="L94">94</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($config and $type eq &#39;perl&#39;) { }</td></tr>
+<tr><td class="h"><a id="L66">66</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;list&#39;})</td></tr>
+<tr><td class="h"><a id="L75">75</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;auto&#39;} or not $type || $opts{&#39;interactive&#39;} || $opts{&#39;customize&#39;})</td></tr>
+<tr><td class="h"><a id="L77">77</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $type</td></tr>
+<tr><td class="h"><a id="L81">81</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;interactive&#39;} and not $type)</td></tr>
+<tr><td class="h"><a id="L85">85</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($type)</td></tr>
+<tr><td class="h"><a id="L91">91</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;customize&#39;})</td></tr>
+<tr><td class="h"><a id="L97">97</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($config and $type eq &#39;perl&#39;) { }</td></tr>
 <tr><td class="h"></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">elsif ($type eq &#39;perl&#39;) { }</td></tr>
-<tr><td class="h"><a id="L114">114</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($yaml)</td></tr>
-<tr><td class="h"><a id="L120">120</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($output_file)</td></tr>
-<tr><td class="h"><a id="L122">122</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $workflows_dir-&gt;exists</td></tr>
-<tr><td class="h"><a id="L142">142</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless (@workflow_files)</td></tr>
-<tr><td class="h"><a id="L149">149</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($opts{&#39;fix&#39;})</td></tr>
-<tr><td class="h"><a id="L152">152</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;})</td></tr>
-<tr><td class="h"><a id="L160">160</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;})</td></tr>
-<tr><td class="h"><a id="L172">172</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@{$current_usage-&gt;{&#39;workflows&#39;};} &gt; 1)</td></tr>
-<tr><td class="h"><a id="L197">197</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($@)</td></tr>
-<tr><td class="h"><a id="L204">204</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@issues) { }</td></tr>
-<tr><td class="h"><a id="L206">206</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$opts{&#39;fix&#39;} ? :</td></tr>
-<tr><td class="h"><a id="L208">208</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;fix&#39;} and @fixable) { }</td></tr>
-<tr><td class="h"><a id="L214">214</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($fixes &gt; 0) { }</td></tr>
-<tr><td class="h"><a id="L222">222</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">can_auto_fix($issue) ? :</td></tr>
-<tr><td class="h"><a id="L224">224</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($issue-&gt;{&#39;fix&#39;} and not $opts{&#39;fix&#39;} and not $opts{&#39;estimate&#39;})</td></tr>
-<tr><td class="h"><a id="L246">246</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;fix&#39;})</td></tr>
-<tr><td class="h"><a id="L251">251</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;} and @all_issues)</td></tr>
-<tr><td class="h"><a id="L255">255</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($savings-&gt;{&#39;minutes&#39;} &gt; 0)</td></tr>
-<tr><td class="h"><a id="L264">264</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@{$savings-&gt;{&#39;details&#39;};})</td></tr>
-<tr><td class="h"><a id="L274">274</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@all_issues and not $opts{&#39;fix&#39;})</td></tr>
-<tr><td class="h"><a id="L283">283</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$fixable &gt; 0 ? :</td></tr>
-<tr><td class="h"><a id="L291">291</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($opts{&#39;estimate&#39;})</td></tr>
-<tr><td class="h"><a id="L297">297</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">@all_issues ? :</td></tr>
-<tr><td class="h"><a id="L345">345</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($choice =~ /^\d+$/u and $choice &gt;= 1 and $choice &lt;= @types)</td></tr>
-<tr><td class="h"><a id="L358">358</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (@detections)</td></tr>
-<tr><td class="h"><a id="L370">370</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (defined $top-&gt;{&#39;type&#39;})</td></tr>
-<tr><td class="h"><a id="L381">381</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (not $indicator =~ /[\*\?]/u and path($indicator)-&gt;exists)</td></tr>
-<tr><td class="h"><a id="L383">383</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if @found_indicators &gt;= 3</td></tr>
-<tr><td class="h"><a id="L387">387</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@found_indicators)</td></tr>
-<tr><td class="h"><a id="L393">393</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@detections &gt; 1)</td></tr>
-<tr><td class="h"><a id="L405">405</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($response =~ /^(y|yes|)$/iu) { }</td></tr>
+<tr><td class="h"><a id="L117">117</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($yaml)</td></tr>
+<tr><td class="h"><a id="L123">123</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($output_file)</td></tr>
+<tr><td class="h"><a id="L125">125</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless $workflows_dir-&gt;exists</td></tr>
+<tr><td class="h"><a id="L145">145</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless (@workflow_files)</td></tr>
+<tr><td class="h"><a id="L152">152</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">if ($opts{&#39;fix&#39;})</td></tr>
+<tr><td class="h"><a id="L155">155</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;})</td></tr>
+<tr><td class="h"><a id="L163">163</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;})</td></tr>
+<tr><td class="h"><a id="L175">175</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@{$current_usage-&gt;{&#39;workflows&#39;};} &gt; 1)</td></tr>
+<tr><td class="h"><a id="L200">200</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($@)</td></tr>
+<tr><td class="h"><a id="L207">207</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@issues) { }</td></tr>
+<tr><td class="h"><a id="L209">209</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$opts{&#39;fix&#39;} ? :</td></tr>
+<tr><td class="h"><a id="L211">211</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;fix&#39;} and @fixable) { }</td></tr>
+<tr><td class="h"><a id="L217">217</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($fixes &gt; 0) { }</td></tr>
+<tr><td class="h"><a id="L225">225</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">can_auto_fix($issue) ? :</td></tr>
+<tr><td class="h"><a id="L227">227</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($issue-&gt;{&#39;fix&#39;} and not $opts{&#39;fix&#39;} and not $opts{&#39;estimate&#39;})</td></tr>
+<tr><td class="h"><a id="L249">249</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;fix&#39;})</td></tr>
+<tr><td class="h"><a id="L254">254</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($opts{&#39;estimate&#39;} and @all_issues)</td></tr>
+<tr><td class="h"><a id="L258">258</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($savings-&gt;{&#39;minutes&#39;} &gt; 0)</td></tr>
+<tr><td class="h"><a id="L267">267</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@{$savings-&gt;{&#39;details&#39;};})</td></tr>
+<tr><td class="h"><a id="L277">277</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@all_issues and not $opts{&#39;fix&#39;})</td></tr>
+<tr><td class="h"><a id="L286">286</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$fixable &gt; 0 ? :</td></tr>
+<tr><td class="h"><a id="L294">294</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless ($opts{&#39;estimate&#39;})</td></tr>
+<tr><td class="h"><a id="L300">300</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">@all_issues ? :</td></tr>
+<tr><td class="h"><a id="L348">348</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($choice =~ /^\d+$/u and $choice &gt;= 1 and $choice &lt;= @types)</td></tr>
+<tr><td class="h"><a id="L361">361</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (@detections)</td></tr>
+<tr><td class="h"><a id="L373">373</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">unless (defined $top-&gt;{&#39;type&#39;})</td></tr>
+<tr><td class="h"><a id="L384">384</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (not $indicator =~ /[\*\?]/u and path($indicator)-&gt;exists)</td></tr>
+<tr><td class="h"><a id="L386">386</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if @found_indicators &gt;= 3</td></tr>
+<tr><td class="h"><a id="L390">390</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@found_indicators)</td></tr>
+<tr><td class="h"><a id="L396">396</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@detections &gt; 1)</td></tr>
+<tr><td class="h"><a id="L408">408</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($response =~ /^(y|yes|)$/iu) { }</td></tr>
 <tr><td class="h"></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">elsif ($response =~ /^(n|no)$/iu) { }</td></tr>
-<tr><td class="h"><a id="L418">418</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$a &lt; $b ? :</td></tr>
+<tr><td class="h"><a id="L421">421</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$a &lt; $b ? :</td></tr>
 </table>
 </body>
 </html>
