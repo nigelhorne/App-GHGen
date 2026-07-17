@@ -6,7 +6,7 @@ package App::GHGen;
 # git push origin v2
 # Go to https://github.com/nigelhorne/App-GHGen/releases
 # Click “Draft a new release”
-# Choose the existing tag: v2
+# Choose the new tag: v2
 # Publish the release
 
 use v5.36;
@@ -19,11 +19,11 @@ App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 

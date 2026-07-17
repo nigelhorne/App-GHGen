@@ -14,7 +14,7 @@ our @EXPORT_OK = qw(
 	customize_workflow
 );
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 NAME
 
@@ -26,6 +26,8 @@ App::GHGen::Interactive - Interactive workflow customization
 
     my $config = customize_workflow('perl');
     # Returns hash of user choices
+
+=encoding utf-8
 
 =head1 FUNCTIONS
 
@@ -737,7 +739,7 @@ sub _customize_static() {
 
 	say colored(['bold'], "Static Site Deployment:");
 
-	my $build_dir = prompt_text("Build output directory", './public');
+	my $build_dir = prompt_text('Build output directory', './public');
 	$config{build_dir} = $build_dir;
 	say '';
 
@@ -754,10 +756,13 @@ Nigel Horne E<lt>njh@nigelhorne.comE<gt>
 
 L<https://github.com/nigelhorne>
 
-=head1 LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+Copyright 2025-2026 Nigel Horne.
+
+Usage is subject to the GPL2 licence terms.
+If you use it,
+please let me know.
 
 =cut
 
