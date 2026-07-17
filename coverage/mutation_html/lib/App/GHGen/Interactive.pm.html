@@ -306,7 +306,7 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   14: 	customize_workflow
 </span><span class="">   15: );
 </span><span class="">   16: 
-</span><span class="">   17: our $VERSION = &#39;0.05&#39;;
+</span><span class="">   17: our $VERSION = &#39;0.06&#39;;
 </span><span class="">   18: 
 </span><span class="">   19: =head1 NAME
 </span><span class="">   20: 
@@ -319,20 +319,20 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   27:     my $config = customize_workflow(&#39;perl&#39;);
 </span><span class="">   28:     # Returns hash of user choices
 </span><span class="">   29: 
-</span><span class="">   30: =head1 FUNCTIONS
+</span><span class="">   30: =encoding utf-8
 </span><span class="">   31: 
-</span><span class="">   32: =head2 prompt_yes_no($question, $default)
+</span><span class="">   32: =head1 FUNCTIONS
 </span><span class="">   33: 
-</span><span class="">   34: Prompt the user for a yes/no answer and return a boolean.
+</span><span class="">   34: =head2 prompt_yes_no($question, $default)
 </span><span class="">   35: 
-</span><span class="">   36: =head3 Purpose
+</span><span class="">   36: Prompt the user for a yes/no answer and return a boolean.
 </span><span class="">   37: 
-</span><span class="">   38: Print C&lt;$question&gt; followed by a bracket hint (C&lt;[Y/n]&gt; or C&lt;[y/N]&gt;),
-</span><span class="">   39: read one line from STDIN, and return C&lt;1&gt; for yes or C&lt;0&gt; for no.  An
-</span><span class="">   40: empty response uses C&lt;$default&gt;.
-</span><span class="">   41: 
-</span><span class="">   42: =head3 Arguments
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   43: 
+</span><span class="">   38: =head3 Purpose
+</span><span class="">   39: 
+</span><span class="">   40: Print C&lt;$question&gt; followed by a bracket hint (C&lt;[Y/n]&gt; or C&lt;[y/N]&gt;),
+</span><span class="">   41: read one line from STDIN, and return C&lt;1&gt; for yes or C&lt;0&gt; for no.  An
+</span><span class="">   42: empty response uses C&lt;$default&gt;.
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   43: 
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -354,7 +354,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   44: =over 4
+<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   44: =head3 Arguments
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -376,7 +376,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   45: 
+<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   45: 
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -398,18 +398,18 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">   46: =item C&lt;$question&gt; (Str, required)
+<span class="">   46: =over 4
 </span><span class="">   47: 
-</span><span class="">   48: The question text to display.
+</span><span class="">   48: =item C&lt;$question&gt; (Str, required)
 </span><span class="">   49: 
-</span><span class="">   50: =item C&lt;$default&gt; (Str, optional, default C&lt;&#39;y&#39;&gt;)
+</span><span class="">   50: The question text to display.
 </span><span class="">   51: 
-</span><span class="">   52: The default answer when the user presses Enter without typing.
-</span><span class="">   53: Must be C&lt;&#39;y&#39;&gt; or C&lt;&#39;n&#39;&gt;.
-</span><span class="">   54: 
-</span><span class="">   55: =back
+</span><span class="">   52: =item C&lt;$default&gt; (Str, optional, default C&lt;&#39;y&#39;&gt;)
+</span><span class="">   53: 
+</span><span class="">   54: The default answer when the user presses Enter without typing.
+</span><span class="">   55: Must be C&lt;&#39;y&#39;&gt; or C&lt;&#39;n&#39;&gt;.
 </span><span class="">   56: 
-</span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">   57: =head3 Returns
+</span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">   57: =back
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
@@ -424,12 +424,12 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 								</div>
 							</li></ul></details>
 <span class="">   58: 
-</span><span class="">   59: C&lt;1&gt; when the answer is affirmative (C&lt;y&gt; or C&lt;yes&gt;, case-insensitive) or
-</span><span class="">   60: when the empty response maps to a C&lt;&#39;y&#39;&gt; default.
-</span><span class="">   61: 
-</span><span class="">   62: C&lt;0&gt; when the answer is negative (C&lt;n&gt; or C&lt;no&gt;, case-insensitive) or
-</span><span class="">   63: when the empty response maps to an C&lt;&#39;n&#39;&gt; default.
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   64: 
+</span><span class="">   59: =head3 Returns
+</span><span class="">   60: 
+</span><span class="">   61: C&lt;1&gt; when the answer is affirmative (C&lt;y&gt; or C&lt;yes&gt;, case-insensitive) or
+</span><span class="">   62: when the empty response maps to a C&lt;&#39;y&#39;&gt; default.
+</span><span class="">   63: 
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   64: C&lt;0&gt; when the answer is negative (C&lt;n&gt; or C&lt;no&gt;, case-insensitive) or
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -451,7 +451,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="survived-3 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Return value mutation survived. Add tests asserting exact return values.">   65: =head3 Side Effects
+<span class="survived-3 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Boolean logic mutation survived. Add tests covering both true and false paths.">   65: when the empty response maps to an C&lt;&#39;n&#39;&gt; default.
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 8, Killed: 0, Survived: 8)</summary>
@@ -543,29 +543,29 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">   67: Reads one line from STDIN; prints to STDOUT.
+<span class="">   67: =head3 Side Effects
 </span><span class="">   68: 
-</span><span class="">   69: =head3 Usage Example
+</span><span class="">   69: Reads one line from STDIN; prints to STDOUT.
 </span><span class="">   70: 
-</span><span class="">   71:     my $ok = prompt_yes_no(&quot;Enable coverage?&quot;, &#39;y&#39;);
+</span><span class="">   71: =head3 Usage Example
 </span><span class="">   72: 
-</span><span class="">   73: =head3 API SPECIFICATION
+</span><span class="">   73:     my $ok = prompt_yes_no(&quot;Enable coverage?&quot;, &#39;y&#39;);
 </span><span class="">   74: 
-</span><span class="">   75: =head4 Input
+</span><span class="">   75: =head3 API SPECIFICATION
 </span><span class="">   76: 
-</span><span class="">   77:     {
-</span><span class="">   78:         question =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
-</span><span class="">   79:         default  =&gt; { type =&gt; &#39;scalar&#39;, default  =&gt; &#39;y&#39; },
-</span><span class="">   80:     }
-</span><span class="">   81: 
-</span><span class="">   82: =head4 Output
+</span><span class="">   77: =head4 Input
+</span><span class="">   78: 
+</span><span class="">   79:     {
+</span><span class="">   80:         question =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
+</span><span class="">   81:         default  =&gt; { type =&gt; &#39;scalar&#39;, default  =&gt; &#39;y&#39; },
+</span><span class="">   82:     }
 </span><span class="">   83: 
-</span><span class="">   84:     { type =&gt; &#39;scalar&#39; }   # 1 or 0
+</span><span class="">   84: =head4 Output
 </span><span class="">   85: 
-</span><span class="">   86: =head3 FORMAL SPECIFICATION
+</span><span class="">   86:     { type =&gt; &#39;scalar&#39; }   # 1 or 0
 </span><span class="">   87: 
-</span><span class="">   88:     prompt_yes_no : &acirc;&#132;&curren;* &Atilde;&#151; {&#39;y&#39;,&#39;n&#39;} &acirc;&#134;&#146; &eth;&#157;&#148;&sup1;
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   89: 
+</span><span class="">   88: =head3 FORMAL SPECIFICATION
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   89: 
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -587,15 +587,15 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">   90:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   91:     result &acirc;&#137;&#148;
+<span class="">   90:     prompt_yes_no : &acirc;&#132;&curren;* &Atilde;&#151; {&#39;y&#39;,&#39;n&#39;} &acirc;&#134;&#146; &eth;&#157;&#148;&sup1;
+</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">   91: 
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
 					<ul>
 				<li><b>COND_INV_91_5: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">   92:         answer =~ /^y(es)?$/i &acirc;&#134;&#146; 1
+<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">   92:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -617,10 +617,10 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">   93:         answer =~ /^n(o)?$/i  &acirc;&#134;&#146; 0
-</span><span class="">   94:         answer = &quot;&quot;           &acirc;&#134;&#146; default = &#39;y&#39; &acirc;&#134;&#146; 1  |  default = &#39;n&#39; &acirc;&#134;&#146; 0
-</span><span class="">   95: 
-</span><span class="">   96: =cut
+<span class="">   93:     result &acirc;&#137;&#148;
+</span><span class="">   94:         answer =~ /^y(es)?$/i &acirc;&#134;&#146; 1
+</span><span class="">   95:         answer =~ /^n(o)?$/i  &acirc;&#134;&#146; 0
+</span><span class="">   96:         answer = &quot;&quot;           &acirc;&#134;&#146; default = &#39;y&#39; &acirc;&#134;&#146; 1  |  default = &#39;n&#39; &acirc;&#134;&#146; 0
 </span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">   97: 
 </span>
 					<details class="mutant-details">
@@ -676,11 +676,11 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 								</div>
 							</li><li><b>COND_INV_97_9: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class="">   98: sub prompt_yes_no($question, $default = &#39;y&#39;) {
-</span><span class="">   99: 	my $prompt = $default eq &#39;y&#39; ? &#39;[Y/n]&#39; : &#39;[y/N]&#39;;
-</span><span class="">  100: 	print &quot;$question $prompt: &quot;;
-</span><span class="">  101: 	chomp(my $answer = &lt;STDIN&gt;);
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  102: 
+<span class="">   98: =cut
+</span><span class="">   99: 
+</span><span class="">  100: sub prompt_yes_no($question, $default = &#39;y&#39;) {
+</span><span class="">  101: 	my $prompt = $default eq &#39;y&#39; ? &#39;[Y/n]&#39; : &#39;[y/N]&#39;;
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  102: 	print &quot;$question $prompt: &quot;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -702,20 +702,20 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  103: 	return 1 if $answer =~ /^y(es)?$/i;
-</span><span class="">  104: 	return 0 if $answer =~ /^n(o)?$/i;
-</span><span class="">  105: 	return $default eq &#39;y&#39; ? 1 : 0;
-</span><span class="">  106: }
-</span><span class="">  107: 
-</span><span class="">  108: =head2 prompt_choice($question, $choices, $default)
+<span class="">  103: 	chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  104: 
+</span><span class="">  105: 	return 1 if $answer =~ /^y(es)?$/i;
+</span><span class="">  106: 	return 0 if $answer =~ /^n(o)?$/i;
+</span><span class="">  107: 	return $default eq &#39;y&#39; ? 1 : 0;
+</span><span class="">  108: }
 </span><span class="">  109: 
-</span><span class="">  110: Prompt the user to select one item from a numbered list.
+</span><span class="">  110: =head2 prompt_choice($question, $choices, $default)
 </span><span class="">  111: 
-</span><span class="">  112: =head3 Purpose
+</span><span class="">  112: Prompt the user to select one item from a numbered list.
 </span><span class="">  113: 
-</span><span class="">  114: Display C&lt;$question&gt; followed by a numbered list of C&lt;$choices&gt;, read one
-</span><span class="">  115: line from STDIN, and return the zero-based index of the selected item.
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  116: 
+</span><span class="">  114: =head3 Purpose
+</span><span class="">  115: 
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  116: Display C&lt;$question&gt; followed by a numbered list of C&lt;$choices&gt;, read one
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -737,31 +737,31 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  117: =head3 Arguments
+<span class="">  117: line from STDIN, and return the zero-based index of the selected item.
 </span><span class="">  118: 
-</span><span class="">  119: =over 4
+</span><span class="">  119: =head3 Arguments
 </span><span class="">  120: 
-</span><span class="">  121: =item C&lt;$question&gt; (Str, required)
+</span><span class="">  121: =over 4
 </span><span class="">  122: 
-</span><span class="">  123: The selection prompt text.
+</span><span class="">  123: =item C&lt;$question&gt; (Str, required)
 </span><span class="">  124: 
-</span><span class="">  125: =item C&lt;$choices&gt; (ArrayRef[Str], required)
+</span><span class="">  125: The selection prompt text.
 </span><span class="">  126: 
-</span><span class="">  127: The available options, displayed numbered from 1.
+</span><span class="">  127: =item C&lt;$choices&gt; (ArrayRef[Str], required)
 </span><span class="">  128: 
-</span><span class="">  129: =item C&lt;$default&gt; (Int, optional, default C&lt;0&gt;)
+</span><span class="">  129: The available options, displayed numbered from 1.
 </span><span class="">  130: 
-</span><span class="">  131: Zero-based index of the pre-selected option shown in the prompt.
+</span><span class="">  131: =item C&lt;$default&gt; (Int, optional, default C&lt;0&gt;)
 </span><span class="">  132: 
-</span><span class="">  133: =back
+</span><span class="">  133: Zero-based index of the pre-selected option shown in the prompt.
 </span><span class="">  134: 
-</span><span class="">  135: =head3 Returns
+</span><span class="">  135: =back
 </span><span class="">  136: 
-</span><span class="">  137: A zero-based integer index.  Returns C&lt;$default&gt; when the user presses Enter
-</span><span class="">  138: without input or when the input is out of range (less than 1 or greater than
-</span><span class="">  139: the number of choices).
-</span><span class="">  140: 
-</span><span class="">  141: =head3 Side Effects
+</span><span class="">  137: =head3 Returns
+</span><span class="">  138: 
+</span><span class="">  139: A zero-based integer index.  Returns C&lt;$default&gt; when the user presses Enter
+</span><span class="">  140: without input or when the input is out of range (less than 1 or greater than
+</span><span class="">  141: the number of choices).
 </span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">  142: 
 </span>
 					<details class="mutant-details">
@@ -769,7 +769,7 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 					<ul>
 				<li><b>COND_INV_142_5: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
 </li></ul></details>
-<span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  143: Reads one line from STDIN; prints to STDOUT.
+<span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  143: =head3 Side Effects
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -792,74 +792,74 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 								</div>
 							</li></ul></details>
 <span class="">  144: 
-</span><span class="">  145: =head3 Usage Example
+</span><span class="">  145: Reads one line from STDIN; prints to STDOUT.
 </span><span class="">  146: 
-</span><span class="">  147:     my $idx = prompt_choice(&quot;Package manager?&quot;, [&#39;npm&#39;,&#39;yarn&#39;,&#39;pnpm&#39;], 0);
+</span><span class="">  147: =head3 Usage Example
 </span><span class="">  148: 
-</span><span class="">  149: =head3 API SPECIFICATION
+</span><span class="">  149:     my $idx = prompt_choice(&quot;Package manager?&quot;, [&#39;npm&#39;,&#39;yarn&#39;,&#39;pnpm&#39;], 0);
 </span><span class="">  150: 
-</span><span class="">  151: =head4 Input
+</span><span class="">  151: =head3 API SPECIFICATION
 </span><span class="">  152: 
-</span><span class="">  153:     {
-</span><span class="">  154:         question =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
-</span><span class="">  155:         choices  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">  156:         default  =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 0 },
-</span><span class="">  157:     }
-</span><span class="">  158: 
-</span><span class="">  159: =head4 Output
+</span><span class="">  153: =head4 Input
+</span><span class="">  154: 
+</span><span class="">  155:     {
+</span><span class="">  156:         question =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
+</span><span class="">  157:         choices  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">  158:         default  =&gt; { type =&gt; &#39;scalar&#39;,  default  =&gt; 0 },
+</span><span class="">  159:     }
 </span><span class="">  160: 
-</span><span class="">  161:     { type =&gt; &#39;scalar&#39; }   # integer 0 .. |choices|-1
+</span><span class="">  161: =head4 Output
 </span><span class="">  162: 
-</span><span class="">  163: =head3 FORMAL SPECIFICATION
+</span><span class="">  163:     { type =&gt; &#39;scalar&#39; }   # integer 0 .. |choices|-1
 </span><span class="">  164: 
-</span><span class="">  165:     prompt_choice : &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &Atilde;&#151; &acirc;&#132;&#149; &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  165: =head3 FORMAL SPECIFICATION
 </span><span class="">  166: 
-</span><span class="">  167:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
-</span><span class="">  168:     result &acirc;&#137;&#148;
-</span><span class="">  169:         answer = &quot;&quot;                       &acirc;&#134;&#146; default
-</span><span class="">  170:         answer &acirc;&#136;&#136; &acirc;&#132;&#149; &acirc;&#136;&sect; 1 &acirc;&#137;&curren; answer &acirc;&#137;&curren; |choices| &acirc;&#134;&#146; answer &acirc;&#136;&#146; 1
-</span><span class="">  171:         otherwise                         &acirc;&#134;&#146; default
-</span><span class="">  172: 
-</span><span class="">  173: =cut
+</span><span class="">  167:     prompt_choice : &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &Atilde;&#151; &acirc;&#132;&#149; &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  168: 
+</span><span class="">  169:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
+</span><span class="">  170:     result &acirc;&#137;&#148;
+</span><span class="">  171:         answer = &quot;&quot;                       &acirc;&#134;&#146; default
+</span><span class="">  172:         answer &acirc;&#136;&#136; &acirc;&#132;&#149; &acirc;&#136;&sect; 1 &acirc;&#137;&curren; answer &acirc;&#137;&curren; |choices| &acirc;&#134;&#146; answer &acirc;&#136;&#146; 1
+</span><span class="">  173:         otherwise                         &acirc;&#134;&#146; default
 </span><span class="">  174: 
-</span><span class="">  175: sub prompt_choice($question, $choices, $default = 0) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">176 → 177 → 182</span></span>  176:     say $question;
-</span><span class="">  177:     for my $i (0 .. $#$choices) {
-</span><span class="">  178:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
-</span><span class="">  179:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
-</span><span class="">  180:     }
-</span><span class="">  181: 
-</span><span class="">  182:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
-</span><span class="">  183:     chomp(my $answer = &lt;STDIN&gt;);
-</span><span class="">  184: 
-</span><span class="">  185:     return $default if $answer eq &#39;&#39;;
-</span><span class="">  186:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
-</span><span class="">  187:     return $default;
-</span><span class="">  188: }
-</span><span class="">  189: 
-</span><span class="">  190: =head2 prompt_multiselect($question, $options, $defaults)
+</span><span class="">  175: =cut
+</span><span class="">  176: 
+</span><span class="">  177: sub prompt_choice($question, $choices, $default = 0) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">178 → 179 → 184</span></span>  178:     say $question;
+</span><span class="">  179:     for my $i (0 .. $#$choices) {
+</span><span class="">  180:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
+</span><span class="">  181:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
+</span><span class="">  182:     }
+</span><span class="">  183: 
+</span><span class="">  184:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
+</span><span class="">  185:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  186: 
+</span><span class="">  187:     return $default if $answer eq &#39;&#39;;
+</span><span class="">  188:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
+</span><span class="">  189:     return $default;
+</span><span class="">  190: }
 </span><span class="">  191: 
-</span><span class="">  192: Prompt the user to select zero or more items from a numbered list.
+</span><span class="">  192: =head2 prompt_multiselect($question, $options, $defaults)
 </span><span class="">  193: 
-</span><span class="">  194: =head3 Purpose
+</span><span class="">  194: Prompt the user to select zero or more items from a numbered list.
 </span><span class="">  195: 
-</span><span class="">  196: Display C&lt;$question&gt; and a numbered list of C&lt;$options&gt;, accept
-</span><span class="">  197: comma-separated numbers or the keyword C&lt;all&gt;, and return an array reference
-</span><span class="">  198: of the selected option strings.
-</span><span class="">  199: 
-</span><span class="">  200: =head3 Arguments
+</span><span class="">  196: =head3 Purpose
+</span><span class="">  197: 
+</span><span class="">  198: Display C&lt;$question&gt; and a numbered list of C&lt;$options&gt;, accept
+</span><span class="">  199: comma-separated numbers or the keyword C&lt;all&gt;, and return an array reference
+</span><span class="">  200: of the selected option strings.
 </span><span class="">  201: 
-</span><span class="">  202: =over 4
+</span><span class="">  202: =head3 Arguments
 </span><span class="">  203: 
-</span><span class="">  204: =item C&lt;$question&gt; (Str, required)
+</span><span class="">  204: =over 4
 </span><span class="">  205: 
-</span><span class="">  206: The multi-select prompt text.
+</span><span class="">  206: =item C&lt;$question&gt; (Str, required)
 </span><span class="">  207: 
-</span><span class="">  208: =item C&lt;$options&gt; (ArrayRef[Str], required)
+</span><span class="">  208: The multi-select prompt text.
 </span><span class="">  209: 
-</span><span class="">  210: All available options, displayed numbered from 1.
+</span><span class="">  210: =item C&lt;$options&gt; (ArrayRef[Str], required)
 </span><span class="">  211: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  212: =item C&lt;$defaults&gt; (ArrayRef[Str], optional, default C&lt;[]&gt;)
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  212: All available options, displayed numbered from 1.
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -882,55 +882,55 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 								</div>
 							</li></ul></details>
 <span class="">  213: 
-</span><span class="">  214: The pre-selected options (by value, not index).
+</span><span class="">  214: =item C&lt;$defaults&gt; (ArrayRef[Str], optional, default C&lt;[]&gt;)
 </span><span class="">  215: 
-</span><span class="">  216: =back
+</span><span class="">  216: The pre-selected options (by value, not index).
 </span><span class="">  217: 
-</span><span class="">  218: =head3 Returns
+</span><span class="">  218: =back
 </span><span class="">  219: 
-</span><span class="">  220: An array reference of selected option strings.  Possible values:
+</span><span class="">  220: =head3 Returns
 </span><span class="">  221: 
-</span><span class="">  222: =over 4
+</span><span class="">  222: An array reference of selected option strings.  Possible values:
 </span><span class="">  223: 
-</span><span class="">  224: =item *
+</span><span class="">  224: =over 4
 </span><span class="">  225: 
-</span><span class="">  226: The full C&lt;$options&gt; list when the user types C&lt;all&gt;.
+</span><span class="">  226: =item *
 </span><span class="">  227: 
-</span><span class="">  228: =item *
+</span><span class="">  228: The full C&lt;$options&gt; list when the user types C&lt;all&gt;.
 </span><span class="">  229: 
-</span><span class="">  230: A subset derived from the comma/space-separated numbers the user entered.
+</span><span class="">  230: =item *
 </span><span class="">  231: 
-</span><span class="">  232: =item *
+</span><span class="">  232: A subset derived from the comma/space-separated numbers the user entered.
 </span><span class="">  233: 
-</span><span class="">  234: C&lt;$defaults&gt; when the user presses Enter without typing.
+</span><span class="">  234: =item *
 </span><span class="">  235: 
-</span><span class="">  236: =back
+</span><span class="">  236: C&lt;$defaults&gt; when the user presses Enter without typing.
 </span><span class="">  237: 
-</span><span class="">  238: =head3 Side Effects
+</span><span class="">  238: =back
 </span><span class="">  239: 
-</span><span class="">  240: Reads one line from STDIN; prints to STDOUT.
+</span><span class="">  240: =head3 Side Effects
 </span><span class="">  241: 
-</span><span class="">  242: =head3 Usage Example
+</span><span class="">  242: Reads one line from STDIN; prints to STDOUT.
 </span><span class="">  243: 
-</span><span class="">  244:     my $sel = prompt_multiselect(&quot;OS?&quot;, [&#39;ubuntu-latest&#39;,&#39;macos-latest&#39;,&#39;windows-latest&#39;], []);
+</span><span class="">  244: =head3 Usage Example
 </span><span class="">  245: 
-</span><span class="">  246: =head3 API SPECIFICATION
+</span><span class="">  246:     my $sel = prompt_multiselect(&quot;OS?&quot;, [&#39;ubuntu-latest&#39;,&#39;macos-latest&#39;,&#39;windows-latest&#39;], []);
 </span><span class="">  247: 
-</span><span class="">  248: =head4 Input
+</span><span class="">  248: =head3 API SPECIFICATION
 </span><span class="">  249: 
-</span><span class="">  250:     {
-</span><span class="">  251:         question =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
-</span><span class="">  252:         options  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">  253:         defaults =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
-</span><span class="">  254:     }
-</span><span class="">  255: 
-</span><span class="">  256: =head4 Output
+</span><span class="">  250: =head4 Input
+</span><span class="">  251: 
+</span><span class="">  252:     {
+</span><span class="">  253:         question =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
+</span><span class="">  254:         options  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">  255:         defaults =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
+</span><span class="">  256:     }
 </span><span class="">  257: 
-</span><span class="">  258:     { type =&gt; &#39;arrayref&#39; }
+</span><span class="">  258: =head4 Output
 </span><span class="">  259: 
-</span><span class="">  260: =head3 FORMAL SPECIFICATION
+</span><span class="">  260:     { type =&gt; &#39;arrayref&#39; }
 </span><span class="">  261: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  262:     prompt_multiselect : &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &acirc;&#134;&#146; seq &acirc;&#132;&curren;*
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  262: =head3 FORMAL SPECIFICATION
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -953,52 +953,52 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 								</div>
 							</li></ul></details>
 <span class="">  263: 
-</span><span class="">  264:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
-</span><span class="">  265:     result &acirc;&#137;&#148;
-</span><span class="">  266:         answer = &quot;&quot;           &acirc;&#134;&#146; defaults
-</span><span class="">  267:         answer =~ /^all$/i   &acirc;&#134;&#146; options
-</span><span class="">  268:         otherwise            &acirc;&#134;&#146; [ options[n&acirc;&#136;&#146;1] &acirc;&#136;&pound; n &acirc;&#136;&#136; split(/[,\s]+/, answer), 1 &acirc;&#137;&curren; n &acirc;&#137;&curren; |options| ]
-</span><span class="">  269:                                    ?? defaults (when result = &acirc;&#136;&#133;)
-</span><span class="">  270: 
-</span><span class="">  271: =cut
+</span><span class="">  264:     prompt_multiselect : &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &Atilde;&#151; seq &acirc;&#132;&curren;* &acirc;&#134;&#146; seq &acirc;&#132;&curren;*
+</span><span class="">  265: 
+</span><span class="">  266:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
+</span><span class="">  267:     result &acirc;&#137;&#148;
+</span><span class="">  268:         answer = &quot;&quot;           &acirc;&#134;&#146; defaults
+</span><span class="">  269:         answer =~ /^all$/i   &acirc;&#134;&#146; options
+</span><span class="">  270:         otherwise            &acirc;&#134;&#146; [ options[n&acirc;&#136;&#146;1] &acirc;&#136;&pound; n &acirc;&#136;&#136; split(/[,\s]+/, answer), 1 &acirc;&#137;&curren; n &acirc;&#137;&curren; |options| ]
+</span><span class="">  271:                                    ?? defaults (when result = &acirc;&#136;&#133;)
 </span><span class="">  272: 
-</span><span class="">  273: sub prompt_multiselect($question, $options, $defaults = []) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">274 → 279 → 284</span></span>  274:     say $question;
-</span><span class="">  275:     say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
-</span><span class="">  276: 
-</span><span class="">  277:     my %is_default = map { $_ =&gt; 1 } @$defaults;
+</span><span class="">  273: =cut
+</span><span class="">  274: 
+</span><span class="">  275: sub prompt_multiselect($question, $options, $defaults = []) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">276 → 281 → 286</span></span>  276:     say $question;
+</span><span class="">  277:     say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
 </span><span class="">  278: 
-</span><span class="">  279:     for my $i (0 .. $#$options) {
-</span><span class="">  280:         my $marker = $is_default{$options-&gt;[$i]} ? colored([&#39;green&#39;], &#39;&acirc;&#156;&#147;&#39;) : &#39; &#39;;
-</span><span class="">  281:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
-</span><span class="">  282:     }
-</span><span class="">  283: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">284 → 289 → 293</span></span>  284:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
-</span><span class="">  285:     chomp(my $answer = &lt;STDIN&gt;);
-</span><span class="">  286: 
-</span><span class="">  287:     return $defaults if $answer eq &#39;&#39;;
+</span><span class="">  279:     my %is_default = map { $_ =&gt; 1 } @$defaults;
+</span><span class="">  280: 
+</span><span class="">  281:     for my $i (0 .. $#$options) {
+</span><span class="">  282:         my $marker = $is_default{$options-&gt;[$i]} ? colored([&#39;green&#39;], &#39;&acirc;&#156;&#147;&#39;) : &#39; &#39;;
+</span><span class="">  283:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
+</span><span class="">  284:     }
+</span><span class="">  285: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">286 → 291 → 295</span></span>  286:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
+</span><span class="">  287:     chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  288: 
-</span><span class="">  289:     if ($answer =~ /^all$/i) {
-</span><span class="">  290:         return $options;
-</span><span class="">  291:     }
-</span><span class="">  292: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">293 → 294 → 300</span></span>  293:     my @selected;
-</span><span class="">  294:     for my $num (split /[,\s]+/, $answer) {
-</span><span class="">  295:         if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
-</span><span class="">  296:             push @selected, $options-&gt;[$num - 1];
-</span><span class="">  297:         }
-</span><span class="">  298:     }
-</span><span class="">  299: 
-</span><span class="">  300:     return @selected ? \@selected : $defaults;
-</span><span class="">  301: }
-</span><span class="">  302: 
-</span><span class="">  303: =head2 prompt_text($question, $default)
+</span><span class="">  289:     return $defaults if $answer eq &#39;&#39;;
+</span><span class="">  290: 
+</span><span class="">  291:     if ($answer =~ /^all$/i) {
+</span><span class="">  292:         return $options;
+</span><span class="">  293:     }
+</span><span class="">  294: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">295 → 296 → 302</span></span>  295:     my @selected;
+</span><span class="">  296:     for my $num (split /[,\s]+/, $answer) {
+</span><span class="">  297:         if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
+</span><span class="">  298:             push @selected, $options-&gt;[$num - 1];
+</span><span class="">  299:         }
+</span><span class="">  300:     }
+</span><span class="">  301: 
+</span><span class="">  302:     return @selected ? \@selected : $defaults;
+</span><span class="">  303: }
 </span><span class="">  304: 
-</span><span class="">  305: Prompt the user for a free-form text answer.
+</span><span class="">  305: =head2 prompt_text($question, $default)
 </span><span class="">  306: 
-</span><span class="">  307: =head3 Purpose
+</span><span class="">  307: Prompt the user for a free-form text answer.
 </span><span class="">  308: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  309: Display C&lt;$question&gt; optionally followed by C&lt;[$default]&gt;, read one line
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  309: =head3 Purpose
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1020,39 +1020,39 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  310: from STDIN, and return the user&#39;s answer or C&lt;$default&gt; when empty.
-</span><span class="">  311: 
-</span><span class="">  312: =head3 Arguments
+<span class="">  310: 
+</span><span class="">  311: Display C&lt;$question&gt; optionally followed by C&lt;[$default]&gt;, read one line
+</span><span class="">  312: from STDIN, and return the user&#39;s answer or C&lt;$default&gt; when empty.
 </span><span class="">  313: 
-</span><span class="">  314: =over 4
+</span><span class="">  314: =head3 Arguments
 </span><span class="">  315: 
-</span><span class="">  316: =item C&lt;$question&gt; (Str, required)
+</span><span class="">  316: =over 4
 </span><span class="">  317: 
-</span><span class="">  318: The prompt text.
+</span><span class="">  318: =item C&lt;$question&gt; (Str, required)
 </span><span class="">  319: 
-</span><span class="">  320: =item C&lt;$default&gt; (Str, optional, default C&lt;&#39;&#39;&gt;)
+</span><span class="">  320: The prompt text.
 </span><span class="">  321: 
-</span><span class="">  322: Returned as-is when the user presses Enter without typing anything.
+</span><span class="">  322: =item C&lt;$default&gt; (Str, optional, default C&lt;&#39;&#39;&gt;)
 </span><span class="">  323: 
-</span><span class="">  324: =back
+</span><span class="">  324: Returned as-is when the user presses Enter without typing anything.
 </span><span class="">  325: 
-</span><span class="">  326: =head3 Returns
+</span><span class="">  326: =back
 </span><span class="">  327: 
-</span><span class="">  328: The trimmed line the user typed, or C&lt;$default&gt; when the input is empty.
+</span><span class="">  328: =head3 Returns
 </span><span class="">  329: 
-</span><span class="">  330: =head3 Side Effects
+</span><span class="">  330: The trimmed line the user typed, or C&lt;$default&gt; when the input is empty.
 </span><span class="">  331: 
-</span><span class="">  332: Reads one line from STDIN; prints to STDOUT.
+</span><span class="">  332: =head3 Side Effects
 </span><span class="">  333: 
-</span><span class="">  334: =head3 Usage Example
+</span><span class="">  334: Reads one line from STDIN; prints to STDOUT.
 </span><span class="">  335: 
-</span><span class="">  336:     my $name = prompt_text(&quot;Project name&quot;, &#39;my-project&#39;);
+</span><span class="">  336: =head3 Usage Example
 </span><span class="">  337: 
-</span><span class="">  338: =head3 API SPECIFICATION
+</span><span class="">  338:     my $name = prompt_text(&quot;Project name&quot;, &#39;my-project&#39;);
 </span><span class="">  339: 
-</span><span class="">  340: =head4 Input
+</span><span class="">  340: =head3 API SPECIFICATION
 </span><span class="">  341: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  342:     {
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  342: =head4 Input
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1074,46 +1074,46 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  343:         question =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
-</span><span class="">  344:         default  =&gt; { type =&gt; &#39;scalar&#39;, default  =&gt; &#39;&#39; },
-</span><span class="">  345:     }
-</span><span class="">  346: 
-</span><span class="">  347: =head4 Output
+<span class="">  343: 
+</span><span class="">  344:     {
+</span><span class="">  345:         question =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
+</span><span class="">  346:         default  =&gt; { type =&gt; &#39;scalar&#39;, default  =&gt; &#39;&#39; },
+</span><span class="">  347:     }
 </span><span class="">  348: 
-</span><span class="">  349:     { type =&gt; &#39;scalar&#39; }
+</span><span class="">  349: =head4 Output
 </span><span class="">  350: 
-</span><span class="">  351: =head3 FORMAL SPECIFICATION
+</span><span class="">  351:     { type =&gt; &#39;scalar&#39; }
 </span><span class="">  352: 
-</span><span class="">  353:     prompt_text : &acirc;&#132;&curren;* &Atilde;&#151; &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  353: =head3 FORMAL SPECIFICATION
 </span><span class="">  354: 
-</span><span class="">  355:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
-</span><span class="">  356:     result &acirc;&#137;&#148; answer = &quot;&quot; &acirc;&#134;&#146; default  |  otherwise &acirc;&#134;&#146; answer
-</span><span class="">  357: 
-</span><span class="">  358: =cut
+</span><span class="">  355:     prompt_text : &acirc;&#132;&curren;* &Atilde;&#151; &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  356: 
+</span><span class="">  357:     answer &acirc;&#137;&#148; chomp(readline(STDIN))
+</span><span class="">  358:     result &acirc;&#137;&#148; answer = &quot;&quot; &acirc;&#134;&#146; default  |  otherwise &acirc;&#134;&#146; answer
 </span><span class="">  359: 
-</span><span class="">  360: sub prompt_text($question, $default = &#39;&#39;) {
-</span><span class="">  361:     my $prompt = $default ? &quot;[$default]&quot; : &#39;&#39;;
-</span><span class="">  362:     print &quot;$question $prompt: &quot;;
-</span><span class="">  363:     chomp(my $answer = &lt;STDIN&gt;);
-</span><span class="">  364: 
-</span><span class="">  365:     return $answer eq &#39;&#39; ? $default : $answer;
-</span><span class="">  366: }
-</span><span class="">  367: 
-</span><span class="">  368: =head2 customize_workflow($type)
+</span><span class="">  360: =cut
+</span><span class="">  361: 
+</span><span class="">  362: sub prompt_text($question, $default = &#39;&#39;) {
+</span><span class="">  363:     my $prompt = $default ? &quot;[$default]&quot; : &#39;&#39;;
+</span><span class="">  364:     print &quot;$question $prompt: &quot;;
+</span><span class="">  365:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  366: 
+</span><span class="">  367:     return $answer eq &#39;&#39; ? $default : $answer;
+</span><span class="">  368: }
 </span><span class="">  369: 
-</span><span class="">  370: Drive an interactive customization session for the given workflow type.
+</span><span class="">  370: =head2 customize_workflow($type)
 </span><span class="">  371: 
-</span><span class="">  372: =head3 Purpose
+</span><span class="">  372: Drive an interactive customization session for the given workflow type.
 </span><span class="">  373: 
-</span><span class="">  374: Display a series of prompts relevant to C&lt;$type&gt; and collect user preferences.
-</span><span class="">  375: Dispatches to a private C&lt;_customize_*&gt; helper; returns an empty hash when
-</span><span class="">  376: the type is not supported.
-</span><span class="">  377: 
-</span><span class="">  378: =head3 Arguments
+</span><span class="">  374: =head3 Purpose
+</span><span class="">  375: 
+</span><span class="">  376: Display a series of prompts relevant to C&lt;$type&gt; and collect user preferences.
+</span><span class="">  377: Dispatches to a private C&lt;_customize_*&gt; helper; returns an empty hash when
+</span><span class="">  378: the type is not supported.
 </span><span class="">  379: 
-</span><span class="">  380: =over 4
+</span><span class="">  380: =head3 Arguments
 </span><span class="">  381: 
-</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  382: =item C&lt;$type&gt; (Str, required)
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  382: =over 4
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1136,28 +1136,28 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 								</div>
 							</li></ul></details>
 <span class="">  383: 
-</span><span class="">  384: The workflow type to customise.  Supported: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;,
-</span><span class="">  385: C&lt;rust&gt;, C&lt;go&gt;, C&lt;ruby&gt;, C&lt;docker&gt;, C&lt;static&gt;.
-</span><span class="">  386: 
-</span><span class="">  387: =back
+</span><span class="">  384: =item C&lt;$type&gt; (Str, required)
+</span><span class="">  385: 
+</span><span class="">  386: The workflow type to customise.  Supported: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;,
+</span><span class="">  387: C&lt;rust&gt;, C&lt;go&gt;, C&lt;ruby&gt;, C&lt;docker&gt;, C&lt;static&gt;.
 </span><span class="">  388: 
-</span><span class="">  389: =head3 Returns
+</span><span class="">  389: =back
 </span><span class="">  390: 
-</span><span class="">  391: A hash reference of configuration key/value pairs collected from the user.
-</span><span class="">  392: Returns an empty hash reference (C&lt;{}&gt;) when C&lt;$type&gt; is not recognised.
-</span><span class="">  393: 
-</span><span class="">  394: =head3 Side Effects
+</span><span class="">  391: =head3 Returns
+</span><span class="">  392: 
+</span><span class="">  393: A hash reference of configuration key/value pairs collected from the user.
+</span><span class="">  394: Returns an empty hash reference (C&lt;{}&gt;) when C&lt;$type&gt; is not recognised.
 </span><span class="">  395: 
-</span><span class="">  396: Reads multiple lines from STDIN; prints to STDOUT.
+</span><span class="">  396: =head3 Side Effects
 </span><span class="">  397: 
-</span><span class="">  398: =head3 Usage Example
+</span><span class="">  398: Reads multiple lines from STDIN; prints to STDOUT.
 </span><span class="">  399: 
-</span><span class="">  400:     my $config = customize_workflow(&#39;perl&#39;);
-</span><span class="">  401:     # $config-&gt;{enable_critic}, $config-&gt;{perl_versions}, etc.
-</span><span class="">  402: 
-</span><span class="">  403: =head3 API SPECIFICATION
+</span><span class="">  400: =head3 Usage Example
+</span><span class="">  401: 
+</span><span class="">  402:     my $config = customize_workflow(&#39;perl&#39;);
+</span><span class="">  403:     # $config-&gt;{enable_critic}, $config-&gt;{perl_versions}, etc.
 </span><span class="">  404: 
-</span><span class="">  405: =head4 Input
+</span><span class="">  405: =head3 API SPECIFICATION
 </span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  406: 
 </span>
 					<details class="mutant-details">
@@ -1180,34 +1180,34 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  407:     { type =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 } }
+<span class="">  407: =head4 Input
 </span><span class="">  408: 
-</span><span class="">  409: =head4 Output
+</span><span class="">  409:     { type =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 } }
 </span><span class="">  410: 
-</span><span class="">  411:     { type =&gt; &#39;hashref&#39; }   # empty or populated with type-specific keys
+</span><span class="">  411: =head4 Output
 </span><span class="">  412: 
-</span><span class="">  413: =head3 FORMAL SPECIFICATION
+</span><span class="">  413:     { type =&gt; &#39;hashref&#39; }   # empty or populated with type-specific keys
 </span><span class="">  414: 
-</span><span class="">  415:     SupportedCustomTypes &acirc;&#137;&#148; { perl, node, python, rust, go, ruby, docker, static }
+</span><span class="">  415: =head3 FORMAL SPECIFICATION
 </span><span class="">  416: 
-</span><span class="">  417:     customize_workflow : &acirc;&#132;&curren;* &acirc;&#134;&#146; Config
+</span><span class="">  417:     SupportedCustomTypes &acirc;&#137;&#148; { perl, node, python, rust, go, ruby, docker, static }
 </span><span class="">  418: 
-</span><span class="">  419:     t &acirc;&#136;&#136; SupportedCustomTypes &acirc;&#134;&#146; _customize_t()
-</span><span class="">  420:     t &acirc;&#136;&#137; SupportedCustomTypes &acirc;&#134;&#146; {}
-</span><span class="">  421: 
-</span><span class="">  422: =cut
+</span><span class="">  419:     customize_workflow : &acirc;&#132;&curren;* &acirc;&#134;&#146; Config
+</span><span class="">  420: 
+</span><span class="">  421:     t &acirc;&#136;&#136; SupportedCustomTypes &acirc;&#134;&#146; _customize_t()
+</span><span class="">  422:     t &acirc;&#136;&#137; SupportedCustomTypes &acirc;&#134;&#146; {}
 </span><span class="">  423: 
-</span><span class="">  424: sub customize_workflow($type) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">425 → 440 → 444</span></span>  425:     say &#39;&#39;;
-</span><span class="">  426:     say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
-</span><span class="">  427:     say &#39;&#39;;
-</span><span class="">  428: 
-</span><span class="">  429:     my %dispatch = (
-</span><span class="">  430:         perl   =&gt; \&amp;_customize_perl,
-</span><span class="">  431:         node   =&gt; \&amp;_customize_node,
-</span><span class="">  432:         python =&gt; \&amp;_customize_python,
-</span><span class="">  433:         rust   =&gt; \&amp;_customize_rust,
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  434:         go     =&gt; \&amp;_customize_go,
+</span><span class="">  424: =cut
+</span><span class="">  425: 
+</span><span class="">  426: sub customize_workflow($type) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">427 → 442 → 446</span></span>  427:     say &#39;&#39;;
+</span><span class="">  428:     say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
+</span><span class="">  429:     say &#39;&#39;;
+</span><span class="">  430: 
+</span><span class="">  431:     my %dispatch = (
+</span><span class="">  432:         perl   =&gt; \&amp;_customize_perl,
+</span><span class="">  433:         node   =&gt; \&amp;_customize_node,
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  434:         python =&gt; \&amp;_customize_python,
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1229,22 +1229,22 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  435:         ruby   =&gt; \&amp;_customize_ruby,
-</span><span class="">  436:         docker =&gt; \&amp;_customize_docker,
-</span><span class="">  437:         static =&gt; \&amp;_customize_static,
-</span><span class="">  438:     );
-</span><span class="">  439: 
-</span><span class="">  440:     if (exists $dispatch{$type}) {
-</span><span class="">  441:         return $dispatch{$type}-&gt;();
-</span><span class="">  442:     }
-</span><span class="">  443: 
-</span><span class="">  444:     return {};
-</span><span class="">  445: }
-</span><span class="">  446: 
-</span><span class="">  447: sub _customize_perl() {
-</span><span class="">  448:     my %config;
-</span><span class="">  449: 
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  450:     # Perl versions
+<span class="">  435:         rust   =&gt; \&amp;_customize_rust,
+</span><span class="">  436:         go     =&gt; \&amp;_customize_go,
+</span><span class="">  437:         ruby   =&gt; \&amp;_customize_ruby,
+</span><span class="">  438:         docker =&gt; \&amp;_customize_docker,
+</span><span class="">  439:         static =&gt; \&amp;_customize_static,
+</span><span class="">  440:     );
+</span><span class="">  441: 
+</span><span class="">  442:     if (exists $dispatch{$type}) {
+</span><span class="">  443:         return $dispatch{$type}-&gt;();
+</span><span class="">  444:     }
+</span><span class="">  445: 
+</span><span class="">  446:     return {};
+</span><span class="">  447: }
+</span><span class="">  448: 
+</span><span class="">  449: sub _customize_perl() {
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  450:     my %config;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
@@ -1266,320 +1266,325 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </pre>
 								</div>
 							</li></ul></details>
-<span class="">  451:     say colored([&#39;bold&#39;], &quot;Perl Versions to Test:&quot;);
-</span><span class="">  452:     my @all_versions = qw(5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
-</span><span class="">  453:     my @default_versions = qw(5.40 5.38 5.36);
-</span><span class="">  454: 
-</span><span class="">  455:     $config{perl_versions} = prompt_multiselect(
-</span><span class="">  456:         &quot;Which Perl versions?&quot;,
-</span><span class="">  457:         \@all_versions,
-</span><span class="">  458:         \@default_versions
-</span><span class="">  459:     );
-</span><span class="">  460:     say &#39;&#39;;
-</span><span class="">  461: 
-</span><span class="">  462:     # Operating systems
-</span><span class="">  463:     say colored([&#39;bold&#39;], &quot;Operating Systems:&quot;);
-</span><span class="">  464:     my @all_os = (&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;);
-</span><span class="">  465:     my @default_os = @all_os;
-</span><span class="">  466: 
-</span><span class="">  467:     $config{os} = prompt_multiselect(
-</span><span class="">  468:         &quot;Which operating systems?&quot;,
-</span><span class="">  469:         \@all_os,
-</span><span class="">  470:         \@default_os
-</span><span class="">  471:     );
-</span><span class="">  472:     say &#39;&#39;;
-</span><span class="">  473: 
-</span><span class="">  474:     # Code quality
-</span><span class="">  475:     say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);
-</span><span class="">  476:     $config{enable_linter} = prompt_yes_no(
-</span><span class="">  477:         &quot;Enable syntax linting (perl -c on all matrix cells)?&quot;,
-</span><span class="">  478:         &#39;y&#39;
-</span><span class="">  479:     );
-</span><span class="">  480:     say &#39;&#39;;
-</span><span class="">  481: 
-</span><span class="">  482:     $config{enable_linter_unused} = prompt_yes_no(
-</span><span class="">  483:         &quot;Enable unused-variable check (warnings::unused, latest+ubuntu only)?&quot;,
-</span><span class="">  484:         &#39;n&#39;
-</span><span class="">  485:     );
-</span><span class="">  486:     say &#39;&#39;;
-</span><span class="">  487: 
-</span><span class="">  488:     $config{enable_critic} = prompt_yes_no(
-</span><span class="">  489:         &quot;Enable Perl::Critic?&quot;,
-</span><span class="">  490:         &#39;y&#39;
-</span><span class="">  491:     );
-</span><span class="">  492:     say &#39;&#39;;
-</span><span class="">  493: 
-</span><span class="">  494:     # Coverage
-</span><span class="">  495:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  496:         &quot;Enable test coverage (Devel::Cover)?&quot;,
-</span><span class="">  497:         &#39;y&#39;
-</span><span class="">  498:     );
-</span><span class="">  499:     say &#39;&#39;;
-</span><span class="">  500: 
-</span><span class="">  501:     # Branches
-</span><span class="">  502:     say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);
-</span><span class="">  503:     my $branches = prompt_text(
-</span><span class="">  504:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  505:         &#39;main,master&#39;
-</span><span class="">  506:     );
-</span><span class="">  507:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  508:     say &#39;&#39;;
-</span><span class="">  509: 
-</span><span class="">  510:     return \%config;
-</span><span class="">  511: }
-</span><span class="">  512: 
-</span><span class="">  513: sub _customize_node() {
-</span><span class="">  514:     my %config;
-</span><span class="">  515: 
-</span><span class="">  516:     # Node versions
-</span><span class="">  517:     say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);
-</span><span class="">  518:     my @all_versions = qw(18.x 20.x 22.x 23.x);
-</span><span class="">  519:     my @default_versions = qw(20.x 22.x);
-</span><span class="">  520: 
-</span><span class="">  521:     $config{node_versions} = prompt_multiselect(
-</span><span class="">  522:         &quot;Which Node.js versions?&quot;,
-</span><span class="">  523:         \@all_versions,
-</span><span class="">  524:         \@default_versions
-</span><span class="">  525:     );
-</span><span class="">  526:     say &#39;&#39;;
-</span><span class="">  527: 
-</span><span class="">  528:     # Package manager
-</span><span class="">  529:     say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);
-</span><span class="">  530:     my $pm_choice = prompt_choice(
-</span><span class="">  531:         &quot;Which package manager?&quot;,
-</span><span class="">  532:         [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],
-</span><span class="">  533:         0
-</span><span class="">  534:     );
-</span><span class="">  535:     $config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];
-</span><span class="">  536:     say &#39;&#39;;
-</span><span class="">  537: 
-</span><span class="">  538:     # Linting
-</span><span class="">  539:     $config{enable_lint} = prompt_yes_no(
-</span><span class="">  540:         &quot;Enable linting?&quot;,
-</span><span class="">  541:         &#39;y&#39;
-</span><span class="">  542:     );
-</span><span class="">  543:     say &#39;&#39;;
-</span><span class="">  544: 
-</span><span class="">  545:     # Build step
-</span><span class="">  546:     $config{enable_build} = prompt_yes_no(
-</span><span class="">  547:         &quot;Enable build step?&quot;,
-</span><span class="">  548:         &#39;y&#39;
-</span><span class="">  549:     );
-</span><span class="">  550:     say &#39;&#39;;
-</span><span class="">  551: 
-</span><span class="">  552:     # Branches
-</span><span class="">  553:     my $branches = prompt_text(
-</span><span class="">  554:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  555:         &#39;main,develop&#39;
-</span><span class="">  556:     );
-</span><span class="">  557:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  558:     say &#39;&#39;;
-</span><span class="">  559: 
-</span><span class="">  560:     return \%config;
-</span><span class="">  561: }
-</span><span class="">  562: 
-</span><span class="">  563: sub _customize_python() {
-</span><span class="">  564:     my %config;
-</span><span class="">  565: 
-</span><span class="">  566:     # Python versions
-</span><span class="">  567:     say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);
-</span><span class="">  568:     my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);
-</span><span class="">  569:     my @default_versions = qw(3.11 3.12);
-</span><span class="">  570: 
-</span><span class="">  571:     $config{python_versions} = prompt_multiselect(
-</span><span class="">  572:         &quot;Which Python versions?&quot;,
-</span><span class="">  573:         \@all_versions,
-</span><span class="">  574:         \@default_versions
-</span><span class="">  575:     );
-</span><span class="">  576:     say &#39;&#39;;
-</span><span class="">  577: 
-</span><span class="">  578:     # Linting
-</span><span class="">  579:     say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);
-</span><span class="">  580:     $config{enable_flake8} = prompt_yes_no(
-</span><span class="">  581:         &quot;Enable flake8 linting?&quot;,
-</span><span class="">  582:         &#39;y&#39;
-</span><span class="">  583:     );
-</span><span class="">  584:     say &#39;&#39;;
-</span><span class="">  585: 
-</span><span class="">  586:     $config{enable_black} = prompt_yes_no(
-</span><span class="">  587:         &quot;Enable black formatter check?&quot;,
-</span><span class="">  588:         &#39;n&#39;
-</span><span class="">  589:     );
-</span><span class="">  590:     say &#39;&#39;;
-</span><span class="">  591: 
-</span><span class="">  592:     # Coverage
-</span><span class="">  593:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  594:         &quot;Enable test coverage?&quot;,
-</span><span class="">  595:         &#39;y&#39;
-</span><span class="">  596:     );
-</span><span class="">  597:     say &#39;&#39;;
-</span><span class="">  598: 
-</span><span class="">  599:     # Branches
-</span><span class="">  600:     my $branches = prompt_text(
-</span><span class="">  601:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  602:         &#39;main,develop&#39;
-</span><span class="">  603:     );
-</span><span class="">  604:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  605:     say &#39;&#39;;
-</span><span class="">  606: 
-</span><span class="">  607:     return \%config;
-</span><span class="">  608: }
-</span><span class="">  609: 
-</span><span class="">  610: sub _customize_rust() {
-</span><span class="">  611:     my %config;
-</span><span class="">  612: 
-</span><span class="">  613:     say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);
+<span class="">  451: 
+</span><span class="">  452:     # Perl versions
+</span><span class="">  453:     say colored([&#39;bold&#39;], &quot;Perl Versions to Test:&quot;);
+</span><span class="">  454:     my @all_versions = qw(5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
+</span><span class="">  455:     my @default_versions = qw(5.40 5.38 5.36);
+</span><span class="">  456: 
+</span><span class="">  457:     $config{perl_versions} = prompt_multiselect(
+</span><span class="">  458:         &quot;Which Perl versions?&quot;,
+</span><span class="">  459:         \@all_versions,
+</span><span class="">  460:         \@default_versions
+</span><span class="">  461:     );
+</span><span class="">  462:     say &#39;&#39;;
+</span><span class="">  463: 
+</span><span class="">  464:     # Operating systems
+</span><span class="">  465:     say colored([&#39;bold&#39;], &quot;Operating Systems:&quot;);
+</span><span class="">  466:     my @all_os = (&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;);
+</span><span class="">  467:     my @default_os = @all_os;
+</span><span class="">  468: 
+</span><span class="">  469:     $config{os} = prompt_multiselect(
+</span><span class="">  470:         &quot;Which operating systems?&quot;,
+</span><span class="">  471:         \@all_os,
+</span><span class="">  472:         \@default_os
+</span><span class="">  473:     );
+</span><span class="">  474:     say &#39;&#39;;
+</span><span class="">  475: 
+</span><span class="">  476:     # Code quality
+</span><span class="">  477:     say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);
+</span><span class="">  478:     $config{enable_linter} = prompt_yes_no(
+</span><span class="">  479:         &quot;Enable syntax linting (perl -c on all matrix cells)?&quot;,
+</span><span class="">  480:         &#39;y&#39;
+</span><span class="">  481:     );
+</span><span class="">  482:     say &#39;&#39;;
+</span><span class="">  483: 
+</span><span class="">  484:     $config{enable_linter_unused} = prompt_yes_no(
+</span><span class="">  485:         &quot;Enable unused-variable check (warnings::unused, latest+ubuntu only)?&quot;,
+</span><span class="">  486:         &#39;n&#39;
+</span><span class="">  487:     );
+</span><span class="">  488:     say &#39;&#39;;
+</span><span class="">  489: 
+</span><span class="">  490:     $config{enable_critic} = prompt_yes_no(
+</span><span class="">  491:         &quot;Enable Perl::Critic?&quot;,
+</span><span class="">  492:         &#39;y&#39;
+</span><span class="">  493:     );
+</span><span class="">  494:     say &#39;&#39;;
+</span><span class="">  495: 
+</span><span class="">  496:     # Coverage
+</span><span class="">  497:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  498:         &quot;Enable test coverage (Devel::Cover)?&quot;,
+</span><span class="">  499:         &#39;y&#39;
+</span><span class="">  500:     );
+</span><span class="">  501:     say &#39;&#39;;
+</span><span class="">  502: 
+</span><span class="">  503:     # Branches
+</span><span class="">  504:     say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);
+</span><span class="">  505:     my $branches = prompt_text(
+</span><span class="">  506:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  507:         &#39;main,master&#39;
+</span><span class="">  508:     );
+</span><span class="">  509:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  510:     say &#39;&#39;;
+</span><span class="">  511: 
+</span><span class="">  512:     return \%config;
+</span><span class="">  513: }
+</span><span class="">  514: 
+</span><span class="">  515: sub _customize_node() {
+</span><span class="">  516:     my %config;
+</span><span class="">  517: 
+</span><span class="">  518:     # Node versions
+</span><span class="">  519:     say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);
+</span><span class="">  520:     my @all_versions = qw(18.x 20.x 22.x 23.x);
+</span><span class="">  521:     my @default_versions = qw(20.x 22.x);
+</span><span class="">  522: 
+</span><span class="">  523:     $config{node_versions} = prompt_multiselect(
+</span><span class="">  524:         &quot;Which Node.js versions?&quot;,
+</span><span class="">  525:         \@all_versions,
+</span><span class="">  526:         \@default_versions
+</span><span class="">  527:     );
+</span><span class="">  528:     say &#39;&#39;;
+</span><span class="">  529: 
+</span><span class="">  530:     # Package manager
+</span><span class="">  531:     say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);
+</span><span class="">  532:     my $pm_choice = prompt_choice(
+</span><span class="">  533:         &quot;Which package manager?&quot;,
+</span><span class="">  534:         [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],
+</span><span class="">  535:         0
+</span><span class="">  536:     );
+</span><span class="">  537:     $config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];
+</span><span class="">  538:     say &#39;&#39;;
+</span><span class="">  539: 
+</span><span class="">  540:     # Linting
+</span><span class="">  541:     $config{enable_lint} = prompt_yes_no(
+</span><span class="">  542:         &quot;Enable linting?&quot;,
+</span><span class="">  543:         &#39;y&#39;
+</span><span class="">  544:     );
+</span><span class="">  545:     say &#39;&#39;;
+</span><span class="">  546: 
+</span><span class="">  547:     # Build step
+</span><span class="">  548:     $config{enable_build} = prompt_yes_no(
+</span><span class="">  549:         &quot;Enable build step?&quot;,
+</span><span class="">  550:         &#39;y&#39;
+</span><span class="">  551:     );
+</span><span class="">  552:     say &#39;&#39;;
+</span><span class="">  553: 
+</span><span class="">  554:     # Branches
+</span><span class="">  555:     my $branches = prompt_text(
+</span><span class="">  556:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  557:         &#39;main,develop&#39;
+</span><span class="">  558:     );
+</span><span class="">  559:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  560:     say &#39;&#39;;
+</span><span class="">  561: 
+</span><span class="">  562:     return \%config;
+</span><span class="">  563: }
+</span><span class="">  564: 
+</span><span class="">  565: sub _customize_python() {
+</span><span class="">  566:     my %config;
+</span><span class="">  567: 
+</span><span class="">  568:     # Python versions
+</span><span class="">  569:     say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);
+</span><span class="">  570:     my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);
+</span><span class="">  571:     my @default_versions = qw(3.11 3.12);
+</span><span class="">  572: 
+</span><span class="">  573:     $config{python_versions} = prompt_multiselect(
+</span><span class="">  574:         &quot;Which Python versions?&quot;,
+</span><span class="">  575:         \@all_versions,
+</span><span class="">  576:         \@default_versions
+</span><span class="">  577:     );
+</span><span class="">  578:     say &#39;&#39;;
+</span><span class="">  579: 
+</span><span class="">  580:     # Linting
+</span><span class="">  581:     say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);
+</span><span class="">  582:     $config{enable_flake8} = prompt_yes_no(
+</span><span class="">  583:         &quot;Enable flake8 linting?&quot;,
+</span><span class="">  584:         &#39;y&#39;
+</span><span class="">  585:     );
+</span><span class="">  586:     say &#39;&#39;;
+</span><span class="">  587: 
+</span><span class="">  588:     $config{enable_black} = prompt_yes_no(
+</span><span class="">  589:         &quot;Enable black formatter check?&quot;,
+</span><span class="">  590:         &#39;n&#39;
+</span><span class="">  591:     );
+</span><span class="">  592:     say &#39;&#39;;
+</span><span class="">  593: 
+</span><span class="">  594:     # Coverage
+</span><span class="">  595:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  596:         &quot;Enable test coverage?&quot;,
+</span><span class="">  597:         &#39;y&#39;
+</span><span class="">  598:     );
+</span><span class="">  599:     say &#39;&#39;;
+</span><span class="">  600: 
+</span><span class="">  601:     # Branches
+</span><span class="">  602:     my $branches = prompt_text(
+</span><span class="">  603:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  604:         &#39;main,develop&#39;
+</span><span class="">  605:     );
+</span><span class="">  606:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  607:     say &#39;&#39;;
+</span><span class="">  608: 
+</span><span class="">  609:     return \%config;
+</span><span class="">  610: }
+</span><span class="">  611: 
+</span><span class="">  612: sub _customize_rust() {
+</span><span class="">  613:     my %config;
 </span><span class="">  614: 
-</span><span class="">  615:     $config{enable_fmt} = prompt_yes_no(
-</span><span class="">  616:         &quot;Enable formatting check (cargo fmt)?&quot;,
-</span><span class="">  617:         &#39;y&#39;
-</span><span class="">  618:     );
-</span><span class="">  619:     say &#39;&#39;;
-</span><span class="">  620: 
-</span><span class="">  621:     $config{enable_clippy} = prompt_yes_no(
-</span><span class="">  622:         &quot;Enable clippy linting?&quot;,
-</span><span class="">  623:         &#39;y&#39;
-</span><span class="">  624:     );
-</span><span class="">  625:     say &#39;&#39;;
-</span><span class="">  626: 
-</span><span class="">  627:     $config{enable_release} = prompt_yes_no(
-</span><span class="">  628:         &quot;Build release binary?&quot;,
-</span><span class="">  629:         &#39;y&#39;
-</span><span class="">  630:     );
-</span><span class="">  631:     say &#39;&#39;;
-</span><span class="">  632: 
-</span><span class="">  633:     my $branches = prompt_text(
-</span><span class="">  634:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  635:         &#39;main&#39;
-</span><span class="">  636:     );
-</span><span class="">  637:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  638:     say &#39;&#39;;
-</span><span class="">  639: 
-</span><span class="">  640:     return \%config;
-</span><span class="">  641: }
-</span><span class="">  642: 
-</span><span class="">  643: sub _customize_go() {
-</span><span class="">  644:     my %config;
-</span><span class="">  645: 
-</span><span class="">  646:     say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);
+</span><span class="">  615:     say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);
+</span><span class="">  616: 
+</span><span class="">  617:     $config{enable_fmt} = prompt_yes_no(
+</span><span class="">  618:         &quot;Enable formatting check (cargo fmt)?&quot;,
+</span><span class="">  619:         &#39;y&#39;
+</span><span class="">  620:     );
+</span><span class="">  621:     say &#39;&#39;;
+</span><span class="">  622: 
+</span><span class="">  623:     $config{enable_clippy} = prompt_yes_no(
+</span><span class="">  624:         &quot;Enable clippy linting?&quot;,
+</span><span class="">  625:         &#39;y&#39;
+</span><span class="">  626:     );
+</span><span class="">  627:     say &#39;&#39;;
+</span><span class="">  628: 
+</span><span class="">  629:     $config{enable_release} = prompt_yes_no(
+</span><span class="">  630:         &quot;Build release binary?&quot;,
+</span><span class="">  631:         &#39;y&#39;
+</span><span class="">  632:     );
+</span><span class="">  633:     say &#39;&#39;;
+</span><span class="">  634: 
+</span><span class="">  635:     my $branches = prompt_text(
+</span><span class="">  636:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  637:         &#39;main&#39;
+</span><span class="">  638:     );
+</span><span class="">  639:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  640:     say &#39;&#39;;
+</span><span class="">  641: 
+</span><span class="">  642:     return \%config;
+</span><span class="">  643: }
+</span><span class="">  644: 
+</span><span class="">  645: sub _customize_go() {
+</span><span class="">  646:     my %config;
 </span><span class="">  647: 
-</span><span class="">  648:     my $go_version = prompt_text(
-</span><span class="">  649:         &quot;Go version&quot;,
-</span><span class="">  650:         &#39;1.22&#39;
-</span><span class="">  651:     );
-</span><span class="">  652:     $config{go_version} = $go_version;
-</span><span class="">  653:     say &#39;&#39;;
-</span><span class="">  654: 
-</span><span class="">  655:     $config{enable_vet} = prompt_yes_no(
-</span><span class="">  656:         &quot;Enable go vet?&quot;,
-</span><span class="">  657:         &#39;y&#39;
-</span><span class="">  658:     );
-</span><span class="">  659:     say &#39;&#39;;
-</span><span class="">  660: 
-</span><span class="">  661:     $config{enable_race} = prompt_yes_no(
-</span><span class="">  662:         &quot;Enable race detector?&quot;,
-</span><span class="">  663:         &#39;y&#39;
-</span><span class="">  664:     );
-</span><span class="">  665:     say &#39;&#39;;
-</span><span class="">  666: 
-</span><span class="">  667:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  668:         &quot;Enable test coverage?&quot;,
-</span><span class="">  669:         &#39;y&#39;
-</span><span class="">  670:     );
-</span><span class="">  671:     say &#39;&#39;;
-</span><span class="">  672: 
-</span><span class="">  673:     my $branches = prompt_text(
-</span><span class="">  674:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  675:         &#39;main&#39;
-</span><span class="">  676:     );
-</span><span class="">  677:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  678:     say &#39;&#39;;
-</span><span class="">  679: 
-</span><span class="">  680:     return \%config;
-</span><span class="">  681: }
-</span><span class="">  682: 
-</span><span class="">  683: sub _customize_ruby() {
-</span><span class="">  684:     my %config;
-</span><span class="">  685: 
-</span><span class="">  686:     say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);
-</span><span class="">  687:     my @all_versions = qw(3.1 3.2 3.3);
-</span><span class="">  688:     my @default_versions = qw(3.2 3.3);
-</span><span class="">  689: 
-</span><span class="">  690:     $config{ruby_versions} = prompt_multiselect(
-</span><span class="">  691:         &quot;Which Ruby versions?&quot;,
-</span><span class="">  692:         \@all_versions,
-</span><span class="">  693:         \@default_versions
-</span><span class="">  694:     );
-</span><span class="">  695:     say &#39;&#39;;
-</span><span class="">  696: 
-</span><span class="">  697:     my $branches = prompt_text(
-</span><span class="">  698:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  699:         &#39;main&#39;
-</span><span class="">  700:     );
-</span><span class="">  701:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  702:     say &#39;&#39;;
-</span><span class="">  703: 
-</span><span class="">  704:     return \%config;
-</span><span class="">  705: }
-</span><span class="">  706: 
-</span><span class="">  707: sub _customize_docker() {
-</span><span class="">  708:     my %config;
-</span><span class="">  709: 
-</span><span class="">  710:     say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);
+</span><span class="">  648:     say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);
+</span><span class="">  649: 
+</span><span class="">  650:     my $go_version = prompt_text(
+</span><span class="">  651:         &quot;Go version&quot;,
+</span><span class="">  652:         &#39;1.22&#39;
+</span><span class="">  653:     );
+</span><span class="">  654:     $config{go_version} = $go_version;
+</span><span class="">  655:     say &#39;&#39;;
+</span><span class="">  656: 
+</span><span class="">  657:     $config{enable_vet} = prompt_yes_no(
+</span><span class="">  658:         &quot;Enable go vet?&quot;,
+</span><span class="">  659:         &#39;y&#39;
+</span><span class="">  660:     );
+</span><span class="">  661:     say &#39;&#39;;
+</span><span class="">  662: 
+</span><span class="">  663:     $config{enable_race} = prompt_yes_no(
+</span><span class="">  664:         &quot;Enable race detector?&quot;,
+</span><span class="">  665:         &#39;y&#39;
+</span><span class="">  666:     );
+</span><span class="">  667:     say &#39;&#39;;
+</span><span class="">  668: 
+</span><span class="">  669:     $config{enable_coverage} = prompt_yes_no(
+</span><span class="">  670:         &quot;Enable test coverage?&quot;,
+</span><span class="">  671:         &#39;y&#39;
+</span><span class="">  672:     );
+</span><span class="">  673:     say &#39;&#39;;
+</span><span class="">  674: 
+</span><span class="">  675:     my $branches = prompt_text(
+</span><span class="">  676:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  677:         &#39;main&#39;
+</span><span class="">  678:     );
+</span><span class="">  679:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  680:     say &#39;&#39;;
+</span><span class="">  681: 
+</span><span class="">  682:     return \%config;
+</span><span class="">  683: }
+</span><span class="">  684: 
+</span><span class="">  685: sub _customize_ruby() {
+</span><span class="">  686:     my %config;
+</span><span class="">  687: 
+</span><span class="">  688:     say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);
+</span><span class="">  689:     my @all_versions = qw(3.1 3.2 3.3);
+</span><span class="">  690:     my @default_versions = qw(3.2 3.3);
+</span><span class="">  691: 
+</span><span class="">  692:     $config{ruby_versions} = prompt_multiselect(
+</span><span class="">  693:         &quot;Which Ruby versions?&quot;,
+</span><span class="">  694:         \@all_versions,
+</span><span class="">  695:         \@default_versions
+</span><span class="">  696:     );
+</span><span class="">  697:     say &#39;&#39;;
+</span><span class="">  698: 
+</span><span class="">  699:     my $branches = prompt_text(
+</span><span class="">  700:         &quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  701:         &#39;main&#39;
+</span><span class="">  702:     );
+</span><span class="">  703:     $config{branches} = [split /,\s*/, $branches];
+</span><span class="">  704:     say &#39;&#39;;
+</span><span class="">  705: 
+</span><span class="">  706:     return \%config;
+</span><span class="">  707: }
+</span><span class="">  708: 
+</span><span class="">  709: sub _customize_docker() {
+</span><span class="">  710:     my %config;
 </span><span class="">  711: 
-</span><span class="">  712:     my $image_name = prompt_text(
-</span><span class="">  713:         &quot;Docker image name (user/image)&quot;,
-</span><span class="">  714:         &#39;your-username/your-image&#39;
-</span><span class="">  715:     );
-</span><span class="">  716:     $config{image_name} = $image_name;
-</span><span class="">  717:     say &#39;&#39;;
-</span><span class="">  718: 
-</span><span class="">  719: 	$config{push_on_pr} = prompt_yes_no(
-</span><span class="">  720: 		&#39;Push images on pull requests?&#39;,
-</span><span class="">  721: 		&#39;n&#39;
-</span><span class="">  722: 	);
-</span><span class="">  723: 	say &#39;&#39;;
-</span><span class="">  724: 
-</span><span class="">  725: 	my $branches = prompt_text(
-</span><span class="">  726: 		&quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  727: 		&#39;main&#39;
-</span><span class="">  728: 	);
-</span><span class="">  729: 	$config{branches} = [split /,\s*/, $branches];
-</span><span class="">  730: 	say &#39;&#39;;
-</span><span class="">  731: 
-</span><span class="">  732: 	return \%config;
-</span><span class="">  733: }
-</span><span class="">  734: 
-</span><span class="">  735: sub _customize_static() {
-</span><span class="">  736: 	my %config;
-</span><span class="">  737: 
-</span><span class="">  738: 	say colored([&#39;bold&#39;], &quot;Static Site Deployment:&quot;);
+</span><span class="">  712:     say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);
+</span><span class="">  713: 
+</span><span class="">  714:     my $image_name = prompt_text(
+</span><span class="">  715:         &quot;Docker image name (user/image)&quot;,
+</span><span class="">  716:         &#39;your-username/your-image&#39;
+</span><span class="">  717:     );
+</span><span class="">  718:     $config{image_name} = $image_name;
+</span><span class="">  719:     say &#39;&#39;;
+</span><span class="">  720: 
+</span><span class="">  721: 	$config{push_on_pr} = prompt_yes_no(
+</span><span class="">  722: 		&#39;Push images on pull requests?&#39;,
+</span><span class="">  723: 		&#39;n&#39;
+</span><span class="">  724: 	);
+</span><span class="">  725: 	say &#39;&#39;;
+</span><span class="">  726: 
+</span><span class="">  727: 	my $branches = prompt_text(
+</span><span class="">  728: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  729: 		&#39;main&#39;
+</span><span class="">  730: 	);
+</span><span class="">  731: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  732: 	say &#39;&#39;;
+</span><span class="">  733: 
+</span><span class="">  734: 	return \%config;
+</span><span class="">  735: }
+</span><span class="">  736: 
+</span><span class="">  737: sub _customize_static() {
+</span><span class="">  738: 	my %config;
 </span><span class="">  739: 
-</span><span class="">  740: 	my $build_dir = prompt_text(&quot;Build output directory&quot;, &#39;./public&#39;);
-</span><span class="">  741: 	$config{build_dir} = $build_dir;
-</span><span class="">  742: 	say &#39;&#39;;
-</span><span class="">  743: 
-</span><span class="">  744: 	my $build_command = prompt_text(&quot;Build command&quot;, &#39;npm run build&#39;);
-</span><span class="">  745: 	$config{build_command} = $build_command;
-</span><span class="">  746: 	say &#39;&#39;;
-</span><span class="">  747: 
-</span><span class="">  748: 	return \%config;
-</span><span class="">  749: }
-</span><span class="">  750: 
-</span><span class="">  751: =head1 AUTHOR
+</span><span class="">  740: 	say colored([&#39;bold&#39;], &quot;Static Site Deployment:&quot;);
+</span><span class="">  741: 
+</span><span class="">  742: 	my $build_dir = prompt_text(&#39;Build output directory&#39;, &#39;./public&#39;);
+</span><span class="">  743: 	$config{build_dir} = $build_dir;
+</span><span class="">  744: 	say &#39;&#39;;
+</span><span class="">  745: 
+</span><span class="">  746: 	my $build_command = prompt_text(&quot;Build command&quot;, &#39;npm run build&#39;);
+</span><span class="">  747: 	$config{build_command} = $build_command;
+</span><span class="">  748: 	say &#39;&#39;;
+</span><span class="">  749: 
+</span><span class="">  750: 	return \%config;
+</span><span class="">  751: }
 </span><span class="">  752: 
-</span><span class="">  753: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  753: =head1 AUTHOR
 </span><span class="">  754: 
-</span><span class="">  755: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  755: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 </span><span class="">  756: 
-</span><span class="">  757: =head1 LICENSE
+</span><span class="">  757: L&lt;https://github.com/nigelhorne&gt;
 </span><span class="">  758: 
-</span><span class="">  759: This is free software; you can redistribute it and/or modify it under
-</span><span class="">  760: the same terms as the Perl 5 programming language system itself.
-</span><span class="">  761: 
-</span><span class="">  762: =cut
-</span><span class="">  763: 
-</span><span class="">  764: 1;
+</span><span class="">  759: =head1 COPYRIGHT AND LICENSE
+</span><span class="">  760: 
+</span><span class="">  761: Copyright 2025-2026 Nigel Horne.
+</span><span class="">  762: 
+</span><span class="">  763: Usage is subject to the GPL2 licence terms.
+</span><span class="">  764: If you use it,
+</span><span class="">  765: please let me know.
+</span><span class="">  766: 
+</span><span class="">  767: =cut
+</span><span class="">  768: 
+</span><span class="">  769: 1;
 </span></pre>
 
 <script>
