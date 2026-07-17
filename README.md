@@ -9,7 +9,7 @@ Version 0.05
 # SYNOPSIS
 
     # Generate workflows
-    ghgen generate --auto                    # Auto-detect project type
+    ghgen generate --auto                   # Auto-detect project type
     ghgen generate --type=perl              # Generate Perl workflow
     ghgen generate --type=perl --customize  # Interactive customization
     ghgen generate --interactive            # Choose type interactively
