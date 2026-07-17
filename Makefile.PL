@@ -27,6 +27,7 @@ WriteMakefile(
 		'Getopt::Long' => 0,
 	}, TEST_REQUIRES => {
 		'IPC::Run3' => 0,
+		'IPC::System::Simple' => 0,
 		'Test::DescribeMe' => 0,
 		'Test::Exception' => 0,
 		'Test::Most' => 0,

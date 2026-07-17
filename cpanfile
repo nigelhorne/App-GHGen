@@ -9,6 +9,7 @@ requires 'YAML::XS';
 
 on 'test' => sub {
 	requires 'IPC::Run3';
+	requires 'IPC::System::Simple';
 	requires 'Test::DescribeMe';
 	requires 'Test::Exception';
 	requires 'Test::Most';

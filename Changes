@@ -5,16 +5,6 @@ Revision history for App-GHGen
 	- Approved https://github.com/nigelhorne/App-GHGen/pull/6
 	  Missing unescaped $ failed to interpolate variable into double-quoted string
 	  Thanks to https://github.com/chromatic
-	- Fixed lint step failing on Windows with "Not enough arguments for push at -e line 1".
-	  The previous implementation spawned a subprocess (perl -e '...') whose single-quoted
-	  argument was mangled by cmd.exe quoting. Replaced with an inline do $file approach
-	  that runs entirely within the shell: perl {0} process — no subprocess, no quoting issues.
-	- Fixed lint step failing with "Can't open perl script" due to File::Find chdir behaviour.
-	  Added no_chdir => 1 to the find() options so $File::Find::name remains valid.
-	- Fixed lint step false failures when CPAN dependencies are not installed. perl -c runs
-	  BEGIN/use blocks, so missing modules caused compile errors on valid files. The new
-	  inline do $file approach pushes a stub @INC handler that returns "1;\n" for any module
-	  that cannot be found, suppressing false negatives while still catching real syntax errors.
 	- Fixed enable_linter_unused having no effect when set to 1 via the non-interactive code
 	  path. The POD Params::Validate block (default => 0) is documentation only; the actual
 	  runtime default was the // 0 on the assignment line (line 286). Changed to // 1.
