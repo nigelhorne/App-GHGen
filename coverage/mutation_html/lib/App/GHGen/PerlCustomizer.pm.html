@@ -877,21 +877,48 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  585: 	return sprintf(&quot;%d.%03d&quot;, $parts[0] // 5, $parts[1] // 0);
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  586: }
 </span><span class="">  587: 
-</span><span class="">  588: =head1 AUTHOR
+</span><span class="">  588: =head1 LIMITATIONS
 </span><span class="">  589: 
-</span><span class="">  590: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  590: =head2 Windows + Perl 5.40 excluded from the generated matrix
 </span><span class="">  591: 
-</span><span class="">  592: L&lt;https://github.com/nigelhorne&gt;
-</span><span class="">  593: 
-</span><span class="">  594: =head1 LICENSE
-</span><span class="">  595: 
-</span><span class="">  596: Usage is subject to the GPL2 licence terms.
-</span><span class="">  597: If you use it,
-</span><span class="">  598: please let me know.
+</span><span class="">  592: The shogo82148 C&lt;perl-5.40.4-thr-win32-x64.zip&gt; distribution ships a
+</span><span class="">  593: C&lt;perl.exe&gt; and a C&lt;libperl540.a&gt; from two different builds.  Any XS module
+</span><span class="">  594: compiled against that C&lt;libperl540.a&gt; receives handshake key
+</span><span class="">  595: C&lt;0x12c00080&gt;, but C&lt;perl.exe&gt; needs C&lt;0x12d00080&gt;.  Even
+</span><span class="">  596: C&lt;Win32::Process&gt; &acirc;&#128;&#148; a core Windows XS module bundled in the zip and loaded
+</span><span class="">  597: transitively by C&lt;IPC::System::Simple&gt; &acirc;&#128;&#148; fails to load with this mismatch,
+</span><span class="">  598: so no XS-using test can pass on this combination.
 </span><span class="">  599: 
-</span><span class="">  600: =cut
-</span><span class="">  601: 
-</span><span class="">  602: 1;
+</span><span class="">  600: Recompiling XS modules (e.g. via C&lt;cpanm --reinstall YAML::XS&gt;) does not
+</span><span class="">  601: help: the compilation itself links against the broken C&lt;libperl540.a&gt; and
+</span><span class="">  602: inherits the wrong key.
+</span><span class="">  603: 
+</span><span class="">  604: The generated workflow therefore includes a C&lt;matrix.exclude&gt; entry for
+</span><span class="">  605: C&lt;{os: windows-latest, perl: &#39;5.40&#39;}&gt;.  This entry is only emitted when
+</span><span class="">  606: both C&lt;windows-latest&gt; and C&lt;5.40&gt; are present in the matrix, so workflows
+</span><span class="">  607: that restrict their OS or Perl lists are unaffected.
+</span><span class="">  608: 
+</span><span class="">  609: Remove the exclusion once the upstream shogo82148/build-perl distribution
+</span><span class="">  610: is fixed and the C&lt;perl.exe&gt; and C&lt;libperl540.a&gt; in the 5.40.x zip are
+</span><span class="">  611: built from the same source tree.
+</span><span class="">  612: 
+</span><span class="">  613: See L&lt;https://github.com/shogo82148/actions-setup-perl/issues/2310&gt; for further information.
+</span><span class="">  614: 
+</span><span class="">  615: =head1 AUTHOR
+</span><span class="">  616: 
+</span><span class="">  617: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  618: 
+</span><span class="">  619: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  620: 
+</span><span class="">  621: =head1 LICENSE
+</span><span class="">  622: 
+</span><span class="">  623: Usage is subject to the GPL2 licence terms.
+</span><span class="">  624: If you use it,
+</span><span class="">  625: please let me know.
+</span><span class="">  626: 
+</span><span class="">  627: =cut
+</span><span class="">  628: 
+</span><span class="">  629: 1;
 </span></pre>
 
 <script>
