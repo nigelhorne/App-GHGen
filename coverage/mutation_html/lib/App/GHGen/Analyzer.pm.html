@@ -46,11 +46,10 @@ html[data-theme='dark'] {
 -------------------------------------------------- */
 
 body {
-    font-family: sans-serif;
-    background: var(--bg);
-    color: var(--text);
+	font-family: sans-serif;
+	background: var(--bg);
+	color: var(--text);
 }
-
 
 table {
     border-collapse: collapse;
@@ -68,6 +67,19 @@ th {
 
 .killed { background-color: var(--killed); }
 
+.legend {
+    border: 1px solid #ccc;
+    background: #fafafa;
+    padding: 10px;
+    margin: 15px 0;
+    font-size: 0.9em;
+}
+
+.legend pre {
+    background: #f4f4f4;
+    padding: 5px;
+}
+
 .legend-box {
     display: inline-block;
     width: 16px;
@@ -80,6 +92,40 @@ th {
 /* White box for non-mutated lines */
 .legend-box.none {
 	background-color: var(--bg);
+}
+
+/* --------------------------------------------------
+   Suggested Test Box Styling
+   Theme-aware and readable in light & dark modes
+-------------------------------------------------- */
+
+.suggested-test {
+    margin-top: 6px;
+    margin-bottom: 12px;
+
+    /* Use theme variables instead of hardcoded colors */
+    background: var(--bg);
+    color: var(--text);
+
+    padding: 8px;
+    border-radius: 4px;
+
+    /* Subtle border for visual separation */
+    border: 1px solid var(--border);
+}
+
+/* Label styling */
+.suggest-label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* Ensure the test code block inherits readable colors */
+.suggested-test pre {
+    background: transparent;   /* Prevent nested dark blocks */
+    color: inherit;            /* Match theme text color */
+    margin: 0;
+    font-family: monospace;
 }
 
 pre { line-height: 1.4; }
@@ -147,8 +193,8 @@ pre li {
 
 /* Indent the list of mutations that displays when expanding by 8 characters */
 pre details.mutant-details ul {
-    padding-left: 8ch;
-    margin: 0.2em 0;
+	padding-left: 8ch;
+	margin: 0.2em 0;
 }
 
 .mutant-details summary {
@@ -156,13 +202,89 @@ pre details.mutant-details ul {
 	font-weight: bold;
 }
 
+.lcsaj-dot {
+    color: #5555ff;
+    font-size: 10px;
+    margin-right: 3px;
+}
+
+.lcsaj-dot-uncovered {
+    color: #cc4444;
+    font-size: 10px;
+    margin-right: 3px;
+}
+
+.lcsaj-tip {
+	position: relative;
+	display: inline-block;
+}
+
+.lcsaj-tip .lcsaj-tip-text {
+	visibility: hidden;
+	background-color: #333;
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	white-space: nowrap;
+	position: fixed;
+	z-index: 9999;
+	pointer-events: none;
+}
+
+.lcsaj-tip:hover .lcsaj-tip-text {
+	visibility: visible;
+}
+
 </style>
 </head>
 <body>
 <button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 <h1>lib/App/GHGen/Analyzer.pm</h1>
-<div class="nav"><a href="../../../index.html">Index</a> <a href="CostEstimator.pm.html">Next ➡</a></div>
+<div class="nav"><a href="Interactive.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
+ <a href="Fixer.pm.html">Next ➡</a></div><div class='summary'>
+<strong>Structural Coverage (Approximate)</strong><p>
+TER1 (Statement): 100.00%<br>
+TER2 (Branch): 85.53%<br>
+TER3 (LCSAJ): 100.0% (15/15)<br>
+Approximate LCSAJ segments: 77<br>
+</div>
+
+    <div class="legend">
+        <h3>LCSAJ Legend</h3>
+
+        <p>
+        <span class="lcsaj-dot">●</span>
+        <b>Covered</b> — this LCSAJ path was executed during testing.
+        </p>
+
+        <p>
+        <span class="lcsaj-dot-uncovered">●</span>
+        <b>Not covered</b> — this LCSAJ path was never executed. These are the paths to focus on.
+        </p>
+
+        <p>
+        Multiple dots on a line indicate that multiple control-flow paths begin at that line.
+        Hovering over any dot shows:
+        </p>
+
+        <pre>
+        start → end → jump
+        </pre>
+
+        <ul>
+        <li><b>start</b> – first line of the linear sequence</li>
+        <li><b>end</b> – last line before control flow changes</li>
+        <li><b>jump</b> – line execution jumps to next</li>
+        </ul>
+
+        <p>
+        Uncovered paths show <b>[NOT COVERED]</b> in the tooltip.
+	</p>
+    </div>
+
 		<div class="legend">
+			<h3>Mutant Testing Legend</h3>
 			<span class="legend-box survived-1"></span> Survived (tests missed this)
 			<span class="legend-box killed"></span> Killed (tests detected this)
 			<span class="legend-box none"></span> No mutation
@@ -184,7 +306,7 @@ pre details.mutant-details ul {
 </span><span class="">   14: 	get_cache_suggestion
 </span><span class="">   15: );
 </span><span class="">   16: 
-</span><span class="">   17: our $VERSION = &#39;0.05&#39;;
+</span><span class="">   17: our $VERSION = &#39;0.07&#39;;
 </span><span class="">   18: 
 </span><span class="">   19: =head1 NAME
 </span><span class="">   20: 
@@ -201,383 +323,536 @@ pre details.mutant-details ul {
 </span><span class="">   31: =head2 find_workflows()
 </span><span class="">   32: 
 </span><span class="">   33: Find all workflow files in .github/workflows directory.
-</span><span class="">   34: Returns a list of Path::Tiny objects.
+</span><span class="">   34: Returns a sorted list of L&lt;Path::Tiny&gt; objects.
 </span><span class="">   35: 
-</span><span class="">   36: =cut
+</span><span class="">   36: =head3 Purpose
 </span><span class="">   37: 
-</span><span class="">   38: sub find_workflows() {
-</span><span class="">   39: 	my $workflows_dir = path(&#39;.github/workflows&#39;);
+</span><span class="">   38: Discover every GitHub Actions workflow file under C&lt;.github/workflows&gt; in
+</span><span class="">   39: the current working directory.
 </span><span class="">   40: 
-</span><span class="">   41: 	return () unless $workflows_dir-&gt;exists &amp;&amp; $workflows_dir-&gt;is_dir;
-</span><span class="">   42: 	return sort $workflows_dir-&gt;children(qr/\.ya?ml$/i);
-</span><span class="">   43: }
+</span><span class="">   41: =head3 Arguments
+</span><span class="">   42: 
+</span><span class="">   43: None.
 </span><span class="">   44: 
-</span><span class="">   45: =head2 analyze_workflow($workflow, $filename)
+</span><span class="">   45: =head3 Returns
 </span><span class="">   46: 
-</span><span class="">   47: Analyze a workflow hash for issues. Returns array of issue hashes.
-</span><span class="">   48: 
-</span><span class="">   49: Each issue has: type, severity, message, fix (optional)
-</span><span class="">   50: 
-</span><span class="">   51: =cut
-</span><span class="">   52: 
-</span><span class="">   53: sub analyze_workflow($workflow, $filename) {
-</span><span class="">   54: 	my @issues;
+</span><span class="">   47: A sorted list of L&lt;Path::Tiny&gt; objects, one per C&lt;.yml&gt; or C&lt;.yaml&gt; file
+</span><span class="">   48: found.  Returns an empty list when the directory does not exist or is empty.
+</span><span class="">   49: 
+</span><span class="">   50: =head3 Side Effects
+</span><span class="">   51: 
+</span><span class="">   52: None.  Performs read-only filesystem access.
+</span><span class="">   53: 
+</span><span class="">   54: =head3 Usage Example
 </span><span class="">   55: 
-</span><span class="">   56:     # Check 1: Missing dependency caching
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   57:     unless (has_caching($workflow)) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_57: Invert condition</b></li>
-</ul></details>
-<span class="">   58:         my $cache_suggestion = get_cache_suggestion($workflow);
-</span><span class="">   59:         push @issues, {
-</span><span class="">   60:             type =&gt; &#39;performance&#39;,
-</span><span class="">   61:             severity =&gt; &#39;medium&#39;,
-</span><span class="">   62:             message =&gt; &#39;No dependency caching found - increases build times and costs&#39;,
-</span><span class="">   63:             fix =&gt; $cache_suggestion
-</span><span class="">   64:         };
-</span><span class="">   65:     }
+</span><span class="">   56:     use App::GHGen::Analyzer qw(find_workflows);
+</span><span class="">   57:     chdir &#39;/path/to/repo&#39;;
+</span><span class="">   58:     my @wfs = find_workflows();
+</span><span class="">   59:     say $_-&gt;basename for @wfs;
+</span><span class="">   60: 
+</span><span class="">   61: =head3 API SPECIFICATION
+</span><span class="">   62: 
+</span><span class="">   63: =head4 Input
+</span><span class="">   64: 
+</span><span class="">   65:     # No parameters.
 </span><span class="">   66: 
-</span><span class="">   67:     # Check 2: Using unpinned action versions
-</span><span class="">   68:     my @unpinned = find_unpinned_actions($workflow);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   69:     if (@unpinned) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_69: Invert condition</b></li>
-</ul></details>
-<span class="">   70:         push @issues, {
-</span><span class="">   71:             type =&gt; &#39;security&#39;,
-</span><span class="">   72:             severity =&gt; &#39;high&#39;,
-</span><span class="">   73:             message =&gt; &#39;Found &#39; . scalar(@unpinned) . &quot; action(s) using \@master or \@main&quot;,
-</span><span class="">   74:             fix =&gt; &quot;Replace \@master/\@main with specific version tags:\n&quot; .
-</span><span class="">   75:                    join(&quot;\n&quot;, map { &quot;       $_&quot; } map { s/\@(master|main)$/\@v5/r } @unpinned[0..min(2, $#unpinned)])
-</span><span class="">   76:         };
-</span><span class="">   77:     }
-</span><span class="">   78: 
-</span><span class="">   79:     # Check for outdated action versions
-</span><span class="">   80:     my @outdated = find_outdated_actions($workflow);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   81:     if (@outdated) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_81: Invert condition</b></li>
-</ul></details>
-<span class="">   82:         push @issues, {
-</span><span class="">   83:             type =&gt; &#39;maintenance&#39;,
-</span><span class="">   84:             severity =&gt; &#39;medium&#39;,
-</span><span class="">   85:             message =&gt; &quot;Found &quot; . scalar(@outdated) . &quot; outdated action(s)&quot;,
-</span><span class="">   86:             fix =&gt; &quot;Update to latest versions:\n&quot; .
-</span><span class="">   87:                    join(&quot;\n&quot;, map { &quot;       $_&quot; } @outdated[0..min(2, $#outdated)])
-</span><span class="">   88:         };
-</span><span class="">   89:     }
+</span><span class="">   67: =head4 Output
+</span><span class="">   68: 
+</span><span class="">   69:     { type =&gt; &#39;array&#39;, element =&gt; { isa =&gt; &#39;Path::Tiny&#39; } }
+</span><span class="">   70: 
+</span><span class="">   71: =head3 FORMAL SPECIFICATION
+</span><span class="">   72: 
+</span><span class="">   73:     FindWorkflows : &acirc;&#134;&#146; seq Path
+</span><span class="">   74: 
+</span><span class="">   75:     dir &acirc;&#137;&#148; .github/workflows
+</span><span class="">   76:     FindWorkflows &acirc;&#137;&iexcl;
+</span><span class="">   77:         &Acirc;&not;dir.exists &acirc;&#136;&uml; &Acirc;&not;dir.is_dir  &acirc;&#134;&#146;  &acirc;&#159;&uml;&acirc;&#159;&copy;
+</span><span class="">   78:         | otherwise  &acirc;&#134;&#146;  sort(lex) { f &acirc;&#136;&#136; dir.children &acirc;&#136;&pound; f.name =~ /\.ya?ml$/i }
+</span><span class="">   79: 
+</span><span class="">   80: =cut
+</span><span class="">   81: 
+</span><span class="">   82: sub find_workflows() {
+</span><span class="">   83: 	my $workflows_dir = path(&#39;.github/workflows&#39;);
+</span><span class="">   84: 
+</span><span class="">   85: 	return () unless $workflows_dir-&gt;exists &amp;&amp; $workflows_dir-&gt;is_dir;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   86: 	return sort $workflows_dir-&gt;children(qr/\.ya?ml$/i);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">   87: }
+</span><span class="">   88: 
+</span><span class="">   89: =head2 analyze_workflow($workflow, $filename)
 </span><span class="">   90: 
-</span><span class="">   91:     # Check 3: Overly broad triggers
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   92:     if (has_broad_triggers($workflow)) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_92: Invert condition</b></li>
-</ul></details>
-<span class="">   93:         push @issues, {
-</span><span class="">   94:             type =&gt; &#39;cost&#39;,
-</span><span class="">   95:             severity =&gt; &#39;medium&#39;,
-</span><span class="">   96:             message =&gt; &#39;Workflow triggers on all pushes - consider path/branch filters&#39;,
-</span><span class="">   97:             fix =&gt; &quot;Add trigger filters:\n&quot; .
-</span><span class="">   98:                    &quot;     on:\n&quot; .
-</span><span class="">   99:                    &quot;       push:\n&quot; .
-</span><span class="">  100:                    &quot;         branches: [main, develop]\n&quot; .
-</span><span class="">  101:                    &quot;         paths:\n&quot; .
-</span><span class="">  102:                    &quot;           - &#39;src/**&#39;\n&quot; .
-</span><span class="">  103:                    &quot;           - &#39;package.json&#39;&quot;
-</span><span class="">  104:         };
-</span><span class="">  105:     }
-</span><span class="">  106: 
-</span><span class="">  107:     # Check 4: Missing concurrency controls
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  108:     unless ($workflow-&gt;{concurrency}) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_108: Invert condition</b></li>
-</ul></details>
-<span class="">  109:         push @issues, {
-</span><span class="">  110:             type =&gt; &#39;cost&#39;,
-</span><span class="">  111:             severity =&gt; &#39;low&#39;,
-</span><span class="">  112:             message =&gt; &#39;No concurrency group - old runs continue when superseded&#39;,
-</span><span class="">  113:             fix =&gt; &quot;Add concurrency control:\n&quot; .
-</span><span class="">  114:                    &quot;     concurrency:\n&quot; .
-</span><span class="">  115:                    &quot;       group: \${{ github.workflow }}-\${{ github.ref }}\n&quot; .
-</span><span class="">  116:                    &quot;       cancel-in-progress: true&quot;
-</span><span class="">  117:         };
-</span><span class="">  118:     }
-</span><span class="">  119: 
-</span><span class="">  120:     # Check 5: Outdated runner versions
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  121:     if (has_outdated_runners($workflow)) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_121: Invert condition</b></li>
-</ul></details>
-<span class="">  122:         push @issues, {
-</span><span class="">  123:             type =&gt; &#39;maintenance&#39;,
-</span><span class="">  124:             severity =&gt; &#39;low&#39;,
-</span><span class="">  125:             message =&gt; &#39;Using older runner versions - consider updating&#39;,
-</span><span class="">  126:             fix =&gt; &#39;Update to ubuntu-latest, macos-latest, or windows-latest&#39;
-</span><span class="">  127:         };
-</span><span class="">  128:     }
+</span><span class="">   91: Analyze a workflow hash for issues. Returns array of issue hashes.
+</span><span class="">   92: 
+</span><span class="">   93: Each issue has: C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;, and an optional C&lt;fix&gt;.
+</span><span class="">   94: 
+</span><span class="">   95: =head3 Purpose
+</span><span class="">   96: 
+</span><span class="">   97: Inspect a parsed GitHub Actions workflow and return a list of detected
+</span><span class="">   98: issues covering performance, security, cost, and maintenance concerns.
+</span><span class="">   99: 
+</span><span class="">  100: =head3 Arguments
+</span><span class="">  101: 
+</span><span class="">  102: =over 4
+</span><span class="">  103: 
+</span><span class="">  104: =item C&lt;$workflow&gt; (HashRef, required)
+</span><span class="">  105: 
+</span><span class="">  106: A hash reference representing the parsed workflow (e.g. from C&lt;YAML::XS::LoadFile&gt;).
+</span><span class="">  107: Must contain at least a C&lt;jobs&gt; key whose value is a hash of job definitions.
+</span><span class="">  108: 
+</span><span class="">  109: =item C&lt;$filename&gt; (Str, required)
+</span><span class="">  110: 
+</span><span class="">  111: The filename of the workflow, used only as context in issue messages.
+</span><span class="">  112: 
+</span><span class="">  113: =back
+</span><span class="">  114: 
+</span><span class="">  115: =head3 Returns
+</span><span class="">  116: 
+</span><span class="">  117: A list (not an array reference) of issue hash references.  Each issue has:
+</span><span class="">  118: 
+</span><span class="">  119:     {
+</span><span class="">  120:         type     =&gt; Str,  # &#39;performance&#39; | &#39;security&#39; | &#39;cost&#39; | &#39;maintenance&#39;
+</span><span class="">  121:         severity =&gt; Str,  # &#39;high&#39; | &#39;medium&#39; | &#39;low&#39;
+</span><span class="">  122:         message  =&gt; Str,
+</span><span class="">  123:         fix      =&gt; Str,  # optional: suggested YAML snippet
+</span><span class="">  124:     }
+</span><span class="">  125: 
+</span><span class="">  126: Returns an empty list when no issues are detected.
+</span><span class="">  127: 
+</span><span class="">  128: =head3 Side Effects
 </span><span class="">  129: 
-</span><span class="">  130: # Check 6: Missing timeout-minutes
-</span><span class="">  131: my $jobs = $workflow-&gt;{jobs} // {};
-</span><span class="">  132: for my $job_name (keys %$jobs) {
-</span><span class="">  133:     my $job = $jobs-&gt;{$job_name};
-</span><span class="">  134: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  135:     unless (exists $job-&gt;{&#39;timeout-minutes&#39;}) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_135: Invert condition</b></li>
-</ul></details>
-<span class="">  136:         push @issues, {
-</span><span class="">  137:             type     =&gt; &#39;performance&#39;,
-</span><span class="">  138:             severity =&gt; &#39;low&#39;,
-</span><span class="">  139:             message  =&gt; &quot;Job &#39;$job_name&#39; is missing timeout-minutes&quot;,
-</span><span class="">  140:             fix      =&gt; &quot;Add:\n     timeout-minutes: 30&quot;,
-</span><span class="">  141:         };
-</span><span class="">  142:     }
-</span><span class="">  143: }
+</span><span class="">  130: None.  Pure function; does not modify its arguments.
+</span><span class="">  131: 
+</span><span class="">  132: =head3 Usage Example
+</span><span class="">  133: 
+</span><span class="">  134:     use App::GHGen::Analyzer qw(analyze_workflow);
+</span><span class="">  135:     use YAML::XS qw(LoadFile);
+</span><span class="">  136: 
+</span><span class="">  137:     my $wf     = LoadFile(&#39;.github/workflows/ci.yml&#39;);
+</span><span class="">  138:     my @issues = analyze_workflow($wf, &#39;ci.yml&#39;);
+</span><span class="">  139:     for my $issue (@issues) {
+</span><span class="">  140:         say &quot;$issue-&gt;{severity}: $issue-&gt;{message}&quot;;
+</span><span class="">  141:     }
+</span><span class="">  142: 
+</span><span class="">  143: =head3 API SPECIFICATION
 </span><span class="">  144: 
-</span><span class="">  145: 	return @issues;
-</span><span class="">  146: }
-</span><span class="">  147: 
-</span><span class="">  148: =head2 get_cache_suggestion($workflow)
-</span><span class="">  149: 
-</span><span class="">  150: Generate a caching suggestion based on detected project type.
+</span><span class="">  145: =head4 Input
+</span><span class="">  146: 
+</span><span class="">  147:     {
+</span><span class="">  148:         workflow =&gt; { type =&gt; &#39;hashref&#39;, required =&gt; 1 },
+</span><span class="">  149:         filename =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
+</span><span class="">  150:     }
 </span><span class="">  151: 
-</span><span class="">  152: =cut
+</span><span class="">  152: =head4 Output
 </span><span class="">  153: 
-</span><span class="">  154: sub get_cache_suggestion($workflow) {
-</span><span class="">  155: 	my $detected_type = detect_project_type({ jobs =&gt; $workflow-&gt;{jobs} });
-</span><span class="">  156: 
-</span><span class="">  157:     my %cache_configs = (
-</span><span class="">  158:         npm =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
-</span><span class="">  159:                &quot;       with:\n&quot; .
-</span><span class="">  160:                &quot;         path: ~/.npm\n&quot; .
-</span><span class="">  161:                &quot;         key: \${{ runner.os }}-node-\${{ hashFiles(&#39;**/package-lock.json&#39;) }}\n&quot; .
-</span><span class="">  162:                &quot;         restore-keys: |\n&quot; .
-</span><span class="">  163:                &quot;           \${{ runner.os }}-node-&quot;,
-</span><span class="">  164: 
-</span><span class="">  165:         pip =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
-</span><span class="">  166:                &quot;       with:\n&quot; .
-</span><span class="">  167:                &quot;         path: ~/.cache/pip\n&quot; .
-</span><span class="">  168:                &quot;         key: \${{ runner.os }}-pip-\${{ hashFiles(&#39;**/requirements.txt&#39;) }}\n&quot; .
-</span><span class="">  169:                &quot;         restore-keys: |\n&quot; .
-</span><span class="">  170:                &quot;           \${{ runner.os }}-pip-&quot;,
-</span><span class="">  171: 
-</span><span class="">  172:         cargo =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
-</span><span class="">  173:                  &quot;       with:\n&quot; .
-</span><span class="">  174:                  &quot;         path: |\n&quot; .
-</span><span class="">  175:                  &quot;           ~/.cargo/bin/\n&quot; .
-</span><span class="">  176:                  &quot;           ~/.cargo/registry/index/\n&quot; .
-</span><span class="">  177:                  &quot;           ~/.cargo/registry/cache/\n&quot; .
-</span><span class="">  178:                  &quot;           target/\n&quot; .
-</span><span class="">  179:                  &quot;         key: \${{ runner.os }}-cargo-\${{ hashFiles(&#39;**/Cargo.lock&#39;) }}&quot;,
-</span><span class="">  180: 
-</span><span class="">  181:         bundler =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
-</span><span class="">  182:                    &quot;       with:\n&quot; .
-</span><span class="">  183:                    &quot;         path: vendor/bundle\n&quot; .
-</span><span class="">  184:                    &quot;         key: \${{ runner.os }}-gems-\${{ hashFiles(&#39;**/Gemfile.lock&#39;) }}\n&quot; .
-</span><span class="">  185:                    &quot;         restore-keys: |\n&quot; .
-</span><span class="">  186:                    &quot;           \${{ runner.os }}-gems-&quot;,
-</span><span class="">  187:     );
+</span><span class="">  154:     {
+</span><span class="">  155:         type    =&gt; &#39;array&#39;,
+</span><span class="">  156:         element =&gt; {
+</span><span class="">  157:             type =&gt; &#39;hashref&#39;,
+</span><span class="">  158:             keys =&gt; {
+</span><span class="">  159:                 type     =&gt; { type =&gt; &#39;scalar&#39; },
+</span><span class="">  160:                 severity =&gt; { type =&gt; &#39;scalar&#39; },
+</span><span class="">  161:                 message  =&gt; { type =&gt; &#39;scalar&#39; },
+</span><span class="">  162:                 fix      =&gt; { type =&gt; &#39;scalar&#39;, optional =&gt; 1 },
+</span><span class="">  163:             },
+</span><span class="">  164:         },
+</span><span class="">  165:     }
+</span><span class="">  166: 
+</span><span class="">  167: =head3 FORMAL SPECIFICATION
+</span><span class="">  168: 
+</span><span class="">  169:     Issue &acirc;&#137;&#148; { type: IssueType, severity: Severity, message: &acirc;&#132;&curren;*, fix?: &acirc;&#132;&curren;* }
+</span><span class="">  170:     IssueType  &acirc;&#137;&#148; performance | security | cost | maintenance
+</span><span class="">  171:     Severity   &acirc;&#137;&#148; high | medium | low
+</span><span class="">  172: 
+</span><span class="">  173:     analyze_workflow : Workflow &Atilde;&#151; &acirc;&#132;&curren;* &acirc;&#134;&#146; seq Issue
+</span><span class="">  174: 
+</span><span class="">  175:     &acirc;&#136;&#128; w: Workflow, f: &acirc;&#132;&curren;*:
+</span><span class="">  176:       &Acirc;&not;has_caching(w)           &acirc;&#135;&#146; performance&acirc;&#136;&#136;medium &acirc;&#136;&#136; result(w,f)
+</span><span class="">  177:       find_unpinned_actions(w)&acirc;&#137;&nbsp;&acirc;&#136;&#133; &acirc;&#135;&#146; security&acirc;&#136;&#136;high     &acirc;&#136;&#136; result(w,f)
+</span><span class="">  178:       find_outdated_actions(w)&acirc;&#137;&nbsp;&acirc;&#136;&#133; &acirc;&#135;&#146; maintenance&acirc;&#136;&#136;medium &acirc;&#136;&#136; result(w,f)
+</span><span class="">  179:       has_broad_triggers(w)     &acirc;&#135;&#146; cost&acirc;&#136;&#136;medium        &acirc;&#136;&#136; result(w,f)
+</span><span class="">  180:       &Acirc;&not;w.concurrency            &acirc;&#135;&#146; cost&acirc;&#136;&#136;low           &acirc;&#136;&#136; result(w,f)
+</span><span class="">  181:       has_outdated_runners(w)   &acirc;&#135;&#146; maintenance&acirc;&#136;&#136;low    &acirc;&#136;&#136; result(w,f)
+</span><span class="">  182:       &acirc;&#136;&#131; j&acirc;&#136;&#136;w.jobs: &Acirc;&not;j.timeout-minutes &acirc;&#135;&#146; performance&acirc;&#136;&#136;low &acirc;&#136;&#136; result(w,f)
+</span><span class="">  183: 
+</span><span class="">  184: =cut
+</span><span class="">  185: 
+</span><span class="">  186: sub analyze_workflow($workflow, $filename) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">187 → 190 → 201</span></span>  187: 	my @issues;
 </span><span class="">  188: 
-</span><span class="">  189:     return $cache_configs{$detected_type} //
-</span><span class="">  190:            &quot;Add caching based on your dependency manager:\n&quot; .
-</span><span class="">  191:            &quot;       See: https://docs.github.com/en/actions/using-workflows/caching-dependencies&quot;;
-</span><span class="">  192: }
-</span><span class="">  193: 
-</span><span class="">  194: # Helper functions
-</span><span class="">  195: 
-</span><span class="">  196: sub has_caching($workflow) {
-</span><span class="">  197: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  198: 
-</span><span class="">  199:     for my $job (values %$jobs) {
-</span><span class="">  200:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  201:         for my $step (@$steps) {
-</span><span class="">  202:             return 1 if $step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /actions\/cache/;
-</span><span class="">  203:         }
-</span><span class="">  204:     }
-</span><span class="">  205:     return 0;
-</span><span class="">  206: }
-</span><span class="">  207: 
-</span><span class="">  208: sub find_unpinned_actions($workflow) {
-</span><span class="">  209: 	my @unpinned;
-</span><span class="">  210: 	my $jobs = $workflow-&gt;{jobs} or return @unpinned;
+</span><span class="">  189:     # Check 1: Missing dependency caching
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  190:     unless (has_caching($workflow)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  191:         my $cache_suggestion = get_cache_suggestion($workflow);
+</span><span class="">  192:         push @issues, {
+</span><span class="">  193:             type =&gt; &#39;performance&#39;,
+</span><span class="">  194:             severity =&gt; &#39;medium&#39;,
+</span><span class="">  195:             message =&gt; &#39;No dependency caching found - increases build times and costs&#39;,
+</span><span class="">  196:             fix =&gt; $cache_suggestion
+</span><span class="">  197:         };
+</span><span class="">  198:     }
+</span><span class="">  199: 
+</span><span class="">  200:     # Check 2: Using unpinned action versions
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">201 → 202 → 213</span></span>  201:     my @unpinned = find_unpinned_actions($workflow);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  202:     if (@unpinned) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  203:         push @issues, {
+</span><span class="">  204:             type =&gt; &#39;security&#39;,
+</span><span class="">  205:             severity =&gt; &#39;high&#39;,
+</span><span class="">  206:             message =&gt; &#39;Found &#39; . scalar(@unpinned) . &quot; action(s) using \@master or \@main&quot;,
+</span><span class="">  207:             fix =&gt; &quot;Replace \@master/\@main with specific version tags:\n&quot; .
+</span><span class="">  208:                    join(&quot;\n&quot;, map { &quot;       $_&quot; } map { s/\@(master|main)$/\@v5/r } @unpinned[0..min(2, $#unpinned)])
+</span><span class="">  209:         };
+</span><span class="">  210:     }
 </span><span class="">  211: 
-</span><span class="">  212:     for my $job (values %$jobs) {
-</span><span class="">  213:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  214:         for my $step (@$steps) {
-</span><span class="">  215:             next unless $step-&gt;{uses};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  216:             if ($step-&gt;{uses} =~ /\@(master|main)$/) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_216: Invert condition</b></li>
-</ul></details>
-<span class="">  217:                 push @unpinned, $step-&gt;{uses};
-</span><span class="">  218:             }
-</span><span class="">  219:         }
-</span><span class="">  220:     }
-</span><span class="">  221:     return @unpinned;
-</span><span class="">  222: }
+</span><span class="">  212:     # Check for outdated action versions
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">213 → 214 → 225</span></span>  213:     my @outdated = find_outdated_actions($workflow);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  214:     if (@outdated) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  215:         push @issues, {
+</span><span class="">  216:             type =&gt; &#39;maintenance&#39;,
+</span><span class="">  217:             severity =&gt; &#39;medium&#39;,
+</span><span class="">  218:             message =&gt; &quot;Found &quot; . scalar(@outdated) . &quot; outdated action(s)&quot;,
+</span><span class="">  219:             fix =&gt; &quot;Update to latest versions:\n&quot; .
+</span><span class="">  220:                    join(&quot;\n&quot;, map { &quot;       $_&quot; } @outdated[0..min(2, $#outdated)])
+</span><span class="">  221:         };
+</span><span class="">  222:     }
 </span><span class="">  223: 
-</span><span class="">  224: sub has_broad_triggers($workflow) {
-</span><span class="">  225: 	my $on = $workflow-&gt;{on};
-</span><span class="">  226: 	return 0 unless $on;
-</span><span class="">  227: 
-</span><span class="">  228:     # Check if push trigger has no path or branch filters
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  229:     if (ref $on eq &#39;HASH&#39; &amp;&amp; $on-&gt;{push}) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_229: Invert condition</b></li>
-</ul></details>
-<span class="">  230:         my $push = $on-&gt;{push};
-</span><span class="">  231:         return 1 if ref $push eq &#39;&#39; || (!$push-&gt;{paths} &amp;&amp; !$push-&gt;{branches});
-</span><span class="">  232:     }
-</span><span class="">  233: 
-</span><span class="">  234:     # Simple array of triggers including &#39;push&#39;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  235:     if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_235: Invert condition</b></li>
-</ul></details>
-<span class="">  236:         return 1;
-</span><span class="">  237:     }
-</span><span class="">  238: 
-</span><span class="">  239:     return 0;
-</span><span class="">  240: }
-</span><span class="">  241: 
-</span><span class="">  242: sub has_outdated_runners($workflow) {
-</span><span class="">  243: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  244: 
-</span><span class="">  245:     for my $job (values %$jobs) {
-</span><span class="">  246:         my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
-</span><span class="">  247:         return 1 if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/;
-</span><span class="">  248:     }
-</span><span class="">  249:     return 0;
-</span><span class="">  250: }
-</span><span class="">  251: 
-</span><span class="">  252: sub detect_project_type($workflow) {
-</span><span class="">  253: 	return &#39;unknown&#39; unless ref $workflow eq &#39;HASH&#39;;
-</span><span class="">  254: 
-</span><span class="">  255: 	my $jobs = $workflow-&gt;{jobs} or return &#39;unknown&#39;;
-</span><span class="">  256: 
-</span><span class="">  257:     for my $job (values %$jobs) {
-</span><span class="">  258:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  259:         for my $step (@$steps) {
-</span><span class="">  260:             my $run = $step-&gt;{run} // &#39;&#39;;
-</span><span class="">  261:             return &#39;npm&#39; if $run =~ /npm (install|ci)/;
-</span><span class="">  262:             return &#39;pip&#39; if $run =~ /pip install/;
-</span><span class="">  263:             return &#39;cargo&#39; if $run =~ /cargo (build|test)/;
-</span><span class="">  264:             return &#39;bundler&#39; if $run =~ /bundle install/;
-</span><span class="">  265:         }
-</span><span class="">  266:     }
-</span><span class="">  267:     return &#39;unknown&#39;;
-</span><span class="">  268: }
-</span><span class="">  269: 
-</span><span class="">  270: sub min($a, $b) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  271:     return $a &lt; $b ? $a : $b;
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 3, Killed: 3, Survived: 0)</summary>
-				<ul>
-			<li><b>NUM_BOUNDARY_271: Numeric boundary flip < to ></b></li>
-<li><b>NUM_BOUNDARY_271: Numeric boundary flip < to <=</b></li>
-<li><b>NUM_BOUNDARY_271: Numeric boundary flip < to >=</b></li>
-</ul></details>
-<span class="">  272: }
-</span><span class="">  273: 
-</span><span class="">  274: sub find_outdated_actions($workflow) {
-</span><span class="">  275: 	my @outdated;
-</span><span class="">  276: 	my $jobs = $workflow-&gt;{jobs} or return @outdated;
+</span><span class="">  224:     # Check 3: Overly broad triggers
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">225 → 225 → 241</span></span>  225:     if (has_broad_triggers($workflow)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  226:         push @issues, {
+</span><span class="">  227:             type =&gt; &#39;cost&#39;,
+</span><span class="">  228:             severity =&gt; &#39;medium&#39;,
+</span><span class="">  229:             message =&gt; &#39;Workflow triggers on all pushes - consider path/branch filters&#39;,
+</span><span class="">  230:             fix =&gt; &quot;Add trigger filters:\n&quot; .
+</span><span class="">  231:                    &quot;     on:\n&quot; .
+</span><span class="">  232:                    &quot;       push:\n&quot; .
+</span><span class="">  233:                    &quot;         branches: [main, develop]\n&quot; .
+</span><span class="">  234:                    &quot;         paths:\n&quot; .
+</span><span class="">  235:                    &quot;           - &#39;src/**&#39;\n&quot; .
+</span><span class="">  236:                    &quot;           - &#39;package.json&#39;&quot;
+</span><span class="">  237:         };
+</span><span class="">  238:     }
+</span><span class="">  239: 
+</span><span class="">  240:     # Check 4: Missing concurrency controls
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">241 → 241 → 254</span></span>  241:     unless ($workflow-&gt;{concurrency}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  242:         push @issues, {
+</span><span class="">  243:             type =&gt; &#39;cost&#39;,
+</span><span class="">  244:             severity =&gt; &#39;low&#39;,
+</span><span class="">  245:             message =&gt; &#39;No concurrency group - old runs continue when superseded&#39;,
+</span><span class="">  246:             fix =&gt; &quot;Add concurrency control:\n&quot; .
+</span><span class="">  247:                    &quot;     concurrency:\n&quot; .
+</span><span class="">  248:                    &quot;       group: \${{ github.workflow }}-\${{ github.ref }}\n&quot; .
+</span><span class="">  249:                    &quot;       cancel-in-progress: true&quot;
+</span><span class="">  250:         };
+</span><span class="">  251:     }
+</span><span class="">  252: 
+</span><span class="">  253:     # Check 5: Outdated runner versions
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">254 → 254 → 264</span></span>  254:     if (has_outdated_runners($workflow)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  255:         push @issues, {
+</span><span class="">  256:             type =&gt; &#39;maintenance&#39;,
+</span><span class="">  257:             severity =&gt; &#39;low&#39;,
+</span><span class="">  258:             message =&gt; &#39;Using older runner versions - consider updating&#39;,
+</span><span class="">  259:             fix =&gt; &#39;Update to ubuntu-latest, macos-latest, or windows-latest&#39;
+</span><span class="">  260:         };
+</span><span class="">  261:     }
+</span><span class="">  262: 
+</span><span class="">  263: # Check 6: Missing timeout-minutes
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">264 → 265 → 278</span></span>  264: my $jobs = $workflow-&gt;{jobs} // {};
+</span><span class="">  265: for my $job_name (keys %$jobs) {
+</span><span class="">  266:     my $job = $jobs-&gt;{$job_name};
+</span><span class="">  267: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  268:     unless (exists $job-&gt;{&#39;timeout-minutes&#39;}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  269:         push @issues, {
+</span><span class="">  270:             type     =&gt; &#39;performance&#39;,
+</span><span class="">  271:             severity =&gt; &#39;low&#39;,
+</span><span class="">  272:             message  =&gt; &quot;Job &#39;$job_name&#39; is missing timeout-minutes&quot;,
+</span><span class="">  273:             fix      =&gt; &quot;Add:\n     timeout-minutes: 30&quot;,
+</span><span class="">  274:         };
+</span><span class="">  275:     }
+</span><span class="">  276: }
 </span><span class="">  277: 
-</span><span class="">  278:     # Known outdated versions
-</span><span class="">  279:     my %updates = (
-</span><span class="">  280:         &#39;actions/cache@v4&#39; =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  281:         &#39;actions/cache@v3&#39; =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  282:         &#39;actions/checkout@v5&#39; =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">  283:         &#39;actions/checkout@v4&#39; =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">  284:         &#39;actions/checkout@v3&#39; =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">  285:         &#39;actions/setup-node@v3&#39; =&gt; &#39;actions/setup-node@v4&#39;,
-</span><span class="">  286:         &#39;actions/setup-python@v4&#39; =&gt; &#39;actions/setup-python@v5&#39;,
-</span><span class="">  287:         &#39;actions/setup-go@v4&#39; =&gt; &#39;actions/setup-go@v5&#39;,
-</span><span class="">  288:     );
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  278: 	return @issues;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  279: }
+</span><span class="">  280: 
+</span><span class="">  281: =head2 get_cache_suggestion($workflow)
+</span><span class="">  282: 
+</span><span class="">  283: Generate a caching suggestion based on detected project type.
+</span><span class="">  284: 
+</span><span class="">  285: =head3 Purpose
+</span><span class="">  286: 
+</span><span class="">  287: Inspect a workflow for known package-manager commands and return a ready-to-paste
+</span><span class="">  288: C&lt;actions/cache&gt; YAML snippet that matches the detected ecosystem.
 </span><span class="">  289: 
-</span><span class="">  290:     for my $job (values %$jobs) {
-</span><span class="">  291:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  292:         for my $step (@$steps) {
-</span><span class="">  293:             next unless $step-&gt;{uses};
-</span><span class="">  294:             my $uses = $step-&gt;{uses};
+</span><span class="">  290: =head3 Arguments
+</span><span class="">  291: 
+</span><span class="">  292: =over 4
+</span><span class="">  293: 
+</span><span class="">  294: =item C&lt;$workflow&gt; (HashRef, required)
 </span><span class="">  295: 
-</span><span class="">  296:             for my $old (keys %updates) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  297:                 if ($uses =~ /^\Q$old\E/) {
-</span>
-				<details class="mutant-details">
-				<summary>Mutants (Total: 1, Killed: 1, Survived: 0)</summary>
-				<ul>
-			<li><b>COND_INV_297: Invert condition</b></li>
-</ul></details>
-<span class="">  298:                     push @outdated, &quot;$old &acirc;&#134;&#146; $updates{$old}&quot;;
-</span><span class="">  299:                 }
-</span><span class="">  300:             }
-</span><span class="">  301:         }
-</span><span class="">  302:     }
-</span><span class="">  303: 
-</span><span class="">  304:     return @outdated;
-</span><span class="">  305: }
-</span><span class="">  306: 
-</span><span class="">  307: sub has_deployment_steps($workflow) {
-</span><span class="">  308: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  296: A parsed workflow hash.  The function inspects each job&#39;s C&lt;steps[].run&gt;
+</span><span class="">  297: commands to detect C&lt;npm&gt;, C&lt;pip&gt;, C&lt;cargo&gt;, or C&lt;bundle&gt;.
+</span><span class="">  298: 
+</span><span class="">  299: =back
+</span><span class="">  300: 
+</span><span class="">  301: =head3 Returns
+</span><span class="">  302: 
+</span><span class="">  303: A non-empty string.  When the ecosystem is recognised the string is an
+</span><span class="">  304: C&lt;actions/cache&gt; YAML step snippet; otherwise a generic guidance message.
+</span><span class="">  305: 
+</span><span class="">  306: =head3 Side Effects
+</span><span class="">  307: 
+</span><span class="">  308: None.  Pure function.
 </span><span class="">  309: 
-</span><span class="">  310:     for my $job (values %$jobs) {
-</span><span class="">  311:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  312:         for my $step (@$steps) {
-</span><span class="">  313:             # Check for deployment-related actions
-</span><span class="">  314:             return 1 if $step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /deploy|publish|release/i;
-</span><span class="">  315:             return 1 if $step-&gt;{run} &amp;&amp; $step-&gt;{run} =~ /git push|npm publish/;
-</span><span class="">  316:         }
-</span><span class="">  317:     }
+</span><span class="">  310: =head3 Usage Example
+</span><span class="">  311: 
+</span><span class="">  312:     my $suggestion = get_cache_suggestion($workflow);
+</span><span class="">  313:     say $suggestion;
+</span><span class="">  314: 
+</span><span class="">  315: =head3 API SPECIFICATION
+</span><span class="">  316: 
+</span><span class="">  317: =head4 Input
 </span><span class="">  318: 
-</span><span class="">  319: 	return 0;
-</span><span class="">  320: }
-</span><span class="">  321: 
-</span><span class="">  322: =head1 AUTHOR
-</span><span class="">  323: 
-</span><span class="">  324: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
-</span><span class="">  325: 
-</span><span class="">  326: L&lt;https://github.com/nigelhorne&gt;
-</span><span class="">  327: 
-</span><span class="">  328: =head1 LICENCE
-</span><span class="">  329: 
-</span><span class="">  330: Copyright 2025-2026 Nigel Horne.
-</span><span class="">  331: 
-</span><span class="">  332: Usage is subject to license terms.
-</span><span class="">  333: 
-</span><span class="">  334: =cut
-</span><span class="">  335: 
-</span><span class="">  336: 1;
+</span><span class="">  319:     { workflow =&gt; { type =&gt; &#39;hashref&#39;, required =&gt; 1 } }
+</span><span class="">  320: 
+</span><span class="">  321: =head4 Output
+</span><span class="">  322: 
+</span><span class="">  323:     { type =&gt; &#39;scalar&#39; }
+</span><span class="">  324: 
+</span><span class="">  325: =head3 FORMAL SPECIFICATION
+</span><span class="">  326: 
+</span><span class="">  327:     Ecosystem &acirc;&#137;&#148; npm | pip | cargo | bundler | unknown
+</span><span class="">  328: 
+</span><span class="">  329:     get_cache_suggestion : Workflow &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  330: 
+</span><span class="">  331:     ecosystem(w) = npm     &acirc;&#135;&#146; result contains ~/.npm cache path
+</span><span class="">  332:     ecosystem(w) = pip     &acirc;&#135;&#146; result contains ~/.cache/pip path
+</span><span class="">  333:     ecosystem(w) = cargo   &acirc;&#135;&#146; result contains ~/.cargo path
+</span><span class="">  334:     ecosystem(w) = bundler &acirc;&#135;&#146; result contains vendor/bundle path
+</span><span class="">  335:     ecosystem(w) = unknown &acirc;&#135;&#146; result is a generic guidance message
+</span><span class="">  336: 
+</span><span class="">  337: =cut
+</span><span class="">  338: 
+</span><span class="">  339: sub get_cache_suggestion($workflow) {
+</span><span class="">  340: 	my $detected_type = detect_project_type({ jobs =&gt; $workflow-&gt;{jobs} });
+</span><span class="">  341: 
+</span><span class="">  342:     my %cache_configs = (
+</span><span class="">  343:         npm =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
+</span><span class="">  344:                &quot;       with:\n&quot; .
+</span><span class="">  345:                &quot;         path: ~/.npm\n&quot; .
+</span><span class="">  346:                &quot;         key: \${{ runner.os }}-node-\${{ hashFiles(&#39;**/package-lock.json&#39;) }}\n&quot; .
+</span><span class="">  347:                &quot;         restore-keys: |\n&quot; .
+</span><span class="">  348:                &quot;           \${{ runner.os }}-node-&quot;,
+</span><span class="">  349: 
+</span><span class="">  350:         pip =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
+</span><span class="">  351:                &quot;       with:\n&quot; .
+</span><span class="">  352:                &quot;         path: ~/.cache/pip\n&quot; .
+</span><span class="">  353:                &quot;         key: \${{ runner.os }}-pip-\${{ hashFiles(&#39;**/requirements.txt&#39;) }}\n&quot; .
+</span><span class="">  354:                &quot;         restore-keys: |\n&quot; .
+</span><span class="">  355:                &quot;           \${{ runner.os }}-pip-&quot;,
+</span><span class="">  356: 
+</span><span class="">  357:         cargo =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
+</span><span class="">  358:                  &quot;       with:\n&quot; .
+</span><span class="">  359:                  &quot;         path: |\n&quot; .
+</span><span class="">  360:                  &quot;           ~/.cargo/bin/\n&quot; .
+</span><span class="">  361:                  &quot;           ~/.cargo/registry/index/\n&quot; .
+</span><span class="">  362:                  &quot;           ~/.cargo/registry/cache/\n&quot; .
+</span><span class="">  363:                  &quot;           target/\n&quot; .
+</span><span class="">  364:                  &quot;         key: \${{ runner.os }}-cargo-\${{ hashFiles(&#39;**/Cargo.lock&#39;) }}&quot;,
+</span><span class="">  365: 
+</span><span class="">  366:         bundler =&gt; &quot;- uses: actions/cache\@v5\n&quot; .
+</span><span class="">  367:                    &quot;       with:\n&quot; .
+</span><span class="">  368:                    &quot;         path: vendor/bundle\n&quot; .
+</span><span class="">  369:                    &quot;         key: \${{ runner.os }}-gems-\${{ hashFiles(&#39;**/Gemfile.lock&#39;) }}\n&quot; .
+</span><span class="">  370:                    &quot;         restore-keys: |\n&quot; .
+</span><span class="">  371:                    &quot;           \${{ runner.os }}-gems-&quot;,
+</span><span class="">  372:     );
+</span><span class="">  373: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  374:     return $cache_configs{$detected_type} //
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  375:            &quot;Add caching based on your dependency manager:\n&quot; .
+</span><span class="">  376:            &quot;       See: https://docs.github.com/en/actions/using-workflows/caching-dependencies&quot;;
+</span><span class="">  377: }
+</span><span class="">  378: 
+</span><span class="">  379: # Helper functions
+</span><span class="">  380: 
+</span><span class="">  381: sub has_caching($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">382 → 384 → 390</span></span>  382: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  383: 
+</span><span class="">  384:     for my $job (values %$jobs) {
+</span><span class="">  385:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  386:         for my $step (@$steps) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  387:             return 1 if $step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /actions\/cache/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  388:         }
+</span><span class="">  389:     }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  390:     return 0;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  391: }
+</span><span class="">  392: 
+</span><span class="">  393: sub find_unpinned_actions($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">394 → 397 → 406</span></span>  394: 	my @unpinned;
+</span><span class="">  395: 	my $jobs = $workflow-&gt;{jobs} or return @unpinned;
+</span><span class="">  396: 
+</span><span class="">  397:     for my $job (values %$jobs) {
+</span><span class="">  398:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  399:         for my $step (@$steps) {
+</span><span class="">  400:             next unless $step-&gt;{uses};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  401:             if ($step-&gt;{uses} =~ /\@(master|main)$/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  402:                 push @unpinned, $step-&gt;{uses};
+</span><span class="">  403:             }
+</span><span class="">  404:         }
+</span><span class="">  405:     }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  406:     return @unpinned;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  407: }
+</span><span class="">  408: 
+</span><span class="">  409: sub has_broad_triggers($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">410 → 414 → 420</span></span>  410: 	my $on = $workflow-&gt;{on};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  411: 	return 0 unless $on;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  412: 
+</span><span class="">  413:     # Check if push trigger has no path or branch filters
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  414:     if (ref $on eq &#39;HASH&#39; &amp;&amp; $on-&gt;{push}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  415:         my $push = $on-&gt;{push};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  416:         return 1 if ref $push eq &#39;&#39; || (!$push-&gt;{paths} &amp;&amp; !$push-&gt;{branches});
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  417:     }
+</span><span class="">  418: 
+</span><span class="">  419:     # Simple array of triggers including &#39;push&#39;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">420 → 420 → 424</span></span>  420:     if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  421:         return 1;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  422:     }
+</span><span class="">  423: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  424:     return 0;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  425: }
+</span><span class="">  426: 
+</span><span class="">  427: sub has_outdated_runners($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">428 → 430 → 434</span></span>  428: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  429: 
+</span><span class="">  430:     for my $job (values %$jobs) {
+</span><span class="">  431:         my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  432:         return 1 if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  433:     }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  434:     return 0;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  435: }
+</span><span class="">  436: 
+</span><span class="">  437: sub detect_project_type($workflow) {
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">438 → 442 → 452</span></span>  438: 	return &#39;unknown&#39; unless ref $workflow eq &#39;HASH&#39;;
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
+					<ul>
+				<li><b>BOOL_NEGATE_438_2: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boolean branch test suggestion
+ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
+</pre>
+								</div>
+							</li><li><b>RETURN_UNDEF_438_2: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Return value assertion
+is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
+</pre>
+								</div>
+							</li></ul></details>
+<span class="">  439: 
+</span><span class="">  440: 	my $jobs = $workflow-&gt;{jobs} or return &#39;unknown&#39;;
+</span><span class="">  441: 
+</span><span class="">  442:     for my $job (values %$jobs) {
+</span><span class="">  443:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  444:         for my $step (@$steps) {
+</span><span class="">  445:             my $run = $step-&gt;{run} // &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  446:             return &#39;npm&#39; if $run =~ /npm (install|ci)/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  447:             return &#39;pip&#39; if $run =~ /pip install/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448:             return &#39;cargo&#39; if $run =~ /cargo (build|test)/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  449:             return &#39;bundler&#39; if $run =~ /bundle install/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  450:         }
+</span><span class="">  451:     }
+</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  452:     return &#39;unknown&#39;;
+</span>
+					<details class="mutant-details">
+					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>
+					<ul>
+				<li><b>BOOL_NEGATE_452_5: Negate boolean return expression</b><br>MEDIUM: Add tests asserting both true and false outcomes
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Boolean branch test suggestion
+ok( !func(INPUT), &#39;Verify boolean branch behaviour&#39; );
+</pre>
+								</div>
+							</li><li><b>RETURN_UNDEF_452_5: Replace return expression with undef</b><br>LOW: Mutation survived, but impact may be minor
+
+								<div class="suggested-test">
+								<div class="suggest-label">🧪 Suggested Test</div>
+								<pre># Return value assertion
+is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
+</pre>
+								</div>
+							</li></ul></details>
+<span class="">  453: }
+</span><span class="">  454: 
+</span><span class="">  455: sub min($a, $b) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  456:     return $a &lt; $b ? $a : $b;
+</span><p> <b> Mutants (Total: 5, Killed: 5, Survived: 0)</b><p><span class="">  457: }
+</span><span class="">  458: 
+</span><span class="">  459: sub find_outdated_actions($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">460 → 475 → 489</span></span>  460: 	my @outdated;
+</span><span class="">  461: 	my $jobs = $workflow-&gt;{jobs} or return @outdated;
+</span><span class="">  462: 
+</span><span class="">  463:     # Known outdated versions
+</span><span class="">  464:     my %updates = (
+</span><span class="">  465:         &#39;actions/cache@v4&#39; =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  466:         &#39;actions/cache@v3&#39; =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  467:         &#39;actions/checkout@v5&#39; =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">  468:         &#39;actions/checkout@v4&#39; =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">  469:         &#39;actions/checkout@v3&#39; =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">  470:         &#39;actions/setup-node@v3&#39; =&gt; &#39;actions/setup-node@v4&#39;,
+</span><span class="">  471:         &#39;actions/setup-python@v4&#39; =&gt; &#39;actions/setup-python@v5&#39;,
+</span><span class="">  472:         &#39;actions/setup-go@v4&#39; =&gt; &#39;actions/setup-go@v5&#39;,
+</span><span class="">  473:     );
+</span><span class="">  474: 
+</span><span class="">  475:     for my $job (values %$jobs) {
+</span><span class="">  476:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  477:         for my $step (@$steps) {
+</span><span class="">  478:             next unless $step-&gt;{uses};
+</span><span class="">  479:             my $uses = $step-&gt;{uses};
+</span><span class="">  480: 
+</span><span class="">  481:             for my $old (keys %updates) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  482:                 if ($uses =~ /^\Q$old\E/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  483:                     push @outdated, &quot;$old &acirc;&#134;&#146; $updates{$old}&quot;;
+</span><span class="">  484:                 }
+</span><span class="">  485:             }
+</span><span class="">  486:         }
+</span><span class="">  487:     }
+</span><span class="">  488: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  489:     return @outdated;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  490: }
+</span><span class="">  491: 
+</span><span class="">  492: sub has_deployment_steps($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">493 → 495 → 504</span></span>  493: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  494: 
+</span><span class="">  495:     for my $job (values %$jobs) {
+</span><span class="">  496:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  497:         for my $step (@$steps) {
+</span><span class="">  498:             # Check for deployment-related actions
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  499:             return 1 if $step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /deploy|publish|release/i;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  500:             return 1 if $step-&gt;{run} &amp;&amp; $step-&gt;{run} =~ /git push|npm publish/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  501:         }
+</span><span class="">  502:     }
+</span><span class="">  503: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  504: 	return 0;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  505: }
+</span><span class="">  506: 
+</span><span class="">  507: =head1 AUTHOR
+</span><span class="">  508: 
+</span><span class="">  509: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  510: 
+</span><span class="">  511: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  512: 
+</span><span class="">  513: =head1 LICENCE
+</span><span class="">  514: 
+</span><span class="">  515: Copyright 2025-2026 Nigel Horne.
+</span><span class="">  516: 
+</span><span class="">  517: Usage is subject to license terms.
+</span><span class="">  518: 
+</span><span class="">  519: =cut
+</span><span class="">  520: 
+</span><span class="">  521: 1;
 </span></pre>
 
 <script>
@@ -591,10 +866,17 @@ function toggleTheme() {
 
 (function() {
     const saved = localStorage.getItem('theme');
-    if (saved) {
+    if(saved) {
         document.documentElement.setAttribute('data-theme', saved);
     }
 })();
+
+document.addEventListener("mousemove", function(e) {
+	document.querySelectorAll(".lcsaj-tip-text").forEach(function(tip) {
+		tip.style.left = (e.clientX + 12) + "px";
+		tip.style.top  = (e.clientY + 12) + "px";
+	});
+});
 </script>
 </body>
 </html>
