@@ -924,7 +924,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  429: 	$score += 3  if path(&#39;.clang-format&#39;)-&gt;exists;
 </span><span class="">  430: 
 </span><span class="">  431: 	# Check for C++ files
-</span><span class="">  432: 	my @cpp_files = path(&#39;.&#39;)-&gt;children(qr/\.(cpp|cc|cxx|hpp|hxx|h)$/);
+</span><span class="">  432: 	my @cpp_files = path(&#39;.&#39;)-&gt;children(qr/\.(?:cpp|cc|cxx|hpp|hxx|h)$/);
 </span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  433: 	$score += 3 if @cpp_files &gt; 0;
 </span>
 					<details class="mutant-details">

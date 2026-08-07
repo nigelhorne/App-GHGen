@@ -394,8 +394,8 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  102: 	print &quot;$question $prompt: &quot;;
 </span><span class="">  103: 	chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  104: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  105: 	return 1 if $answer =~ /^y(es)?$/i;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  106: 	return 0 if $answer =~ /^n(o)?$/i;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  105: 	return 1 if $answer =~ /^y(?:es)?$/i;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  106: 	return 0 if $answer =~ /^n(?:o)?$/i;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  107: 	return $default eq &#39;y&#39; ? 1 : 0;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  108: }
 </span><span class="">  109: 

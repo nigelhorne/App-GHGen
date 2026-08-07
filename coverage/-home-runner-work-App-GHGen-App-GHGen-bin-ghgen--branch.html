@@ -68,8 +68,8 @@ https://pjcj.net
 <tr><td class="h"><a id="L386">386</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if @found_indicators &gt;= 3</td></tr>
 <tr><td class="h"><a id="L390">390</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@found_indicators)</td></tr>
 <tr><td class="h"><a id="L396">396</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if (@detections &gt; 1)</td></tr>
-<tr><td class="h"><a id="L408">408</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($response =~ /^(y|yes|)$/iu) { }</td></tr>
-<tr><td class="h"></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">elsif ($response =~ /^(n|no)$/iu) { }</td></tr>
+<tr><td class="h"><a id="L408">408</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">if ($response =~ /^(?:y(?:es)?)?$/iu) { }</td></tr>
+<tr><td class="h"></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">elsif ($response =~ /^n(?:o)?$/iu) { }</td></tr>
 <tr><td class="h"><a id="L421">421</a></td><td class="c0">0</td><td class="c0">T</td><td class="c0">F</td><td class="s">$a &lt; $b ? :</td></tr>
 </table>
 </body>

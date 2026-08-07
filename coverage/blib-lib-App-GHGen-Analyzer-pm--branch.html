@@ -39,20 +39,20 @@ https://pjcj.net
 <tr><td class="h"><a id="L395">395</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L398">398</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
 <tr><td class="h"><a id="L400">400</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
-<tr><td class="h"><a id="L401">401</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /\@(master|main)$/u)</td></tr>
+<tr><td class="h"><a id="L401">401</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /\@(?:master|main)$/u)</td></tr>
 <tr><td class="h"><a id="L411">411</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $on</td></tr>
 <tr><td class="h"><a id="L414">414</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if (ref $on eq &quot;HASH&quot; and $on-&gt;{&#39;push&#39;})</td></tr>
 <tr><td class="h"><a id="L416">416</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ref $push eq &quot;&quot; or not $push-&gt;{&#39;paths&#39;} || $push-&gt;{&#39;branches&#39;}</td></tr>
 <tr><td class="h"><a id="L420">420</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $on eq &quot;ARRAY&quot; and grep {$_ eq &quot;push&quot;;} @$on)</td></tr>
 <tr><td class="h"><a id="L428">428</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L431">431</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $runs_on = $job-&gt;{&#39;runs-on&#39;}</td></tr>
-<tr><td class="h"><a id="L432">432</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/u</td></tr>
+<tr><td class="h"><a id="L432">432</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $runs_on =~ /\A(?:ubuntu-(?:18|16)\.04|macos-10\.15)\z/u</td></tr>
 <tr><td class="h"><a id="L438">438</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless ref $workflow eq &quot;HASH&quot;</td></tr>
 <tr><td class="h"><a id="L440">440</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L443">443</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
-<tr><td class="h"><a id="L446">446</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /npm (install|ci)/u</td></tr>
+<tr><td class="h"><a id="L446">446</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /npm (?:install|ci)/u</td></tr>
 <tr><td class="h"><a id="L447">447</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /pip install/u</td></tr>
-<tr><td class="h"><a id="L448">448</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /cargo (build|test)/u</td></tr>
+<tr><td class="h"><a id="L448">448</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /cargo (?:build|test)/u</td></tr>
 <tr><td class="h"><a id="L449">449</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $run =~ /bundle install/u</td></tr>
 <tr><td class="h"><a id="L456">456</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">$a &lt; $b ? :</td></tr>
 <tr><td class="h"><a id="L461">461</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>

@@ -41,14 +41,14 @@ https://pjcj.net
 <tr><td class="h"><a id="L275">275</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $has_cache</td></tr>
 <tr><td class="h"><a id="L279">279</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cache_step</td></tr>
 <tr><td class="h"><a id="L284">284</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($steps-&gt;[$i]{&#39;uses&#39;} and $steps-&gt;[$i]{&#39;uses&#39;} =~ m[actions/checkout]u)</td></tr>
-<tr><td class="h"><a id="L303">303</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
+<tr><td class="h"><a id="L303">303</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (?:install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
 <tr><td class="h"><a id="L316">316</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /pip install/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-python/u)</td></tr>
-<tr><td class="h"><a id="L329">329</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (build|test)/u)</td></tr>
-<tr><td class="h"><a id="L341">341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
+<tr><td class="h"><a id="L329">329</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (?:build|test)/u)</td></tr>
+<tr><td class="h"><a id="L341">341</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (?:build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
 <tr><td class="h"><a id="L358">358</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L362">362</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
 <tr><td class="h"><a id="L364">364</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
-<tr><td class="h"><a id="L366">366</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^(.+)\@(master|main)$/u)</td></tr>
+<tr><td class="h"><a id="L366">366</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^(.+?)\@(?:master|main)$/u)</td></tr>
 <tr><td class="h"><a id="L380">380</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;permissions&#39;}</td></tr>
 <tr><td class="h"><a id="L387">387</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L402">402</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>

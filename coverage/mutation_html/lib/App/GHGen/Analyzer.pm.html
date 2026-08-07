@@ -690,7 +690,7 @@ Approximate LCSAJ segments: 77<br>
 </span><span class="">  398:         my $steps = $job-&gt;{steps} or next;
 </span><span class="">  399:         for my $step (@$steps) {
 </span><span class="">  400:             next unless $step-&gt;{uses};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  401:             if ($step-&gt;{uses} =~ /\@(master|main)$/) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  401:             if ($step-&gt;{uses} =~ /\@(?:master|main)$/) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  402:                 push @unpinned, $step-&gt;{uses};
 </span><span class="">  403:             }
 </span><span class="">  404:         }
@@ -721,7 +721,7 @@ Approximate LCSAJ segments: 77<br>
 </span><span class="">  429: 
 </span><span class="">  430:     for my $job (values %$jobs) {
 </span><span class="">  431:         my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  432:         return 1 if $runs_on =~ /ubuntu-18\.04|ubuntu-16\.04|macos-10\.15/;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  432:         return 1 if $runs_on =~ /\A(?:ubuntu-(?:18|16)\.04|macos-10\.15)\z/;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  433:     }
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  434:     return 0;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  435: }
@@ -756,13 +756,13 @@ is( func(INPUT), EXPECTED, &#39;Verify correct return value&#39; );
 </span><span class="">  443:         my $steps = $job-&gt;{steps} or next;
 </span><span class="">  444:         for my $step (@$steps) {
 </span><span class="">  445:             my $run = $step-&gt;{run} // &#39;&#39;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  446:             return &#39;npm&#39; if $run =~ /npm (install|ci)/;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  446:             return &#39;npm&#39; if $run =~ /npm (?:install|ci)/;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  447:             return &#39;pip&#39; if $run =~ /pip install/;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448:             return &#39;cargo&#39; if $run =~ /cargo (build|test)/;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448:             return &#39;cargo&#39; if $run =~ /cargo (?:build|test)/;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  449:             return &#39;bundler&#39; if $run =~ /bundle install/;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  450:         }
 </span><span class="">  451:     }
-</span><span class="survived-2 tooltip" data-tooltip="Return value mutation survived. Add tests asserting exact return values. Boolean logic mutation survived. Add tests covering both true and false paths.">  452:     return &#39;unknown&#39;;
+</span><span class="survived-2 tooltip" data-tooltip="Boolean logic mutation survived. Add tests covering both true and false paths. Return value mutation survived. Add tests asserting exact return values.">  452:     return &#39;unknown&#39;;
 </span>
 					<details class="mutant-details">
 					<summary>Mutants (Total: 2, Killed: 0, Survived: 2)</summary>

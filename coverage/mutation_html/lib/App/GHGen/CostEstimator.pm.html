@@ -851,7 +851,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495:             if ($uses =~ /checkout/) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  496:                 $duration += 0.5;
 </span><span class="">  497:             }
-</span><span class="">  498:             elsif ($uses =~ /setup-(node|python|go|ruby)/) {
+</span><span class="">  498:             elsif ($uses =~ /setup-(?:node|python|go|ruby)/) {
 </span><span class="">  499:                 $duration += 1;
 </span><span class="">  500:             }
 </span><span class="">  501:             elsif ($uses =~ /cache/) {
@@ -863,7 +863,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  507:             my $run = $step-&gt;{run};
 </span><span class="">  508: 
 </span><span class="">  509:             # Estimate based on command
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  510:             if ($run =~ /npm (install|ci)/) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  510:             if ($run =~ /npm (?:install|ci)/) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  511:                 $duration += 2;  # npm install takes time
 </span><span class="">  512:             }
 </span><span class="">  513:             elsif ($run =~ /pip install/) {
@@ -872,7 +872,7 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  516:             elsif ($run =~ /cargo build/) {
 </span><span class="">  517:                 $duration += 5;  # Rust builds are slow
 </span><span class="">  518:             }
-</span><span class="">  519:             elsif ($run =~ /(npm|pytest|cargo|go) test/) {
+</span><span class="">  519:             elsif ($run =~ /(?:npm|pytest|cargo|go) test/) {
 </span><span class="">  520:                 $duration += 2;  # Test suites
 </span><span class="">  521:             }
 </span><span class="">  522:             else {

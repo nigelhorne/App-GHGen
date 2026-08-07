@@ -52,12 +52,12 @@ https://pjcj.net
 <tr><td class="h"><a id="L491">491</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;}) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($step-&gt;{&#39;run&#39;}) { }</td></tr>
 <tr><td class="h"><a id="L495">495</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($uses =~ /checkout/u) { }</td></tr>
-<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($uses =~ /setup-(node|python|go|ruby)/u) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($uses =~ /setup-(?:node|python|go|ruby)/u) { }</td></tr>
 <tr><td class="h"></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">elsif ($uses =~ /cache/u) { }</td></tr>
-<tr><td class="h"><a id="L510">510</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (install|ci)/u) { }</td></tr>
+<tr><td class="h"><a id="L510">510</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (?:install|ci)/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /pip install/u) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /cargo build/u) { }</td></tr>
-<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /(npm|pytest|cargo|go) test/u) { }</td></tr>
+<tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif ($run =~ /(?:npm|pytest|cargo|go) test/u) { }</td></tr>
 <tr><td class="h"><a id="L532">532</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L537">537</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $job-&gt;{&#39;strategy&#39;}</td></tr>
 <tr><td class="h"><a id="L538">538</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $job-&gt;{&#39;strategy&#39;}{&#39;matrix&#39;}</td></tr>
