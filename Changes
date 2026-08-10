@@ -12,6 +12,16 @@ Revision history for App-GHGen
 	- Update to shogo82148/actions-setup-perl@v1.43.1
 
 	[ Internal ]
+	- Added t/mutant_killers.t: 25 subtests that kill all surviving mutants from
+	  xt/mutant_20260810_160920.t.  Covers CostEstimator (estimate_savings
+	  total_minutes > 0 boundary; estimate_duration sequential-vs-parallel branch
+	  and max-accumulation comparison), Detector (file-count > 0 boundary for all
+	  8 language detectors: perl pm, perl t, python, go, ruby, php, java, cpp),
+	  Fixer::add_caching (checkout-detection condition), Interactive::prompt_choice
+	  (marker == default; answer >= 1 and <= @choices bounds), and Reporter
+	  (generate_markdown_report and generate_github_comment savings-cost > 0).
+	  Documents the >= variant of the estimate_duration max-accumulation mutant as
+	  a semantically equivalent mutant (not distinguishable by semantic tests).
 	- Added t/path.t: 34 path-coverage subtests targeting execution paths not
 	  covered by existing test files.  Covers Analyzer (broad-trigger scalar
 	  push, falsy push, paths-only filter, unpinned/outdated cap), Fixer
