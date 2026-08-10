@@ -20,7 +20,7 @@ https://pjcj.net
 <h1>Branch Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">blib/lib/App/GHGen/Fixer.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c1">82.3%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c1">85.5%</td></tr>
 </table>
 <div><br/></div>
 <table>
@@ -33,7 +33,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L308">308</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $_-&gt;{&#39;uses&#39;}</td></tr>
 <tr><td class="h"><a id="L309">309</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $has_cache</td></tr>
 <tr><td class="h"><a id="L313">313</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cache_step</td></tr>
-<tr><td class="h"><a id="L318">318</a></td><td class="c0">50</td><td class="c3">T</td><td class="c0">F</td><td class="s">if ($steps-&gt;[$i]{&#39;uses&#39;} and $steps-&gt;[$i]{&#39;uses&#39;} =~ m[actions/checkout]u)</td></tr>
+<tr><td class="h"><a id="L318">318</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($steps-&gt;[$i]{&#39;uses&#39;} and $steps-&gt;[$i]{&#39;uses&#39;} =~ m[actions/checkout]u)</td></tr>
 <tr><td class="h"><a id="L337">337</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (?:install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
 <tr><td class="h"><a id="L350">350</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /pip install/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-python/u)</td></tr>
 <tr><td class="h"><a id="L363">363</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (?:build|test)/u)</td></tr>
@@ -54,7 +54,7 @@ https://pjcj.net
 <tr><td class="h"><a id="L480">480</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
 <tr><td class="h"><a id="L487">487</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $job-&gt;{&#39;timeout-minutes&#39;}</td></tr>
 <tr><td class="h"><a id="L498">498</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L509">509</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $runs_on = $job-&gt;{&#39;runs-on&#39;}</td></tr>
+<tr><td class="h"><a id="L509">509</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $runs_on = $job-&gt;{&#39;runs-on&#39;}</td></tr>
 <tr><td class="h"><a id="L511">511</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (exists $runner_updates{$runs_on})</td></tr>
 </table>
 </body>
