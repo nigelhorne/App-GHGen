@@ -1,8 +1,25 @@
 Revision history for App-GHGen
 
 0.09
+	[ Bug Fixes ]
+	- Fixed Detector::detect_project_type returning (undef) — a one-element list
+	  — in list context when no project type is detected.  `return undef unless
+	  @detections` returns the scalar undef in list context, which Perl wraps in a
+	  list.  Changed to `return unless @detections` (bare return), which correctly
+	  returns () in list context and undef in scalar context, matching the POD spec.
+
 	[ Enhancements ]
 	- Update to shogo82148/actions-setup-perl@v1.43.1
+
+	[ Internal ]
+	- Added t/path.t: 34 path-coverage subtests targeting execution paths not
+	  covered by existing test files.  Covers Analyzer (broad-trigger scalar
+	  push, falsy push, paths-only filter, unpinned/outdated cap), Fixer
+	  (setup-node/python via uses, add_caching insertion at position 0,
+	  unrecognised project type, no-runs-on guard, trigger-filter HASH paths),
+	  CostEstimator (zero-saving branches, proportional percentage, free-tier
+	  boundary, matrix scalar value), and Detector (scalar/list context empty
+	  result, get_project_indicators all three branches).
 
 0.08	Fri Aug  7 01:31:57 PM EDT 2026
 	[ Enhancements ]
