@@ -1,5 +1,9 @@
 Revision history for App-GHGen
 
+0.09
+	[ Enhancements ]
+	- Update to shogo82148/actions-setup-perl@v1.43.1
+
 0.08	Fri Aug  7 01:31:57 PM EDT 2026
 	[ Enhancements ]
 	- Update to shogo82148/actions-setup-perl@v1.42.0

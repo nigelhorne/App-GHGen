@@ -99,7 +99,9 @@ sub detect_project_type() {
 	# Sort by score (highest first)
 	@detections = sort { $b->{score} <=> $a->{score} } @detections;
 
-	return undef unless @detections;
+	# `return;` returns () in list context and undef in scalar context — correct for both.
+	# `return undef` would return (undef) in list context, i.e. a one-element list.
+	return unless @detections;
 	return wantarray ? @detections : $detections[0]->{type};
 }
 

@@ -26,6 +26,7 @@ t/function.t
 t/integration.t
 t/kwalitee.t
 t/linter.t
+t/path.t
 t/pod-cm.t
 t/pod-coverage.t
 t/pod-synopsis.t
