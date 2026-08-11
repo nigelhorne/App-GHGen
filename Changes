@@ -1,6 +1,6 @@
 Revision history for App-GHGen
 
-0.09
+0.09	Mon Aug 10 08:26:23 PM EDT 2026
 	[ Bug Fixes ]
 	- Fixed Detector::detect_project_type returning (undef) — a one-element list
 	  — in list context when no project type is detected.  `return undef unless
@@ -10,8 +10,6 @@ Revision history for App-GHGen
 
 	[ Enhancements ]
 	- Update to shogo82148/actions-setup-perl@v1.43.1
-
-	[ Internal ]
 	- Added t/mutant_killers.t: 25 subtests that kill all surviving mutants from
 	  xt/mutant_20260810_160920.t.  Covers CostEstimator (estimate_savings
 	  total_minutes > 0 boundary; estimate_duration sequential-vs-parallel branch
