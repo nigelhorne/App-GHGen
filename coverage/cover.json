@@ -4,243 +4,243 @@
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395206.71017,
+         "finish" : 1786408693.11001,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "-e",
-         "start" : 1786395197.72118,
-         "version" : "0.08"
+         "start" : 1786408684.26439,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395197.86402,
+         "finish" : 1786408684.41368,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "-e",
-         "start" : 1786395197.86393,
-         "version" : "0.08"
+         "start" : 1786408684.41346,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395198.11227,
+         "finish" : 1786408684.67891,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/30-basics.t",
-         "start" : 1786395198.09664,
-         "version" : "0.08"
+         "start" : 1786408684.66164,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395198.53347,
+         "finish" : 1786408685.10429,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/detector.t",
-         "start" : 1786395198.51517,
-         "version" : "0.08"
+         "start" : 1786408685.0842,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395198.84818,
+         "finish" : 1786408685.40754,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/eof.t",
-         "start" : 1786395198.84796,
-         "version" : "0.08"
+         "start" : 1786408685.40718,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395199.08192,
+         "finish" : 1786408685.65039,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/eol.t",
-         "start" : 1786395199.0817,
-         "version" : "0.08"
+         "start" : 1786408685.65003,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395199.59052,
+         "finish" : 1786408686.1596,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/extended_tests.t",
-         "start" : 1786395199.41199,
-         "version" : "0.08"
+         "start" : 1786408685.98809,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395200.54924,
+         "finish" : 1786408687.04952,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/function.t",
-         "start" : 1786395200.38127,
-         "version" : "0.08"
+         "start" : 1786408686.89958,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395201.73925,
+         "finish" : 1786408688.21743,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/integration.t",
-         "start" : 1786395201.33589,
-         "version" : "0.08"
+         "start" : 1786408687.79288,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395201.52808,
+         "finish" : 1786408687.99166,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "-e",
-         "start" : 1786395201.5277,
-         "version" : "0.08"
+         "start" : 1786408687.9911,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395201.70321,
+         "finish" : 1786408688.17669,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "-e",
-         "start" : 1786395201.70149,
-         "version" : "0.08"
+         "start" : 1786408688.17449,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395202.29973,
+         "finish" : 1786408688.75658,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/kwalitee.t",
-         "start" : 1786395202.29951,
-         "version" : "0.08"
+         "start" : 1786408688.75624,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395202.59439,
+         "finish" : 1786408689.06042,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/linter.t",
-         "start" : 1786395202.5574,
-         "version" : "0.08"
+         "start" : 1786408689.02603,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395203.00278,
+         "finish" : 1786408689.4746,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/mutant_killers.t",
-         "start" : 1786395202.95284,
-         "version" : "0.08"
+         "start" : 1786408689.42526,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395203.60821,
+         "finish" : 1786408690.07485,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/path.t",
-         "start" : 1786395203.54943,
-         "version" : "0.08"
+         "start" : 1786408690.01301,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395204.10001,
+         "finish" : 1786408690.53781,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/pod-cm.t",
-         "start" : 1786395204.09976,
-         "version" : "0.08"
+         "start" : 1786408690.53744,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395204.3358,
+         "finish" : 1786408690.78263,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/pod-coverage.t",
-         "start" : 1786395204.33555,
-         "version" : "0.08"
+         "start" : 1786408690.78226,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395204.57874,
+         "finish" : 1786408691.02961,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/pod-synopsis.t",
-         "start" : 1786395204.5784,
-         "version" : "0.08"
+         "start" : 1786408691.02927,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395205.406,
+         "finish" : 1786408691.82913,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/pull_6.t",
-         "start" : 1786395204.86384,
-         "version" : "0.08"
+         "start" : 1786408691.32092,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : null,
-         "dir" : "/tmp/SS4HlAOK22",
-         "finish" : 1786395205.03944,
-         "name" : "/tmp/SS4HlAOK22",
+         "dir" : "/tmp/qr5vjxomL7",
+         "finish" : 1786408691.49973,
+         "name" : "/tmp/qr5vjxomL7",
          "perl" : "5.40.4",
          "run" : "/home/runner/work/App-GHGen/App-GHGen/bin/ghgen",
-         "start" : 1786395205.03855,
+         "start" : 1786408691.49871,
          "version" : "unknown"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395205.75123,
+         "finish" : 1786408692.18494,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/timeout.t",
-         "start" : 1786395205.74037,
-         "version" : "0.08"
+         "start" : 1786408692.17474,
+         "version" : "0.09"
       },
       {
          "OS" : "linux",
          "abstract" : "GitHub Actions workflow generator, analyzer, and optimizer",
          "dir" : "/home/runner/work/App-GHGen/App-GHGen",
-         "finish" : 1786395206.24205,
+         "finish" : 1786408692.68156,
          "name" : "App-GHGen",
          "perl" : "5.40.4",
          "run" : "t/unit.t",
-         "start" : 1786395206.16722,
-         "version" : "0.08"
+         "start" : 1786408692.61037,
+         "version" : "0.09"
       }
    ],
    "summary" : {
@@ -281,9 +281,9 @@
       },
       "Total" : {
          "branch" : {
-            "covered" : 398,
-            "error" : 152,
-            "percentage" : 72.3636363636364,
+            "covered" : 399,
+            "error" : 151,
+            "percentage" : 72.5454545454545,
             "total" : 550,
             "uncoverable" : 0
          },
@@ -307,9 +307,9 @@
             "total" : 147
          },
          "total" : {
-            "covered" : 1973,
-            "error" : 446,
-            "percentage" : 81.5626291856139,
+            "covered" : 1974,
+            "error" : 445,
+            "percentage" : 81.6039685820587,
             "total" : 2419,
             "uncoverable" : 0
          }
@@ -366,9 +366,9 @@
       },
       "blib/lib/App/GHGen/CostEstimator.pm" : {
          "branch" : {
-            "covered" : 75,
-            "error" : 3,
-            "percentage" : 96.1538461538462,
+            "covered" : 76,
+            "error" : 2,
+            "percentage" : 97.4358974358974,
             "total" : 78,
             "uncoverable" : 0
          },
@@ -390,9 +390,9 @@
             "total" : 14
          },
          "total" : {
-            "covered" : 258,
-            "error" : 5,
-            "percentage" : 98.0988593155894,
+            "covered" : 259,
+            "error" : 4,
+            "percentage" : 98.4790874524715,
             "total" : 263,
             "uncoverable" : 0
          }

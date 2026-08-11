@@ -25,37 +25,37 @@ https://pjcj.net
 <div><br/></div>
 <table>
 <tr><th>line</th><th>%</th><th colspan="2">coverage</th><th>branch</th></tr>
-<tr><td class="h"><a id="L210">210</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless can_auto_fix($issue)</td></tr>
-<tr><td class="h"><a id="L214">214</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;type&#39;} eq $type and $issue-&gt;{&#39;message&#39;} =~ /$pattern/u)</td></tr>
-<tr><td class="h"><a id="L291">291</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($fixes &gt; 0)</td></tr>
-<tr><td class="h"><a id="L301">301</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L305">305</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
-<tr><td class="h"><a id="L308">308</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $_-&gt;{&#39;uses&#39;}</td></tr>
-<tr><td class="h"><a id="L309">309</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $has_cache</td></tr>
-<tr><td class="h"><a id="L313">313</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cache_step</td></tr>
-<tr><td class="h"><a id="L318">318</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($steps-&gt;[$i]{&#39;uses&#39;} and $steps-&gt;[$i]{&#39;uses&#39;} =~ m[actions/checkout]u)</td></tr>
-<tr><td class="h"><a id="L337">337</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (?:install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
-<tr><td class="h"><a id="L350">350</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /pip install/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-python/u)</td></tr>
-<tr><td class="h"><a id="L363">363</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (?:build|test)/u)</td></tr>
-<tr><td class="h"><a id="L375">375</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (?:build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
-<tr><td class="h"><a id="L392">392</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L396">396</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
-<tr><td class="h"><a id="L398">398</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
-<tr><td class="h"><a id="L400">400</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^(.+?)\@(?:master|main)$/u)</td></tr>
-<tr><td class="h"><a id="L414">414</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;permissions&#39;}</td></tr>
-<tr><td class="h"><a id="L421">421</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L427">427</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
-<tr><td class="h"><a id="L429">429</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
-<tr><td class="h"><a id="L431">431</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^\Q$old\E/u)</td></tr>
-<tr><td class="h"><a id="L443">443</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;concurrency&#39;}</td></tr>
-<tr><td class="h"><a id="L453">453</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $on = $workflow-&gt;{&#39;on&#39;}</td></tr>
-<tr><td class="h"><a id="L457">457</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $on eq &#39;ARRAY&#39; and grep {$_ eq &#39;push&#39;;} @$on) { }</td></tr>
+<tr><td class="h"><a id="L211">211</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless can_auto_fix($issue)</td></tr>
+<tr><td class="h"><a id="L215">215</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($issue-&gt;{&#39;type&#39;} eq $type and $issue-&gt;{&#39;message&#39;} =~ /$pattern/u)</td></tr>
+<tr><td class="h"><a id="L292">292</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($fixes &gt; 0)</td></tr>
+<tr><td class="h"><a id="L302">302</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
+<tr><td class="h"><a id="L306">306</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
+<tr><td class="h"><a id="L309">309</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $_-&gt;{&#39;uses&#39;}</td></tr>
+<tr><td class="h"><a id="L310">310</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $has_cache</td></tr>
+<tr><td class="h"><a id="L314">314</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $cache_step</td></tr>
+<tr><td class="h"><a id="L319">319</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($steps-&gt;[$i]{&#39;uses&#39;} and $steps-&gt;[$i]{&#39;uses&#39;} =~ m[actions/checkout]u)</td></tr>
+<tr><td class="h"><a id="L338">338</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /npm (?:install|ci)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-node/u)</td></tr>
+<tr><td class="h"><a id="L351">351</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /pip install/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-python/u)</td></tr>
+<tr><td class="h"><a id="L364">364</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /cargo (?:build|test)/u)</td></tr>
+<tr><td class="h"><a id="L376">376</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($run =~ /go (?:build|test)/u or $step-&gt;{&#39;uses&#39;} and $step-&gt;{&#39;uses&#39;} =~ /setup-go/u)</td></tr>
+<tr><td class="h"><a id="L393">393</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
+<tr><td class="h"><a id="L397">397</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
+<tr><td class="h"><a id="L399">399</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
+<tr><td class="h"><a id="L401">401</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^(.+?)\@(?:master|main)$/u)</td></tr>
+<tr><td class="h"><a id="L415">415</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;permissions&#39;}</td></tr>
+<tr><td class="h"><a id="L422">422</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
+<tr><td class="h"><a id="L428">428</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $steps = $job-&gt;{&#39;steps&#39;}</td></tr>
+<tr><td class="h"><a id="L430">430</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless $step-&gt;{&#39;uses&#39;}</td></tr>
+<tr><td class="h"><a id="L432">432</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if ($step-&gt;{&#39;uses&#39;} =~ /^\Q$old\E/u)</td></tr>
+<tr><td class="h"><a id="L444">444</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if $workflow-&gt;{&#39;concurrency&#39;}</td></tr>
+<tr><td class="h"><a id="L454">454</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $on = $workflow-&gt;{&#39;on&#39;}</td></tr>
+<tr><td class="h"><a id="L458">458</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (ref $on eq &#39;ARRAY&#39; and grep {$_ eq &#39;push&#39;;} @$on) { }</td></tr>
 <tr><td class="h"></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">elsif (ref $on eq &#39;HASH&#39; and $on-&gt;{&#39;push&#39;} and ref $on-&gt;{&#39;push&#39;} eq &#39;&#39;) { }</td></tr>
-<tr><td class="h"><a id="L480">480</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L487">487</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $job-&gt;{&#39;timeout-minutes&#39;}</td></tr>
-<tr><td class="h"><a id="L498">498</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
-<tr><td class="h"><a id="L509">509</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $runs_on = $job-&gt;{&#39;runs-on&#39;}</td></tr>
-<tr><td class="h"><a id="L511">511</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (exists $runner_updates{$runs_on})</td></tr>
+<tr><td class="h"><a id="L481">481</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
+<tr><td class="h"><a id="L488">488</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if exists $job-&gt;{&#39;timeout-minutes&#39;}</td></tr>
+<tr><td class="h"><a id="L499">499</a></td><td class="c0">50</td><td class="c0">T</td><td class="c3">F</td><td class="s">unless my $jobs = $workflow-&gt;{&#39;jobs&#39;}</td></tr>
+<tr><td class="h"><a id="L510">510</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">unless my $runs_on = $job-&gt;{&#39;runs-on&#39;}</td></tr>
+<tr><td class="h"><a id="L512">512</a></td><td class="c3">100</td><td class="c3">T</td><td class="c3">F</td><td class="s">if (exists $runner_updates{$runs_on})</td></tr>
 </table>
 </body>
 </html>
