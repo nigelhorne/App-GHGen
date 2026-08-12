@@ -428,7 +428,8 @@ VERSION_STEP
 	$yaml .= "        shell: bash\n";
 	$yaml .= "        run: |\n";
 	$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
-	$yaml .= "          cpanm --notest --installdeps .\n\n";
+	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
+	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
 
 	$yaml .= "      - name: Install dependencies (Windows)\n";
 	$yaml .= "        if: runner.os == 'Windows'\n";
@@ -437,7 +438,7 @@ VERSION_STEP
 	$yaml .= "          \@echo off\n";
 	$yaml .= "          set \"PATH=%USERPROFILE%\\perl5\\bin;%PATH%\"\n";
 	$yaml .= "          set \"PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\"\n";
-	$yaml .= "          cpanm --notest --installdeps .\n\n";
+	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
 
 	# The shogo82148 Perl distributions bundle pre-compiled XS modules (e.g.
 	# YAML::XS) in the Perl zip.  cpanm sees them as "already installed" and
