@@ -4,6 +4,8 @@ Revision history for App-GHGen
 	[ Bug Fixes ]
 	- Added --verbose to the --installdeps stage to prevent timeout on
 	  GitHub actions
+	[ Enhancements ]
+	- Install DB_File on Linux
 
 0.09	Mon Aug 10 08:26:23 PM EDT 2026
 	[ Bug Fixes ]

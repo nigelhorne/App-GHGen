@@ -423,12 +423,19 @@ VERSION_STEP
 	$yaml .= "        if: runner.os == 'Windows'\n";
 	$yaml .= "        run: cpanm --notest App::cpanminus local::lib\n\n";
 
+	# TODO: should be configurable
+	$yaml .= "      - name: Install DB_File, needed for a lot of CPAN modules\n";
+	$yaml .= "        run: |\n";
+  	$yaml .= "        sudo apt install libdb-dev\n";
+	$yaml .= "        if: runner.os == 'Linux'\n";
+
 	$yaml .= "      - name: Install dependencies\n";
 	$yaml .= "        if: runner.os != 'Windows'\n";
 	$yaml .= "        shell: bash\n";
 	$yaml .= "        run: |\n";
 	$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
 	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
+	# TODO: should be configurable
 	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
 
 	$yaml .= "      - name: Install dependencies (Windows)\n";
