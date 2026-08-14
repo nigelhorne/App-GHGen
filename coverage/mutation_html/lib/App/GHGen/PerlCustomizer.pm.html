@@ -718,7 +718,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  426: 	# TODO: should be configurable
 </span><span class="">  427: 	$yaml .= &quot;      - name: Install DB_File, needed for a lot of CPAN modules\n&quot;;
 </span><span class="">  428: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  429:   	$yaml .= &quot;        sudo apt install libdb-dev\n&quot;;
+</span><span class="">  429:   	$yaml .= &quot;        sudo apt install libdb-dev libperl-dev\n&quot;;
 </span><span class="">  430: 	$yaml .= &quot;        if: runner.os == &#39;Linux&#39;\n&quot;;
 </span><span class="">  431: 
 </span><span class="">  432: 	$yaml .= &quot;      - name: Install dependencies\n&quot;;
