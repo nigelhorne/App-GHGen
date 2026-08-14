@@ -426,7 +426,7 @@ VERSION_STEP
 	# TODO: should be configurable
 	$yaml .= "      - name: Install DB_File, needed for a lot of CPAN modules\n";
 	$yaml .= "        run: |\n";
-  	$yaml .= "        sudo apt install libdb-dev\n";
+  	$yaml .= "        sudo apt install libdb-dev libperl-dev\n";
 	$yaml .= "        if: runner.os == 'Linux'\n";
 
 	$yaml .= "      - name: Install dependencies\n";
