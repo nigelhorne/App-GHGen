@@ -657,7 +657,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  365: 		$yaml .= &quot;          - os: windows-latest\n&quot;;
 </span><span class="">  366: 		$yaml .= &quot;            perl: &#39;5.40&#39;\n&quot;;
 </span><span class="">  367: 	}
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">368 → 464 → 502</span></span>  368: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">368 → 463 → 501</span></span>  368: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
 </span><span class="">  369: 	$yaml .= &quot;    env:\n&quot;;
 </span><span class="">  370: 	$yaml .= &quot;      AUTOMATED_TESTING: 1\n&quot;;
 </span><span class="">  371: 	$yaml .= &quot;      NO_NETWORK_TESTING: 1\n&quot;;
@@ -717,218 +717,217 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  425: 
 </span><span class="">  426: 	# TODO: should be configurable
 </span><span class="">  427: 	$yaml .= &quot;      - name: Install DB_File, needed for a lot of CPAN modules\n&quot;;
-</span><span class="">  428: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  429:   	$yaml .= &quot;        sudo apt install libdb-dev libperl-dev\n&quot;;
-</span><span class="">  430: 	$yaml .= &quot;        if: runner.os == &#39;Linux&#39;\n&quot;;
-</span><span class="">  431: 
-</span><span class="">  432: 	$yaml .= &quot;      - name: Install dependencies\n&quot;;
-</span><span class="">  433: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  434: 	$yaml .= &quot;        shell: bash\n&quot;;
-</span><span class="">  435: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  436: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  437: 	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
-</span><span class="">  438: 	# TODO: should be configurable
-</span><span class="">  439: 	$yaml .= &quot;          cpanm --notest --installdeps --verbose .\n\n&quot;;
-</span><span class="">  440: 
-</span><span class="">  441: 	$yaml .= &quot;      - name: Install dependencies (Windows)\n&quot;;
-</span><span class="">  442: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  443: 	$yaml .= &quot;        shell: cmd\n&quot;;
-</span><span class="">  444: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  445: 	$yaml .= &quot;          \@echo off\n&quot;;
-</span><span class="">  446: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
-</span><span class="">  447: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="">  448: 	$yaml .= &quot;          cpanm --notest --installdeps --verbose .\n\n&quot;;
-</span><span class="">  449: 
-</span><span class="">  450: 	# The shogo82148 Perl distributions bundle pre-compiled XS modules (e.g.
-</span><span class="">  451: 	# YAML::XS) in the Perl zip.  cpanm sees them as &quot;already installed&quot; and
-</span><span class="">  452: 	# skips recompilation, leaving a DLL that may have the wrong handshake key.
-</span><span class="">  453: 	# Force-reinstall YAML::XS into site/lib (which precedes the bundled lib in
-</span><span class="">  454: 	# @INC) to ensure a freshly compiled copy is always used.
-</span><span class="">  455: 	# NOTE: this step cannot rescue a fundamentally broken distribution where
-</span><span class="">  456: 	# libperl540.a and perl.exe themselves are from different builds (as in the
-</span><span class="">  457: 	# shogo82148 perl-5.40.4-thr-win32-x64.zip build) &acirc;&#128;&#148; that case is handled
-</span><span class="">  458: 	# by the matrix exclusion above.
-</span><span class="">  459: 	$yaml .= &quot;      - name: Reinstall YAML::XS against current Perl (Windows)\n&quot;;
-</span><span class="">  460: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  461: 	$yaml .= &quot;        shell: cmd\n&quot;;
-</span><span class="">  462: 	$yaml .= &quot;        run: cpanm --notest --reinstall YAML::XS\n\n&quot;;
-</span><span class="">  463: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  464: 	if ($enable_linter) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  465: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
-</span><span class="">  466: 		$yaml .= &quot;        shell: perl {0}\n&quot;;
-</span><span class="">  467: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  468: 		$yaml .= &lt;&lt;&#39;LINT_STEP&#39;;
-</span><span class="">  469:           use strict;
-</span><span class="">  470:           use warnings;
-</span><span class="">  471:           use File::Find;
-</span><span class="">  472:           use lib &#39;lib&#39;;
-</span><span class="">  473:           my @failed;
-</span><span class="">  474:           push @INC, sub { open my $h, &#39;&lt;&#39;, \qq{1;\n}; $h };
-</span><span class="">  475:           my @dirs = grep { -d } qw(lib bin);
-</span><span class="">  476:           @dirs = (&#39;.&#39;) unless @dirs;
-</span><span class="">  477:           find({ wanted =&gt; sub {
-</span><span class="">  478:               return unless -f &amp;&amp; /\.pm$/;
-</span><span class="">  479:               my $file = $File::Find::name;
-</span><span class="">  480:               do $file;
-</span><span class="">  481:               if ($@) {
-</span><span class="">  482:                   warn &quot;Syntax check failed: $file\n&quot;;
-</span><span class="">  483:                   push @failed, $file;
-</span><span class="">  484:               }
-</span><span class="">  485:           }, no_chdir =&gt; 1 }, @dirs);
-</span><span class="">  486: 
-</span><span class="">  487: LINT_STEP
-</span><span class="">  488: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  489: 		if ($enable_linter_unused) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  490: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
-</span><span class="">  491:           if (($ENV{RUNNER_OS} // &#39;&#39;) eq &#39;Linux&#39;) {
-</span><span class="">  492:               system(&#39;cpanm --notest --quiet warnings::unused 2&gt;/dev/null&#39;);
-</span><span class="">  493:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused &amp;&amp; true || echo &quot;warnings::unused: no unused variables detected&quot;&#39;);
-</span><span class="">  494:           }
-</span><span class="">  495: 
-</span><span class="">  496: UNUSED_CODE
-</span><span class="">  497: 		}
-</span><span class="">  498: 
-</span><span class="">  499: 		$yaml .= &quot;          exit(\@failed ? 1 : 0);\n\n&quot;;
-</span><span class="">  500: 	}
-</span><span class="">  501: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">502 → 518 → 530</span></span>  502: 	$yaml .= &quot;      - name: Run tests\n&quot;;
-</span><span class="">  503: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
-</span><span class="">  504: 	$yaml .= &quot;        shell: bash\n&quot;;
-</span><span class="">  505: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  506: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  507: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
-</span><span class="">  508: 
-</span><span class="">  509: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
-</span><span class="">  510: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
-</span><span class="">  511: 	$yaml .= &quot;        shell: cmd\n&quot;;
-</span><span class="">  512: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  513: 	$yaml .= &quot;          \@echo off\n&quot;;
-</span><span class="">  514: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
-</span><span class="">  515: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="">  516: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
-</span><span class="">  517: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  518: 	if ($enable_critic) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  519: 		my $latest = $perl_versions[-1];
-</span><span class="">  520: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
-</span><span class="">  521: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  522: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
-</span><span class="">  523: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  524: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  525: 		$yaml .= &quot;          cpanm --notest Perl::Critic\n&quot;;
-</span><span class="">  526: 		$yaml .= &quot;          perlcritic --severity 3 lib/ || true\n&quot;;
-</span><span class="">  527: 		$yaml .= &quot;        shell: bash\n\n&quot;;
-</span><span class="">  528: 	}
-</span><span class="">  529: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">530 → 530 → 542</span></span>  530: 	if ($enable_perlimports) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  531: 		my $latest = $perl_versions[-1];
-</span><span class="">  532: 		$yaml .= &quot;      - name: Check imports with perlimports\n&quot;;
-</span><span class="">  533: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  534: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
-</span><span class="">  535: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  536: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  537: 		$yaml .= &quot;          cpanm --notest App::perlimports\n&quot;;
-</span><span class="">  538: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; | xargs perlimports --lint\n&quot;;
-</span><span class="">  539: 		$yaml .= &quot;        shell: bash\n\n&quot;;
-</span><span class="">  540: 	}
-</span><span class="">  541: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">542 → 542 → 555</span></span>  542: 	if ($enable_coverage) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  543: 		my $latest = $perl_versions[-1];
-</span><span class="">  544: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
-</span><span class="">  545: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
-</span><span class="">  546: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  547: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
-</span><span class="">  548: 		$yaml .= &quot;          cpanm --notest Devel::Cover\n&quot;;
-</span><span class="">  549: 		$yaml .= &quot;          cover -delete\n&quot;;
-</span><span class="">  550: 		$yaml .= &quot;          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n&quot;;
-</span><span class="">  551: 		$yaml .= &quot;          cover\n&quot;;
-</span><span class="">  552: 		$yaml .= &quot;        shell: bash\n&quot;;
-</span><span class="">  553: 	}
-</span><span class="">  554: 
-</span><span class="">  555: 	$yaml .= &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  556: 
-</span><span class="">  557:       - name: Show cpanm build log on failure (Windows)
-</span><span class="">  558:         if: runner.os == &#39;Windows&#39; &amp;&amp; failure()
-</span><span class="">  559:         shell: pwsh
-</span><span class="">  560:         run: Get-Content &quot;$env:USERPROFILE\.cpanm\work\*\build.log&quot; -Tail 100
-</span><span class="">  561: 
-</span><span class="">  562:       - name: Show cpanm build log on failure (non-Windows)
-</span><span class="">  563:         if: runner.os != &#39;Windows&#39; &amp;&amp; failure()
-</span><span class="">  564:         run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
-</span><span class="">  565: YAML
-</span><span class="">  566: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  567: 	return $yaml;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  568: }
-</span><span class="">  569: 
-</span><span class="">  570: sub _get_perl_versions($min, $max) {
-</span><span class="">  571: 	# All available Perl versions in descending order.
-</span><span class="">  572: 	# 5.44 is listed so projects can opt in via max_perl_version =&gt; &#39;5.44&#39;,
-</span><span class="">  573: 	# but it is not included in the default matrix (max defaults to 5.42).
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">574 → 581 → 588</span></span>  574: 	my @all_versions = qw(5.44 5.42 5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
-</span><span class="">  575: 
-</span><span class="">  576: 	# Normalize version strings for comparison
-</span><span class="">  577: 	my $min_normalized = _normalize_version($min);
-</span><span class="">  578: 	my $max_normalized = _normalize_version($max);
-</span><span class="">  579: 
-</span><span class="">  580: 	my @selected;
-</span><span class="">  581: 	for my $version (@all_versions) {
-</span><span class="">  582: 		my $v_normalized = _normalize_version($version);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  583: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
-</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  584: 			push @selected, $version;
-</span><span class="">  585: 		}
-</span><span class="">  586: 	}
-</span><span class="">  587: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  588: 	return reverse @selected;	# Return in ascending order
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  589: }
-</span><span class="">  590: 
-</span><span class="">  591: sub _normalize_version($version) {
-</span><span class="">  592: 	# Convert &quot;5.036&quot; or &quot;5.36&quot; to comparable number
-</span><span class="">  593: 	$version =~ s/^v?//;
-</span><span class="">  594: 	my @parts = split /\./, $version;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  595: 	return sprintf(&#39;%d.%03d&#39;, $parts[0] // 5, $parts[1] // 0);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  596: }
-</span><span class="">  597: 
-</span><span class="">  598: =head1 LIMITATIONS
-</span><span class="">  599: 
-</span><span class="">  600: =head2 Windows + Perl 5.40 excluded from the generated matrix
-</span><span class="">  601: 
-</span><span class="">  602: The shogo82148 C&lt;perl-5.40.4-thr-win32-x64.zip&gt; distribution ships a
-</span><span class="">  603: C&lt;perl.exe&gt; and a C&lt;libperl540.a&gt; from two different builds.  Any XS module
-</span><span class="">  604: compiled against that C&lt;libperl540.a&gt; receives handshake key
-</span><span class="">  605: C&lt;0x12c00080&gt;, but C&lt;perl.exe&gt; needs C&lt;0x12d00080&gt;.  Even
-</span><span class="">  606: C&lt;Win32::Process&gt; &acirc;&#128;&#148; a core Windows XS module bundled in the zip and loaded
-</span><span class="">  607: transitively by C&lt;IPC::System::Simple&gt; &acirc;&#128;&#148; fails to load with this mismatch,
-</span><span class="">  608: so no XS-using test can pass on this combination.
-</span><span class="">  609: 
-</span><span class="">  610: Recompiling XS modules (e.g. via C&lt;cpanm --reinstall YAML::XS&gt;) does not
-</span><span class="">  611: help: the compilation itself links against the broken C&lt;libperl540.a&gt; and
-</span><span class="">  612: inherits the wrong key.
-</span><span class="">  613: 
-</span><span class="">  614: The generated workflow therefore includes a C&lt;matrix.exclude&gt; entry for
-</span><span class="">  615: C&lt;{os: windows-latest, perl: &#39;5.40&#39;}&gt;.  This entry is only emitted when
-</span><span class="">  616: both C&lt;windows-latest&gt; and C&lt;5.40&gt; are present in the matrix, so workflows
-</span><span class="">  617: that restrict their OS or Perl lists are unaffected.
-</span><span class="">  618: 
-</span><span class="">  619: Remove the exclusion once the upstream shogo82148/build-perl distribution
-</span><span class="">  620: is fixed and the C&lt;perl.exe&gt; and C&lt;libperl540.a&gt; in the 5.40.x zip are
-</span><span class="">  621: built from the same source tree.
-</span><span class="">  622: 
-</span><span class="">  623: See L&lt;https://github.com/shogo82148/actions-setup-perl/issues/2310&gt; for further information.
-</span><span class="">  624: 
-</span><span class="">  625: =head1 AUTHOR
-</span><span class="">  626: 
-</span><span class="">  627: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
-</span><span class="">  628: 
-</span><span class="">  629: L&lt;https://github.com/nigelhorne&gt;
-</span><span class="">  630: 
-</span><span class="">  631: =head1 LICENSE
-</span><span class="">  632: 
-</span><span class="">  633: Usage is subject to the GPL2 licence terms.
-</span><span class="">  634: If you use it,
-</span><span class="">  635: please let me know.
-</span><span class="">  636: 
-</span><span class="">  637: =cut
-</span><span class="">  638: 
-</span><span class="">  639: 1;
+</span><span class="">  428: 	$yaml .= &quot;        if: runner.os == &#39;Linux&#39;\n&quot;;
+</span><span class="">  429: 	$yaml .= &quot;        run: sudo apt install libdb-dev libperl-dev\n&quot;;
+</span><span class="">  430: 
+</span><span class="">  431: 	$yaml .= &quot;      - name: Install dependencies\n&quot;;
+</span><span class="">  432: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  433: 	$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  434: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  435: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  436: 	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
+</span><span class="">  437: 	# TODO: should be configurable
+</span><span class="">  438: 	$yaml .= &quot;          cpanm --notest --installdeps --verbose .\n\n&quot;;
+</span><span class="">  439: 
+</span><span class="">  440: 	$yaml .= &quot;      - name: Install dependencies (Windows)\n&quot;;
+</span><span class="">  441: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  442: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  443: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  444: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  445: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  446: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
+</span><span class="">  447: 	$yaml .= &quot;          cpanm --notest --installdeps --verbose .\n\n&quot;;
+</span><span class="">  448: 
+</span><span class="">  449: 	# The shogo82148 Perl distributions bundle pre-compiled XS modules (e.g.
+</span><span class="">  450: 	# YAML::XS) in the Perl zip.  cpanm sees them as &quot;already installed&quot; and
+</span><span class="">  451: 	# skips recompilation, leaving a DLL that may have the wrong handshake key.
+</span><span class="">  452: 	# Force-reinstall YAML::XS into site/lib (which precedes the bundled lib in
+</span><span class="">  453: 	# @INC) to ensure a freshly compiled copy is always used.
+</span><span class="">  454: 	# NOTE: this step cannot rescue a fundamentally broken distribution where
+</span><span class="">  455: 	# libperl540.a and perl.exe themselves are from different builds (as in the
+</span><span class="">  456: 	# shogo82148 perl-5.40.4-thr-win32-x64.zip build) &acirc;&#128;&#148; that case is handled
+</span><span class="">  457: 	# by the matrix exclusion above.
+</span><span class="">  458: 	$yaml .= &quot;      - name: Reinstall YAML::XS against current Perl (Windows)\n&quot;;
+</span><span class="">  459: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  460: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  461: 	$yaml .= &quot;        run: cpanm --notest --reinstall YAML::XS\n\n&quot;;
+</span><span class="">  462: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  463: 	if ($enable_linter) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  464: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
+</span><span class="">  465: 		$yaml .= &quot;        shell: perl {0}\n&quot;;
+</span><span class="">  466: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  467: 		$yaml .= &lt;&lt;&#39;LINT_STEP&#39;;
+</span><span class="">  468:           use strict;
+</span><span class="">  469:           use warnings;
+</span><span class="">  470:           use File::Find;
+</span><span class="">  471:           use lib &#39;lib&#39;;
+</span><span class="">  472:           my @failed;
+</span><span class="">  473:           push @INC, sub { open my $h, &#39;&lt;&#39;, \qq{1;\n}; $h };
+</span><span class="">  474:           my @dirs = grep { -d } qw(lib bin);
+</span><span class="">  475:           @dirs = (&#39;.&#39;) unless @dirs;
+</span><span class="">  476:           find({ wanted =&gt; sub {
+</span><span class="">  477:               return unless -f &amp;&amp; /\.pm$/;
+</span><span class="">  478:               my $file = $File::Find::name;
+</span><span class="">  479:               do $file;
+</span><span class="">  480:               if ($@) {
+</span><span class="">  481:                   warn &quot;Syntax check failed: $file\n&quot;;
+</span><span class="">  482:                   push @failed, $file;
+</span><span class="">  483:               }
+</span><span class="">  484:           }, no_chdir =&gt; 1 }, @dirs);
+</span><span class="">  485: 
+</span><span class="">  486: LINT_STEP
+</span><span class="">  487: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  488: 		if ($enable_linter_unused) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  489: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
+</span><span class="">  490:           if (($ENV{RUNNER_OS} // &#39;&#39;) eq &#39;Linux&#39;) {
+</span><span class="">  491:               system(&#39;cpanm --notest --quiet warnings::unused 2&gt;/dev/null&#39;);
+</span><span class="">  492:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused &amp;&amp; true || echo &quot;warnings::unused: no unused variables detected&quot;&#39;);
+</span><span class="">  493:           }
+</span><span class="">  494: 
+</span><span class="">  495: UNUSED_CODE
+</span><span class="">  496: 		}
+</span><span class="">  497: 
+</span><span class="">  498: 		$yaml .= &quot;          exit(\@failed ? 1 : 0);\n\n&quot;;
+</span><span class="">  499: 	}
+</span><span class="">  500: 
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">501 → 517 → 529</span></span>  501: 	$yaml .= &quot;      - name: Run tests\n&quot;;
+</span><span class="">  502: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
+</span><span class="">  503: 	$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  504: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  505: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  506: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
+</span><span class="">  507: 
+</span><span class="">  508: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
+</span><span class="">  509: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
+</span><span class="">  510: 	$yaml .= &quot;        shell: cmd\n&quot;;
+</span><span class="">  511: 	$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  512: 	$yaml .= &quot;          \@echo off\n&quot;;
+</span><span class="">  513: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
+</span><span class="">  514: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
+</span><span class="">  515: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
+</span><span class="">  516: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  517: 	if ($enable_critic) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  518: 		my $latest = $perl_versions[-1];
+</span><span class="">  519: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
+</span><span class="">  520: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
+</span><span class="">  521: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
+</span><span class="">  522: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  523: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  524: 		$yaml .= &quot;          cpanm --notest Perl::Critic\n&quot;;
+</span><span class="">  525: 		$yaml .= &quot;          perlcritic --severity 3 lib/ || true\n&quot;;
+</span><span class="">  526: 		$yaml .= &quot;        shell: bash\n\n&quot;;
+</span><span class="">  527: 	}
+</span><span class="">  528: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">529 → 529 → 541</span></span>  529: 	if ($enable_perlimports) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  530: 		my $latest = $perl_versions[-1];
+</span><span class="">  531: 		$yaml .= &quot;      - name: Check imports with perlimports\n&quot;;
+</span><span class="">  532: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
+</span><span class="">  533: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
+</span><span class="">  534: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  535: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  536: 		$yaml .= &quot;          cpanm --notest App::perlimports\n&quot;;
+</span><span class="">  537: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; | xargs perlimports --lint\n&quot;;
+</span><span class="">  538: 		$yaml .= &quot;        shell: bash\n\n&quot;;
+</span><span class="">  539: 	}
+</span><span class="">  540: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">541 → 541 → 554</span></span>  541: 	if ($enable_coverage) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  542: 		my $latest = $perl_versions[-1];
+</span><span class="">  543: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
+</span><span class="">  544: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
+</span><span class="">  545: 		$yaml .= &quot;        run: |\n&quot;;
+</span><span class="">  546: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  547: 		$yaml .= &quot;          cpanm --notest Devel::Cover\n&quot;;
+</span><span class="">  548: 		$yaml .= &quot;          cover -delete\n&quot;;
+</span><span class="">  549: 		$yaml .= &quot;          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n&quot;;
+</span><span class="">  550: 		$yaml .= &quot;          cover\n&quot;;
+</span><span class="">  551: 		$yaml .= &quot;        shell: bash\n&quot;;
+</span><span class="">  552: 	}
+</span><span class="">  553: 
+</span><span class="">  554: 	$yaml .= &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  555: 
+</span><span class="">  556:       - name: Show cpanm build log on failure (Windows)
+</span><span class="">  557:         if: runner.os == &#39;Windows&#39; &amp;&amp; failure()
+</span><span class="">  558:         shell: pwsh
+</span><span class="">  559:         run: Get-Content &quot;$env:USERPROFILE\.cpanm\work\*\build.log&quot; -Tail 100
+</span><span class="">  560: 
+</span><span class="">  561:       - name: Show cpanm build log on failure (non-Windows)
+</span><span class="">  562:         if: runner.os != &#39;Windows&#39; &amp;&amp; failure()
+</span><span class="">  563:         run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
+</span><span class="">  564: YAML
+</span><span class="">  565: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  566: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  567: }
+</span><span class="">  568: 
+</span><span class="">  569: sub _get_perl_versions($min, $max) {
+</span><span class="">  570: 	# All available Perl versions in descending order.
+</span><span class="">  571: 	# 5.44 is listed so projects can opt in via max_perl_version =&gt; &#39;5.44&#39;,
+</span><span class="">  572: 	# but it is not included in the default matrix (max defaults to 5.42).
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">573 → 580 → 587</span></span>  573: 	my @all_versions = qw(5.44 5.42 5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
+</span><span class="">  574: 
+</span><span class="">  575: 	# Normalize version strings for comparison
+</span><span class="">  576: 	my $min_normalized = _normalize_version($min);
+</span><span class="">  577: 	my $max_normalized = _normalize_version($max);
+</span><span class="">  578: 
+</span><span class="">  579: 	my @selected;
+</span><span class="">  580: 	for my $version (@all_versions) {
+</span><span class="">  581: 		my $v_normalized = _normalize_version($version);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  582: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
+</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  583: 			push @selected, $version;
+</span><span class="">  584: 		}
+</span><span class="">  585: 	}
+</span><span class="">  586: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  587: 	return reverse @selected;	# Return in ascending order
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  588: }
+</span><span class="">  589: 
+</span><span class="">  590: sub _normalize_version($version) {
+</span><span class="">  591: 	# Convert &quot;5.036&quot; or &quot;5.36&quot; to comparable number
+</span><span class="">  592: 	$version =~ s/^v?//;
+</span><span class="">  593: 	my @parts = split /\./, $version;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  594: 	return sprintf(&#39;%d.%03d&#39;, $parts[0] // 5, $parts[1] // 0);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  595: }
+</span><span class="">  596: 
+</span><span class="">  597: =head1 LIMITATIONS
+</span><span class="">  598: 
+</span><span class="">  599: =head2 Windows + Perl 5.40 excluded from the generated matrix
+</span><span class="">  600: 
+</span><span class="">  601: The shogo82148 C&lt;perl-5.40.4-thr-win32-x64.zip&gt; distribution ships a
+</span><span class="">  602: C&lt;perl.exe&gt; and a C&lt;libperl540.a&gt; from two different builds.  Any XS module
+</span><span class="">  603: compiled against that C&lt;libperl540.a&gt; receives handshake key
+</span><span class="">  604: C&lt;0x12c00080&gt;, but C&lt;perl.exe&gt; needs C&lt;0x12d00080&gt;.  Even
+</span><span class="">  605: C&lt;Win32::Process&gt; &acirc;&#128;&#148; a core Windows XS module bundled in the zip and loaded
+</span><span class="">  606: transitively by C&lt;IPC::System::Simple&gt; &acirc;&#128;&#148; fails to load with this mismatch,
+</span><span class="">  607: so no XS-using test can pass on this combination.
+</span><span class="">  608: 
+</span><span class="">  609: Recompiling XS modules (e.g. via C&lt;cpanm --reinstall YAML::XS&gt;) does not
+</span><span class="">  610: help: the compilation itself links against the broken C&lt;libperl540.a&gt; and
+</span><span class="">  611: inherits the wrong key.
+</span><span class="">  612: 
+</span><span class="">  613: The generated workflow therefore includes a C&lt;matrix.exclude&gt; entry for
+</span><span class="">  614: C&lt;{os: windows-latest, perl: &#39;5.40&#39;}&gt;.  This entry is only emitted when
+</span><span class="">  615: both C&lt;windows-latest&gt; and C&lt;5.40&gt; are present in the matrix, so workflows
+</span><span class="">  616: that restrict their OS or Perl lists are unaffected.
+</span><span class="">  617: 
+</span><span class="">  618: Remove the exclusion once the upstream shogo82148/build-perl distribution
+</span><span class="">  619: is fixed and the C&lt;perl.exe&gt; and C&lt;libperl540.a&gt; in the 5.40.x zip are
+</span><span class="">  620: built from the same source tree.
+</span><span class="">  621: 
+</span><span class="">  622: See L&lt;https://github.com/shogo82148/actions-setup-perl/issues/2310&gt; for further information.
+</span><span class="">  623: 
+</span><span class="">  624: =head1 AUTHOR
+</span><span class="">  625: 
+</span><span class="">  626: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  627: 
+</span><span class="">  628: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  629: 
+</span><span class="">  630: =head1 LICENSE
+</span><span class="">  631: 
+</span><span class="">  632: Usage is subject to the GPL2 licence terms.
+</span><span class="">  633: If you use it,
+</span><span class="">  634: please let me know.
+</span><span class="">  635: 
+</span><span class="">  636: =cut
+</span><span class="">  637: 
+</span><span class="">  638: 1;
 </span></pre>
 
 <script>
