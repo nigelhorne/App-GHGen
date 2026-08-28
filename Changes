@@ -6,6 +6,7 @@ Revision history for App-GHGen
 	  GitHub actions
 	[ Enhancements ]
 	- Install DB_File on Linux
+	- Latest ATG dashboard
 
 0.09	Mon Aug 10 08:26:23 PM EDT 2026
 	[ Bug Fixes ]
