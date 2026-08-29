@@ -16,7 +16,7 @@ on 'test' => sub {
 	requires 'Test::Exception';
 	requires 'Test::Mockingbird';
 	requires 'Test::Most';
-	requires 'Test::Returns';
+	requires 'Test::Returns', '0.04';
 	requires 'Test::Without::Module';
 };
 

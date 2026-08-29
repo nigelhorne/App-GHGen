@@ -34,7 +34,7 @@ WriteMakefile(
 		'Test::Exception' => 0,
 		'Test::Mockingbird' => 0,
 		'Test::Most' => 0,
-		'Test::Returns' => 0,
+		'Test::Returns' => 0.04,
 		'Test::Without::Module' => 0,
 	},
 	# EXE_FILES => ['bin/ghgen', 'bin/ghgen-analyze', 'bin/ghgen-generator'],
