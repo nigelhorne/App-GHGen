@@ -716,7 +716,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  375: 
 </span><span class="">  376: 	$yaml .= &quot;      - name: Setup Perl\n&quot;;
 </span><span class="">  377: 	$yaml .= &quot;        id: setup-perl\n&quot;;
-</span><span class="">  378: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1.43.1\n&quot;;
+</span><span class="">  378: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1.44.0\n&quot;;
 </span><span class="">  379: 	$yaml .= &quot;        with:\n&quot;;
 </span><span class="">  380: 	$yaml .= &quot;          perl-version: \${{ matrix.perl }}\n\n&quot;;
 </span><span class="">  381: 
@@ -801,10 +801,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  460: 	$yaml .= &quot;      - name: Reinstall YAML::XS against current Perl (Windows)\n&quot;;
 </span><span class="">  461: 	$yaml .= &quot;        if: runner.os == &#39;Windows&#39;\n&quot;;
 </span><span class="">  462: 	$yaml .= &quot;        shell: cmd\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  463: 	$yaml .= &quot;        run: cpanm --notest --reinstall YAML::XS\n\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  464: 
-</span><span class="">  465: 	if ($enable_linter) {
-</span><span class="">  466: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
+</span><span class="">  463: 	$yaml .= &quot;        run: cpanm --notest --reinstall YAML::XS\n\n&quot;;
+</span><span class="">  464: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  465: 	if ($enable_linter) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  466: 		$yaml .= &quot;      - name: Lint and syntax check\n&quot;;
 </span><span class="">  467: 		$yaml .= &quot;        shell: perl {0}\n&quot;;
 </span><span class="">  468: 		$yaml .= &quot;        run: |\n&quot;;
 </span><span class="">  469: 		$yaml .= &lt;&lt;&#39;LINT_STEP&#39;;
@@ -826,10 +826,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  485:               }
 </span><span class="">  486:           }, no_chdir =&gt; 1 }, @dirs);
 </span><span class="">  487: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  488: LINT_STEP
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  489: 
-</span><span class="">  490: 		if ($enable_linter_unused) {
-</span><span class="">  491: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
+</span><span class="">  488: LINT_STEP
+</span><span class="">  489: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  490: 		if ($enable_linter_unused) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  491: 			$yaml .= &lt;&lt;&#39;UNUSED_CODE&#39;;
 </span><span class="">  492:           if (($ENV{RUNNER_OS} // &#39;&#39;) eq &#39;Linux&#39;) {
 </span><span class="">  493:               system(&#39;cpanm --notest --quiet warnings::unused 2&gt;/dev/null&#39;);
 </span><span class="">  494:               system(&#39;PERL5OPT=-Mwarnings::unused prove -lr t/ 2&gt;&amp;1 | grep -i unused &amp;&amp; true || echo &quot;warnings::unused: no unused variables detected&quot;&#39;);
@@ -855,10 +855,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  514: 	$yaml .= &quot;          \@echo off\n&quot;;
 </span><span class="">  515: 	$yaml .= &quot;          set \&quot;PATH=%USERPROFILE%\\perl5\\bin;%PATH%\&quot;\n&quot;;
 </span><span class="">  516: 	$yaml .= &quot;          set \&quot;PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\&quot;\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  517: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  518: 
-</span><span class="">  519: 	if ($enable_critic) {
-</span><span class="">  520: 		my $latest = $perl_versions[-1];
+</span><span class="">  517: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
+</span><span class="">  518: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  519: 	if ($enable_critic) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  520: 		my $latest = $perl_versions[-1];
 </span><span class="">  521: 		$yaml .= &quot;      - name: Run Perl::Critic\n&quot;;
 </span><span class="">  522: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  523: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
@@ -867,10 +867,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  526: 		$yaml .= &quot;          cpanm --notest Perl::Critic\n&quot;;
 </span><span class="">  527: 		$yaml .= &quot;          perlcritic --severity 3 lib/ || true\n&quot;;
 </span><span class="">  528: 		$yaml .= &quot;        shell: bash\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  529: 	}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  530: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">531 → 531 → 543</span></span>  531: 	if ($enable_perlimports) {
-</span><span class="">  532: 		my $latest = $perl_versions[-1];
+</span><span class="">  529: 	}
+</span><span class="">  530: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">531 → 531 → 543</span></span>  531: 	if ($enable_perlimports) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  532: 		my $latest = $perl_versions[-1];
 </span><span class="">  533: 		$yaml .= &quot;      - name: Check imports with perlimports\n&quot;;
 </span><span class="">  534: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  535: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
@@ -879,10 +879,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  538: 		$yaml .= &quot;          cpanm --notest App::perlimports\n&quot;;
 </span><span class="">  539: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; | xargs perlimports --lint\n&quot;;
 </span><span class="">  540: 		$yaml .= &quot;        shell: bash\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  541: 	}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  542: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">543 → 543 → 556</span></span>  543: 	if ($enable_coverage) {
-</span><span class="">  544: 		my $latest = $perl_versions[-1];
+</span><span class="">  541: 	}
+</span><span class="">  542: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">543 → 543 → 556</span></span>  543: 	if ($enable_coverage) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  544: 		my $latest = $perl_versions[-1];
 </span><span class="">  545: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
 </span><span class="">  546: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  547: 		$yaml .= &quot;        run: |\n&quot;;
@@ -904,10 +904,10 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  563:       - name: Show cpanm build log on failure (non-Windows)
 </span><span class="">  564:         if: runner.os != &#39;Windows&#39; &amp;&amp; failure()
 </span><span class="">  565:         run: tail -100 &quot;$HOME/.cpanm/work/*/build.log&quot;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  566: YAML
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  567: 
-</span><span class="">  568: 	return $yaml;
-</span><span class="">  569: }
+</span><span class="">  566: YAML
+</span><span class="">  567: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  568: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  569: }
 </span><span class="">  570: 
 </span><span class="">  571: sub _get_perl_versions($min, $max) {
 </span><span class="">  572: 	# All available Perl versions in descending order.
@@ -920,22 +920,22 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  579: 	my $max_normalized = _normalize_version($max);
 </span><span class="">  580: 
 </span><span class="">  581: 	my @selected;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  582: 	for my $version (@all_versions) {
-</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  583: 		my $v_normalized = _normalize_version($version);
-</span><span class="">  584: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
-</span><span class="">  585: 			push @selected, $version;
+</span><span class="">  582: 	for my $version (@all_versions) {
+</span><span class="">  583: 		my $v_normalized = _normalize_version($version);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  584: 		if ($v_normalized &gt;= $min_normalized &amp;&amp; $v_normalized &lt;= $max_normalized) {
+</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  585: 			push @selected, $version;
 </span><span class="">  586: 		}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  587: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  588: 
-</span><span class="">  589: 	return reverse @selected;	# Return in ascending order
-</span><span class="">  590: }
+</span><span class="">  587: 	}
+</span><span class="">  588: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  589: 	return reverse @selected;	# Return in ascending order
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  590: }
 </span><span class="">  591: 
 </span><span class="">  592: sub _normalize_version($version) {
 </span><span class="">  593: 	# Convert &quot;5.036&quot; or &quot;5.36&quot; to comparable number
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  594: 	$version =~ s/^v?//;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  595: 	my @parts = split /\./, $version;
-</span><span class="">  596: 	return sprintf(&#39;%d.%03d&#39;, $parts[0] // 5, $parts[1] // 0);
-</span><span class="">  597: }
+</span><span class="">  594: 	$version =~ s/^v?//;
+</span><span class="">  595: 	my @parts = split /\./, $version;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  596: 	return sprintf(&#39;%d.%03d&#39;, $parts[0] // 5, $parts[1] // 0);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  597: }
 </span><span class="">  598: 
 </span><span class="">  599: =head1 LIMITATIONS
 </span><span class="">  600: 
