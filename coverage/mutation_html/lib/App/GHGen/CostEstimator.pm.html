@@ -290,11 +290,11 @@ a.intra-dot:hover { color: #7700bb; }
 <body>
 <button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 <h1>lib/App/GHGen/CostEstimator.pm</h1>
-<div class="nav"><a href="Reporter.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
- <a href="Interactive.pm.html">Next ➡</a></div><div class='summary'>
+<div class="nav"><a href="../../../../index.html">Index</a>
+ <a href="Detector.pm.html">Next ➡</a></div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 100.00%<br>
-TER2 (Branch): 96.15%<br>
+TER2 (Branch): 97.44%<br>
 TER3 (LCSAJ): 100.0% (9/9)<br>
 Approximate LCSAJ segments: 79<br>
 </div>
@@ -354,7 +354,7 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">   13: 	estimate_workflow_cost
 </span><span class="">   14: );
 </span><span class="">   15: 
-</span><span class="">   16: our $VERSION = &#39;0.10&#39;;
+</span><span class="">   16: our $VERSION = &#39;0.11&#39;;
 </span><span class="">   17: 
 </span><span class="">   18: =head1 NAME
 </span><span class="">   19: 
@@ -727,37 +727,8 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  386:     }
 </span><span class="">  387: 
 </span><span class="">  388:     # Calculate percentage and cost
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one)."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">389 → 389 → 395</span></span>  389:     if ($current_usage &amp;&amp; $current_usage-&gt;{total_minutes} &gt; 0) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 4, Killed: 1, Survived: 3)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_389_59_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_389_59_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_389_59_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">  390:         $savings{percentage} = int(($savings{minutes} / $current_usage-&gt;{total_minutes}) * 100);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">389 → 389 → 395</span></span>  389:     if ($current_usage &amp;&amp; $current_usage-&gt;{total_minutes} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  390:         $savings{percentage} = int(($savings{minutes} / $current_usage-&gt;{total_minutes}) * 100);
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  391:     } elsif ($savings{minutes} &gt; 0) {
 </span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  392:         $savings{percentage} = 30;  # Estimate 30% savings
 </span><span class="">  393:     }
@@ -834,48 +805,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">464 → 464 → 476</span></span>  464:     for my $job (values %$jobs) {
 </span><span class="">  465:         my $duration = estimate_job_duration($job);
 </span><span class="">  466: 
-</span><span class="survived-1 tooltip" data-tooltip="Mutation survived. Add targeted tests to validate this branch.">  467:         if ($has_dependencies) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>COND_INV_467_9: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">  468:             # Sequential - add durations
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  467:         if ($has_dependencies) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  468:             # Sequential - add durations
 </span><span class="">  469:             $total_duration += $duration;
 </span><span class="">  470:         } else {
 </span><span class="">  471:             # Parallel - track maximum
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  472:             $max_parallel_duration = $duration if $duration &gt; $max_parallel_duration;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 3, Killed: 0, Survived: 3)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_472_61_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_472_61_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_472_61_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">  473:         }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  472:             $max_parallel_duration = $duration if $duration &gt; $max_parallel_duration;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  473:         }
 </span><span class="">  474:     }
 </span><span class="">  475: 
 </span><span class="">  476: 	my $estimated = $has_dependencies ? $total_duration : $max_parallel_duration;

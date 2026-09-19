@@ -290,8 +290,8 @@ a.intra-dot:hover { color: #7700bb; }
 <body>
 <button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 <h1>lib/App/GHGen/Reporter.pm</h1>
-<div class="nav"><a href="Detector.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
- <a href="CostEstimator.pm.html">Next ➡</a></div><div class='summary'>
+<div class="nav"><a href="PerlCustomizer.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
+</div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 100.00%<br>
 TER2 (Branch): 100.00%<br>
@@ -352,7 +352,7 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   11: 	estimate_savings
 </span><span class="">   12: );
 </span><span class="">   13: 
-</span><span class="">   14: our $VERSION = &#39;0.10&#39;;
+</span><span class="">   14: our $VERSION = &#39;0.11&#39;;
 </span><span class="">   15: 
 </span><span class="">   16: =head1 NAME
 </span><span class="">   17: 
@@ -474,38 +474,8 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  133:         $report .= &quot;By fixing these issues, you could save:\n\n&quot;;
 </span><span class="">  134:         $report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
 </span><span class="">  135: 
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">  136:         if ($savings-&gt;{cost} &gt; 0) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 4, Killed: 0, Survived: 4)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_136_30_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_136_30_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_136_30_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>COND_INV_136_9: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">  137:             $report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136:         if ($savings-&gt;{cost} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  137:             $report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
 </span><span class="">  138:         }
 </span><span class="">  139: 
 </span><span class="">  140:         $report .= &quot;\n&quot;;
@@ -659,72 +629,13 @@ is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
 </span><span class="">  288: 
 </span><span class="">  289:     # Add savings estimate
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">290 → 291 → 303</span></span>  290:     my $savings = estimate_savings($issues);
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  291:     if ($savings-&gt;{minutes} &gt; 0) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 4, Killed: 1, Survived: 3)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_291_29_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_291_29_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_291_29_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">  292:         $comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291:     if ($savings-&gt;{minutes} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  292:         $comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
 </span><span class="">  293:         $comment .= &quot;By fixing these issues:\n&quot;;
 </span><span class="">  294:         $comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
 </span><span class="">  295: 
-</span><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one). Mutation survived. Add targeted tests to validate this branch.">  296:         if ($savings-&gt;{cost} &gt; 0) {
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 4, Killed: 0, Survived: 4)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_296_30_&lt;: Numeric boundary flip &gt; to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_296_30_&gt;=: Numeric boundary flip &gt; to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_296_30_&lt;=: Numeric boundary flip &gt; to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>COND_INV_296_9: Invert condition if to unless</b><br>MEDIUM: Add tests asserting both true and false outcomes
-</li></ul></details>
-<span class="">  297:             $comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296:         if ($savings-&gt;{cost} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297:             $comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
 </span><span class="">  298:         }
 </span><span class="">  299: 
 </span><span class="">  300:         $comment .= &quot;\n&quot;;

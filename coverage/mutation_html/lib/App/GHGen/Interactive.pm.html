@@ -290,8 +290,8 @@ a.intra-dot:hover { color: #7700bb; }
 <body>
 <button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 <h1>lib/App/GHGen/Interactive.pm</h1>
-<div class="nav"><a href="CostEstimator.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
- <a href="Fixer.pm.html">Next ➡</a></div><div class='summary'>
+<div class="nav"><a href="Fixer.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
+ <a href="PerlCustomizer.pm.html">Next ➡</a></div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 100.00%<br>
 TER2 (Branch): 96.67%<br>
@@ -355,7 +355,7 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   14: 	customize_workflow
 </span><span class="">   15: );
 </span><span class="">   16: 
-</span><span class="">   17: our $VERSION = &#39;0.10&#39;;
+</span><span class="">   17: our $VERSION = &#39;0.11&#39;;
 </span><span class="">   18: 
 </span><span class="">   19: =head1 NAME
 </span><span class="">   20: 
@@ -518,82 +518,16 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  177: sub prompt_choice($question, $choices, $default = 0) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">178 → 179 → 184</span></span>  178:     say $question;
 </span><span class="">  179:     for my $i (0 .. $#$choices) {
-</span><span class="survived-1 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  180:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 1, Killed: 0, Survived: 1)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_180_25_!=: Numeric boundary flip == to !=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="">  181:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  180:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  181:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
 </span><span class="">  182:     }
 </span><span class="">  183: 
 </span><span class="">  184:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
 </span><span class="">  185:     chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  186: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  187:     return $default if $answer eq &#39;&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="survived-3 tooltip" data-tooltip="Boundary mutation survived. Add tests around edge values (e.g. min, max, off-by-one).">  188:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
-</span>
-					<details class="mutant-details">
-					<summary>Mutants (Total: 8, Killed: 2, Survived: 6)</summary>
-					<ul>
-				<li><b>NUM_BOUNDARY_188_57_&gt;: Numeric boundary flip &gt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_188_57_&lt;: Numeric boundary flip &gt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_188_57_&lt;=: Numeric boundary flip &gt;= to &lt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_188_73_&lt;: Numeric boundary flip &lt;= to &lt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_188_73_&gt;: Numeric boundary flip &lt;= to &gt;</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li><li><b>NUM_BOUNDARY_188_73_&gt;=: Numeric boundary flip &lt;= to &gt;=</b><br>HIGH: Likely missing edge-case test (boundary value)
-
-								<div class="suggested-test">
-								<div class="suggest-label">🧪 Suggested Test</div>
-								<pre># Boundary test suggestion
-is( func(VALUE_AT_BOUNDARY), EXPECTED, &#39;Test boundary behaviour&#39; );
-</pre>
-								</div>
-							</li></ul></details>
-<span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  189:     return $default;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  188:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
+</span><p> <b> Mutants (Total: 8, Killed: 8, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  189:     return $default;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  190: }
 </span><span class="">  191: 
 </span><span class="">  192: =head2 prompt_multiselect($question, $options, $defaults)
