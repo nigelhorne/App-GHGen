@@ -322,7 +322,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	$yaml .= '# Created by ' . __PACKAGE__ . "\n";
 
 	$yaml .= "name: Perl CI\n\n";
-	$yaml .= "'on':\n";
+	$yaml .= "\"on\":\n";
 	$yaml .= "  push:\n";
 	$yaml .= "    branches:\n";
 	$yaml .= "      - main\n";
@@ -352,7 +352,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	}
 	$yaml .= "        perl:\n";
 	for my $version (@perl_versions) {
-		$yaml .= "          - '$version'\n";
+		$yaml .= "          - \"$version\"\n";
 	}
 	# shogo82148/build-perl perl-5.40.4-thr-win32-x64.zip ships a perl.exe and a
 	# libperl540.a from two different builds.  Any XS module compiled against that
@@ -363,7 +363,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 	if ((grep { $_ eq '5.40' } @perl_versions) && (grep { $_ eq 'windows-latest' } @os)) {
 		$yaml .= "        exclude:\n";
 		$yaml .= "          - os: windows-latest\n";
-		$yaml .= "            perl: '5.40'\n";
+		$yaml .= "            perl: \"5.40\"\n";
 	}
 	$yaml .= "    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n";
 	$yaml .= "    env:\n";
