@@ -961,9 +961,9 @@ subtest 'PerlCustomizer::generate_custom_perl_workflow - explicit perl_versions 
 	my $yaml = generate_custom_perl_workflow({
 		perl_versions => ['5.36', '5.38'],
 	});
-	like($yaml,   qr/'5\.36'/, '5.36 present');
-	like($yaml,   qr/'5\.38'/, '5.38 present');
-	unlike($yaml, qr/'5\.40'/, '5.40 absent when not in explicit list');
+	like($yaml,   qr/["']5\.36["']/, '5.36 present');
+	like($yaml,   qr/["']5\.38["']/, '5.38 present');
+	unlike($yaml, qr/["']5\.40["']/, '5.40 absent when not in explicit list');
 };
 
 subtest 'PerlCustomizer::generate_custom_perl_workflow - enable_perlimports=0 omits step' => sub {
