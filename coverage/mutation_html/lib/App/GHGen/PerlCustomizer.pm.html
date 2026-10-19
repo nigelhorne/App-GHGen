@@ -663,7 +663,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  322: 	$yaml .= &#39;# Created by &#39; . __PACKAGE__ . &quot;\n&quot;;
 </span><span class="">  323: 
 </span><span class="">  324: 	$yaml .= &quot;name: Perl CI\n\n&quot;;
-</span><span class="">  325: 	$yaml .= &quot;&#39;on&#39;:\n&quot;;
+</span><span class="">  325: 	$yaml .= &quot;\&quot;on\&quot;:\n&quot;;
 </span><span class="">  326: 	$yaml .= &quot;  push:\n&quot;;
 </span><span class="">  327: 	$yaml .= &quot;    branches:\n&quot;;
 </span><span class="">  328: 	$yaml .= &quot;      - main\n&quot;;
@@ -693,7 +693,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  352: 	}
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">353 → 354 → 363</span></span>  353: 	$yaml .= &quot;        perl:\n&quot;;
 </span><span class="">  354: 	for my $version (@perl_versions) {
-</span><span class="">  355: 		$yaml .= &quot;          - &#39;$version&#39;\n&quot;;
+</span><span class="">  355: 		$yaml .= &quot;          - \&quot;$version\&quot;\n&quot;;
 </span><span class="">  356: 	}
 </span><span class="">  357: 	# shogo82148/build-perl perl-5.40.4-thr-win32-x64.zip ships a perl.exe and a
 </span><span class="">  358: 	# libperl540.a from two different builds.  Any XS module compiled against that
@@ -704,7 +704,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">363 → 363 → 368</span></span>  363: 	if ((grep { $_ eq &#39;5.40&#39; } @perl_versions) &amp;&amp; (grep { $_ eq &#39;windows-latest&#39; } @os)) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  364: 		$yaml .= &quot;        exclude:\n&quot;;
 </span><span class="">  365: 		$yaml .= &quot;          - os: windows-latest\n&quot;;
-</span><span class="">  366: 		$yaml .= &quot;            perl: &#39;5.40&#39;\n&quot;;
+</span><span class="">  366: 		$yaml .= &quot;            perl: \&quot;5.40\&quot;\n&quot;;
 </span><span class="">  367: 	}
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">368 → 465 → 503</span></span>  368: 	$yaml .= &quot;    name: Perl \${{ matrix.perl }} on \${{ matrix.os }}\n&quot;;
 </span><span class="">  369: 	$yaml .= &quot;    env:\n&quot;;
@@ -716,7 +716,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  375: 
 </span><span class="">  376: 	$yaml .= &quot;      - name: Setup Perl\n&quot;;
 </span><span class="">  377: 	$yaml .= &quot;        id: setup-perl\n&quot;;
-</span><span class="">  378: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1.44.0\n&quot;;
+</span><span class="">  378: 	$yaml .= &quot;        uses: shogo82148/actions-setup-perl\@v1.44.2\n&quot;;
 </span><span class="">  379: 	$yaml .= &quot;        with:\n&quot;;
 </span><span class="">  380: 	$yaml .= &quot;          perl-version: \${{ matrix.perl }}\n\n&quot;;
 </span><span class="">  381: 
