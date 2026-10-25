@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Path::Tiny;
+use Readonly;
 
 use Exporter 'import';
 our @EXPORT_OK = qw(
@@ -13,6 +14,8 @@ our @EXPORT_OK = qw(
 );
 
 our $VERSION = '0.11';
+
+Readonly my $DEFAULT_TIMEOUT_MINUTES => 60;
 
 =encoding utf-8
 
@@ -175,7 +178,7 @@ C<< max_perl_version => '5.44' >> or set C<perl_versions> explicitly:
 Operating systems for the build matrix.
 Default: C<['ubuntu-latest', 'macos-latest', 'windows-latest']>.
 
-=item C<timeout> (integer, default C<30>)
+=item C<timeout> (integer, default C<60>)
 
 Value written to C<timeout-minutes> on every matrix job.
 
@@ -267,7 +270,7 @@ B<Generated step order:>
                 min_perl_version     => { type => 'scalar',  default  => '5.36' },
                 max_perl_version     => { type => 'scalar',  default  => '5.42' },
                 os                   => { type => 'arrayref', optional => 1 },
-                timeout              => { type => 'scalar',  default  => 30 },
+                timeout              => { type => 'scalar',  default  => $DEFAULT_TIMEOUT_MINUTES },
                 enable_linter        => { type => 'scalar',  default  => 1 },
                 enable_linter_unused => { type => 'scalar',  default  => 1 },
                 enable_critic        => { type => 'scalar',  default  => 1 },
@@ -302,7 +305,7 @@ B<Generated step order:>
 sub generate_custom_perl_workflow($opts = {}) {
 	my $min_version = $opts->{min_perl_version} // '5.36';
 	my $max_version = $opts->{max_perl_version} // '5.42';
-	my $timeout = $opts->{timeout} // 30;
+	my $timeout = $opts->{timeout} // $DEFAULT_TIMEOUT_MINUTES;
 	my @os = @{$opts->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest']};
 	my $enable_linter = $opts->{enable_linter} // 1;
 	my $enable_linter_unused = $opts->{enable_linter_unused} // 1;
