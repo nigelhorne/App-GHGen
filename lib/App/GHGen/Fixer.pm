@@ -16,7 +16,7 @@ our @EXPORT_OK = qw(
 	%ACTION_UPDATES
 );
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 Readonly my $DEFAULT_TIMEOUT_MINUTES => 60;
 

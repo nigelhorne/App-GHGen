@@ -13,7 +13,7 @@ our @EXPORT_OK = qw(
 	generate_custom_perl_workflow
 );
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 Readonly my $DEFAULT_TIMEOUT_MINUTES => 60;
 
