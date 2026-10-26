@@ -1,5 +1,9 @@
 Revision history for App-GHGen
 
+0.13
+	[ Enhancements ]
+	- Updated to actions-setup-perl to 1.44.3
+
 0.12	Sun Oct 25 06:53:36 PM EDT 2026
 	[ Enhancements ]
 	- Updated to actions-setup-perl to 1.44.2

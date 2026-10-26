@@ -378,7 +378,7 @@ sub generate_custom_perl_workflow($opts = {}) {
 
 	$yaml .= "      - name: Setup Perl\n";
 	$yaml .= "        id: setup-perl\n";
-	$yaml .= "        uses: shogo82148/actions-setup-perl\@v1.44.2\n";
+	$yaml .= "        uses: shogo82148/actions-setup-perl\@v1.44.3\n";
 	$yaml .= "        with:\n";
 	$yaml .= "          perl-version: \${{ matrix.perl }}\n\n";
 

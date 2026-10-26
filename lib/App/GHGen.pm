@@ -601,7 +601,7 @@ B<Generated workflow step order:>
 
 =item 1. C<actions/checkout@v6>
 
-=item 2. Setup Perl — C<shogo82148/actions-setup-perl@v1.44.2>
+=item 2. Setup Perl — C<shogo82148/actions-setup-perl@v1.44.3>
 
 =item 3. Cache CPAN modules — C<actions/cache@v5>
 
