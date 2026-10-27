@@ -462,12 +462,12 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  121: 	my %fixable = (
 </span><span class="">  122: 		&#39;performance&#39; =&gt; 1,  # Can add caching
 </span><span class="">  123: 		&#39;security&#39;    =&gt; 1,  # Can update action versions and add permissions
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  124: 		&#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  125: 		&#39;maintenance&#39; =&gt; 1,  # Can update runners
+</span><span class="">  124: 		&#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
+</span><span class="">  125: 		&#39;maintenance&#39; =&gt; 1,  # Can update runners
 </span><span class="">  126: 	);
 </span><span class="">  127: 
-</span><span class="">  128: 	return $fixable{$issue-&gt;{type}} // 0;
-</span><span class="">  129: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  128: 	return $fixable{$issue-&gt;{type}} // 0;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  129: }
 </span><span class="">  130: 
 </span><span class="">  131: =head2 apply_fixes($workflow, $issues)
 </span><span class="">  132: 
@@ -553,19 +553,19 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  212: 	for my $issue (@$issues) {
 </span><span class="">  213: 		# Guard: can_auto_fix is a complete predicate &acirc;&#128;&#148; if it returns false the
 </span><span class="">  214: 		# type is guaranteed not in the dispatch table, so skip immediately.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  215: 		next unless can_auto_fix($issue);
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  216: 
+</span><span class="">  215: 		next unless can_auto_fix($issue);
+</span><span class="">  216: 
 </span><span class="">  217: 		for my $rule (@_APPLY_RULES) {
 </span><span class="">  218: 			my ($type, $pattern, $handler) = @$rule;
-</span><span class="">  219: 			if ($issue-&gt;{type} eq $type &amp;&amp; $issue-&gt;{message} =~ $pattern) {
-</span><span class="">  220: 				$modified += $handler-&gt;($workflow);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  219: 			if ($issue-&gt;{type} eq $type &amp;&amp; $issue-&gt;{message} =~ $pattern) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  220: 				$modified += $handler-&gt;($workflow);
 </span><span class="">  221: 				last;	# first-match-wins; one issue maps to exactly one fix
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  222: 			}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  223: 		}
+</span><span class="">  222: 			}
+</span><span class="">  223: 		}
 </span><span class="">  224: 	}
 </span><span class="">  225: 
-</span><span class="">  226: 	return $modified;
-</span><span class="">  227: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  226: 	return $modified;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  227: }
 </span><span class="">  228: 
 </span><span class="">  229: =head2 fix_workflow($file, $issues)
 </span><span class="">  230: 
@@ -630,16 +630,16 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  289: 
 </span><span class="">  290: =cut
 </span><span class="">  291: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  292: sub fix_workflow($file, $issues) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">293 → 296 → 300</span></span>  293: 	my $workflow = LoadFile($file);
+</span><span class="">  292: sub fix_workflow($file, $issues) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">293 → 296 → 300</span></span>  293: 	my $workflow = LoadFile($file);
 </span><span class="">  294: 	my $fixes = apply_fixes($workflow, $issues);
 </span><span class="">  295: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296: 	if ($fixes &gt; 0) {
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  297: 		DumpFile($file, $workflow);
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297: 		DumpFile($file, $workflow);
 </span><span class="">  298: 	}
 </span><span class="">  299: 
-</span><span class="">  300:     return $fixes;
-</span><span class="">  301: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  300:     return $fixes;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  301: }
 </span><span class="">  302: 
 </span><span class="">  303: # Fix implementations
 </span><span class="">  304: 
@@ -657,31 +657,31 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  316:         # Detect project type and add appropriate cache
 </span><span class="">  317:         my $cache_step = detect_and_create_cache_step($steps);
 </span><span class="">  318:         next unless $cache_step;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  319: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  320:         # Insert cache step after checkout
+</span><span class="">  319: 
+</span><span class="">  320:         # Insert cache step after checkout
 </span><span class="">  321:         my $insert_at = 0;
 </span><span class="">  322:         for my $i (0 .. $#$steps) {
-</span><span class="">  323:             if ($steps-&gt;[$i]-&gt;{uses} &amp;&amp; $steps-&gt;[$i]-&gt;{uses} =~ /actions\/checkout/) {
-</span><span class="">  324:                 $insert_at = $i + 1;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  323:             if ($steps-&gt;[$i]-&gt;{uses} &amp;&amp; $steps-&gt;[$i]-&gt;{uses} =~ /actions\/checkout/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  324:                 $insert_at = $i + 1;
 </span><span class="">  325:                 last;
 </span><span class="">  326:             }
 </span><span class="">  327:         }
 </span><span class="">  328: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  329:         splice @$steps, $insert_at, 0, $cache_step;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  330:         $modified++;
+</span><span class="">  329:         splice @$steps, $insert_at, 0, $cache_step;
+</span><span class="">  330:         $modified++;
 </span><span class="">  331:     }
 </span><span class="">  332: 
-</span><span class="">  333:     return $modified;
-</span><span class="">  334: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  333:     return $modified;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  334: }
 </span><span class="">  335: 
 </span><span class="">  336: sub detect_and_create_cache_step($steps) {
 </span><span class="">  337:     # Detect project type from steps
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">338 → 338 → 393</span></span>  338:     for my $step (@$steps) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  339:         my $run = $step-&gt;{run} // &#39;&#39;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">338 → 338 → 393</span></span>  338:     for my $step (@$steps) {
+</span><span class="">  339:         my $run = $step-&gt;{run} // &#39;&#39;;
 </span><span class="">  340: 
 </span><span class="">  341:         # Node.js
-</span><span class="">  342:         if ($run =~ /npm (?:install|ci)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-node/)) {
-</span><span class="">  343:             return {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  342:         if ($run =~ /npm (?:install|ci)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-node/)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  343:             return {
 </span><span class="">  344:                 name =&gt; &#39;Cache dependencies&#39;,
 </span><span class="">  345:                 uses =&gt; &#39;actions/cache@v5&#39;,
 </span><span class="">  346:                 with =&gt; {
@@ -689,12 +689,12 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  348:                     key =&gt; &#39;${{ runner.os }}-node-${{ hashFiles(\&#39;**/package-lock.json\&#39;) }}&#39;,
 </span><span class="">  349:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-node-&#39;,
 </span><span class="">  350:                 },
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  351:             };
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  352:         }
+</span><span class="">  351:             };
+</span><span class="">  352:         }
 </span><span class="">  353: 
 </span><span class="">  354:         # Python
-</span><span class="">  355:         if ($run =~ /pip install/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-python/)) {
-</span><span class="">  356:             return {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  355:         if ($run =~ /pip install/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-python/)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  356:             return {
 </span><span class="">  357:                 name =&gt; &#39;Cache pip packages&#39;,
 </span><span class="">  358:                 uses =&gt; &#39;actions/cache@v5&#39;,
 </span><span class="">  359:                 with =&gt; {
@@ -702,24 +702,24 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  361:                     key =&gt; &#39;${{ runner.os }}-pip-${{ hashFiles(\&#39;**/requirements.txt\&#39;) }}&#39;,
 </span><span class="">  362:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-pip-&#39;,
 </span><span class="">  363:                 },
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  364:             };
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  365:         }
+</span><span class="">  364:             };
+</span><span class="">  365:         }
 </span><span class="">  366: 
 </span><span class="">  367:         # Rust
-</span><span class="">  368:         if ($run =~ /cargo (?:build|test)/) {
-</span><span class="">  369:             return {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  368:         if ($run =~ /cargo (?:build|test)/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  369:             return {
 </span><span class="">  370:                 name =&gt; &#39;Cache cargo&#39;,
 </span><span class="">  371:                 uses =&gt; &#39;actions/cache@v5&#39;,
 </span><span class="">  372:                 with =&gt; {
 </span><span class="">  373:                     path =&gt; &quot;~/.cargo/bin/\n~/.cargo/registry/index/\n~/.cargo/registry/cache/\n~/.cargo/git/db/\ntarget/&quot;,
 </span><span class="">  374:                     key =&gt; &#39;${{ runner.os }}-cargo-${{ hashFiles(\&#39;**/Cargo.lock\&#39;) }}&#39;,
 </span><span class="">  375:                 },
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  376:             };
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  377:         }
+</span><span class="">  376:             };
+</span><span class="">  377:         }
 </span><span class="">  378: 
 </span><span class="">  379:         # Go
-</span><span class="">  380:         if ($run =~ /go (?:build|test)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-go/)) {
-</span><span class="">  381:             return {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  380:         if ($run =~ /go (?:build|test)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-go/)) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  381:             return {
 </span><span class="">  382:                 name =&gt; &#39;Cache Go modules&#39;,
 </span><span class="">  383:                 uses =&gt; &#39;actions/cache@v5&#39;,
 </span><span class="">  384:                 with =&gt; {
@@ -727,41 +727,41 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  386:                     key =&gt; &#39;${{ runner.os }}-go-${{ hashFiles(\&#39;**/go.sum\&#39;) }}&#39;,
 </span><span class="">  387:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-go-&#39;,
 </span><span class="">  388:                 },
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  389:             };
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  390:         }
+</span><span class="">  389:             };
+</span><span class="">  390:         }
 </span><span class="">  391:     }
 </span><span class="">  392: 
-</span><span class="">  393:     return undef;
-</span><span class="">  394: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  393:     return undef;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  394: }
 </span><span class="">  395: 
 </span><span class="">  396: sub fix_unpinned_actions($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">397 → 400 → 415</span></span>  397: 	my $jobs = $workflow-&gt;{jobs} or return 0;
 </span><span class="">  398: 	my $modified = 0;
 </span><span class="">  399: 
 </span><span class="">  400:     for my $job (values %$jobs) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  401:         my $steps = $job-&gt;{steps} or next;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  402:         for my $step (@$steps) {
+</span><span class="">  401:         my $steps = $job-&gt;{steps} or next;
+</span><span class="">  402:         for my $step (@$steps) {
 </span><span class="">  403:             next unless $step-&gt;{uses};
 </span><span class="">  404: 
-</span><span class="">  405:             if ($step-&gt;{uses} =~ /^(.+?)\@(?:master|main)$/) {
-</span><span class="">  406:                 my $action = $1;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  405:             if ($step-&gt;{uses} =~ /^(.+?)\@(?:master|main)$/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  406:                 my $action = $1;
 </span><span class="">  407:                 # Map to appropriate version
 </span><span class="">  408:                 my $version = get_latest_version($action);
 </span><span class="">  409:                 $step-&gt;{uses} = &quot;$action\@$version&quot;;
 </span><span class="">  410:                 $modified++;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  411:             }
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  412:         }
+</span><span class="">  411:             }
+</span><span class="">  412:         }
 </span><span class="">  413:     }
 </span><span class="">  414: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  415:     return $modified;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  416: }
 </span><span class="">  417: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  418: sub add_permissions($workflow) {
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  419: 	return 0 if $workflow-&gt;{permissions};
-</span><span class="">  420: 
+</span><span class="">  418: sub add_permissions($workflow) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  419: 	return 0 if $workflow-&gt;{permissions};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  420: 
 </span><span class="">  421: 	$workflow-&gt;{permissions} = { contents =&gt; &#39;read&#39; };
-</span><span class="">  422: 	return 1;
-</span><span class="">  423: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  422: 	return 1;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  423: }
 </span><span class="">  424: 
 </span><span class="">  425: sub update_actions($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">426 → 431 → 444</span></span>  426: 	my $jobs = $workflow-&gt;{jobs} or return 0;
@@ -770,38 +770,38 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  429: 	# Premise: %ACTION_UPDATES is the canonical version table (defined above).
 </span><span class="">  430: 	# Conclusion: this function and find_outdated_actions (Analyzer) are always in sync.
 </span><span class="">  431: 	for my $job (values %$jobs) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  432: 		my $steps = $job-&gt;{steps} or next;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  433: 		for my $step (@$steps) {
+</span><span class="">  432: 		my $steps = $job-&gt;{steps} or next;
+</span><span class="">  433: 		for my $step (@$steps) {
 </span><span class="">  434: 			next unless $step-&gt;{uses};
 </span><span class="">  435: 			for my $old (keys %ACTION_UPDATES) {
-</span><span class="">  436: 				if ($step-&gt;{uses} =~ /^\Q$old\E/) {
-</span><span class="">  437: 					$step-&gt;{uses} = $ACTION_UPDATES{$old};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  436: 				if ($step-&gt;{uses} =~ /^\Q$old\E/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  437: 					$step-&gt;{uses} = $ACTION_UPDATES{$old};
 </span><span class="">  438: 					$modified++;
 </span><span class="">  439: 				}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  440: 			}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  441: 		}
+</span><span class="">  440: 			}
+</span><span class="">  441: 		}
 </span><span class="">  442: 	}
 </span><span class="">  443: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  444: 	return $modified;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  445: }
 </span><span class="">  446: 
 </span><span class="">  447: sub add_concurrency($workflow) {
-</span><span class="">  448: 	return 0 if $workflow-&gt;{concurrency};
-</span><span class="">  449: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  450:     $workflow-&gt;{concurrency} = {
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  451:         group =&gt; &#39;${{ github.workflow }}-${{ github.ref }}&#39;,
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	return 0 if $workflow-&gt;{concurrency};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: 
+</span><span class="">  450:     $workflow-&gt;{concurrency} = {
+</span><span class="">  451:         group =&gt; &#39;${{ github.workflow }}-${{ github.ref }}&#39;,
 </span><span class="">  452:         &#39;cancel-in-progress&#39; =&gt; &#39;true&#39;,
 </span><span class="">  453:     };
-</span><span class="">  454:     return 1;
-</span><span class="">  455: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  454:     return 1;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  455: }
 </span><span class="">  456: 
 </span><span class="">  457: sub add_trigger_filters($workflow) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">458 → 462 → 481</span></span>  458: 	my $on = $workflow-&gt;{on} or return 0;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  459: 	my $modified = 0;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">458 → 462 → 481</span></span>  458: 	my $on = $workflow-&gt;{on} or return 0;
+</span><span class="">  459: 	my $modified = 0;
 </span><span class="">  460: 
 </span><span class="">  461:     # If &#39;on&#39; is just &#39;push&#39;, expand it
-</span><span class="">  462:     if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
-</span><span class="">  463:         $workflow-&gt;{on} = {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  462:     if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  463:         $workflow-&gt;{on} = {
 </span><span class="">  464:             push =&gt; {
 </span><span class="">  465:                 branches =&gt; [&#39;main&#39;, &#39;master&#39;],
 </span><span class="">  466:             },
@@ -815,12 +815,12 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  474:         # &#39;push&#39; with no filters
 </span><span class="">  475:         $on-&gt;{push} = {
 </span><span class="">  476:             branches =&gt; [&#39;main&#39;, &#39;master&#39;],
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  477:         };
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  478:         $modified++;
+</span><span class="">  477:         };
+</span><span class="">  478:         $modified++;
 </span><span class="">  479:     }
 </span><span class="">  480: 
-</span><span class="">  481:     return $modified;
-</span><span class="">  482: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  481:     return $modified;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  482: }
 </span><span class="">  483: 
 </span><span class="">  484: sub add_missing_timeout($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">485 → 488 → 499</span></span>  485: 	my $jobs = $workflow-&gt;{jobs} or return 0;
@@ -833,12 +833,12 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  492:         next if exists $job-&gt;{&#39;timeout-minutes&#39;};
 </span><span class="">  493: 
 </span><span class="">  494:         # Insert default timeout
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495:         $job-&gt;{&#39;timeout-minutes&#39;} = $DEFAULT_TIMEOUT_MINUTES;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  496:         $modified++;
+</span><span class="">  495:         $job-&gt;{&#39;timeout-minutes&#39;} = $DEFAULT_TIMEOUT_MINUTES;
+</span><span class="">  496:         $modified++;
 </span><span class="">  497:     }
 </span><span class="">  498: 
-</span><span class="">  499: 	return $modified;
-</span><span class="">  500: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  499: 	return $modified;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  500: }
 </span><span class="">  501: 
 </span><span class="">  502: sub update_runners($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">503 → 513 → 522</span></span>  503: 	my $jobs = $workflow-&gt;{jobs} or return 0;
@@ -850,18 +850,18 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  509:         &#39;macos-10.15&#39;  =&gt; &#39;macos-latest&#39;,
 </span><span class="">  510:         &#39;windows-2016&#39; =&gt; &#39;windows-latest&#39;,
 </span><span class="">  511:     );
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  512: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  513:     for my $job (values %$jobs) {
+</span><span class="">  512: 
+</span><span class="">  513:     for my $job (values %$jobs) {
 </span><span class="">  514:         my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
 </span><span class="">  515: 
-</span><span class="">  516:         if (exists $runner_updates{$runs_on}) {
-</span><span class="">  517:             $job-&gt;{&#39;runs-on&#39;} = $runner_updates{$runs_on};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  518:             $modified++;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  519:         }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  516:         if (exists $runner_updates{$runs_on}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  517:             $job-&gt;{&#39;runs-on&#39;} = $runner_updates{$runs_on};
+</span><span class="">  518:             $modified++;
+</span><span class="">  519:         }
 </span><span class="">  520:     }
 </span><span class="">  521: 
-</span><span class="">  522:     return $modified;
-</span><span class="">  523: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  522:     return $modified;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  523: }
 </span><span class="">  524: 
 </span><span class="">  525: sub get_latest_version($action) {
 </span><span class="">  526:     my %versions = (
@@ -870,12 +870,12 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">  529:         &#39;actions/setup-node&#39; =&gt; &#39;v4&#39;,
 </span><span class="">  530:         &#39;actions/setup-python&#39; =&gt; &#39;v5&#39;,
 </span><span class="">  531:         &#39;actions/setup-go&#39; =&gt; &#39;v5&#39;,
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  532:         &#39;actions/upload-artifact&#39; =&gt; &#39;v4&#39;,
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  533:         &#39;actions/download-artifact&#39; =&gt; &#39;v4&#39;,
+</span><span class="">  532:         &#39;actions/upload-artifact&#39; =&gt; &#39;v4&#39;,
+</span><span class="">  533:         &#39;actions/download-artifact&#39; =&gt; &#39;v4&#39;,
 </span><span class="">  534:     );
 </span><span class="">  535: 
-</span><span class="">  536:     return $versions{$action} // &#39;v4&#39;;  # Default fallback
-</span><span class="">  537: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  536:     return $versions{$action} // &#39;v4&#39;;  # Default fallback
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  537: }
 </span><span class="">  538: 
 </span><span class="">  539: =head1 AUTHOR
 </span><span class="">  540: 
