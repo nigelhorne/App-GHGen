@@ -6,6 +6,10 @@ name: GHGen Check (CI Mode)
     paths:
       - '.github/workflows/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

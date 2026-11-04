@@ -450,11 +450,11 @@ sub detect_project_type($workflow) {
             return 'bundler' if $run =~ /bundle install/;
         }
     }
-    return 'unknown';
+	return 'unknown';
 }
 
 sub min($a, $b) {
-    return $a < $b ? $a : $b;
+	return $a < $b ? $a : $b;
 }
 
 =head2 find_outdated_actions($workflow)

@@ -437,7 +437,7 @@ VERSION_STEP
 	$yaml .= "        if: runner.os != 'Windows'\n";
 	$yaml .= "        shell: bash\n";
 	$yaml .= "        run: |\n";
-	$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+	$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
 	# TODO: should be configurable
 	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
@@ -507,7 +507,7 @@ UNUSED_CODE
 	$yaml .= "        if: runner.os != 'Windows'\n";
 	$yaml .= "        shell: bash\n";
 	$yaml .= "        run: |\n";
-	$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+	$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 	$yaml .= "          prove -lr t/\n\n";
 
 	$yaml .= "      - name: Run tests (Windows)\n";
@@ -525,7 +525,7 @@ UNUSED_CODE
 		$yaml .= "        if: matrix.perl == '$latest' && matrix.os == 'ubuntu-latest'\n";
 		$yaml .= "        continue-on-error: true\n";
 		$yaml .= "        run: |\n";
-		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+		$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 		$yaml .= "          cpanm --notest Perl::Critic\n";
 		$yaml .= "          perlcritic --severity 3 lib/ || true\n";
 		$yaml .= "        shell: bash\n\n";
@@ -537,7 +537,7 @@ UNUSED_CODE
 		$yaml .= "        if: matrix.perl == '$latest' && matrix.os == 'ubuntu-latest'\n";
 		$yaml .= "        continue-on-error: true\n";
 		$yaml .= "        run: |\n";
-		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+		$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 		$yaml .= "          cpanm --notest App::perlimports\n";
 		$yaml .= "          find lib -name '*.pm' | xargs perlimports --lint\n";
 		$yaml .= "        shell: bash\n\n";
@@ -548,7 +548,7 @@ UNUSED_CODE
 		$yaml .= "      - name: Test coverage\n";
 		$yaml .= "        if: matrix.perl == '$latest' && matrix.os == 'ubuntu-latest'\n";
 		$yaml .= "        run: |\n";
-		$yaml .= "          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n";
+		$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 		$yaml .= "          cpanm --notest Devel::Cover\n";
 		$yaml .= "          cover -delete\n";
 		$yaml .= "          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n";
