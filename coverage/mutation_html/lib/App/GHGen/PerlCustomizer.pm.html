@@ -880,7 +880,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  539: 		$yaml .= &quot;        run: |\n&quot;;
 </span><span class="">  540: 		$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  541: 		$yaml .= &quot;          cpanm --notest App::perlimports\n&quot;;
-</span><span class="">  542: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; | xargs perlimports --lint\n&quot;;
+</span><span class="">  542: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; -print0 | xargs -0 perlimports --lint\n&quot;;
 </span><span class="">  543: 		$yaml .= &quot;        shell: bash\n\n&quot;;
 </span><span class="">  544: 	}
 </span><span class="">  545: 
