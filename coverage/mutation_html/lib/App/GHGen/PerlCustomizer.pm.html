@@ -778,7 +778,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  437: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
 </span><span class="">  438: 	$yaml .= &quot;        shell: bash\n&quot;;
 </span><span class="">  439: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  440: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  440: 	$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  441: 	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
 </span><span class="">  442: 	# TODO: should be configurable
 </span><span class="">  443: 	$yaml .= &quot;          cpanm --notest --installdeps --verbose .\n\n&quot;;
@@ -848,7 +848,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  507: 	$yaml .= &quot;        if: runner.os != &#39;Windows&#39;\n&quot;;
 </span><span class="">  508: 	$yaml .= &quot;        shell: bash\n&quot;;
 </span><span class="">  509: 	$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  510: 	$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  510: 	$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  511: 	$yaml .= &quot;          prove -lr t/\n\n&quot;;
 </span><span class="">  512: 
 </span><span class="">  513: 	$yaml .= &quot;      - name: Run tests (Windows)\n&quot;;
@@ -866,7 +866,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  525: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  526: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
 </span><span class="">  527: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  528: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  528: 		$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  529: 		$yaml .= &quot;          cpanm --notest Perl::Critic\n&quot;;
 </span><span class="">  530: 		$yaml .= &quot;          perlcritic --severity 3 lib/ || true\n&quot;;
 </span><span class="">  531: 		$yaml .= &quot;        shell: bash\n\n&quot;;
@@ -878,7 +878,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  537: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  538: 		$yaml .= &quot;        continue-on-error: true\n&quot;;
 </span><span class="">  539: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  540: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  540: 		$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  541: 		$yaml .= &quot;          cpanm --notest App::perlimports\n&quot;;
 </span><span class="">  542: 		$yaml .= &quot;          find lib -name &#39;*.pm&#39; | xargs perlimports --lint\n&quot;;
 </span><span class="">  543: 		$yaml .= &quot;        shell: bash\n\n&quot;;
@@ -889,7 +889,7 @@ Approximate LCSAJ segments: 25<br>
 </span><span class="">  548: 		$yaml .= &quot;      - name: Test coverage\n&quot;;
 </span><span class="">  549: 		$yaml .= &quot;        if: matrix.perl == &#39;$latest&#39; &amp;&amp; matrix.os == &#39;ubuntu-latest&#39;\n&quot;;
 </span><span class="">  550: 		$yaml .= &quot;        run: |\n&quot;;
-</span><span class="">  551: 		$yaml .= &quot;          eval \$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\n&quot;;
+</span><span class="">  551: 		$yaml .= &quot;          eval \&quot;\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\&quot;\n&quot;;
 </span><span class="">  552: 		$yaml .= &quot;          cpanm --notest Devel::Cover\n&quot;;
 </span><span class="">  553: 		$yaml .= &quot;          cover -delete\n&quot;;
 </span><span class="">  554: 		$yaml .= &quot;          HARNESS_PERL_SWITCHES=-MDevel::Cover prove -lr t/\n&quot;;
