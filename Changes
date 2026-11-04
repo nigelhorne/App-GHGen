@@ -2,7 +2,7 @@ Revision history for App-GHGen
 
 0.13
 	[ Enhancements ]
-	- Updated to actions-setup-perl to 1.44.3
+	- Updated to actions-setup-perl to 1.44.4
 	[ Bug Fixes ]
 	- Fix shellcheck:
 	  eval $(perl -I ~/perl5/lib/perl5 -Mlocal::lib)
