@@ -539,7 +539,7 @@ UNUSED_CODE
 		$yaml .= "        run: |\n";
 		$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
 		$yaml .= "          cpanm --notest App::perlimports\n";
-		$yaml .= "          find lib -name '*.pm' | xargs perlimports --lint\n";
+		$yaml .= "          find lib -name '*.pm' -print0 | xargs -0 perlimports --lint\n";
 		$yaml .= "        shell: bash\n\n";
 	}
 
