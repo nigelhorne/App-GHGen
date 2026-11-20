@@ -3,7 +3,7 @@ package App::GHGen::PerlCustomizer;
 use v5.36;
 use strict;
 use warnings;
-use autodie qw(:all);
+use autodie;
 
 use Path::Tiny;
 use Readonly;
@@ -14,7 +14,7 @@ our @EXPORT_OK = qw(
 	generate_custom_perl_workflow
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 Readonly my $DEFAULT_TIMEOUT_MINUTES => 60;
 
@@ -256,15 +256,15 @@ B<Generated step order:>
 
 =item 5. Install project dependencies
 
-=item 6. B<Lint and syntax check> — all matrix cells (when C<enable_linter> is true); the unused-variable check via C<PERL5OPT=-Mwarnings::unused> is embedded at the end of this step when C<enable_linter_unused> is true
+=item 6. B<Lint and syntax check> - all matrix cells (when C<enable_linter> is true); the unused-variable check via C<PERL5OPT=-Mwarnings::unused> is embedded at the end of this step when C<enable_linter_unused> is true
 
 =item 7. Run tests
 
-=item 8. Run Perl::Critic — latest Perl + Ubuntu only (when C<enable_critic> is true)
+=item 8. Run Perl::Critic - latest Perl + Ubuntu only (when C<enable_critic> is true)
 
-=item 9. B<Check imports with perlimports> — latest Perl + Ubuntu only (when C<enable_perlimports> is true)
+=item 9. B<Check imports with perlimports> - latest Perl + Ubuntu only (when C<enable_perlimports> is true)
 
-=item 10. Test coverage — latest Perl + Ubuntu only (when C<enable_coverage> is true)
+=item 10. Test coverage - latest Perl + Ubuntu only (when C<enable_coverage> is true)
 
 =item 11. Show cpanm build log on failure
 
@@ -630,8 +630,8 @@ The shogo82148 C<perl-5.40.4-thr-win32-x64.zip> distribution ships a
 C<perl.exe> and a C<libperl540.a> from two different builds.  Any XS module
 compiled against that C<libperl540.a> receives handshake key
 C<0x12c00080>, but C<perl.exe> needs C<0x12d00080>.  Even
-C<Win32::Process> — a core Windows XS module bundled in the zip and loaded
-transitively by C<IPC::System::Simple> — fails to load with this mismatch,
+C<Win32::Process> - a core Windows XS module bundled in the zip and loaded
+transitively by C<IPC::System::Simple> - fails to load with this mismatch,
 so no XS-using test can pass on this combination.
 
 Recompiling XS modules (e.g. via C<cpanm --reinstall YAML::XS>) does not

@@ -125,6 +125,24 @@ subtest 'invalid --versions is rejected by the CLI' => sub {
 	}
 };
 
+subtest 'every type still yields a structurally valid workflow with --versions' => sub {
+	my @types = qw(perl node python rust go ruby java cpp php docker static);
+	for my $type (@types) {
+		my ($yaml, undef, $rc) = generate("--type=$type", '--versions=1.1,1.2');
+		is($rc, 0, "$type: exit 0");
+		my $workflow = eval { Load($yaml) };
+		ok($workflow, "$type: parses as YAML") or next;
+		ok($workflow->{name}, "$type: has a name");
+		my $jobs = $workflow->{jobs};
+		ok($jobs && %{$jobs}, "$type: has jobs") or next;
+		for my $job (sort keys %{$jobs}) {
+			ok(defined $jobs->{$job}{'runs-on'}, "$type/$job: has runs-on");
+			ok(ref $jobs->{$job}{steps} eq 'ARRAY' && @{ $jobs->{$job}{steps} },
+				"$type/$job: has steps");
+		}
+	}
+};
+
 subtest 'generate_workflow API' => sub {
 	my $yaml = generate_workflow('python', { versions => ['3.13'] });
 	is_deeply(matrix_of($yaml, 'python-version'), ['3.13'], 'versions applied');

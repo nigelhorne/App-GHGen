@@ -34,6 +34,9 @@ t/pod-synopsis.t
 t/locales.t
 t/options.t
 t/customizer_options.t
+t/version.t
+t/deps.t
+t/meta.t
 t/pull_6.t
 t/os_option.t
 t/timeout.t

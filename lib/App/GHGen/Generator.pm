@@ -4,7 +4,7 @@ use v5.36;
 
 use strict;
 use warnings;
-use autodie qw(:all);
+use autodie;
 
 use Carp qw(carp croak);
 use List::Util qw(uniq);
@@ -63,7 +63,9 @@ our %MESSAGES = (
 	unknown_message  => "Internal error: unknown message key '%s'",
 );
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -177,8 +179,8 @@ version matrix.  The YAML is returned unchanged; drop the option.
 
 =head4 Output
 
-    known type   → { type => 'scalar' }   # YAML string
-    unknown type → undef
+    known type   -> { type => 'scalar' }   # YAML string
+    unknown type -> undef
 
 =head3 FORMAL SPECIFICATION
 
@@ -556,19 +558,19 @@ None.  Pure function.
 =cut
 
 sub list_workflow_types() {
-    return (
-        node   => 'Node.js/npm projects with testing and linting',
-        python => 'Python projects with pytest and coverage',
-        rust   => 'Rust projects with cargo, clippy, and formatting',
-        go     => 'Go projects with testing and race detection',
-        ruby   => 'Ruby projects with bundler and rake',
-        perl   => 'Perl projects with cpanm, prove, and coverage',
-        java   => 'Java projects with Maven or Gradle',
-        cpp    => 'C++ projects with CMake',
-        php    => 'PHP projects with Composer and PHPUnit',
-        docker => 'Docker image build and push workflow',
-        static => 'Static site deployment to GitHub Pages',
-    );
+	return (
+		node   => 'Node.js/npm projects with testing and linting',
+		python => 'Python projects with pytest and coverage',
+		rust   => 'Rust projects with cargo, clippy, and formatting',
+		go     => 'Go projects with testing and race detection',
+		ruby   => 'Ruby projects with bundler and rake',
+		perl   => 'Perl projects with cpanm, prove, and coverage',
+		java   => 'Java projects with Maven or Gradle',
+		cpp    => 'C++ projects with CMake',
+		php    => 'PHP projects with Composer and PHPUnit',
+		docker => 'Docker image build and push workflow',
+		static => 'Static site deployment to GitHub Pages',
+	);
 }
 
 # Private workflow generators
@@ -653,7 +655,7 @@ YAML
 }
 
 sub _generate_python_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Python CI
 
@@ -715,7 +717,7 @@ YAML
 }
 
 sub _generate_rust_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Rust CI
 
@@ -770,7 +772,7 @@ YAML
 }
 
 sub _generate_go_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Go CI
 
@@ -824,7 +826,7 @@ YAML
 }
 
 sub _generate_ruby_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Ruby CI
 
@@ -868,7 +870,7 @@ YAML
 }
 
 sub _generate_docker_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Docker Build
 
@@ -926,7 +928,7 @@ YAML
 }
 
 sub _generate_static_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Deploy Static Site
 
@@ -976,7 +978,7 @@ YAML
 }
 
 sub _generate_java_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: Java CI
 
@@ -1037,7 +1039,7 @@ YAML
 }
 
 sub _generate_cpp_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: C++ CI
 
@@ -1096,7 +1098,7 @@ YAML
 }
 
 sub _generate_php_workflow() {
-    return <<'YAML';
+	return <<'YAML';
 ---
 name: PHP CI
 

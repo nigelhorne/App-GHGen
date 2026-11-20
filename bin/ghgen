@@ -4,7 +4,7 @@ use v5.36;
 
 use strict;
 use warnings;
-use autodie qw(:all);
+use autodie;
 
 use FindBin qw($RealBin);
 use lib "$RealBin/../lib";	# prefer local lib/ over any installed version
@@ -15,6 +15,7 @@ use Term::ANSIColor qw(colored);
 use Path::Tiny;
 use YAML::XS qw(LoadFile);
 
+use App::GHGen;
 use App::GHGen::Generator qw(generate_workflow list_workflow_types parse_os_list parse_version_list);
 use App::GHGen::Analyzer qw(analyze_workflow find_workflows);
 use App::GHGen::Detector qw(detect_project_type get_project_indicators);
@@ -23,7 +24,8 @@ use App::GHGen::PerlCustomizer qw(generate_custom_perl_workflow);
 use App::GHGen::Fixer qw(fix_workflow can_auto_fix);
 use App::GHGen::CostEstimator qw(estimate_current_usage estimate_savings);
 
-our $VERSION = '0.05';
+# One source of truth: App::GHGen carries the release version
+our $VERSION = $App::GHGen::VERSION;
 
 my %opts = (
 	help	=> 0,
@@ -512,9 +514,9 @@ For Perl projects, C<--customize> presents the following options:
 
 =item * Which operating systems to target (Ubuntu, macOS, Windows)
 
-=item * B<Syntax linting> — C<perl -c> on every matrix cell, no extra CPAN deps (default: enabled)
+=item * B<Syntax linting> - C<perl -c> on every matrix cell, no extra CPAN deps (default: enabled)
 
-=item * B<Unused-variable check> — C<warnings::unused>, latest Perl + Ubuntu only (default: enabled)
+=item * B<Unused-variable check> - C<warnings::unused>, latest Perl + Ubuntu only (default: enabled)
 
 =item * B<Perl::Critic> code quality analysis, latest Perl + Ubuntu only (default: enabled)
 

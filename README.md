@@ -4,7 +4,7 @@ App::GHGen - GitHub Actions workflow generator, analyzer, and optimizer
 
 ## Version
 
-Version 0.12
+Version 0.13
 
 ## Synopsis
 
@@ -14,6 +14,9 @@ ghgen generate --auto                   # Auto-detect project type
 ghgen generate --type=perl              # Generate Perl workflow
 ghgen generate --type=perl --customize  # Interactive customization
 ghgen generate --interactive            # Choose type interactively
+ghgen generate --type=perl --os=linux,macos        # Skip Windows jobs
+ghgen generate --type=node --versions=20,22        # Choose versions tested
+ghgen generate --type=perl --timeout=45            # Job timeout in minutes
 
 # Analyze workflows
 ghgen analyze                           # Analyze for issues
@@ -141,6 +144,35 @@ ghgen generate --type=ruby
 ghgen generate --type=docker
 ghgen generate --type=static
 ```
+
+### Choosing Operating Systems and Versions
+
+`--os` restricts the operating systems of a Perl workflow and `--versions`
+chooses the language versions tested. Both take comma-separated lists.
+
+```
+ghgen generate --type=perl --os=linux,macos
+ghgen generate --type=perl --versions=5.40,5.42
+ghgen generate --type=python --versions=3.12,3.13
+```
+
+`--os` accepts `linux`, `macos` and `windows` (case-insensitive, with
+`ubuntu` as an alias for `linux`) or a literal runner label such as
+`ubuntu-22.04`. The default is `linux,macos,windows`.
+
+`--versions` replaces the version matrix. The defaults are:
+
+- perl 5.36, 5.38, 5.40, 5.42
+- node 18.x, 20.x, 22.x
+- python 3.9, 3.10, 3.11, 3.12
+- ruby 3.1, 3.2, 3.3
+- java 11, 17, 21
+- php 8.1, 8.2, 8.3
+- go 1.22 (a single version; `--versions` turns it into a matrix)
+- rust stable (a single toolchain; `--versions` turns it into a matrix)
+
+`--versions` has no effect for `cpp`, `docker` and `static`; a warning is
+printed. A value may contain only letters, digits and `. + * - _`.
 
 ### Interactive Mode
 
@@ -749,6 +781,9 @@ ghgen generate --type=perl --customize
 # Perl::Critic: Yes
 # Coverage: Yes
 # Branches: main
+
+# Or without prompts: no Windows, newest two Perls
+ghgen generate --type=perl --os=linux,macos --versions=5.40,5.42
 ```
 
 ### Example 5: CI Quality Gate
@@ -816,6 +851,21 @@ Generate a new GitHub Actions workflow.
 
     List all available workflow types with descriptions.
 
+- `--os=LIST`
+
+    Comma-separated operating systems for Perl workflows: `linux`, `macos`,
+    `windows` (default: all three). Overrides the OS choice made with
+    `--customize`.
+
+- `--versions=LIST`
+
+    Comma-separated language versions to test against. Overrides the defaults
+    described in [Choosing Operating Systems and Versions](#choosing-operating-systems-and-versions).
+
+- `--timeout=MINUTES`
+
+    Job `timeout-minutes` for Perl workflows (default: 60).
+
 **Examples:**
 
 ```
@@ -823,6 +873,7 @@ ghgen generate --auto
 ghgen generate --type=perl --customize
 ghgen generate --interactive
 ghgen generate --type=node --output=custom.yml
+ghgen generate --type=perl --os=linux,macos --versions=5.40,5.42
 ```
 
 ### Analyze
@@ -972,6 +1023,7 @@ on:
 - [Path::Tiny](https://metacpan.org/pod/Path%3A%3ATiny) - File and directory operations
 - [Term::ANSIColor](https://metacpan.org/pod/Term%3A%3AANSIColor) - Colored terminal output
 - [Getopt::Long](https://metacpan.org/pod/Getopt%3A%3ALong) - Command-line option parsing
+- [Readonly](https://metacpan.org/pod/Readonly) - Named constants
 
 ### Test Dependencies
 
@@ -1086,6 +1138,37 @@ You can also look for information at:
 ### Commercial Support
 
 For commercial support, consulting, or custom development, contact the author.
+
+## Programmatic Interface
+
+`App::GHGen` itself only carries the release version. The programmatic
+interface lives in the submodules, each documented in its own POD:
+
+- [App::GHGen::Generator](https://metacpan.org/pod/App%3A%3AGHGen%3A%3AGenerator) - `generate_workflow`, `list_workflow_types`, `parse_os_list`, `parse_version_list`
+- [App::GHGen::PerlCustomizer](https://metacpan.org/pod/App%3A%3AGHGen%3A%3APerlCustomizer) - `generate_custom_perl_workflow`, `detect_perl_requirements`
+- [App::GHGen::Detector](https://metacpan.org/pod/App%3A%3AGHGen%3A%3ADetector) - `detect_project_type`, `get_project_indicators`
+- [App::GHGen::Analyzer](https://metacpan.org/pod/App%3A%3AGHGen%3A%3AAnalyzer) - `analyze_workflow`, `find_workflows`
+- [App::GHGen::Fixer](https://metacpan.org/pod/App%3A%3AGHGen%3A%3AFixer) - `apply_fixes`, `fix_workflow`, `can_auto_fix`
+- [App::GHGen::CostEstimator](https://metacpan.org/pod/App%3A%3AGHGen%3A%3ACostEstimator) - `estimate_current_usage`, `estimate_savings`
+- [App::GHGen::Reporter](https://metacpan.org/pod/App%3A%3AGHGen%3A%3AReporter) - GitHub Action comment formatting
+- [App::GHGen::Interactive](https://metacpan.org/pod/App%3A%3AGHGen%3A%3AInteractive) - `customize_workflow` and the prompts
+
+### API SPECIFICATION
+
+#### Input
+
+```
+# App::GHGen exports no functions and takes no arguments.
+{ }
+```
+
+#### Output
+
+```
+# The release version, available as $App::GHGen::VERSION or
+# App::GHGen->VERSION.
+{ VERSION => { type => 'scalar', matches => qr/\A\d+\.\d+\z/ } }
+```
 
 ## Author
 
