@@ -5,6 +5,7 @@
 # version it has already seen, so drift here is a release blocker.
 
 use v5.36;
+use Test::DescribeMe qw(author);
 use Test::Most;
 use IPC::Run3 qw(run3);
 use Path::Tiny;
