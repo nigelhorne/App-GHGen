@@ -1,6 +1,6 @@
 Revision history for App-GHGen
 
-0.13
+0.13	Fri Nov 20 04:24:16 PM EST 2026
 	[ Enhancements ]
 	- Updated to actions-setup-perl to 1.44.5
 	- Added --os option to ghgen generate, e.g. --os=linux,macos to omit Windows
