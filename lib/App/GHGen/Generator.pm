@@ -5,6 +5,7 @@ use v5.36;
 use strict;
 use warnings;
 
+use Carp qw(croak);
 use App::GHGen::PerlCustomizer qw(detect_perl_requirements generate_custom_perl_workflow);
 
 use Exporter 'import';
@@ -47,6 +48,25 @@ the resulting YAML string ready to be written to a C<.github/workflows/> file.
 A project-type identifier.  Supported values: C<perl>, C<node>, C<python>,
 C<rust>, C<go>, C<ruby>, C<java>, C<cpp>, C<php>, C<docker>, C<static>.
 
+=item C<$opts> (HashRef, optional)
+
+=over 4
+
+=item C<versions> (ArrayRef of Str)
+
+Language/runtime versions to test against, replacing the default matrix.
+Applies to C<perl>, C<node>, C<python>, C<ruby>, C<java>, C<php>, C<go>
+(Go Go-versions) and C<rust> (toolchains, e.g. C<stable>, C<beta>, C<1.80>).
+It is ignored for C<cpp>, C<docker> and C<static>, which have no version
+matrix.  Each entry may contain only letters, digits, C<.>, C<->, C<+>,
+C<*> and C<_>; anything else croaks.
+
+Defaults when C<versions> is not given: perl 5.36, 5.38, 5.40, 5.42;
+node 18.x, 20.x, 22.x; python 3.9-3.12; ruby 3.1-3.3; java 11, 17, 21;
+php 8.1-8.3; go 1.22; rust stable.
+
+=back
+
 =back
 
 =head3 Returns
@@ -87,7 +107,7 @@ The C<perl> type reads the current directory to detect project requirements
 
 =cut
 
-sub generate_workflow($type) {
+sub generate_workflow($type, $opts = {}) {
     my %generators = (
         perl   => \&_generate_perl_workflow,
         node   => \&_generate_node_workflow,
@@ -103,7 +123,58 @@ sub generate_workflow($type) {
     );
 
 	return undef unless exists $generators{$type};
-	return $generators{$type}->();
+
+	my $versions = $opts->{versions};
+	return $generators{$type}->() unless $versions && @{$versions};
+
+	_validate_versions($versions);
+	return generate_custom_perl_workflow({ perl_versions => [ @{$versions} ] })
+		if $type eq 'perl';
+	return _apply_versions($type, $generators{$type}->(), $versions);
+}
+
+# Reject anything that could break out of a YAML scalar
+sub _validate_versions($versions) {
+	for my $v (@{$versions}) {
+		croak "Invalid version '$v'"
+			unless defined $v && $v =~ /\A[\w.+*-]+\z/;
+	}
+	return 1;
+}
+
+# Rewrite the version matrix of a generated workflow; types without a
+# version matrix (cpp, docker, static) are returned unchanged.
+sub _apply_versions($type, $yaml, $versions) {
+	my %matrix_key = (
+		node   => 'node-version',
+		python => 'python-version',
+		ruby   => 'ruby-version',
+		java   => 'java-version',
+		php    => 'php-version',
+	);
+
+	if (my $key = $matrix_key{$type}) {
+		# Replace the existing list under "<key>:" keeping its indentation
+		$yaml =~ s{^( +)\Q$key\E:\n(?: +- .*\n)+}{
+			my $indent = $1;
+			"$indent$key:\n" . join('', map { "$indent  - '$_'\n" } @{$versions});
+		}me;
+	} elsif ($type eq 'go') {
+		$yaml =~ s{go-version: '1\.22'}{go-version: \${{ matrix.go-version }}};
+		$yaml = _insert_matrix($yaml, 'go-version', $versions);
+	} elsif ($type eq 'rust') {
+		$yaml =~ s{(uses: dtolnay/rust-toolchain\@stable\n)}{$1        with:\n          toolchain: \${{ matrix.rust-version }}\n};
+		$yaml = _insert_matrix($yaml, 'rust-version', $versions);
+	}
+	return $yaml;
+}
+
+# Add a single-key strategy matrix to the (single) ubuntu job
+sub _insert_matrix($yaml, $key, $versions) {
+	my $block = "    strategy:\n      matrix:\n        $key:\n"
+		. join('', map { "          - '$_'\n" } @{$versions});
+	$yaml =~ s{^(    runs-on: ubuntu-latest\n)}{$1$block}m;
+	return $yaml;
 }
 
 =head2 list_workflow_types()

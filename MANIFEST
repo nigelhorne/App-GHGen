@@ -32,5 +32,7 @@ t/pod-cm.t
 t/pod-coverage.t
 t/pod-synopsis.t
 t/pull_6.t
+t/os_option.t
 t/timeout.t
+t/versions_option.t
 t/unit.t

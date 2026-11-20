@@ -4,6 +4,7 @@ Revision history for App-GHGen
 	[ Enhancements ]
 	- Updated to actions-setup-perl to 1.44.5
 	- Added --os option to ghgen generate, e.g. --os=linux,macos to omit Windows
+	- Added --versions option to ghgen generate to choose the language versions tested
 	[ Bug Fixes ]
 	- Fix shellcheck:
 	  eval $(perl -I ~/perl5/lib/perl5 -Mlocal::lib)
