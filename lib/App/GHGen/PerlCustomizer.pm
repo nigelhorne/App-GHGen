@@ -3,6 +3,7 @@ package App::GHGen::PerlCustomizer;
 use v5.36;
 use strict;
 use warnings;
+use autodie qw(:all);
 
 use Path::Tiny;
 use Readonly;
@@ -182,6 +183,18 @@ Default: C<['ubuntu-latest', 'macos-latest', 'windows-latest']>.
 
 Value written to C<timeout-minutes> on every matrix job.
 
+=item C<install_db_file> (boolean, default C<1>)
+
+When true, Linux jobs run C<apt install libdb-dev libperl-dev> before the
+CPAN install, because many CPAN modules need C<DB_File>.  Set it to C<0> for
+projects that do not, to save the apt round trip.
+
+=item C<cpanm_verbose> (boolean, default C<1>)
+
+When true, C<cpanm> runs with C<--verbose>.  The extra output stops GitHub
+Actions cancelling a job for "no activity" while many prerequisites build.
+Set it to C<0> for a quieter log on small dependency sets.
+
 =item C<enable_linter> (boolean, default C<1>)
 
 When true, inserts a B<"Lint and syntax check"> step after all dependency
@@ -271,6 +284,8 @@ B<Generated step order:>
                 max_perl_version     => { type => 'scalar',  default  => '5.42' },
                 os                   => { type => 'arrayref', optional => 1 },
                 timeout              => { type => 'scalar',  default  => $DEFAULT_TIMEOUT_MINUTES },
+                install_db_file      => { type => 'scalar',  default  => 1 },
+                cpanm_verbose        => { type => 'scalar',  default  => 1 },
                 enable_linter        => { type => 'scalar',  default  => 1 },
                 enable_linter_unused => { type => 'scalar',  default  => 1 },
                 enable_critic        => { type => 'scalar',  default  => 1 },
@@ -291,6 +306,8 @@ B<Generated step order:>
     versions ≔ opts.perl_versions ?? range(min, max)
     latest   ≔ versions[|versions|−1]
 
+    yaml contains "Install DB_File" step             ↔  opts.install_db_file = 1
+    yaml contains "cpanm ... --verbose"              ↔  opts.cpanm_verbose = 1
     yaml contains "Lint and syntax check" step       ↔  opts.enable_linter = 1
     yaml contains "PERL5OPT=-Mwarnings::unused"      ↔  opts.enable_linter_unused = 1
     yaml contains "Run Perl::Critic"                 ↔  opts.enable_critic = 1
@@ -306,6 +323,8 @@ sub generate_custom_perl_workflow($opts = {}) {
 	my $min_version = $opts->{min_perl_version} // '5.36';
 	my $max_version = $opts->{max_perl_version} // '5.42';
 	my $timeout = $opts->{timeout} // $DEFAULT_TIMEOUT_MINUTES;
+	my $install_db_file = $opts->{install_db_file} // 1;
+	my $cpanm_verbose = $opts->{cpanm_verbose} // 1;
 	my @os = @{$opts->{os} // ['ubuntu-latest', 'macos-latest', 'windows-latest']};
 	my $enable_linter = $opts->{enable_linter} // 1;
 	my $enable_linter_unused = $opts->{enable_linter_unused} // 1;
@@ -426,21 +445,25 @@ VERSION_STEP
 	$yaml .= "        if: runner.os == 'Windows'\n";
 	$yaml .= "        run: cpanm --notest App::cpanminus local::lib\n\n";
 
-	# TODO: should be configurable
-	$yaml .= "      - name: Install DB_File, needed for a lot of CPAN modules\n";
-	$yaml .= "        if: runner.os == 'Linux'\n";
-	$yaml .= "        run: |\n";
-	$yaml .= "           sudo apt update\n";
-	$yaml .= "           sudo apt install libdb-dev libperl-dev\n";
+	# Many CPAN modules need DB_File, but projects that do not can opt out
+	if ($install_db_file) {
+		$yaml .= "      - name: Install DB_File, needed for a lot of CPAN modules\n";
+		$yaml .= "        if: runner.os == 'Linux'\n";
+		$yaml .= "        run: |\n";
+		$yaml .= "           sudo apt update\n";
+		$yaml .= "           sudo apt install libdb-dev libperl-dev\n";
+	}
 
 	$yaml .= "      - name: Install dependencies\n";
 	$yaml .= "        if: runner.os != 'Windows'\n";
 	$yaml .= "        shell: bash\n";
 	$yaml .= "        run: |\n";
 	$yaml .= "          eval \"\$(perl -I ~/perl5/lib/perl5 -Mlocal::lib)\"\n";
-	# Add the --verbose to stop the no activity timeout in GitHub actions whene there are a lot of prequisites
-	# TODO: should be configurable
-	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
+	# --verbose stops GitHub Actions cancelling the job for "no activity"
+	# when there are a lot of prerequisites; the command is shared by the
+	# Unix and Windows install steps
+	my $cpanm_install = 'cpanm --notest --installdeps' . ($cpanm_verbose ? ' --verbose' : '') . ' .';
+	$yaml .= "          $cpanm_install\n\n";
 
 	$yaml .= "      - name: Install dependencies (Windows)\n";
 	$yaml .= "        if: runner.os == 'Windows'\n";
@@ -449,7 +472,7 @@ VERSION_STEP
 	$yaml .= "          \@echo off\n";
 	$yaml .= "          set \"PATH=%USERPROFILE%\\perl5\\bin;%PATH%\"\n";
 	$yaml .= "          set \"PERL5LIB=%USERPROFILE%\\perl5\\lib\\perl5\"\n";
-	$yaml .= "          cpanm --notest --installdeps --verbose .\n\n";
+	$yaml .= "          $cpanm_install\n\n";
 
 	# The shogo82148 Perl distributions bundle pre-compiled XS modules (e.g.
 	# YAML::XS) in the Perl zip.  cpanm sees them as "already installed" and

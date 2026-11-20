@@ -514,7 +514,7 @@ ghgen generate --type=perl --customize
 **Generated workflow step order:**
 
 - 1. `actions/checkout@v6`
-- 2. Setup Perl — `shogo82148/actions-setup-perl@v1.44.2`
+- 2. Setup Perl — `shogo82148/actions-setup-perl@v1.44.5`
 - 3. Cache CPAN modules — `actions/cache@v5`
 - 4. Install cpanm and `local::lib`
 - 5. Install project dependencies
