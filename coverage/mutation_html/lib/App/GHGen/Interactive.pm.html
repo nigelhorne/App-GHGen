@@ -355,20 +355,20 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   14: 	customize_workflow
 </span><span class="">   15: );
 </span><span class="">   16: 
-</span><span class="">   17: our $VERSION = &#39;0.12&#39;;
+</span><span class="">   17: our $VERSION = &#39;0.13&#39;;
 </span><span class="">   18: 
-</span><span class="">   19: =head1 NAME
+</span><span class="">   19: =encoding utf-8
 </span><span class="">   20: 
-</span><span class="">   21: App::GHGen::Interactive - Interactive workflow customization
+</span><span class="">   21: =head1 NAME
 </span><span class="">   22: 
-</span><span class="">   23: =head1 SYNOPSIS
+</span><span class="">   23: App::GHGen::Interactive - Interactive workflow customization
 </span><span class="">   24: 
-</span><span class="">   25:     use App::GHGen::Interactive qw(customize_workflow);
+</span><span class="">   25: =head1 SYNOPSIS
 </span><span class="">   26: 
-</span><span class="">   27:     my $config = customize_workflow(&#39;perl&#39;);
-</span><span class="">   28:     # Returns hash of user choices
-</span><span class="">   29: 
-</span><span class="">   30: =encoding utf-8
+</span><span class="">   27:     use App::GHGen::Interactive qw(customize_workflow);
+</span><span class="">   28: 
+</span><span class="">   29:     my $config = customize_workflow(&#39;perl&#39;);
+</span><span class="">   30:     # Returns hash of user choices
 </span><span class="">   31: 
 </span><span class="">   32: =head1 FUNCTIONS
 </span><span class="">   33: 
@@ -516,18 +516,18 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  175: =cut
 </span><span class="">  176: 
 </span><span class="">  177: sub prompt_choice($question, $choices, $default = 0) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">178 → 179 → 184</span></span>  178:     say $question;
-</span><span class="">  179:     for my $i (0 .. $#$choices) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  180:         my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  181:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
-</span><span class="">  182:     }
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">178 → 179 → 184</span></span>  178: 	say $question;
+</span><span class="">  179: 	for my $i (0 .. $#$choices) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  180: 		my $marker = $i == $default ? colored([&#39;green&#39;], &#39;&acirc;&#134;&#146;&#39;) : &#39; &#39;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  181: 		say &quot;  $marker &quot; . ($i + 1) . &quot;. $choices-&gt;[$i]&quot;;
+</span><span class="">  182: 	}
 </span><span class="">  183: 
-</span><span class="">  184:     print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
-</span><span class="">  185:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  184: 	print &quot;\nEnter number [&quot; . ($default + 1) . &quot;]: &quot;;
+</span><span class="">  185: 	chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  186: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  187:     return $default if $answer eq &#39;&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  188:     return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
-</span><p> <b> Mutants (Total: 8, Killed: 8, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  189:     return $default;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  187: 	return $default if $answer eq &#39;&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  188: 	return $answer - 1 if $answer =~ /^\d+$/ &amp;&amp; $answer &gt;= 1 &amp;&amp; $answer &lt;= @$choices;
+</span><p> <b> Mutants (Total: 8, Killed: 8, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  189: 	return $default;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  190: }
 </span><span class="">  191: 
 </span><span class="">  192: =head2 prompt_multiselect($question, $options, $defaults)
@@ -614,33 +614,33 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  273: =cut
 </span><span class="">  274: 
 </span><span class="">  275: sub prompt_multiselect($question, $options, $defaults = []) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">276 → 281 → 286</span></span>  276:     say $question;
-</span><span class="">  277:     say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">276 → 281 → 286</span></span>  276: 	say $question;
+</span><span class="">  277: 	say colored([&#39;cyan&#39;], &quot;(Enter numbers separated by commas, or &#39;all&#39;)&quot;);
 </span><span class="">  278: 
-</span><span class="">  279:     my %is_default = map { $_ =&gt; 1 } @$defaults;
+</span><span class="">  279: 	my %is_default = map { $_ =&gt; 1 } @$defaults;
 </span><span class="">  280: 
-</span><span class="">  281:     for my $i (0 .. $#$options) {
-</span><span class="">  282:         my $marker = $is_default{$options-&gt;[$i]} ? colored([&#39;green&#39;], &#39;&acirc;&#156;&#147;&#39;) : &#39; &#39;;
-</span><span class="">  283:         say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
-</span><span class="">  284:     }
+</span><span class="">  281: 	for my $i (0 .. $#$options) {
+</span><span class="">  282: 		my $marker = $is_default{$options-&gt;[$i]} ? colored([&#39;green&#39;], &#39;&acirc;&#156;&#147;&#39;) : &#39; &#39;;
+</span><span class="">  283: 		say &quot;  $marker &quot; . ($i + 1) . &quot;. $options-&gt;[$i]&quot;;
+</span><span class="">  284: 	}
 </span><span class="">  285: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">286 → 291 → 295</span></span>  286:     print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
-</span><span class="">  287:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">286 → 291 → 295</span></span>  286: 	print &quot;\nEnter choices [&quot; . join(&#39;,&#39;, map { $_+1 } 0..$#$defaults) . &quot;]: &quot;;
+</span><span class="">  287: 	chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  288: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  289:     return $defaults if $answer eq &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  289: 	return $defaults if $answer eq &#39;&#39;;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  290: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291:     if ($answer =~ /^all$/i) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  292:         return $options;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  293:     }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291: 	if ($answer =~ /^all$/i) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  292: 		return $options;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  293: 	}
 </span><span class="">  294: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">295 → 296 → 302</span></span>  295:     my @selected;
-</span><span class="">  296:     for my $num (split /[,\s]+/, $answer) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  297:         if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
-</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  298:             push @selected, $options-&gt;[$num - 1];
-</span><span class="">  299:         }
-</span><span class="">  300:     }
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">295 → 296 → 302</span></span>  295: 	my @selected;
+</span><span class="">  296: 	for my $num (split /[,\s]+/, $answer) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  297: 		if ($num =~ /^\d+$/ &amp;&amp; $num &gt;= 1 &amp;&amp; $num &lt;= @$options) {
+</span><p> <b> Mutants (Total: 7, Killed: 7, Survived: 0)</b><p><span class="">  298: 			push @selected, $options-&gt;[$num - 1];
+</span><span class="">  299: 		}
+</span><span class="">  300: 	}
 </span><span class="">  301: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  302:     return @selected ? \@selected : $defaults;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  302: 	return @selected ? \@selected : $defaults;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  303: }
 </span><span class="">  304: 
 </span><span class="">  305: =head2 prompt_text($question, $default)
@@ -701,11 +701,11 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  360: =cut
 </span><span class="">  361: 
 </span><span class="">  362: sub prompt_text($question, $default = &#39;&#39;) {
-</span><span class="">  363:     my $prompt = $default ? &quot;[$default]&quot; : &#39;&#39;;
-</span><span class="">  364:     print &quot;$question $prompt: &quot;;
-</span><span class="">  365:     chomp(my $answer = &lt;STDIN&gt;);
+</span><span class="">  363: 	my $prompt = $default ? &quot;[$default]&quot; : &#39;&#39;;
+</span><span class="">  364: 	print &quot;$question $prompt: &quot;;
+</span><span class="">  365: 	chomp(my $answer = &lt;STDIN&gt;);
 </span><span class="">  366: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  367:     return $answer eq &#39;&#39; ? $default : $answer;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  367: 	return $answer eq &#39;&#39; ? $default : $answer;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  368: }
 </span><span class="">  369: 
 </span><span class="">  370: =head2 customize_workflow($type)
@@ -765,299 +765,299 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  424: =cut
 </span><span class="">  425: 
 </span><span class="">  426: sub customize_workflow($type) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">427 → 442 → 446</span></span>  427:     say &#39;&#39;;
-</span><span class="">  428:     say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
-</span><span class="">  429:     say &#39;&#39;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">427 → 442 → 446</span></span>  427: 	say &#39;&#39;;
+</span><span class="">  428: 	say colored([&#39;bold cyan&#39;], &quot;=== Workflow Customization: &quot; . uc($type) . &quot; ===&quot;);
+</span><span class="">  429: 	say &#39;&#39;;
 </span><span class="">  430: 
-</span><span class="">  431:     my %dispatch = (
-</span><span class="">  432:         perl   =&gt; \&amp;_customize_perl,
-</span><span class="">  433:         node   =&gt; \&amp;_customize_node,
-</span><span class="">  434:         python =&gt; \&amp;_customize_python,
-</span><span class="">  435:         rust   =&gt; \&amp;_customize_rust,
-</span><span class="">  436:         go     =&gt; \&amp;_customize_go,
-</span><span class="">  437:         ruby   =&gt; \&amp;_customize_ruby,
-</span><span class="">  438:         docker =&gt; \&amp;_customize_docker,
-</span><span class="">  439:         static =&gt; \&amp;_customize_static,
-</span><span class="">  440:     );
+</span><span class="">  431: 	my %dispatch = (
+</span><span class="">  432: 		perl   =&gt; \&amp;_customize_perl,
+</span><span class="">  433: 		node   =&gt; \&amp;_customize_node,
+</span><span class="">  434: 		python =&gt; \&amp;_customize_python,
+</span><span class="">  435: 		rust   =&gt; \&amp;_customize_rust,
+</span><span class="">  436: 		go     =&gt; \&amp;_customize_go,
+</span><span class="">  437: 		ruby   =&gt; \&amp;_customize_ruby,
+</span><span class="">  438: 		docker =&gt; \&amp;_customize_docker,
+</span><span class="">  439: 		static =&gt; \&amp;_customize_static,
+</span><span class="">  440: 	);
 </span><span class="">  441: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  442:     if (exists $dispatch{$type}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  443:         return $dispatch{$type}-&gt;();
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  444:     }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  442: 	if (exists $dispatch{$type}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  443: 		return $dispatch{$type}-&gt;();
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  444: 	}
 </span><span class="">  445: 
-</span><span class="">  446:     return {};
+</span><span class="">  446: 	return {};
 </span><span class="">  447: }
 </span><span class="">  448: 
 </span><span class="">  449: sub _customize_perl() {
-</span><span class="">  450:     my %config;
+</span><span class="">  450: 	my %config;
 </span><span class="">  451: 
-</span><span class="">  452:     # Perl versions
-</span><span class="">  453:     say colored([&#39;bold&#39;], &quot;Perl Versions to Test:&quot;);
-</span><span class="">  454:     my @all_versions = qw(5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
-</span><span class="">  455:     my @default_versions = qw(5.40 5.38 5.36);
+</span><span class="">  452: 	# Perl versions
+</span><span class="">  453: 	say colored([&#39;bold&#39;], &quot;Perl Versions to Test:&quot;);
+</span><span class="">  454: 	my @all_versions = qw(5.40 5.38 5.36 5.34 5.32 5.30 5.28 5.26 5.24 5.22);
+</span><span class="">  455: 	my @default_versions = qw(5.40 5.38 5.36);
 </span><span class="">  456: 
-</span><span class="">  457:     $config{perl_versions} = prompt_multiselect(
-</span><span class="">  458:         &quot;Which Perl versions?&quot;,
-</span><span class="">  459:         \@all_versions,
-</span><span class="">  460:         \@default_versions
-</span><span class="">  461:     );
-</span><span class="">  462:     say &#39;&#39;;
+</span><span class="">  457: 	$config{perl_versions} = prompt_multiselect(
+</span><span class="">  458: 		&quot;Which Perl versions?&quot;,
+</span><span class="">  459: 		\@all_versions,
+</span><span class="">  460: 		\@default_versions
+</span><span class="">  461: 	);
+</span><span class="">  462: 	say &#39;&#39;;
 </span><span class="">  463: 
-</span><span class="">  464:     # Operating systems
-</span><span class="">  465:     say colored([&#39;bold&#39;], &quot;Operating Systems:&quot;);
-</span><span class="">  466:     my @all_os = (&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;);
-</span><span class="">  467:     my @default_os = @all_os;
+</span><span class="">  464: 	# Operating systems
+</span><span class="">  465: 	say colored([&#39;bold&#39;], &quot;Operating Systems:&quot;);
+</span><span class="">  466: 	my @all_os = (&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;, &#39;windows-latest&#39;);
+</span><span class="">  467: 	my @default_os = @all_os;
 </span><span class="">  468: 
-</span><span class="">  469:     $config{os} = prompt_multiselect(
-</span><span class="">  470:         &quot;Which operating systems?&quot;,
-</span><span class="">  471:         \@all_os,
-</span><span class="">  472:         \@default_os
-</span><span class="">  473:     );
-</span><span class="">  474:     say &#39;&#39;;
+</span><span class="">  469: 	$config{os} = prompt_multiselect(
+</span><span class="">  470: 		&quot;Which operating systems?&quot;,
+</span><span class="">  471: 		\@all_os,
+</span><span class="">  472: 		\@default_os
+</span><span class="">  473: 	);
+</span><span class="">  474: 	say &#39;&#39;;
 </span><span class="">  475: 
-</span><span class="">  476:     # Code quality
-</span><span class="">  477:     say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);
-</span><span class="">  478:     $config{enable_linter} = prompt_yes_no(
-</span><span class="">  479:         &quot;Enable syntax linting (perl -c on all matrix cells)?&quot;,
-</span><span class="">  480:         &#39;y&#39;
-</span><span class="">  481:     );
-</span><span class="">  482:     say &#39;&#39;;
+</span><span class="">  476: 	# Code quality
+</span><span class="">  477: 	say colored([&#39;bold&#39;], &quot;Code Quality Tools:&quot;);
+</span><span class="">  478: 	$config{enable_linter} = prompt_yes_no(
+</span><span class="">  479: 		&quot;Enable syntax linting (perl -c on all matrix cells)?&quot;,
+</span><span class="">  480: 		&#39;y&#39;
+</span><span class="">  481: 	);
+</span><span class="">  482: 	say &#39;&#39;;
 </span><span class="">  483: 
-</span><span class="">  484:     $config{enable_linter_unused} = prompt_yes_no(
-</span><span class="">  485:         &quot;Enable unused-variable check (warnings::unused, latest+ubuntu only)?&quot;,
-</span><span class="">  486:         &#39;n&#39;
-</span><span class="">  487:     );
-</span><span class="">  488:     say &#39;&#39;;
+</span><span class="">  484: 	$config{enable_linter_unused} = prompt_yes_no(
+</span><span class="">  485: 		&quot;Enable unused-variable check (warnings::unused, latest+ubuntu only)?&quot;,
+</span><span class="">  486: 		&#39;n&#39;
+</span><span class="">  487: 	);
+</span><span class="">  488: 	say &#39;&#39;;
 </span><span class="">  489: 
-</span><span class="">  490:     $config{enable_critic} = prompt_yes_no(
-</span><span class="">  491:         &quot;Enable Perl::Critic?&quot;,
-</span><span class="">  492:         &#39;y&#39;
-</span><span class="">  493:     );
-</span><span class="">  494:     say &#39;&#39;;
+</span><span class="">  490: 	$config{enable_critic} = prompt_yes_no(
+</span><span class="">  491: 		&quot;Enable Perl::Critic?&quot;,
+</span><span class="">  492: 		&#39;y&#39;
+</span><span class="">  493: 	);
+</span><span class="">  494: 	say &#39;&#39;;
 </span><span class="">  495: 
-</span><span class="">  496:     # Coverage
-</span><span class="">  497:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  498:         &quot;Enable test coverage (Devel::Cover)?&quot;,
-</span><span class="">  499:         &#39;y&#39;
-</span><span class="">  500:     );
-</span><span class="">  501:     say &#39;&#39;;
+</span><span class="">  496: 	# Coverage
+</span><span class="">  497: 	$config{enable_coverage} = prompt_yes_no(
+</span><span class="">  498: 		&quot;Enable test coverage (Devel::Cover)?&quot;,
+</span><span class="">  499: 		&#39;y&#39;
+</span><span class="">  500: 	);
+</span><span class="">  501: 	say &#39;&#39;;
 </span><span class="">  502: 
-</span><span class="">  503:     # Branches
-</span><span class="">  504:     say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);
-</span><span class="">  505:     my $branches = prompt_text(
-</span><span class="">  506:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  507:         &#39;main,master&#39;
-</span><span class="">  508:     );
-</span><span class="">  509:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  510:     say &#39;&#39;;
+</span><span class="">  503: 	# Branches
+</span><span class="">  504: 	say colored([&#39;bold&#39;], &quot;Branch Configuration:&quot;);
+</span><span class="">  505: 	my $branches = prompt_text(
+</span><span class="">  506: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  507: 		&#39;main,master&#39;
+</span><span class="">  508: 	);
+</span><span class="">  509: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  510: 	say &#39;&#39;;
 </span><span class="">  511: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  512:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  512: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  513: }
 </span><span class="">  514: 
 </span><span class="">  515: sub _customize_node() {
-</span><span class="">  516:     my %config;
+</span><span class="">  516: 	my %config;
 </span><span class="">  517: 
-</span><span class="">  518:     # Node versions
-</span><span class="">  519:     say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);
-</span><span class="">  520:     my @all_versions = qw(18.x 20.x 22.x 23.x);
-</span><span class="">  521:     my @default_versions = qw(20.x 22.x);
+</span><span class="">  518: 	# Node versions
+</span><span class="">  519: 	say colored([&#39;bold&#39;], &quot;Node.js Versions to Test:&quot;);
+</span><span class="">  520: 	my @all_versions = qw(18.x 20.x 22.x 23.x);
+</span><span class="">  521: 	my @default_versions = qw(20.x 22.x);
 </span><span class="">  522: 
-</span><span class="">  523:     $config{node_versions} = prompt_multiselect(
-</span><span class="">  524:         &quot;Which Node.js versions?&quot;,
-</span><span class="">  525:         \@all_versions,
-</span><span class="">  526:         \@default_versions
-</span><span class="">  527:     );
-</span><span class="">  528:     say &#39;&#39;;
+</span><span class="">  523: 	$config{node_versions} = prompt_multiselect(
+</span><span class="">  524: 		&quot;Which Node.js versions?&quot;,
+</span><span class="">  525: 		\@all_versions,
+</span><span class="">  526: 		\@default_versions
+</span><span class="">  527: 	);
+</span><span class="">  528: 	say &#39;&#39;;
 </span><span class="">  529: 
-</span><span class="">  530:     # Package manager
-</span><span class="">  531:     say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);
-</span><span class="">  532:     my $pm_choice = prompt_choice(
-</span><span class="">  533:         &quot;Which package manager?&quot;,
-</span><span class="">  534:         [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],
-</span><span class="">  535:         0
-</span><span class="">  536:     );
-</span><span class="">  537:     $config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];
-</span><span class="">  538:     say &#39;&#39;;
+</span><span class="">  530: 	# Package manager
+</span><span class="">  531: 	say colored([&#39;bold&#39;], &quot;Package Manager:&quot;);
+</span><span class="">  532: 	my $pm_choice = prompt_choice(
+</span><span class="">  533: 		&quot;Which package manager?&quot;,
+</span><span class="">  534: 		[&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;],
+</span><span class="">  535: 		0
+</span><span class="">  536: 	);
+</span><span class="">  537: 	$config{package_manager} = [&#39;npm&#39;, &#39;yarn&#39;, &#39;pnpm&#39;]-&gt;[$pm_choice];
+</span><span class="">  538: 	say &#39;&#39;;
 </span><span class="">  539: 
-</span><span class="">  540:     # Linting
-</span><span class="">  541:     $config{enable_lint} = prompt_yes_no(
-</span><span class="">  542:         &quot;Enable linting?&quot;,
-</span><span class="">  543:         &#39;y&#39;
-</span><span class="">  544:     );
-</span><span class="">  545:     say &#39;&#39;;
+</span><span class="">  540: 	# Linting
+</span><span class="">  541: 	$config{enable_lint} = prompt_yes_no(
+</span><span class="">  542: 		&quot;Enable linting?&quot;,
+</span><span class="">  543: 		&#39;y&#39;
+</span><span class="">  544: 	);
+</span><span class="">  545: 	say &#39;&#39;;
 </span><span class="">  546: 
-</span><span class="">  547:     # Build step
-</span><span class="">  548:     $config{enable_build} = prompt_yes_no(
-</span><span class="">  549:         &quot;Enable build step?&quot;,
-</span><span class="">  550:         &#39;y&#39;
-</span><span class="">  551:     );
-</span><span class="">  552:     say &#39;&#39;;
+</span><span class="">  547: 	# Build step
+</span><span class="">  548: 	$config{enable_build} = prompt_yes_no(
+</span><span class="">  549: 		&quot;Enable build step?&quot;,
+</span><span class="">  550: 		&#39;y&#39;
+</span><span class="">  551: 	);
+</span><span class="">  552: 	say &#39;&#39;;
 </span><span class="">  553: 
-</span><span class="">  554:     # Branches
-</span><span class="">  555:     my $branches = prompt_text(
-</span><span class="">  556:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  557:         &#39;main,develop&#39;
-</span><span class="">  558:     );
-</span><span class="">  559:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  560:     say &#39;&#39;;
+</span><span class="">  554: 	# Branches
+</span><span class="">  555: 	my $branches = prompt_text(
+</span><span class="">  556: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  557: 		&#39;main,develop&#39;
+</span><span class="">  558: 	);
+</span><span class="">  559: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  560: 	say &#39;&#39;;
 </span><span class="">  561: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  562:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  562: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  563: }
 </span><span class="">  564: 
 </span><span class="">  565: sub _customize_python() {
-</span><span class="">  566:     my %config;
+</span><span class="">  566: 	my %config;
 </span><span class="">  567: 
-</span><span class="">  568:     # Python versions
-</span><span class="">  569:     say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);
-</span><span class="">  570:     my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);
-</span><span class="">  571:     my @default_versions = qw(3.11 3.12);
+</span><span class="">  568: 	# Python versions
+</span><span class="">  569: 	say colored([&#39;bold&#39;], &quot;Python Versions to Test:&quot;);
+</span><span class="">  570: 	my @all_versions = qw(3.9 3.10 3.11 3.12 3.13);
+</span><span class="">  571: 	my @default_versions = qw(3.11 3.12);
 </span><span class="">  572: 
-</span><span class="">  573:     $config{python_versions} = prompt_multiselect(
-</span><span class="">  574:         &quot;Which Python versions?&quot;,
-</span><span class="">  575:         \@all_versions,
-</span><span class="">  576:         \@default_versions
-</span><span class="">  577:     );
-</span><span class="">  578:     say &#39;&#39;;
+</span><span class="">  573: 	$config{python_versions} = prompt_multiselect(
+</span><span class="">  574: 		&quot;Which Python versions?&quot;,
+</span><span class="">  575: 		\@all_versions,
+</span><span class="">  576: 		\@default_versions
+</span><span class="">  577: 	);
+</span><span class="">  578: 	say &#39;&#39;;
 </span><span class="">  579: 
-</span><span class="">  580:     # Linting
-</span><span class="">  581:     say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);
-</span><span class="">  582:     $config{enable_flake8} = prompt_yes_no(
-</span><span class="">  583:         &quot;Enable flake8 linting?&quot;,
-</span><span class="">  584:         &#39;y&#39;
-</span><span class="">  585:     );
-</span><span class="">  586:     say &#39;&#39;;
+</span><span class="">  580: 	# Linting
+</span><span class="">  581: 	say colored([&#39;bold&#39;], &quot;Code Quality:&quot;);
+</span><span class="">  582: 	$config{enable_flake8} = prompt_yes_no(
+</span><span class="">  583: 		&quot;Enable flake8 linting?&quot;,
+</span><span class="">  584: 		&#39;y&#39;
+</span><span class="">  585: 	);
+</span><span class="">  586: 	say &#39;&#39;;
 </span><span class="">  587: 
-</span><span class="">  588:     $config{enable_black} = prompt_yes_no(
-</span><span class="">  589:         &quot;Enable black formatter check?&quot;,
-</span><span class="">  590:         &#39;n&#39;
-</span><span class="">  591:     );
-</span><span class="">  592:     say &#39;&#39;;
+</span><span class="">  588: 	$config{enable_black} = prompt_yes_no(
+</span><span class="">  589: 		&quot;Enable black formatter check?&quot;,
+</span><span class="">  590: 		&#39;n&#39;
+</span><span class="">  591: 	);
+</span><span class="">  592: 	say &#39;&#39;;
 </span><span class="">  593: 
-</span><span class="">  594:     # Coverage
-</span><span class="">  595:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  596:         &quot;Enable test coverage?&quot;,
-</span><span class="">  597:         &#39;y&#39;
-</span><span class="">  598:     );
-</span><span class="">  599:     say &#39;&#39;;
+</span><span class="">  594: 	# Coverage
+</span><span class="">  595: 	$config{enable_coverage} = prompt_yes_no(
+</span><span class="">  596: 		&quot;Enable test coverage?&quot;,
+</span><span class="">  597: 		&#39;y&#39;
+</span><span class="">  598: 	);
+</span><span class="">  599: 	say &#39;&#39;;
 </span><span class="">  600: 
-</span><span class="">  601:     # Branches
-</span><span class="">  602:     my $branches = prompt_text(
-</span><span class="">  603:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  604:         &#39;main,develop&#39;
-</span><span class="">  605:     );
-</span><span class="">  606:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  607:     say &#39;&#39;;
+</span><span class="">  601: 	# Branches
+</span><span class="">  602: 	my $branches = prompt_text(
+</span><span class="">  603: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  604: 		&#39;main,develop&#39;
+</span><span class="">  605: 	);
+</span><span class="">  606: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  607: 	say &#39;&#39;;
 </span><span class="">  608: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  609:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  609: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  610: }
 </span><span class="">  611: 
 </span><span class="">  612: sub _customize_rust() {
-</span><span class="">  613:     my %config;
+</span><span class="">  613: 	my %config;
 </span><span class="">  614: 
-</span><span class="">  615:     say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);
+</span><span class="">  615: 	say colored([&#39;bold&#39;], &quot;Rust Workflow Options:&quot;);
 </span><span class="">  616: 
-</span><span class="">  617:     $config{enable_fmt} = prompt_yes_no(
-</span><span class="">  618:         &quot;Enable formatting check (cargo fmt)?&quot;,
-</span><span class="">  619:         &#39;y&#39;
-</span><span class="">  620:     );
-</span><span class="">  621:     say &#39;&#39;;
+</span><span class="">  617: 	$config{enable_fmt} = prompt_yes_no(
+</span><span class="">  618: 		&quot;Enable formatting check (cargo fmt)?&quot;,
+</span><span class="">  619: 		&#39;y&#39;
+</span><span class="">  620: 	);
+</span><span class="">  621: 	say &#39;&#39;;
 </span><span class="">  622: 
-</span><span class="">  623:     $config{enable_clippy} = prompt_yes_no(
-</span><span class="">  624:         &quot;Enable clippy linting?&quot;,
-</span><span class="">  625:         &#39;y&#39;
-</span><span class="">  626:     );
-</span><span class="">  627:     say &#39;&#39;;
+</span><span class="">  623: 	$config{enable_clippy} = prompt_yes_no(
+</span><span class="">  624: 		&quot;Enable clippy linting?&quot;,
+</span><span class="">  625: 		&#39;y&#39;
+</span><span class="">  626: 	);
+</span><span class="">  627: 	say &#39;&#39;;
 </span><span class="">  628: 
-</span><span class="">  629:     $config{enable_release} = prompt_yes_no(
-</span><span class="">  630:         &quot;Build release binary?&quot;,
-</span><span class="">  631:         &#39;y&#39;
-</span><span class="">  632:     );
-</span><span class="">  633:     say &#39;&#39;;
+</span><span class="">  629: 	$config{enable_release} = prompt_yes_no(
+</span><span class="">  630: 		&quot;Build release binary?&quot;,
+</span><span class="">  631: 		&#39;y&#39;
+</span><span class="">  632: 	);
+</span><span class="">  633: 	say &#39;&#39;;
 </span><span class="">  634: 
-</span><span class="">  635:     my $branches = prompt_text(
-</span><span class="">  636:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  637:         &#39;main&#39;
-</span><span class="">  638:     );
-</span><span class="">  639:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  640:     say &#39;&#39;;
+</span><span class="">  635: 	my $branches = prompt_text(
+</span><span class="">  636: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  637: 		&#39;main&#39;
+</span><span class="">  638: 	);
+</span><span class="">  639: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  640: 	say &#39;&#39;;
 </span><span class="">  641: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  642:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  642: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  643: }
 </span><span class="">  644: 
 </span><span class="">  645: sub _customize_go() {
-</span><span class="">  646:     my %config;
+</span><span class="">  646: 	my %config;
 </span><span class="">  647: 
-</span><span class="">  648:     say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);
+</span><span class="">  648: 	say colored([&#39;bold&#39;], &quot;Go Workflow Options:&quot;);
 </span><span class="">  649: 
-</span><span class="">  650:     my $go_version = prompt_text(
-</span><span class="">  651:         &quot;Go version&quot;,
-</span><span class="">  652:         &#39;1.22&#39;
-</span><span class="">  653:     );
-</span><span class="">  654:     $config{go_version} = $go_version;
-</span><span class="">  655:     say &#39;&#39;;
+</span><span class="">  650: 	my $go_version = prompt_text(
+</span><span class="">  651: 		&quot;Go version&quot;,
+</span><span class="">  652: 		&#39;1.22&#39;
+</span><span class="">  653: 	);
+</span><span class="">  654: 	$config{go_version} = $go_version;
+</span><span class="">  655: 	say &#39;&#39;;
 </span><span class="">  656: 
-</span><span class="">  657:     $config{enable_vet} = prompt_yes_no(
-</span><span class="">  658:         &quot;Enable go vet?&quot;,
-</span><span class="">  659:         &#39;y&#39;
-</span><span class="">  660:     );
-</span><span class="">  661:     say &#39;&#39;;
+</span><span class="">  657: 	$config{enable_vet} = prompt_yes_no(
+</span><span class="">  658: 		&quot;Enable go vet?&quot;,
+</span><span class="">  659: 		&#39;y&#39;
+</span><span class="">  660: 	);
+</span><span class="">  661: 	say &#39;&#39;;
 </span><span class="">  662: 
-</span><span class="">  663:     $config{enable_race} = prompt_yes_no(
-</span><span class="">  664:         &quot;Enable race detector?&quot;,
-</span><span class="">  665:         &#39;y&#39;
-</span><span class="">  666:     );
-</span><span class="">  667:     say &#39;&#39;;
+</span><span class="">  663: 	$config{enable_race} = prompt_yes_no(
+</span><span class="">  664: 		&quot;Enable race detector?&quot;,
+</span><span class="">  665: 		&#39;y&#39;
+</span><span class="">  666: 	);
+</span><span class="">  667: 	say &#39;&#39;;
 </span><span class="">  668: 
-</span><span class="">  669:     $config{enable_coverage} = prompt_yes_no(
-</span><span class="">  670:         &quot;Enable test coverage?&quot;,
-</span><span class="">  671:         &#39;y&#39;
-</span><span class="">  672:     );
-</span><span class="">  673:     say &#39;&#39;;
+</span><span class="">  669: 	$config{enable_coverage} = prompt_yes_no(
+</span><span class="">  670: 		&quot;Enable test coverage?&quot;,
+</span><span class="">  671: 		&#39;y&#39;
+</span><span class="">  672: 	);
+</span><span class="">  673: 	say &#39;&#39;;
 </span><span class="">  674: 
-</span><span class="">  675:     my $branches = prompt_text(
-</span><span class="">  676:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  677:         &#39;main&#39;
-</span><span class="">  678:     );
-</span><span class="">  679:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  680:     say &#39;&#39;;
+</span><span class="">  675: 	my $branches = prompt_text(
+</span><span class="">  676: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  677: 		&#39;main&#39;
+</span><span class="">  678: 	);
+</span><span class="">  679: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  680: 	say &#39;&#39;;
 </span><span class="">  681: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  682:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  682: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  683: }
 </span><span class="">  684: 
 </span><span class="">  685: sub _customize_ruby() {
-</span><span class="">  686:     my %config;
+</span><span class="">  686: 	my %config;
 </span><span class="">  687: 
-</span><span class="">  688:     say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);
-</span><span class="">  689:     my @all_versions = qw(3.1 3.2 3.3);
-</span><span class="">  690:     my @default_versions = qw(3.2 3.3);
+</span><span class="">  688: 	say colored([&#39;bold&#39;], &quot;Ruby Versions to Test:&quot;);
+</span><span class="">  689: 	my @all_versions = qw(3.1 3.2 3.3);
+</span><span class="">  690: 	my @default_versions = qw(3.2 3.3);
 </span><span class="">  691: 
-</span><span class="">  692:     $config{ruby_versions} = prompt_multiselect(
-</span><span class="">  693:         &quot;Which Ruby versions?&quot;,
-</span><span class="">  694:         \@all_versions,
-</span><span class="">  695:         \@default_versions
-</span><span class="">  696:     );
-</span><span class="">  697:     say &#39;&#39;;
+</span><span class="">  692: 	$config{ruby_versions} = prompt_multiselect(
+</span><span class="">  693: 		&quot;Which Ruby versions?&quot;,
+</span><span class="">  694: 		\@all_versions,
+</span><span class="">  695: 		\@default_versions
+</span><span class="">  696: 	);
+</span><span class="">  697: 	say &#39;&#39;;
 </span><span class="">  698: 
-</span><span class="">  699:     my $branches = prompt_text(
-</span><span class="">  700:         &quot;Branches to run on (comma-separated)&quot;,
-</span><span class="">  701:         &#39;main&#39;
-</span><span class="">  702:     );
-</span><span class="">  703:     $config{branches} = [split /,\s*/, $branches];
-</span><span class="">  704:     say &#39;&#39;;
+</span><span class="">  699: 	my $branches = prompt_text(
+</span><span class="">  700: 		&quot;Branches to run on (comma-separated)&quot;,
+</span><span class="">  701: 		&#39;main&#39;
+</span><span class="">  702: 	);
+</span><span class="">  703: 	$config{branches} = [split /,\s*/, $branches];
+</span><span class="">  704: 	say &#39;&#39;;
 </span><span class="">  705: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  706:     return \%config;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  706: 	return \%config;
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  707: }
 </span><span class="">  708: 
 </span><span class="">  709: sub _customize_docker() {
-</span><span class="">  710:     my %config;
+</span><span class="">  710: 	my %config;
 </span><span class="">  711: 
-</span><span class="">  712:     say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);
+</span><span class="">  712: 	say colored([&#39;bold&#39;], &quot;Docker Workflow Options:&quot;);
 </span><span class="">  713: 
-</span><span class="">  714:     my $image_name = prompt_text(
-</span><span class="">  715:         &quot;Docker image name (user/image)&quot;,
-</span><span class="">  716:         &#39;your-username/your-image&#39;
-</span><span class="">  717:     );
-</span><span class="">  718:     $config{image_name} = $image_name;
-</span><span class="">  719:     say &#39;&#39;;
+</span><span class="">  714: 	my $image_name = prompt_text(
+</span><span class="">  715: 		&quot;Docker image name (user/image)&quot;,
+</span><span class="">  716: 		&#39;your-username/your-image&#39;
+</span><span class="">  717: 	);
+</span><span class="">  718: 	$config{image_name} = $image_name;
+</span><span class="">  719: 	say &#39;&#39;;
 </span><span class="">  720: 
 </span><span class="">  721: 	$config{push_on_pr} = prompt_yes_no(
 </span><span class="">  722: 		&#39;Push images on pull requests?&#39;,

@@ -357,543 +357,545 @@ Approximate LCSAJ segments: 63<br>
 </span><span class="">   16: 	%ACTION_UPDATES
 </span><span class="">   17: );
 </span><span class="">   18: 
-</span><span class="">   19: our $VERSION = &#39;0.12&#39;;
+</span><span class="">   19: our $VERSION = &#39;0.13&#39;;
 </span><span class="">   20: 
 </span><span class="">   21: Readonly my $DEFAULT_TIMEOUT_MINUTES =&gt; 60;
 </span><span class="">   22: 
-</span><span class="">   23: =head1 PACKAGE DATA
+</span><span class="">   23: =encoding utf-8
 </span><span class="">   24: 
-</span><span class="">   25: =head2 %ACTION_UPDATES
+</span><span class="">   25: =head1 PACKAGE DATA
 </span><span class="">   26: 
-</span><span class="">   27: Canonical mapping of outdated action strings to their current replacements.
+</span><span class="">   27: =head2 %ACTION_UPDATES
 </span><span class="">   28: 
-</span><span class="">   29:     &#39;old/action@vN&#39; =&gt; &#39;old/action@vM&#39;
+</span><span class="">   29: Canonical mapping of outdated action strings to their current replacements.
 </span><span class="">   30: 
-</span><span class="">   31: This hash is the B&lt;single source of truth&gt; for action version knowledge.
-</span><span class="">   32: Both C&lt;find_outdated_actions&gt; (detection) and C&lt;update_actions&gt; (mutation)
-</span><span class="">   33: consume it so that detecting an outdated action always implies the ability
-</span><span class="">   34: to fix it &acirc;&#128;&#148; and vice versa.
-</span><span class="">   35: 
-</span><span class="">   36: Premise 1: the Analyzer reports every key in this hash as &quot;outdated&quot;.
-</span><span class="">   37: Premise 2: the Fixer replaces every key with its value.
-</span><span class="">   38: Conclusion: no detected issue is unfixable, and no fix targets an undetected issue.
-</span><span class="">   39: 
-</span><span class="">   40: =cut
+</span><span class="">   31:     &#39;old/action@vN&#39; =&gt; &#39;old/action@vM&#39;
+</span><span class="">   32: 
+</span><span class="">   33: This hash is the B&lt;single source of truth&gt; for action version knowledge.
+</span><span class="">   34: Both C&lt;find_outdated_actions&gt; (detection) and C&lt;update_actions&gt; (mutation)
+</span><span class="">   35: consume it so that detecting an outdated action always implies the ability
+</span><span class="">   36: to fix it - and vice versa.
+</span><span class="">   37: 
+</span><span class="">   38: Premise 1: the Analyzer reports every key in this hash as &quot;outdated&quot;.
+</span><span class="">   39: Premise 2: the Fixer replaces every key with its value.
+</span><span class="">   40: Conclusion: no detected issue is unfixable, and no fix targets an undetected issue.
 </span><span class="">   41: 
-</span><span class="">   42: our %ACTION_UPDATES = (
-</span><span class="">   43: 	&#39;actions/cache@v4&#39;        =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">   44: 	&#39;actions/cache@v3&#39;        =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">   45: 	&#39;actions/checkout@v5&#39;     =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">   46: 	&#39;actions/checkout@v4&#39;     =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">   47: 	&#39;actions/checkout@v2&#39;     =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">   48: 	&#39;actions/checkout@v3&#39;     =&gt; &#39;actions/checkout@v6&#39;,
-</span><span class="">   49: 	&#39;actions/setup-node@v3&#39;   =&gt; &#39;actions/setup-node@v4&#39;,
-</span><span class="">   50: 	&#39;actions/setup-python@v4&#39; =&gt; &#39;actions/setup-python@v5&#39;,
-</span><span class="">   51: 	&#39;actions/setup-go@v4&#39;     =&gt; &#39;actions/setup-go@v5&#39;,
-</span><span class="">   52: );
-</span><span class="">   53: 
-</span><span class="">   54: =head1 NAME
+</span><span class="">   42: =cut
+</span><span class="">   43: 
+</span><span class="">   44: our %ACTION_UPDATES = (
+</span><span class="">   45: 	&#39;actions/cache@v4&#39;        =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">   46: 	&#39;actions/cache@v3&#39;        =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">   47: 	&#39;actions/checkout@v5&#39;     =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">   48: 	&#39;actions/checkout@v4&#39;     =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">   49: 	&#39;actions/checkout@v2&#39;     =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">   50: 	&#39;actions/checkout@v3&#39;     =&gt; &#39;actions/checkout@v6&#39;,
+</span><span class="">   51: 	&#39;actions/setup-node@v3&#39;   =&gt; &#39;actions/setup-node@v4&#39;,
+</span><span class="">   52: 	&#39;actions/setup-python@v4&#39; =&gt; &#39;actions/setup-python@v5&#39;,
+</span><span class="">   53: 	&#39;actions/setup-go@v4&#39;     =&gt; &#39;actions/setup-go@v5&#39;,
+</span><span class="">   54: );
 </span><span class="">   55: 
-</span><span class="">   56: App::GHGen::Fixer - Auto-fix workflow issues
+</span><span class="">   56: =head1 NAME
 </span><span class="">   57: 
-</span><span class="">   58: =head1 SYNOPSIS
+</span><span class="">   58: App::GHGen::Fixer - Auto-fix workflow issues
 </span><span class="">   59: 
-</span><span class="">   60:     use App::GHGen::Fixer qw(apply_fixes);
+</span><span class="">   60: =head1 SYNOPSIS
 </span><span class="">   61: 
-</span><span class="">   62:     my $fixed = apply_fixes($workflow, \@issues);
+</span><span class="">   62:     use App::GHGen::Fixer qw(apply_fixes);
 </span><span class="">   63: 
-</span><span class="">   64: =head1 FUNCTIONS
+</span><span class="">   64:     my $fixed = apply_fixes($workflow, \@issues);
 </span><span class="">   65: 
-</span><span class="">   66: =head2 can_auto_fix($issue)
+</span><span class="">   66: =head1 FUNCTIONS
 </span><span class="">   67: 
-</span><span class="">   68: Determine whether a given issue can be automatically resolved.
+</span><span class="">   68: =head2 can_auto_fix($issue)
 </span><span class="">   69: 
-</span><span class="">   70: =head3 Purpose
+</span><span class="">   70: Determine whether a given issue can be automatically resolved.
 </span><span class="">   71: 
-</span><span class="">   72: Act as a capability gate before calling C&lt;apply_fixes&gt;.  Returns true only
-</span><span class="">   73: for the four issue types that the Fixer knows how to handle.
-</span><span class="">   74: 
-</span><span class="">   75: =head3 Arguments
+</span><span class="">   72: =head3 Purpose
+</span><span class="">   73: 
+</span><span class="">   74: Act as a capability gate before calling C&lt;apply_fixes&gt;.  Returns true only
+</span><span class="">   75: for the four issue types that the Fixer knows how to handle.
 </span><span class="">   76: 
-</span><span class="">   77: =over 4
+</span><span class="">   77: =head3 Arguments
 </span><span class="">   78: 
-</span><span class="">   79: =item C&lt;$issue&gt; (HashRef, required)
+</span><span class="">   79: =over 4
 </span><span class="">   80: 
-</span><span class="">   81: An issue hash with at least a C&lt;type&gt; key.  Recognised types are
-</span><span class="">   82: C&lt;performance&gt;, C&lt;security&gt;, C&lt;cost&gt;, and C&lt;maintenance&gt;.
-</span><span class="">   83: 
-</span><span class="">   84: =back
+</span><span class="">   81: =item C&lt;$issue&gt; (HashRef, required)
+</span><span class="">   82: 
+</span><span class="">   83: An issue hash with at least a C&lt;type&gt; key.  Recognised types are
+</span><span class="">   84: C&lt;performance&gt;, C&lt;security&gt;, C&lt;cost&gt;, and C&lt;maintenance&gt;.
 </span><span class="">   85: 
-</span><span class="">   86: =head3 Returns
+</span><span class="">   86: =back
 </span><span class="">   87: 
-</span><span class="">   88: C&lt;1&gt; (true) when the issue type is auto-fixable; C&lt;0&gt; (false) otherwise.
+</span><span class="">   88: =head3 Returns
 </span><span class="">   89: 
-</span><span class="">   90: =head3 Side Effects
+</span><span class="">   90: C&lt;1&gt; (true) when the issue type is auto-fixable; C&lt;0&gt; (false) otherwise.
 </span><span class="">   91: 
-</span><span class="">   92: None.  Pure predicate.
+</span><span class="">   92: =head3 Side Effects
 </span><span class="">   93: 
-</span><span class="">   94: =head3 Usage Example
+</span><span class="">   94: None.  Pure predicate.
 </span><span class="">   95: 
-</span><span class="">   96:     if (can_auto_fix($issue)) {
-</span><span class="">   97:         apply_fixes($workflow, [$issue]);
-</span><span class="">   98:     }
-</span><span class="">   99: 
-</span><span class="">  100: =head3 API SPECIFICATION
+</span><span class="">   96: =head3 Usage Example
+</span><span class="">   97: 
+</span><span class="">   98:     if (can_auto_fix($issue)) {
+</span><span class="">   99:         apply_fixes($workflow, [$issue]);
+</span><span class="">  100:     }
 </span><span class="">  101: 
-</span><span class="">  102: =head4 Input
+</span><span class="">  102: =head3 API SPECIFICATION
 </span><span class="">  103: 
-</span><span class="">  104:     { issue =&gt; { type =&gt; &#39;hashref&#39;, required =&gt; 1 } }
+</span><span class="">  104: =head4 Input
 </span><span class="">  105: 
-</span><span class="">  106: =head4 Output
+</span><span class="">  106:     { issue =&gt; { type =&gt; &#39;hashref&#39;, required =&gt; 1 } }
 </span><span class="">  107: 
-</span><span class="">  108:     { type =&gt; &#39;scalar&#39; }   # boolean: 1 or 0
+</span><span class="">  108: =head4 Output
 </span><span class="">  109: 
-</span><span class="">  110: =head3 FORMAL SPECIFICATION
+</span><span class="">  110:     { type =&gt; &#39;scalar&#39; }   # boolean: 1 or 0
 </span><span class="">  111: 
-</span><span class="">  112:     can_auto_fix : Issue &acirc;&#134;&#146; &eth;&#157;&#148;&sup1;
+</span><span class="">  112: =head3 FORMAL SPECIFICATION
 </span><span class="">  113: 
-</span><span class="">  114:     FixableTypes &acirc;&#137;&#148; { performance, security, cost, maintenance }
+</span><span class="">  114:     can_auto_fix : Issue &acirc;&#134;&#146; &eth;&#157;&#148;&sup1;
 </span><span class="">  115: 
-</span><span class="">  116:     can_auto_fix(i) &acirc;&#137;&iexcl; i.type &acirc;&#136;&#136; FixableTypes
+</span><span class="">  116:     FixableTypes &acirc;&#137;&#148; { performance, security, cost, maintenance }
 </span><span class="">  117: 
-</span><span class="">  118: =cut
+</span><span class="">  118:     can_auto_fix(i) &acirc;&#137;&iexcl; i.type &acirc;&#136;&#136; FixableTypes
 </span><span class="">  119: 
-</span><span class="">  120: sub can_auto_fix($issue) {
-</span><span class="">  121: 	my %fixable = (
-</span><span class="">  122: 		&#39;performance&#39; =&gt; 1,  # Can add caching
-</span><span class="">  123: 		&#39;security&#39;    =&gt; 1,  # Can update action versions and add permissions
-</span><span class="">  124: 		&#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
-</span><span class="">  125: 		&#39;maintenance&#39; =&gt; 1,  # Can update runners
-</span><span class="">  126: 	);
-</span><span class="">  127: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  128: 	return $fixable{$issue-&gt;{type}} // 0;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  129: }
-</span><span class="">  130: 
-</span><span class="">  131: =head2 apply_fixes($workflow, $issues)
+</span><span class="">  120: =cut
+</span><span class="">  121: 
+</span><span class="">  122: sub can_auto_fix($issue) {
+</span><span class="">  123: 	my %fixable = (
+</span><span class="">  124: 		&#39;performance&#39; =&gt; 1,  # Can add caching
+</span><span class="">  125: 		&#39;security&#39;    =&gt; 1,  # Can update action versions and add permissions
+</span><span class="">  126: 		&#39;cost&#39;        =&gt; 1,  # Can add concurrency, filters
+</span><span class="">  127: 		&#39;maintenance&#39; =&gt; 1,  # Can update runners
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  128: 	);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  129: 
+</span><span class="">  130: 	return $fixable{$issue-&gt;{type}} // 0;
+</span><span class="">  131: }
 </span><span class="">  132: 
-</span><span class="">  133: Apply all auto-fixable changes from C&lt;$issues&gt; directly to C&lt;$workflow&gt;.
+</span><span class="">  133: =head2 apply_fixes($workflow, $issues)
 </span><span class="">  134: 
-</span><span class="">  135: =head3 Purpose
+</span><span class="">  135: Apply all auto-fixable changes from C&lt;$issues&gt; directly to C&lt;$workflow&gt;.
 </span><span class="">  136: 
-</span><span class="">  137: Iterate over C&lt;$issues&gt;, skip issues that are not auto-fixable, and call
-</span><span class="">  138: the appropriate internal fix routine for each fixable type/message
-</span><span class="">  139: combination.  Modifies C&lt;$workflow&gt; in place.
-</span><span class="">  140: 
-</span><span class="">  141: =head3 Arguments
+</span><span class="">  137: =head3 Purpose
+</span><span class="">  138: 
+</span><span class="">  139: Iterate over C&lt;$issues&gt;, skip issues that are not auto-fixable, and call
+</span><span class="">  140: the appropriate internal fix routine for each fixable type/message
+</span><span class="">  141: combination.  Modifies C&lt;$workflow&gt; in place.
 </span><span class="">  142: 
-</span><span class="">  143: =over 4
+</span><span class="">  143: =head3 Arguments
 </span><span class="">  144: 
-</span><span class="">  145: =item C&lt;$workflow&gt; (HashRef, required)
+</span><span class="">  145: =over 4
 </span><span class="">  146: 
-</span><span class="">  147: The parsed workflow hash to be mutated.
+</span><span class="">  147: =item C&lt;$workflow&gt; (HashRef, required)
 </span><span class="">  148: 
-</span><span class="">  149: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">  149: The parsed workflow hash to be mutated.
 </span><span class="">  150: 
-</span><span class="">  151: The issues to process.  Each must have C&lt;type&gt; and C&lt;message&gt; keys.
+</span><span class="">  151: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
 </span><span class="">  152: 
-</span><span class="">  153: =back
+</span><span class="">  153: The issues to process.  Each must have C&lt;type&gt; and C&lt;message&gt; keys.
 </span><span class="">  154: 
-</span><span class="">  155: =head3 Returns
+</span><span class="">  155: =back
 </span><span class="">  156: 
-</span><span class="">  157: The number of individual fix operations applied (an integer &acirc;&#137;&yen; 0).
+</span><span class="">  157: =head3 Returns
 </span><span class="">  158: 
-</span><span class="">  159: =head3 Side Effects
+</span><span class="">  159: The number of individual fix operations applied (an integer &gt;= 0).
 </span><span class="">  160: 
-</span><span class="">  161: Modifies C&lt;$workflow&gt; in place.
+</span><span class="">  161: =head3 Side Effects
 </span><span class="">  162: 
-</span><span class="">  163: =head3 Usage Example
+</span><span class="">  163: Modifies C&lt;$workflow&gt; in place.
 </span><span class="">  164: 
-</span><span class="">  165:     my $n = apply_fixes($workflow, \@issues);
-</span><span class="">  166:     say &quot;$n fix(es) applied.&quot;;
-</span><span class="">  167: 
-</span><span class="">  168: =head3 API SPECIFICATION
+</span><span class="">  165: =head3 Usage Example
+</span><span class="">  166: 
+</span><span class="">  167:     my $n = apply_fixes($workflow, \@issues);
+</span><span class="">  168:     say &quot;$n fix(es) applied.&quot;;
 </span><span class="">  169: 
-</span><span class="">  170: =head4 Input
+</span><span class="">  170: =head3 API SPECIFICATION
 </span><span class="">  171: 
-</span><span class="">  172:     {
-</span><span class="">  173:         workflow =&gt; { type =&gt; &#39;hashref&#39;,  required =&gt; 1 },
-</span><span class="">  174:         issues   =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">  175:     }
-</span><span class="">  176: 
-</span><span class="">  177: =head4 Output
+</span><span class="">  172: =head4 Input
+</span><span class="">  173: 
+</span><span class="">  174:     {
+</span><span class="">  175:         workflow =&gt; { type =&gt; &#39;hashref&#39;,  required =&gt; 1 },
+</span><span class="">  176:         issues   =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">  177:     }
 </span><span class="">  178: 
-</span><span class="">  179:     { type =&gt; &#39;scalar&#39; }   # non-negative integer
+</span><span class="">  179: =head4 Output
 </span><span class="">  180: 
-</span><span class="">  181: =head3 FORMAL SPECIFICATION
+</span><span class="">  181:     { type =&gt; &#39;scalar&#39; }   # non-negative integer
 </span><span class="">  182: 
-</span><span class="">  183:     apply_fixes : Workflow &Atilde;&#151; seq Issue &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  183: =head3 FORMAL SPECIFICATION
 </span><span class="">  184: 
-</span><span class="">  185:     applied &acirc;&#137;&#148; &acirc;&#136;&#145; { fix(w, i) &acirc;&#136;&pound; i &acirc;&#136;&#136; issues, can_auto_fix(i) }
-</span><span class="">  186:     result  &acirc;&#137;&#148; applied
-</span><span class="">  187: 
-</span><span class="">  188:     Mutates w by applying each fix in sequence.
+</span><span class="">  185:     apply_fixes : Workflow &Atilde;&#151; seq Issue &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  186: 
+</span><span class="">  187:     applied &acirc;&#137;&#148; &acirc;&#136;&#145; { fix(w, i) &acirc;&#136;&pound; i &acirc;&#136;&#136; issues, can_auto_fix(i) }
+</span><span class="">  188:     result  &acirc;&#137;&#148; applied
 </span><span class="">  189: 
-</span><span class="">  190: =cut
+</span><span class="">  190:     Mutates w by applying each fix in sequence.
 </span><span class="">  191: 
-</span><span class="">  192: # File-scoped dispatch table for apply_fixes.
-</span><span class="">  193: # Premise: can_auto_fix guarantees type &acirc;&#136;&#136; {performance,security,cost,maintenance}.
-</span><span class="">  194: # Conclusion: we only need to match on (type, message pattern) &acirc;&#128;&#148; no further type
-</span><span class="">  195: # validation is required inside the loop.
-</span><span class="">  196: # Each rule: [ type_string, compiled_pattern, handler_sub ].
-</span><span class="">  197: # Using anonymous delegates (not direct coderefs) so symbol-table mocks work.
-</span><span class="">  198: my @_APPLY_RULES = (
-</span><span class="">  199: 	[ &#39;performance&#39;, qr/caching/,                sub($wf) { add_caching($wf)          } ],
-</span><span class="">  200: 	[ &#39;security&#39;,    qr/unpinned/,               sub($wf) { fix_unpinned_actions($wf)  } ],
-</span><span class="">  201: 	[ &#39;security&#39;,    qr/permissions/,            sub($wf) { add_permissions($wf)       } ],
-</span><span class="">  202: 	[ &#39;maintenance&#39;, qr/outdated action/,        sub($wf) { update_actions($wf)        } ],
-</span><span class="">  203: 	[ &#39;cost&#39;,        qr/concurrency/,            sub($wf) { add_concurrency($wf)       } ],
-</span><span class="">  204: 	[ &#39;cost&#39;,        qr/triggers/,               sub($wf) { add_trigger_filters($wf)   } ],
-</span><span class="">  205: 	[ &#39;maintenance&#39;, qr/runner/,                 sub($wf) { update_runners($wf)        } ],
-</span><span class="">  206: 	[ &#39;performance&#39;, qr/missing timeout-minutes/, sub($wf) { add_missing_timeout($wf)  } ],
-</span><span class="">  207: );
-</span><span class="">  208: 
-</span><span class="">  209: sub apply_fixes($workflow, $issues) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">210 → 212 → 226</span></span>  210: 	my $modified = 0;
-</span><span class="">  211: 
-</span><span class="">  212: 	for my $issue (@$issues) {
-</span><span class="">  213: 		# Guard: can_auto_fix is a complete predicate &acirc;&#128;&#148; if it returns false the
-</span><span class="">  214: 		# type is guaranteed not in the dispatch table, so skip immediately.
-</span><span class="">  215: 		next unless can_auto_fix($issue);
-</span><span class="">  216: 
-</span><span class="">  217: 		for my $rule (@_APPLY_RULES) {
-</span><span class="">  218: 			my ($type, $pattern, $handler) = @$rule;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  219: 			if ($issue-&gt;{type} eq $type &amp;&amp; $issue-&gt;{message} =~ $pattern) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  220: 				$modified += $handler-&gt;($workflow);
-</span><span class="">  221: 				last;	# first-match-wins; one issue maps to exactly one fix
-</span><span class="">  222: 			}
-</span><span class="">  223: 		}
-</span><span class="">  224: 	}
-</span><span class="">  225: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  226: 	return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  227: }
-</span><span class="">  228: 
-</span><span class="">  229: =head2 fix_workflow($file, $issues)
+</span><span class="">  192: =cut
+</span><span class="">  193: 
+</span><span class="">  194: # File-scoped dispatch table for apply_fixes.
+</span><span class="">  195: # Premise: can_auto_fix guarantees type &acirc;&#136;&#136; {performance,security,cost,maintenance}.
+</span><span class="">  196: # Conclusion: we only need to match on (type, message pattern) &acirc;&#128;&#148; no further type
+</span><span class="">  197: # validation is required inside the loop.
+</span><span class="">  198: # Each rule: [ type_string, compiled_pattern, handler_sub ].
+</span><span class="">  199: # Using anonymous delegates (not direct coderefs) so symbol-table mocks work.
+</span><span class="">  200: my @_APPLY_RULES = (
+</span><span class="">  201: 	[ &#39;performance&#39;, qr/caching/,                sub($wf) { add_caching($wf)          } ],
+</span><span class="">  202: 	[ &#39;security&#39;,    qr/unpinned/,               sub($wf) { fix_unpinned_actions($wf)  } ],
+</span><span class="">  203: 	[ &#39;security&#39;,    qr/permissions/,            sub($wf) { add_permissions($wf)       } ],
+</span><span class="">  204: 	[ &#39;maintenance&#39;, qr/outdated action/,        sub($wf) { update_actions($wf)        } ],
+</span><span class="">  205: 	[ &#39;cost&#39;,        qr/concurrency/,            sub($wf) { add_concurrency($wf)       } ],
+</span><span class="">  206: 	[ &#39;cost&#39;,        qr/triggers/,               sub($wf) { add_trigger_filters($wf)   } ],
+</span><span class="">  207: 	[ &#39;maintenance&#39;, qr/runner/,                 sub($wf) { update_runners($wf)        } ],
+</span><span class="">  208: 	[ &#39;performance&#39;, qr/missing timeout-minutes/, sub($wf) { add_missing_timeout($wf)  } ],
+</span><span class="">  209: );
+</span><span class="">  210: 
+</span><span class="">  211: sub apply_fixes($workflow, $issues) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">212 → 214 → 228</span></span>  212: 	my $modified = 0;
+</span><span class="">  213: 
+</span><span class="">  214: 	for my $issue (@$issues) {
+</span><span class="">  215: 		# Guard: can_auto_fix is a complete predicate &acirc;&#128;&#148; if it returns false the
+</span><span class="">  216: 		# type is guaranteed not in the dispatch table, so skip immediately.
+</span><span class="">  217: 		next unless can_auto_fix($issue);
+</span><span class="">  218: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  219: 		for my $rule (@_APPLY_RULES) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  220: 			my ($type, $pattern, $handler) = @$rule;
+</span><span class="">  221: 			if ($issue-&gt;{type} eq $type &amp;&amp; $issue-&gt;{message} =~ $pattern) {
+</span><span class="">  222: 				$modified += $handler-&gt;($workflow);
+</span><span class="">  223: 				last;	# first-match-wins; one issue maps to exactly one fix
+</span><span class="">  224: 			}
+</span><span class="">  225: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  226: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  227: 
+</span><span class="">  228: 	return $modified;
+</span><span class="">  229: }
 </span><span class="">  230: 
-</span><span class="">  231: Load a workflow YAML file, apply fixes, and write it back to disk.
+</span><span class="">  231: =head2 fix_workflow($file, $issues)
 </span><span class="">  232: 
-</span><span class="">  233: =head3 Purpose
+</span><span class="">  233: Load a workflow YAML file, apply fixes, and write it back to disk.
 </span><span class="">  234: 
-</span><span class="">  235: Persist the results of C&lt;apply_fixes&gt; by reading the workflow from C&lt;$file&gt;
-</span><span class="">  236: with C&lt;YAML::XS::LoadFile&gt;, calling C&lt;apply_fixes&gt;, and rewriting the file
-</span><span class="">  237: with C&lt;YAML::XS::DumpFile&gt; when at least one fix was applied.
-</span><span class="">  238: 
-</span><span class="">  239: =head3 Arguments
+</span><span class="">  235: =head3 Purpose
+</span><span class="">  236: 
+</span><span class="">  237: Persist the results of C&lt;apply_fixes&gt; by reading the workflow from C&lt;$file&gt;
+</span><span class="">  238: with C&lt;YAML::XS::LoadFile&gt;, calling C&lt;apply_fixes&gt;, and rewriting the file
+</span><span class="">  239: with C&lt;YAML::XS::DumpFile&gt; when at least one fix was applied.
 </span><span class="">  240: 
-</span><span class="">  241: =over 4
+</span><span class="">  241: =head3 Arguments
 </span><span class="">  242: 
-</span><span class="">  243: =item C&lt;$file&gt; (Str, required)
+</span><span class="">  243: =over 4
 </span><span class="">  244: 
-</span><span class="">  245: Path to a YAML workflow file.  Passed directly to C&lt;YAML::XS::LoadFile&gt;.
+</span><span class="">  245: =item C&lt;$file&gt; (Str, required)
 </span><span class="">  246: 
-</span><span class="">  247: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">  247: Path to a YAML workflow file.  Passed directly to C&lt;YAML::XS::LoadFile&gt;.
 </span><span class="">  248: 
-</span><span class="">  249: Issues to fix, each with C&lt;type&gt; and C&lt;message&gt; keys.
+</span><span class="">  249: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
 </span><span class="">  250: 
-</span><span class="">  251: =back
+</span><span class="">  251: Issues to fix, each with C&lt;type&gt; and C&lt;message&gt; keys.
 </span><span class="">  252: 
-</span><span class="">  253: =head3 Returns
+</span><span class="">  253: =back
 </span><span class="">  254: 
-</span><span class="">  255: The number of fixes applied (an integer &acirc;&#137;&yen; 0).  The file is only rewritten
-</span><span class="">  256: when the count is greater than zero.
-</span><span class="">  257: 
-</span><span class="">  258: =head3 Side Effects
+</span><span class="">  255: =head3 Returns
+</span><span class="">  256: 
+</span><span class="">  257: The number of fixes applied (an integer &gt;= 0).  The file is only rewritten
+</span><span class="">  258: when the count is greater than zero.
 </span><span class="">  259: 
-</span><span class="">  260: Reads C&lt;$file&gt; from disk; rewrites C&lt;$file&gt; in place when fixes are applied.
+</span><span class="">  260: =head3 Side Effects
 </span><span class="">  261: 
-</span><span class="">  262: =head3 Usage Example
+</span><span class="">  262: Reads C&lt;$file&gt; from disk; rewrites C&lt;$file&gt; in place when fixes are applied.
 </span><span class="">  263: 
-</span><span class="">  264:     my $n = fix_workflow(&#39;.github/workflows/ci.yml&#39;, \@issues);
-</span><span class="">  265:     say &quot;$n fix(es) written to ci.yml.&quot;;
-</span><span class="">  266: 
-</span><span class="">  267: =head3 API SPECIFICATION
+</span><span class="">  264: =head3 Usage Example
+</span><span class="">  265: 
+</span><span class="">  266:     my $n = fix_workflow(&#39;.github/workflows/ci.yml&#39;, \@issues);
+</span><span class="">  267:     say &quot;$n fix(es) written to ci.yml.&quot;;
 </span><span class="">  268: 
-</span><span class="">  269: =head4 Input
+</span><span class="">  269: =head3 API SPECIFICATION
 </span><span class="">  270: 
-</span><span class="">  271:     {
-</span><span class="">  272:         file   =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
-</span><span class="">  273:         issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">  274:     }
-</span><span class="">  275: 
-</span><span class="">  276: =head4 Output
+</span><span class="">  271: =head4 Input
+</span><span class="">  272: 
+</span><span class="">  273:     {
+</span><span class="">  274:         file   =&gt; { type =&gt; &#39;scalar&#39;,  required =&gt; 1 },
+</span><span class="">  275:         issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">  276:     }
 </span><span class="">  277: 
-</span><span class="">  278:     { type =&gt; &#39;scalar&#39; }   # non-negative integer
+</span><span class="">  278: =head4 Output
 </span><span class="">  279: 
-</span><span class="">  280: =head3 FORMAL SPECIFICATION
+</span><span class="">  280:     { type =&gt; &#39;scalar&#39; }   # non-negative integer
 </span><span class="">  281: 
-</span><span class="">  282:     fix_workflow : Path &Atilde;&#151; seq Issue &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  282: =head3 FORMAL SPECIFICATION
 </span><span class="">  283: 
-</span><span class="">  284:     w       &acirc;&#137;&#148; LoadFile(file)
-</span><span class="">  285:     fixes   &acirc;&#137;&#148; apply_fixes(w, issues)
-</span><span class="">  286:     fixes &gt; 0 &acirc;&#134;&#146; DumpFile(file, w)
-</span><span class="">  287: 
-</span><span class="">  288:     result &acirc;&#137;&#148; fixes
+</span><span class="">  284:     fix_workflow : Path &Atilde;&#151; seq Issue &acirc;&#134;&#146; &acirc;&#132;&#149;
+</span><span class="">  285: 
+</span><span class="">  286:     w       &acirc;&#137;&#148; LoadFile(file)
+</span><span class="">  287:     fixes   &acirc;&#137;&#148; apply_fixes(w, issues)
+</span><span class="">  288:     fixes &gt; 0 &acirc;&#134;&#146; DumpFile(file, w)
 </span><span class="">  289: 
-</span><span class="">  290: =cut
+</span><span class="">  290:     result &acirc;&#137;&#148; fixes
 </span><span class="">  291: 
-</span><span class="">  292: sub fix_workflow($file, $issues) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">293 → 296 → 300</span></span>  293: 	my $workflow = LoadFile($file);
-</span><span class="">  294: 	my $fixes = apply_fixes($workflow, $issues);
-</span><span class="">  295: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296: 	if ($fixes &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297: 		DumpFile($file, $workflow);
-</span><span class="">  298: 	}
-</span><span class="">  299: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  300:     return $fixes;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  301: }
-</span><span class="">  302: 
-</span><span class="">  303: # Fix implementations
+</span><span class="">  292: =cut
+</span><span class="">  293: 
+</span><span class="">  294: sub fix_workflow($file, $issues) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">295 → 298 → 302</span></span>  295: 	my $workflow = LoadFile($file);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296: 	my $fixes = apply_fixes($workflow, $issues);
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297: 
+</span><span class="">  298: 	if ($fixes &gt; 0) {
+</span><span class="">  299: 		DumpFile($file, $workflow);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  300: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  301: 
+</span><span class="">  302: 	return $fixes;
+</span><span class="">  303: }
 </span><span class="">  304: 
-</span><span class="">  305: sub add_caching($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">306 → 309 → 333</span></span>  306: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  307: 	my $modified = 0;
-</span><span class="">  308: 
-</span><span class="">  309:     for my $job (values %$jobs) {
-</span><span class="">  310:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  311: 
-</span><span class="">  312:         # Check if already has caching
-</span><span class="">  313:         my $has_cache = grep { $_-&gt;{uses} &amp;&amp; $_-&gt;{uses} =~ /actions\/cache/ } @$steps;
-</span><span class="">  314:         next if $has_cache;
-</span><span class="">  315: 
-</span><span class="">  316:         # Detect project type and add appropriate cache
-</span><span class="">  317:         my $cache_step = detect_and_create_cache_step($steps);
-</span><span class="">  318:         next unless $cache_step;
-</span><span class="">  319: 
-</span><span class="">  320:         # Insert cache step after checkout
-</span><span class="">  321:         my $insert_at = 0;
-</span><span class="">  322:         for my $i (0 .. $#$steps) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  323:             if ($steps-&gt;[$i]-&gt;{uses} &amp;&amp; $steps-&gt;[$i]-&gt;{uses} =~ /actions\/checkout/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  324:                 $insert_at = $i + 1;
-</span><span class="">  325:                 last;
-</span><span class="">  326:             }
-</span><span class="">  327:         }
-</span><span class="">  328: 
-</span><span class="">  329:         splice @$steps, $insert_at, 0, $cache_step;
-</span><span class="">  330:         $modified++;
-</span><span class="">  331:     }
-</span><span class="">  332: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  333:     return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  334: }
-</span><span class="">  335: 
-</span><span class="">  336: sub detect_and_create_cache_step($steps) {
-</span><span class="">  337:     # Detect project type from steps
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">338 → 338 → 393</span></span>  338:     for my $step (@$steps) {
-</span><span class="">  339:         my $run = $step-&gt;{run} // &#39;&#39;;
-</span><span class="">  340: 
-</span><span class="">  341:         # Node.js
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  342:         if ($run =~ /npm (?:install|ci)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-node/)) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  343:             return {
-</span><span class="">  344:                 name =&gt; &#39;Cache dependencies&#39;,
-</span><span class="">  345:                 uses =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  346:                 with =&gt; {
-</span><span class="">  347:                     path =&gt; &#39;~/.npm&#39;,
-</span><span class="">  348:                     key =&gt; &#39;${{ runner.os }}-node-${{ hashFiles(\&#39;**/package-lock.json\&#39;) }}&#39;,
-</span><span class="">  349:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-node-&#39;,
-</span><span class="">  350:                 },
-</span><span class="">  351:             };
-</span><span class="">  352:         }
-</span><span class="">  353: 
-</span><span class="">  354:         # Python
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  355:         if ($run =~ /pip install/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-python/)) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  356:             return {
-</span><span class="">  357:                 name =&gt; &#39;Cache pip packages&#39;,
-</span><span class="">  358:                 uses =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  359:                 with =&gt; {
-</span><span class="">  360:                     path =&gt; &#39;~/.cache/pip&#39;,
-</span><span class="">  361:                     key =&gt; &#39;${{ runner.os }}-pip-${{ hashFiles(\&#39;**/requirements.txt\&#39;) }}&#39;,
-</span><span class="">  362:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-pip-&#39;,
-</span><span class="">  363:                 },
-</span><span class="">  364:             };
-</span><span class="">  365:         }
-</span><span class="">  366: 
-</span><span class="">  367:         # Rust
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  368:         if ($run =~ /cargo (?:build|test)/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  369:             return {
-</span><span class="">  370:                 name =&gt; &#39;Cache cargo&#39;,
-</span><span class="">  371:                 uses =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  372:                 with =&gt; {
-</span><span class="">  373:                     path =&gt; &quot;~/.cargo/bin/\n~/.cargo/registry/index/\n~/.cargo/registry/cache/\n~/.cargo/git/db/\ntarget/&quot;,
-</span><span class="">  374:                     key =&gt; &#39;${{ runner.os }}-cargo-${{ hashFiles(\&#39;**/Cargo.lock\&#39;) }}&#39;,
-</span><span class="">  375:                 },
-</span><span class="">  376:             };
-</span><span class="">  377:         }
-</span><span class="">  378: 
-</span><span class="">  379:         # Go
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  380:         if ($run =~ /go (?:build|test)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-go/)) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  381:             return {
-</span><span class="">  382:                 name =&gt; &#39;Cache Go modules&#39;,
-</span><span class="">  383:                 uses =&gt; &#39;actions/cache@v5&#39;,
-</span><span class="">  384:                 with =&gt; {
-</span><span class="">  385:                     path =&gt; &#39;~/go/pkg/mod&#39;,
-</span><span class="">  386:                     key =&gt; &#39;${{ runner.os }}-go-${{ hashFiles(\&#39;**/go.sum\&#39;) }}&#39;,
-</span><span class="">  387:                     &#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-go-&#39;,
-</span><span class="">  388:                 },
-</span><span class="">  389:             };
-</span><span class="">  390:         }
-</span><span class="">  391:     }
-</span><span class="">  392: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  393:     return undef;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  394: }
-</span><span class="">  395: 
-</span><span class="">  396: sub fix_unpinned_actions($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">397 → 400 → 415</span></span>  397: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  398: 	my $modified = 0;
-</span><span class="">  399: 
-</span><span class="">  400:     for my $job (values %$jobs) {
-</span><span class="">  401:         my $steps = $job-&gt;{steps} or next;
-</span><span class="">  402:         for my $step (@$steps) {
-</span><span class="">  403:             next unless $step-&gt;{uses};
-</span><span class="">  404: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  405:             if ($step-&gt;{uses} =~ /^(.+?)\@(?:master|main)$/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  406:                 my $action = $1;
-</span><span class="">  407:                 # Map to appropriate version
-</span><span class="">  408:                 my $version = get_latest_version($action);
-</span><span class="">  409:                 $step-&gt;{uses} = &quot;$action\@$version&quot;;
-</span><span class="">  410:                 $modified++;
-</span><span class="">  411:             }
-</span><span class="">  412:         }
-</span><span class="">  413:     }
-</span><span class="">  414: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  415:     return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  416: }
-</span><span class="">  417: 
-</span><span class="">  418: sub add_permissions($workflow) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  419: 	return 0 if $workflow-&gt;{permissions};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  420: 
-</span><span class="">  421: 	$workflow-&gt;{permissions} = { contents =&gt; &#39;read&#39; };
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  422: 	return 1;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  423: }
-</span><span class="">  424: 
-</span><span class="">  425: sub update_actions($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">426 → 431 → 444</span></span>  426: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  427: 	my $modified = 0;
-</span><span class="">  428: 
-</span><span class="">  429: 	# Premise: %ACTION_UPDATES is the canonical version table (defined above).
-</span><span class="">  430: 	# Conclusion: this function and find_outdated_actions (Analyzer) are always in sync.
-</span><span class="">  431: 	for my $job (values %$jobs) {
-</span><span class="">  432: 		my $steps = $job-&gt;{steps} or next;
-</span><span class="">  433: 		for my $step (@$steps) {
-</span><span class="">  434: 			next unless $step-&gt;{uses};
-</span><span class="">  435: 			for my $old (keys %ACTION_UPDATES) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  436: 				if ($step-&gt;{uses} =~ /^\Q$old\E/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  437: 					$step-&gt;{uses} = $ACTION_UPDATES{$old};
-</span><span class="">  438: 					$modified++;
-</span><span class="">  439: 				}
-</span><span class="">  440: 			}
-</span><span class="">  441: 		}
-</span><span class="">  442: 	}
-</span><span class="">  443: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  444: 	return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  445: }
-</span><span class="">  446: 
-</span><span class="">  447: sub add_concurrency($workflow) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	return 0 if $workflow-&gt;{concurrency};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: 
-</span><span class="">  450:     $workflow-&gt;{concurrency} = {
-</span><span class="">  451:         group =&gt; &#39;${{ github.workflow }}-${{ github.ref }}&#39;,
-</span><span class="">  452:         &#39;cancel-in-progress&#39; =&gt; &#39;true&#39;,
-</span><span class="">  453:     };
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  454:     return 1;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  455: }
-</span><span class="">  456: 
-</span><span class="">  457: sub add_trigger_filters($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">458 → 462 → 481</span></span>  458: 	my $on = $workflow-&gt;{on} or return 0;
-</span><span class="">  459: 	my $modified = 0;
-</span><span class="">  460: 
-</span><span class="">  461:     # If &#39;on&#39; is just &#39;push&#39;, expand it
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  462:     if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  463:         $workflow-&gt;{on} = {
-</span><span class="">  464:             push =&gt; {
-</span><span class="">  465:                 branches =&gt; [&#39;main&#39;, &#39;master&#39;],
-</span><span class="">  466:             },
-</span><span class="">  467:             pull_request =&gt; {
-</span><span class="">  468:                 branches =&gt; [&#39;main&#39;, &#39;master&#39;],
-</span><span class="">  469:             },
-</span><span class="">  470:         };
-</span><span class="">  471:         $modified++;
-</span><span class="">  472:     }
-</span><span class="">  473:     elsif (ref $on eq &#39;HASH&#39; &amp;&amp; $on-&gt;{push} &amp;&amp; ref $on-&gt;{push} eq &#39;&#39;) {
-</span><span class="">  474:         # &#39;push&#39; with no filters
-</span><span class="">  475:         $on-&gt;{push} = {
-</span><span class="">  476:             branches =&gt; [&#39;main&#39;, &#39;master&#39;],
-</span><span class="">  477:         };
-</span><span class="">  478:         $modified++;
-</span><span class="">  479:     }
-</span><span class="">  480: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  481:     return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  482: }
-</span><span class="">  483: 
-</span><span class="">  484: sub add_missing_timeout($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">485 → 488 → 499</span></span>  485: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  486: 	my $modified = 0;
-</span><span class="">  487: 
-</span><span class="">  488:     for my $job_name (keys %$jobs) {
-</span><span class="">  489:         my $job = $jobs-&gt;{$job_name};
-</span><span class="">  490: 
-</span><span class="">  491:         # Skip if timeout already exists
-</span><span class="">  492:         next if exists $job-&gt;{&#39;timeout-minutes&#39;};
-</span><span class="">  493: 
-</span><span class="">  494:         # Insert default timeout
-</span><span class="">  495:         $job-&gt;{&#39;timeout-minutes&#39;} = $DEFAULT_TIMEOUT_MINUTES;
-</span><span class="">  496:         $modified++;
-</span><span class="">  497:     }
-</span><span class="">  498: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  499: 	return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  500: }
-</span><span class="">  501: 
-</span><span class="">  502: sub update_runners($workflow) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">503 → 513 → 522</span></span>  503: 	my $jobs = $workflow-&gt;{jobs} or return 0;
-</span><span class="">  504: 	my $modified = 0;
-</span><span class="">  505: 
-</span><span class="">  506:     my %runner_updates = (
-</span><span class="">  507:         &#39;ubuntu-18.04&#39; =&gt; &#39;ubuntu-latest&#39;,
-</span><span class="">  508:         &#39;ubuntu-16.04&#39; =&gt; &#39;ubuntu-latest&#39;,
-</span><span class="">  509:         &#39;macos-10.15&#39;  =&gt; &#39;macos-latest&#39;,
-</span><span class="">  510:         &#39;windows-2016&#39; =&gt; &#39;windows-latest&#39;,
-</span><span class="">  511:     );
-</span><span class="">  512: 
-</span><span class="">  513:     for my $job (values %$jobs) {
-</span><span class="">  514:         my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
-</span><span class="">  515: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  516:         if (exists $runner_updates{$runs_on}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  517:             $job-&gt;{&#39;runs-on&#39;} = $runner_updates{$runs_on};
-</span><span class="">  518:             $modified++;
-</span><span class="">  519:         }
-</span><span class="">  520:     }
-</span><span class="">  521: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  522:     return $modified;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  523: }
-</span><span class="">  524: 
-</span><span class="">  525: sub get_latest_version($action) {
-</span><span class="">  526:     my %versions = (
-</span><span class="">  527:         &#39;actions/checkout&#39; =&gt; &#39;v6&#39;,
-</span><span class="">  528:         &#39;actions/cache&#39; =&gt; &#39;v5&#39;,
-</span><span class="">  529:         &#39;actions/setup-node&#39; =&gt; &#39;v4&#39;,
-</span><span class="">  530:         &#39;actions/setup-python&#39; =&gt; &#39;v5&#39;,
-</span><span class="">  531:         &#39;actions/setup-go&#39; =&gt; &#39;v5&#39;,
-</span><span class="">  532:         &#39;actions/upload-artifact&#39; =&gt; &#39;v4&#39;,
-</span><span class="">  533:         &#39;actions/download-artifact&#39; =&gt; &#39;v4&#39;,
-</span><span class="">  534:     );
-</span><span class="">  535: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  536:     return $versions{$action} // &#39;v4&#39;;  # Default fallback
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  537: }
-</span><span class="">  538: 
-</span><span class="">  539: =head1 AUTHOR
+</span><span class="">  305: # Fix implementations
+</span><span class="">  306: 
+</span><span class="">  307: sub add_caching($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">308 → 311 → 335</span></span>  308: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  309: 	my $modified = 0;
+</span><span class="">  310: 
+</span><span class="">  311: 	for my $job (values %$jobs) {
+</span><span class="">  312: 		my $steps = $job-&gt;{steps} or next;
+</span><span class="">  313: 
+</span><span class="">  314: 		# Check if already has caching
+</span><span class="">  315: 		my $has_cache = grep { $_-&gt;{uses} &amp;&amp; $_-&gt;{uses} =~ /actions\/cache/ } @$steps;
+</span><span class="">  316: 		next if $has_cache;
+</span><span class="">  317: 
+</span><span class="">  318: 		# Detect project type and add appropriate cache
+</span><span class="">  319: 		my $cache_step = detect_and_create_cache_step($steps);
+</span><span class="">  320: 		next unless $cache_step;
+</span><span class="">  321: 
+</span><span class="">  322: 		# Insert cache step after checkout
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  323: 		my $insert_at = 0;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  324: 		for my $i (0 .. $#$steps) {
+</span><span class="">  325: 			if ($steps-&gt;[$i]-&gt;{uses} &amp;&amp; $steps-&gt;[$i]-&gt;{uses} =~ /actions\/checkout/) {
+</span><span class="">  326: 				$insert_at = $i + 1;
+</span><span class="">  327: 				last;
+</span><span class="">  328: 			}
+</span><span class="">  329: 		}
+</span><span class="">  330: 
+</span><span class="">  331: 		splice @$steps, $insert_at, 0, $cache_step;
+</span><span class="">  332: 		$modified++;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  333: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  334: 
+</span><span class="">  335: 	return $modified;
+</span><span class="">  336: }
+</span><span class="">  337: 
+</span><span class="">  338: sub detect_and_create_cache_step($steps) {
+</span><span class="">  339: 	# Detect project type from steps
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">340 → 340 → 395</span></span>  340: 	for my $step (@$steps) {
+</span><span class="">  341: 		my $run = $step-&gt;{run} // &#39;&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  342: 
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  343: 		# Node.js
+</span><span class="">  344: 		if ($run =~ /npm (?:install|ci)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-node/)) {
+</span><span class="">  345: 			return {
+</span><span class="">  346: 				name =&gt; &#39;Cache dependencies&#39;,
+</span><span class="">  347: 				uses =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  348: 				with =&gt; {
+</span><span class="">  349: 					path =&gt; &#39;~/.npm&#39;,
+</span><span class="">  350: 					key =&gt; &#39;${{ runner.os }}-node-${{ hashFiles(\&#39;**/package-lock.json\&#39;) }}&#39;,
+</span><span class="">  351: 					&#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-node-&#39;,
+</span><span class="">  352: 				},
+</span><span class="">  353: 			};
+</span><span class="">  354: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  355: 
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  356: 		# Python
+</span><span class="">  357: 		if ($run =~ /pip install/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-python/)) {
+</span><span class="">  358: 			return {
+</span><span class="">  359: 				name =&gt; &#39;Cache pip packages&#39;,
+</span><span class="">  360: 				uses =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  361: 				with =&gt; {
+</span><span class="">  362: 					path =&gt; &#39;~/.cache/pip&#39;,
+</span><span class="">  363: 					key =&gt; &#39;${{ runner.os }}-pip-${{ hashFiles(\&#39;**/requirements.txt\&#39;) }}&#39;,
+</span><span class="">  364: 					&#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-pip-&#39;,
+</span><span class="">  365: 				},
+</span><span class="">  366: 			};
+</span><span class="">  367: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  368: 
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  369: 		# Rust
+</span><span class="">  370: 		if ($run =~ /cargo (?:build|test)/) {
+</span><span class="">  371: 			return {
+</span><span class="">  372: 				name =&gt; &#39;Cache cargo&#39;,
+</span><span class="">  373: 				uses =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  374: 				with =&gt; {
+</span><span class="">  375: 					path =&gt; &quot;~/.cargo/bin/\n~/.cargo/registry/index/\n~/.cargo/registry/cache/\n~/.cargo/git/db/\ntarget/&quot;,
+</span><span class="">  376: 					key =&gt; &#39;${{ runner.os }}-cargo-${{ hashFiles(\&#39;**/Cargo.lock\&#39;) }}&#39;,
+</span><span class="">  377: 				},
+</span><span class="">  378: 			};
+</span><span class="">  379: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  380: 
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  381: 		# Go
+</span><span class="">  382: 		if ($run =~ /go (?:build|test)/ || ($step-&gt;{uses} &amp;&amp; $step-&gt;{uses} =~ /setup-go/)) {
+</span><span class="">  383: 			return {
+</span><span class="">  384: 				name =&gt; &#39;Cache Go modules&#39;,
+</span><span class="">  385: 				uses =&gt; &#39;actions/cache@v5&#39;,
+</span><span class="">  386: 				with =&gt; {
+</span><span class="">  387: 					path =&gt; &#39;~/go/pkg/mod&#39;,
+</span><span class="">  388: 					key =&gt; &#39;${{ runner.os }}-go-${{ hashFiles(\&#39;**/go.sum\&#39;) }}&#39;,
+</span><span class="">  389: 					&#39;restore-keys&#39; =&gt; &#39;${{ runner.os }}-go-&#39;,
+</span><span class="">  390: 				},
+</span><span class="">  391: 			};
+</span><span class="">  392: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  393: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  394: 
+</span><span class="">  395: 	return undef;
+</span><span class="">  396: }
+</span><span class="">  397: 
+</span><span class="">  398: sub fix_unpinned_actions($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">399 → 402 → 417</span></span>  399: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  400: 	my $modified = 0;
+</span><span class="">  401: 
+</span><span class="">  402: 	for my $job (values %$jobs) {
+</span><span class="">  403: 		my $steps = $job-&gt;{steps} or next;
+</span><span class="">  404: 		for my $step (@$steps) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  405: 			next unless $step-&gt;{uses};
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  406: 
+</span><span class="">  407: 			if ($step-&gt;{uses} =~ /^(.+?)\@(?:master|main)$/) {
+</span><span class="">  408: 				my $action = $1;
+</span><span class="">  409: 				# Map to appropriate version
+</span><span class="">  410: 				my $version = get_latest_version($action);
+</span><span class="">  411: 				$step-&gt;{uses} = &quot;$action\@$version&quot;;
+</span><span class="">  412: 				$modified++;
+</span><span class="">  413: 			}
+</span><span class="">  414: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  415: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  416: 
+</span><span class="">  417: 	return $modified;
+</span><span class="">  418: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  419: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  420: sub add_permissions($workflow) {
+</span><span class="">  421: 	return 0 if $workflow-&gt;{permissions};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  422: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  423: 	$workflow-&gt;{permissions} = { contents =&gt; &#39;read&#39; };
+</span><span class="">  424: 	return 1;
+</span><span class="">  425: }
+</span><span class="">  426: 
+</span><span class="">  427: sub update_actions($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">428 → 433 → 446</span></span>  428: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  429: 	my $modified = 0;
+</span><span class="">  430: 
+</span><span class="">  431: 	# Premise: %ACTION_UPDATES is the canonical version table (defined above).
+</span><span class="">  432: 	# Conclusion: this function and find_outdated_actions (Analyzer) are always in sync.
+</span><span class="">  433: 	for my $job (values %$jobs) {
+</span><span class="">  434: 		my $steps = $job-&gt;{steps} or next;
+</span><span class="">  435: 		for my $step (@$steps) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  436: 			next unless $step-&gt;{uses};
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  437: 			for my $old (keys %ACTION_UPDATES) {
+</span><span class="">  438: 				if ($step-&gt;{uses} =~ /^\Q$old\E/) {
+</span><span class="">  439: 					$step-&gt;{uses} = $ACTION_UPDATES{$old};
+</span><span class="">  440: 					$modified++;
+</span><span class="">  441: 				}
+</span><span class="">  442: 			}
+</span><span class="">  443: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  444: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  445: 
+</span><span class="">  446: 	return $modified;
+</span><span class="">  447: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: sub add_concurrency($workflow) {
+</span><span class="">  450: 	return 0 if $workflow-&gt;{concurrency};
+</span><span class="">  451: 
+</span><span class="">  452: 	$workflow-&gt;{concurrency} = {
+</span><span class="">  453: 		group =&gt; &#39;${{ github.workflow }}-${{ github.ref }}&#39;,
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  454: 		&#39;cancel-in-progress&#39; =&gt; &#39;true&#39;,
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  455: 	};
+</span><span class="">  456: 	return 1;
+</span><span class="">  457: }
+</span><span class="">  458: 
+</span><span class="">  459: sub add_trigger_filters($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">460 → 464 → 483</span></span>  460: 	my $on = $workflow-&gt;{on} or return 0;
+</span><span class="">  461: 	my $modified = 0;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  462: 
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  463: 	# If &#39;on&#39; is just &#39;push&#39;, expand it
+</span><span class="">  464: 	if (ref $on eq &#39;ARRAY&#39; &amp;&amp; grep { $_ eq &#39;push&#39; } @$on) {
+</span><span class="">  465: 		$workflow-&gt;{on} = {
+</span><span class="">  466: 			push =&gt; {
+</span><span class="">  467: 				branches =&gt; [&#39;main&#39;, &#39;master&#39;],
+</span><span class="">  468: 			},
+</span><span class="">  469: 			pull_request =&gt; {
+</span><span class="">  470: 				branches =&gt; [&#39;main&#39;, &#39;master&#39;],
+</span><span class="">  471: 			},
+</span><span class="">  472: 		};
+</span><span class="">  473: 		$modified++;
+</span><span class="">  474: 	}
+</span><span class="">  475: 	elsif (ref $on eq &#39;HASH&#39; &amp;&amp; $on-&gt;{push} &amp;&amp; ref $on-&gt;{push} eq &#39;&#39;) {
+</span><span class="">  476: 		# &#39;push&#39; with no filters
+</span><span class="">  477: 		$on-&gt;{push} = {
+</span><span class="">  478: 			branches =&gt; [&#39;main&#39;, &#39;master&#39;],
+</span><span class="">  479: 		};
+</span><span class="">  480: 		$modified++;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  481: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  482: 
+</span><span class="">  483: 	return $modified;
+</span><span class="">  484: }
+</span><span class="">  485: 
+</span><span class="">  486: sub add_missing_timeout($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">487 → 490 → 501</span></span>  487: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  488: 	my $modified = 0;
+</span><span class="">  489: 
+</span><span class="">  490: 	for my $job_name (keys %$jobs) {
+</span><span class="">  491: 		my $job = $jobs-&gt;{$job_name};
+</span><span class="">  492: 
+</span><span class="">  493: 		# Skip if timeout already exists
+</span><span class="">  494: 		next if exists $job-&gt;{&#39;timeout-minutes&#39;};
+</span><span class="">  495: 
+</span><span class="">  496: 		# Insert default timeout
+</span><span class="">  497: 		$job-&gt;{&#39;timeout-minutes&#39;} = $DEFAULT_TIMEOUT_MINUTES;
+</span><span class="">  498: 		$modified++;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  499: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  500: 
+</span><span class="">  501: 	return $modified;
+</span><span class="">  502: }
+</span><span class="">  503: 
+</span><span class="">  504: sub update_runners($workflow) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">505 → 515 → 524</span></span>  505: 	my $jobs = $workflow-&gt;{jobs} or return 0;
+</span><span class="">  506: 	my $modified = 0;
+</span><span class="">  507: 
+</span><span class="">  508: 	my %runner_updates = (
+</span><span class="">  509: 		&#39;ubuntu-18.04&#39; =&gt; &#39;ubuntu-latest&#39;,
+</span><span class="">  510: 		&#39;ubuntu-16.04&#39; =&gt; &#39;ubuntu-latest&#39;,
+</span><span class="">  511: 		&#39;macos-10.15&#39;  =&gt; &#39;macos-latest&#39;,
+</span><span class="">  512: 		&#39;windows-2016&#39; =&gt; &#39;windows-latest&#39;,
+</span><span class="">  513: 	);
+</span><span class="">  514: 
+</span><span class="">  515: 	for my $job (values %$jobs) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  516: 		my $runs_on = $job-&gt;{&#39;runs-on&#39;} or next;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  517: 
+</span><span class="">  518: 		if (exists $runner_updates{$runs_on}) {
+</span><span class="">  519: 			$job-&gt;{&#39;runs-on&#39;} = $runner_updates{$runs_on};
+</span><span class="">  520: 			$modified++;
+</span><span class="">  521: 		}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  522: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  523: 
+</span><span class="">  524: 	return $modified;
+</span><span class="">  525: }
+</span><span class="">  526: 
+</span><span class="">  527: sub get_latest_version($action) {
+</span><span class="">  528: 	my %versions = (
+</span><span class="">  529: 		&#39;actions/checkout&#39; =&gt; &#39;v6&#39;,
+</span><span class="">  530: 		&#39;actions/cache&#39; =&gt; &#39;v5&#39;,
+</span><span class="">  531: 		&#39;actions/setup-node&#39; =&gt; &#39;v4&#39;,
+</span><span class="">  532: 		&#39;actions/setup-python&#39; =&gt; &#39;v5&#39;,
+</span><span class="">  533: 		&#39;actions/setup-go&#39; =&gt; &#39;v5&#39;,
+</span><span class="">  534: 		&#39;actions/upload-artifact&#39; =&gt; &#39;v4&#39;,
+</span><span class="">  535: 		&#39;actions/download-artifact&#39; =&gt; &#39;v4&#39;,
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  536: 	);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  537: 
+</span><span class="">  538: 	return $versions{$action} // &#39;v4&#39;;  # Default fallback
+</span><span class="">  539: }
 </span><span class="">  540: 
-</span><span class="">  541: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  541: =head1 AUTHOR
 </span><span class="">  542: 
-</span><span class="">  543: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  543: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 </span><span class="">  544: 
-</span><span class="">  545: =head1 COPYRIGHT AND LICENSE
+</span><span class="">  545: L&lt;https://github.com/nigelhorne&gt;
 </span><span class="">  546: 
-</span><span class="">  547: Copyright 2025-2026 Nigel Horne.
+</span><span class="">  547: =head1 COPYRIGHT AND LICENSE
 </span><span class="">  548: 
-</span><span class="">  549: Usage is subject to license terms.
+</span><span class="">  549: Copyright 2025-2026 Nigel Horne.
 </span><span class="">  550: 
-</span><span class="">  551: The license terms of this software are as follows:
+</span><span class="">  551: Usage is subject to license terms.
 </span><span class="">  552: 
-</span><span class="">  553: =cut
+</span><span class="">  553: The license terms of this software are as follows:
 </span><span class="">  554: 
-</span><span class="">  555: 1;
+</span><span class="">  555: =cut
+</span><span class="">  556: 
+</span><span class="">  557: 1;
 </span></pre>
 
 <script>

@@ -352,436 +352,438 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   11: 	estimate_savings
 </span><span class="">   12: );
 </span><span class="">   13: 
-</span><span class="">   14: our $VERSION = &#39;0.12&#39;;
+</span><span class="">   14: our $VERSION = &#39;0.13&#39;;
 </span><span class="">   15: 
-</span><span class="">   16: =head1 NAME
+</span><span class="">   16: =encoding utf-8
 </span><span class="">   17: 
-</span><span class="">   18: App::GHGen::Reporter - Generate reports for GitHub integration
+</span><span class="">   18: =head1 NAME
 </span><span class="">   19: 
-</span><span class="">   20: =head1 SYNOPSIS
+</span><span class="">   20: App::GHGen::Reporter - Generate reports for GitHub integration
 </span><span class="">   21: 
-</span><span class="">   22:     use App::GHGen::Reporter qw(generate_github_comment);
+</span><span class="">   22: =head1 SYNOPSIS
 </span><span class="">   23: 
-</span><span class="">   24:     my $comment = generate_github_comment(\@issues, \@fixes);
+</span><span class="">   24:     use App::GHGen::Reporter qw(generate_github_comment);
 </span><span class="">   25: 
-</span><span class="">   26: =head1 FUNCTIONS
+</span><span class="">   26:     my $comment = generate_github_comment(\@issues, \@fixes);
 </span><span class="">   27: 
-</span><span class="">   28: =head2 generate_markdown_report($issues, $fixes)
+</span><span class="">   28: =head1 FUNCTIONS
 </span><span class="">   29: 
-</span><span class="">   30: Produce a Markdown-formatted report of workflow issues and applied fixes.
+</span><span class="">   30: =head2 generate_markdown_report($issues, $fixes)
 </span><span class="">   31: 
-</span><span class="">   32: =head3 Purpose
+</span><span class="">   32: Produce a Markdown-formatted report of workflow issues and applied fixes.
 </span><span class="">   33: 
-</span><span class="">   34: Render a structured Markdown document that summarises detected issues grouped
-</span><span class="">   35: by category, includes suggested fixes, and appends an estimated savings
-</span><span class="">   36: section when applicable.
-</span><span class="">   37: 
-</span><span class="">   38: =head3 Arguments
+</span><span class="">   34: =head3 Purpose
+</span><span class="">   35: 
+</span><span class="">   36: Render a structured Markdown document that summarises detected issues grouped
+</span><span class="">   37: by category, includes suggested fixes, and appends an estimated savings
+</span><span class="">   38: section when applicable.
 </span><span class="">   39: 
-</span><span class="">   40: =over 4
+</span><span class="">   40: =head3 Arguments
 </span><span class="">   41: 
-</span><span class="">   42: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">   42: =over 4
 </span><span class="">   43: 
-</span><span class="">   44: Issues to report.  Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
-</span><span class="">   45: optional C&lt;fix&gt; key renders a collapsible C&lt;E&lt;lt&gt;detailsE&lt;gt&gt;&gt; block.
-</span><span class="">   46: 
-</span><span class="">   47: =item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
+</span><span class="">   44: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">   45: 
+</span><span class="">   46: Issues to report.  Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
+</span><span class="">   47: optional C&lt;fix&gt; key renders a collapsible C&lt;E&lt;lt&gt;detailsE&lt;gt&gt;&gt; block.
 </span><span class="">   48: 
-</span><span class="">   49: List of fixes already applied (used only for the summary count).
+</span><span class="">   49: =item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
 </span><span class="">   50: 
-</span><span class="">   51: =back
+</span><span class="">   51: List of fixes already applied (used only for the summary count).
 </span><span class="">   52: 
-</span><span class="">   53: =head3 Returns
+</span><span class="">   53: =back
 </span><span class="">   54: 
-</span><span class="">   55: A non-empty Markdown string beginning with C&lt;# GHGen Workflow Analysis&gt;.
+</span><span class="">   55: =head3 Returns
 </span><span class="">   56: 
-</span><span class="">   57: =head3 Side Effects
+</span><span class="">   57: A non-empty Markdown string beginning with C&lt;# GHGen Workflow Analysis&gt;.
 </span><span class="">   58: 
-</span><span class="">   59: None.  Pure function.
+</span><span class="">   59: =head3 Side Effects
 </span><span class="">   60: 
-</span><span class="">   61: =head3 Usage Example
+</span><span class="">   61: None.  Pure function.
 </span><span class="">   62: 
-</span><span class="">   63:     my $md = generate_markdown_report(\@issues, \@fixes);
-</span><span class="">   64:     path(&#39;report.md&#39;)-&gt;spew_utf8($md);
-</span><span class="">   65: 
-</span><span class="">   66: =head3 API SPECIFICATION
+</span><span class="">   63: =head3 Usage Example
+</span><span class="">   64: 
+</span><span class="">   65:     my $md = generate_markdown_report(\@issues, \@fixes);
+</span><span class="">   66:     path(&#39;report.md&#39;)-&gt;spew_utf8($md);
 </span><span class="">   67: 
-</span><span class="">   68: =head4 Input
+</span><span class="">   68: =head3 API SPECIFICATION
 </span><span class="">   69: 
-</span><span class="">   70:     {
-</span><span class="">   71:         issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">   72:         fixes  =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
-</span><span class="">   73:     }
-</span><span class="">   74: 
-</span><span class="">   75: =head4 Output
+</span><span class="">   70: =head4 Input
+</span><span class="">   71: 
+</span><span class="">   72:     {
+</span><span class="">   73:         issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">   74:         fixes  =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
+</span><span class="">   75:     }
 </span><span class="">   76: 
-</span><span class="">   77:     { type =&gt; &#39;scalar&#39; }   # Markdown string
+</span><span class="">   77: =head4 Output
 </span><span class="">   78: 
-</span><span class="">   79: =head3 FORMAL SPECIFICATION
+</span><span class="">   79:     { type =&gt; &#39;scalar&#39; }   # Markdown string
 </span><span class="">   80: 
-</span><span class="">   81:     generate_markdown_report : seq Issue &Atilde;&#151; seq Fix &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">   81: =head3 FORMAL SPECIFICATION
 </span><span class="">   82: 
-</span><span class="">   83:     result begins with &quot;# GHGen Workflow Analysis&quot;
-</span><span class="">   84:     |issues| &gt; 0 &acirc;&#135;&#146; result contains &quot;## Issues by Category&quot;
-</span><span class="">   85:     |issues| = 0 &acirc;&#135;&#146; result does not contain &quot;## Issues by Category&quot;
-</span><span class="">   86:     |fixes|  &gt; 0 &acirc;&#135;&#146; result contains &quot;Fixes applied&quot;
-</span><span class="">   87:     savings.minutes &gt; 0 &acirc;&#135;&#146; result contains &quot;## &eth;&#159;&#146;&deg; Estimated Savings&quot;
-</span><span class="">   88: 
-</span><span class="">   89: =cut
+</span><span class="">   83:     generate_markdown_report : seq Issue &Atilde;&#151; seq Fix &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">   84: 
+</span><span class="">   85:     result begins with &quot;# GHGen Workflow Analysis&quot;
+</span><span class="">   86:     |issues| &gt; 0 &acirc;&#135;&#146; result contains &quot;## Issues by Category&quot;
+</span><span class="">   87:     |issues| = 0 &acirc;&#135;&#146; result does not contain &quot;## Issues by Category&quot;
+</span><span class="">   88:     |fixes|  &gt; 0 &acirc;&#135;&#146; result contains &quot;Fixes applied&quot;
+</span><span class="">   89:     savings.minutes &gt; 0 &acirc;&#135;&#146; result contains &quot;## &eth;&#159;&#146;&deg; Estimated Savings&quot;
 </span><span class="">   90: 
-</span><span class="">   91: sub generate_markdown_report($issues, $fixes = []) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">92 → 101 → 130</span></span>   92: 	my $report = &quot;# GHGen Workflow Analysis\n\n&quot;;
-</span><span class="">   93: 
-</span><span class="">   94: 	my $total_issues = scalar @$issues;
-</span><span class="">   95: 	my $total_fixes = scalar @$fixes;
-</span><span class="">   96: 
-</span><span class="">   97: 	$report .= &quot;## Summary\n\n&quot;;
-</span><span class="">   98: 	$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;
-</span><span class="">   99: 	$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;
-</span><span class="">  100: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  101:     if (@$issues) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  102:         # Group by type
-</span><span class="">  103:         my %by_type;
-</span><span class="">  104:         push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
-</span><span class="">  105: 
-</span><span class="">  106:         $report .= &quot;## Issues by Category\n\n&quot;;
+</span><span class="">   91: =cut
+</span><span class="">   92: 
+</span><span class="">   93: sub generate_markdown_report($issues, $fixes = []) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">94 → 103 → 132</span></span>   94: 	my $report = &quot;# GHGen Workflow Analysis\n\n&quot;;
+</span><span class="">   95: 
+</span><span class="">   96: 	my $total_issues = scalar @$issues;
+</span><span class="">   97: 	my $total_fixes = scalar @$fixes;
+</span><span class="">   98: 
+</span><span class="">   99: 	$report .= &quot;## Summary\n\n&quot;;
+</span><span class="">  100: 	$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  101: 	$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  102: 
+</span><span class="">  103: 	if (@$issues) {
+</span><span class="">  104: 		# Group by type
+</span><span class="">  105: 		my %by_type;
+</span><span class="">  106: 		push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
 </span><span class="">  107: 
-</span><span class="">  108:         for my $type (sort keys %by_type) {
-</span><span class="">  109:             my $count = scalar @{$by_type{$type}};
-</span><span class="">  110:             my $emoji = get_type_emoji($type);
-</span><span class="">  111:             $report .= &quot;### $emoji &quot; . ucfirst($type) . &quot; ($count)\n\n&quot;;
-</span><span class="">  112: 
-</span><span class="">  113:             for my $issue (@{$by_type{$type}}) {
-</span><span class="">  114:                 my $severity_badge = get_severity_badge($issue-&gt;{severity});
-</span><span class="">  115:                 $report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;
-</span><span class="">  116: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  117:                 if ($issue-&gt;{fix}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  118:                     $report .= &quot;&lt;details&gt;\n&quot;;
-</span><span class="">  119:                     $report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;
-</span><span class="">  120:                     $report .= &quot;```yaml\n&quot;;
-</span><span class="">  121:                     $report .= &quot;$issue-&gt;{fix}\n&quot;;
-</span><span class="">  122:                     $report .= &quot;```\n\n&quot;;
-</span><span class="">  123:                     $report .= &quot;&lt;/details&gt;\n\n&quot;;
-</span><span class="">  124:                 }
-</span><span class="">  125:             }
-</span><span class="">  126:         }
-</span><span class="">  127:     }
-</span><span class="">  128: 
-</span><span class="">  129:     # Add savings estimate if available
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">130 → 131 → 143</span></span>  130:     my $savings = estimate_savings($issues);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  131:     if ($savings-&gt;{minutes} &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  132:         $report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;
-</span><span class="">  133:         $report .= &quot;By fixing these issues, you could save:\n\n&quot;;
-</span><span class="">  134:         $report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
-</span><span class="">  135: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136:         if ($savings-&gt;{cost} &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  137:             $report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
-</span><span class="">  138:         }
-</span><span class="">  139: 
-</span><span class="">  140:         $report .= &quot;\n&quot;;
-</span><span class="">  141:     }
-</span><span class="">  142: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  143:     return $report;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  144: }
-</span><span class="">  145: 
-</span><span class="">  146: =head2 generate_github_comment($issues, $fixes, $options)
+</span><span class="">  108: 		$report .= &quot;## Issues by Category\n\n&quot;;
+</span><span class="">  109: 
+</span><span class="">  110: 		for my $type (sort keys %by_type) {
+</span><span class="">  111: 			my $count = scalar @{$by_type{$type}};
+</span><span class="">  112: 			my $emoji = get_type_emoji($type);
+</span><span class="">  113: 			$report .= &quot;### $emoji &quot; . ucfirst($type) . &quot; ($count)\n\n&quot;;
+</span><span class="">  114: 
+</span><span class="">  115: 			for my $issue (@{$by_type{$type}}) {
+</span><span class="">  116: 				my $severity_badge = get_severity_badge($issue-&gt;{severity});
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  117: 				$report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  118: 
+</span><span class="">  119: 				if ($issue-&gt;{fix}) {
+</span><span class="">  120: 					$report .= &quot;&lt;details&gt;\n&quot;;
+</span><span class="">  121: 					$report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;
+</span><span class="">  122: 					$report .= &quot;```yaml\n&quot;;
+</span><span class="">  123: 					$report .= &quot;$issue-&gt;{fix}\n&quot;;
+</span><span class="">  124: 					$report .= &quot;```\n\n&quot;;
+</span><span class="">  125: 					$report .= &quot;&lt;/details&gt;\n\n&quot;;
+</span><span class="">  126: 				}
+</span><span class="">  127: 			}
+</span><span class="">  128: 		}
+</span><span class="">  129: 	}
+</span><span class="">  130: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  131: 	# Add savings estimate if available
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">132 → 133 → 145</span></span>  132: 	my $savings = estimate_savings($issues);
+</span><span class="">  133: 	if ($savings-&gt;{minutes} &gt; 0) {
+</span><span class="">  134: 		$report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;
+</span><span class="">  135: 		$report .= &quot;By fixing these issues, you could save:\n\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136: 		$report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  137: 
+</span><span class="">  138: 		if ($savings-&gt;{cost} &gt; 0) {
+</span><span class="">  139: 			$report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
+</span><span class="">  140: 		}
+</span><span class="">  141: 
+</span><span class="">  142: 		$report .= &quot;\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  143: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  144: 
+</span><span class="">  145: 	return $report;
+</span><span class="">  146: }
 </span><span class="">  147: 
-</span><span class="">  148: Generate a GitHub Pull-Request comment summarising workflow issues.
+</span><span class="">  148: =head2 generate_github_comment($issues, $fixes, $options)
 </span><span class="">  149: 
-</span><span class="">  150: =head3 Purpose
+</span><span class="">  150: Generate a GitHub Pull-Request comment summarising workflow issues.
 </span><span class="">  151: 
-</span><span class="">  152: Produce a compact Markdown comment suitable for posting as a PR review
-</span><span class="">  153: comment.  Includes a summary table, a collapsible detail block, a how-to-fix
-</span><span class="">  154: section when no fixes were applied, and a potential savings estimate.
-</span><span class="">  155: 
-</span><span class="">  156: =head3 Arguments
+</span><span class="">  152: =head3 Purpose
+</span><span class="">  153: 
+</span><span class="">  154: Produce a compact Markdown comment suitable for posting as a PR review
+</span><span class="">  155: comment.  Includes a summary table, a collapsible detail block, a how-to-fix
+</span><span class="">  156: section when no fixes were applied, and a potential savings estimate.
 </span><span class="">  157: 
-</span><span class="">  158: =over 4
+</span><span class="">  158: =head3 Arguments
 </span><span class="">  159: 
-</span><span class="">  160: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">  160: =over 4
 </span><span class="">  161: 
-</span><span class="">  162: Issues to display.  Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
-</span><span class="">  163: optional C&lt;file&gt; key adds a file reference line.
-</span><span class="">  164: 
-</span><span class="">  165: =item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
+</span><span class="">  162: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">  163: 
+</span><span class="">  164: Issues to display.  Each must have C&lt;type&gt;, C&lt;severity&gt;, C&lt;message&gt;; an
+</span><span class="">  165: optional C&lt;file&gt; key adds a file reference line.
 </span><span class="">  166: 
-</span><span class="">  167: Fixes already applied (used only for the applied-fix count in the header).
+</span><span class="">  167: =item C&lt;$fixes&gt; (ArrayRef, optional, default C&lt;[]&gt;)
 </span><span class="">  168: 
-</span><span class="">  169: =item C&lt;$options&gt; (HashRef, optional, default C&lt;{}&gt;)
+</span><span class="">  169: Fixes already applied (used only for the applied-fix count in the header).
 </span><span class="">  170: 
-</span><span class="">  171: Reserved for future use; currently unused.
+</span><span class="">  171: =item C&lt;$options&gt; (HashRef, optional, default C&lt;{}&gt;)
 </span><span class="">  172: 
-</span><span class="">  173: =back
+</span><span class="">  173: Reserved for future use; currently unused.
 </span><span class="">  174: 
-</span><span class="">  175: =head3 Returns
+</span><span class="">  175: =back
 </span><span class="">  176: 
-</span><span class="">  177: A non-empty Markdown string starting with C&lt;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis&gt;.
+</span><span class="">  177: =head3 Returns
 </span><span class="">  178: 
-</span><span class="">  179: When C&lt;$issues&gt; is empty, the comment contains the phrase
-</span><span class="">  180: C&lt;No issues found!&gt; and is returned early without a table or details block.
-</span><span class="">  181: 
-</span><span class="">  182: =head3 Side Effects
+</span><span class="">  179: A non-empty Markdown string starting with C&lt;## E&lt;0x1F50D&gt; GHGen Workflow Analysis&gt;.
+</span><span class="">  180: 
+</span><span class="">  181: When C&lt;$issues&gt; is empty, the comment contains the phrase
+</span><span class="">  182: C&lt;No issues found!&gt; and is returned early without a table or details block.
 </span><span class="">  183: 
-</span><span class="">  184: None.  Pure function.
+</span><span class="">  184: =head3 Side Effects
 </span><span class="">  185: 
-</span><span class="">  186: =head3 Usage Example
+</span><span class="">  186: None.  Pure function.
 </span><span class="">  187: 
-</span><span class="">  188:     my $comment = generate_github_comment(\@issues, \@fixes);
-</span><span class="">  189:     # Post $comment via GitHub API
-</span><span class="">  190: 
-</span><span class="">  191: =head3 API SPECIFICATION
+</span><span class="">  188: =head3 Usage Example
+</span><span class="">  189: 
+</span><span class="">  190:     my $comment = generate_github_comment(\@issues, \@fixes);
+</span><span class="">  191:     # Post $comment via GitHub API
 </span><span class="">  192: 
-</span><span class="">  193: =head4 Input
+</span><span class="">  193: =head3 API SPECIFICATION
 </span><span class="">  194: 
-</span><span class="">  195:     {
-</span><span class="">  196:         issues  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
-</span><span class="">  197:         fixes   =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
-</span><span class="">  198:         options =&gt; { type =&gt; &#39;hashref&#39;,  default  =&gt; {} },
-</span><span class="">  199:     }
-</span><span class="">  200: 
-</span><span class="">  201: =head4 Output
+</span><span class="">  195: =head4 Input
+</span><span class="">  196: 
+</span><span class="">  197:     {
+</span><span class="">  198:         issues  =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 },
+</span><span class="">  199:         fixes   =&gt; { type =&gt; &#39;arrayref&#39;, default  =&gt; [] },
+</span><span class="">  200:         options =&gt; { type =&gt; &#39;hashref&#39;,  default  =&gt; {} },
+</span><span class="">  201:     }
 </span><span class="">  202: 
-</span><span class="">  203:     { type =&gt; &#39;scalar&#39; }   # Markdown string
+</span><span class="">  203: =head4 Output
 </span><span class="">  204: 
-</span><span class="">  205: =head3 FORMAL SPECIFICATION
+</span><span class="">  205:     { type =&gt; &#39;scalar&#39; }   # Markdown string
 </span><span class="">  206: 
-</span><span class="">  207:     generate_github_comment : seq Issue &Atilde;&#151; seq Fix &Atilde;&#151; Options &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  207: =head3 FORMAL SPECIFICATION
 </span><span class="">  208: 
-</span><span class="">  209:     result begins with &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis&quot;
-</span><span class="">  210:     |issues| = 0 &acirc;&#135;&#146; result contains &quot;No issues found!&quot; &acirc;&#136;&sect; early return
-</span><span class="">  211:     |fixes|  &gt; 0 &acirc;&#135;&#146; result contains &quot;Applied&quot; &acirc;&#136;&sect; fix count
-</span><span class="">  212:     |issues| &gt; 0 &acirc;&#136;&sect; |fixes| = 0 &acirc;&#135;&#146; result contains &quot;How to Fix&quot;
-</span><span class="">  213:     &acirc;&#136;&#131; i &acirc;&#136;&#136; issues: i.file defined &acirc;&#135;&#146; result contains i.file
-</span><span class="">  214: 
-</span><span class="">  215: =cut
+</span><span class="">  209:     generate_github_comment : seq Issue &Atilde;&#151; seq Fix &Atilde;&#151; Options &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  210: 
+</span><span class="">  211:     result begins with &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis&quot;
+</span><span class="">  212:     |issues| = 0 &acirc;&#135;&#146; result contains &quot;No issues found!&quot; &acirc;&#136;&sect; early return
+</span><span class="">  213:     |fixes|  &gt; 0 &acirc;&#135;&#146; result contains &quot;Applied&quot; &acirc;&#136;&sect; fix count
+</span><span class="">  214:     |issues| &gt; 0 &acirc;&#136;&sect; |fixes| = 0 &acirc;&#135;&#146; result contains &quot;How to Fix&quot;
+</span><span class="">  215:     &acirc;&#136;&#131; i &acirc;&#136;&#136; issues: i.file defined &acirc;&#135;&#146; result contains i.file
 </span><span class="">  216: 
-</span><span class="">  217: sub generate_github_comment($issues, $fixes = [], $options = {}) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">218 → 223 → 227</span></span>  218: 	my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;
-</span><span class="">  219: 
-</span><span class="">  220:     my $total_issues = scalar @$issues;
-</span><span class="">  221:     my $total_fixes = scalar @$fixes;
-</span><span class="">  222: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  223:     if ($total_fixes &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  224:         $comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;
-</span><span class="">  225:     }
-</span><span class="">  226: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">227 → 227 → 233</span></span>  227:     if ($total_issues == 0) {
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  228:         $comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  229:         return $comment;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  230:     }
-</span><span class="">  231: 
-</span><span class="">  232:     # Summary table
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">233 → 239 → 246</span></span>  233:     $comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;
-</span><span class="">  234:     $comment .= &quot;|----------|-------|-------------|\n&quot;;
-</span><span class="">  235: 
-</span><span class="">  236:     my %by_type;
-</span><span class="">  237:     push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
-</span><span class="">  238: 
-</span><span class="">  239:     for my $type (sort keys %by_type) {
-</span><span class="">  240:         my $count = scalar @{$by_type{$type}};
-</span><span class="">  241:         my $fixable = grep { $_-&gt;{auto_fixable} // 1 } @{$by_type{$type}};
-</span><span class="">  242:         my $emoji = get_type_emoji($type);
-</span><span class="">  243:         $comment .= &quot;| $emoji &quot; . ucfirst($type) . &quot; | $count | $fixable |\n&quot;;
-</span><span class="">  244:     }
-</span><span class="">  245: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">246 → 252 → 267</span></span>  246:     $comment .= &quot;\n&quot;;
+</span><span class="">  217: =cut
+</span><span class="">  218: 
+</span><span class="">  219: sub generate_github_comment($issues, $fixes = [], $options = {}) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">220 → 225 → 229</span></span>  220: 	my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;
+</span><span class="">  221: 
+</span><span class="">  222: 	my $total_issues = scalar @$issues;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  223: 	my $total_fixes = scalar @$fixes;
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  224: 
+</span><span class="">  225: 	if ($total_fixes &gt; 0) {
+</span><span class="">  226: 		$comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  227: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  228: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">229 → 229 → 235</span></span>  229: 	if ($total_issues == 0) {
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  230: 		$comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;
+</span><span class="">  231: 		return $comment;
+</span><span class="">  232: 	}
+</span><span class="">  233: 
+</span><span class="">  234: 	# Summary table
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">235 → 241 → 248</span></span>  235: 	$comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;
+</span><span class="">  236: 	$comment .= &quot;|----------|-------|-------------|\n&quot;;
+</span><span class="">  237: 
+</span><span class="">  238: 	my %by_type;
+</span><span class="">  239: 	push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
+</span><span class="">  240: 
+</span><span class="">  241: 	for my $type (sort keys %by_type) {
+</span><span class="">  242: 		my $count = scalar @{$by_type{$type}};
+</span><span class="">  243: 		my $fixable = grep { $_-&gt;{auto_fixable} // 1 } @{$by_type{$type}};
+</span><span class="">  244: 		my $emoji = get_type_emoji($type);
+</span><span class="">  245: 		$comment .= &quot;| $emoji &quot; . ucfirst($type) . &quot; | $count | $fixable |\n&quot;;
+</span><span class="">  246: 	}
 </span><span class="">  247: 
-</span><span class="">  248:     # Detailed issues
-</span><span class="">  249:     $comment .= &quot;&lt;details&gt;\n&quot;;
-</span><span class="">  250:     $comment .= &quot;&lt;summary&gt;&eth;&#159;&#147;&#139; View Details&lt;/summary&gt;\n\n&quot;;
-</span><span class="">  251: 
-</span><span class="">  252:     for my $type (sort keys %by_type) {
-</span><span class="">  253:         $comment .= &quot;### &quot; . get_type_emoji($type) . &quot; &quot; . ucfirst($type) . &quot;\n\n&quot;;
-</span><span class="">  254: 
-</span><span class="">  255:         for my $issue (@{$by_type{$type}}) {
-</span><span class="">  256:             my $badge = get_severity_badge($issue-&gt;{severity});
-</span><span class="">  257:             $comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;
-</span><span class="">  258: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  259:             if ($issue-&gt;{file}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  260:                 $comment .= &quot;  - File: `$issue-&gt;{file}`\n&quot;;
-</span><span class="">  261:             }
-</span><span class="">  262:         }
-</span><span class="">  263: 
-</span><span class="">  264:         $comment .= &quot;\n&quot;;
-</span><span class="">  265:     }
-</span><span class="">  266: 
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">267 → 270 → 290</span></span>  267:     $comment .= &quot;&lt;/details&gt;\n\n&quot;;
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">248 → 254 → 269</span></span>  248: 	$comment .= &quot;\n&quot;;
+</span><span class="">  249: 
+</span><span class="">  250: 	# Detailed issues
+</span><span class="">  251: 	$comment .= &quot;&lt;details&gt;\n&quot;;
+</span><span class="">  252: 	$comment .= &quot;&lt;summary&gt;&eth;&#159;&#147;&#139; View Details&lt;/summary&gt;\n\n&quot;;
+</span><span class="">  253: 
+</span><span class="">  254: 	for my $type (sort keys %by_type) {
+</span><span class="">  255: 		$comment .= &quot;### &quot; . get_type_emoji($type) . &quot; &quot; . ucfirst($type) . &quot;\n\n&quot;;
+</span><span class="">  256: 
+</span><span class="">  257: 		for my $issue (@{$by_type{$type}}) {
+</span><span class="">  258: 			my $badge = get_severity_badge($issue-&gt;{severity});
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  259: 			$comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  260: 
+</span><span class="">  261: 			if ($issue-&gt;{file}) {
+</span><span class="">  262: 				$comment .= &quot;  - File: `$issue-&gt;{file}`\n&quot;;
+</span><span class="">  263: 			}
+</span><span class="">  264: 		}
+</span><span class="">  265: 
+</span><span class="">  266: 		$comment .= &quot;\n&quot;;
+</span><span class="">  267: 	}
 </span><span class="">  268: 
-</span><span class="">  269:     # Add recommendations
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  270:     if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {
-</span><p> <b> Mutants (Total: 5, Killed: 5, Survived: 0)</b><p><span class="">  271:         $comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;
-</span><span class="">  272:         $comment .= &quot;Run these commands locally:\n\n&quot;;
-</span><span class="">  273:         $comment .= &quot;```bash\n&quot;;
-</span><span class="">  274:         $comment .= &quot;# Install ghgen\n&quot;;
-</span><span class="">  275:         $comment .= &quot;cpanm App::GHGen\n\n&quot;;
-</span><span class="">  276:         $comment .= &quot;# Analyze and fix\n&quot;;
-</span><span class="">  277:         $comment .= &quot;ghgen analyze --fix\n&quot;;
-</span><span class="">  278:         $comment .= &quot;```\n\n&quot;;
-</span><span class="">  279: 
-</span><span class="">  280:         $comment .= &quot;Or enable auto-fix in this action:\n\n&quot;;
-</span><span class="">  281:         $comment .= &quot;```yaml\n&quot;;
-</span><span class="">  282:         $comment .= &quot;- uses: nigelhorne/ghgen-action\@v1\n&quot;;
-</span><span class="">  283:         $comment .= &quot;  with:\n&quot;;
-</span><span class="">  284:         $comment .= &quot;    auto-fix: true\n&quot;;
-</span><span class="">  285:         $comment .= &quot;    create-pr: true\n&quot;;
-</span><span class="">  286:         $comment .= &quot;```\n\n&quot;;
-</span><span class="">  287:     }
-</span><span class="">  288: 
-</span><span class="">  289:     # Add savings estimate
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">290 → 291 → 303</span></span>  290:     my $savings = estimate_savings($issues);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291:     if ($savings-&gt;{minutes} &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  292:         $comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
-</span><span class="">  293:         $comment .= &quot;By fixing these issues:\n&quot;;
-</span><span class="">  294:         $comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
-</span><span class="">  295: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296:         if ($savings-&gt;{cost} &gt; 0) {
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297:             $comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
-</span><span class="">  298:         }
-</span><span class="">  299: 
-</span><span class="">  300:         $comment .= &quot;\n&quot;;
-</span><span class="">  301:     }
-</span><span class="">  302: 
-</span><span class="">  303:     $comment .= &quot;---\n&quot;;
-</span><span class="">  304:     $comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;
-</span><span class="">  305: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  306:     return $comment;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  307: }
-</span><span class="">  308: 
-</span><span class="">  309: =head2 estimate_savings($issues)
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">269 → 272 → 292</span></span>  269: 	$comment .= &quot;&lt;/details&gt;\n\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  270: 
+</span><p> <b> Mutants (Total: 5, Killed: 5, Survived: 0)</b><p><span class="">  271: 	# Add recommendations
+</span><span class="">  272: 	if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {
+</span><span class="">  273: 		$comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;
+</span><span class="">  274: 		$comment .= &quot;Run these commands locally:\n\n&quot;;
+</span><span class="">  275: 		$comment .= &quot;```bash\n&quot;;
+</span><span class="">  276: 		$comment .= &quot;# Install ghgen\n&quot;;
+</span><span class="">  277: 		$comment .= &quot;cpanm App::GHGen\n\n&quot;;
+</span><span class="">  278: 		$comment .= &quot;# Analyze and fix\n&quot;;
+</span><span class="">  279: 		$comment .= &quot;ghgen analyze --fix\n&quot;;
+</span><span class="">  280: 		$comment .= &quot;```\n\n&quot;;
+</span><span class="">  281: 
+</span><span class="">  282: 		$comment .= &quot;Or enable auto-fix in this action:\n\n&quot;;
+</span><span class="">  283: 		$comment .= &quot;```yaml\n&quot;;
+</span><span class="">  284: 		$comment .= &quot;- uses: nigelhorne/ghgen-action\@v1\n&quot;;
+</span><span class="">  285: 		$comment .= &quot;  with:\n&quot;;
+</span><span class="">  286: 		$comment .= &quot;    auto-fix: true\n&quot;;
+</span><span class="">  287: 		$comment .= &quot;    create-pr: true\n&quot;;
+</span><span class="">  288: 		$comment .= &quot;```\n\n&quot;;
+</span><span class="">  289: 	}
+</span><span class="">  290: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291: 	# Add savings estimate
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">292 → 293 → 305</span></span>  292: 	my $savings = estimate_savings($issues);
+</span><span class="">  293: 	if ($savings-&gt;{minutes} &gt; 0) {
+</span><span class="">  294: 		$comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
+</span><span class="">  295: 		$comment .= &quot;By fixing these issues:\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296: 		$comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297: 
+</span><span class="">  298: 		if ($savings-&gt;{cost} &gt; 0) {
+</span><span class="">  299: 			$comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
+</span><span class="">  300: 		}
+</span><span class="">  301: 
+</span><span class="">  302: 		$comment .= &quot;\n&quot;;
+</span><span class="">  303: 	}
+</span><span class="">  304: 
+</span><span class="">  305: 	$comment .= &quot;---\n&quot;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  306: 	$comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  307: 
+</span><span class="">  308: 	return $comment;
+</span><span class="">  309: }
 </span><span class="">  310: 
-</span><span class="">  311: Estimate CI-minute savings and associated cost reduction from fixing a set of issues.
+</span><span class="">  311: =head2 estimate_savings($issues)
 </span><span class="">  312: 
-</span><span class="">  313: =head3 Purpose
+</span><span class="">  313: Estimate CI-minute savings and associated cost reduction from fixing a set of issues.
 </span><span class="">  314: 
-</span><span class="">  315: For each C&lt;performance&gt; (caching) or C&lt;cost&gt; (concurrency, triggers) issue,
-</span><span class="">  316: add a fixed minute estimate to the running total and compute the equivalent
-</span><span class="">  317: USD saving at the GitHub private-repo rate of $0.008/minute.
-</span><span class="">  318: 
-</span><span class="">  319: =head3 Arguments
+</span><span class="">  315: =head3 Purpose
+</span><span class="">  316: 
+</span><span class="">  317: For each C&lt;performance&gt; (caching) or C&lt;cost&gt; (concurrency, triggers) issue,
+</span><span class="">  318: add a fixed minute estimate to the running total and compute the equivalent
+</span><span class="">  319: USD saving at the GitHub private-repo rate of $0.008/minute.
 </span><span class="">  320: 
-</span><span class="">  321: =over 4
+</span><span class="">  321: =head3 Arguments
 </span><span class="">  322: 
-</span><span class="">  323: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
+</span><span class="">  323: =over 4
 </span><span class="">  324: 
-</span><span class="">  325: Issue hashes with at least C&lt;type&gt; and C&lt;message&gt;.
+</span><span class="">  325: =item C&lt;$issues&gt; (ArrayRef[HashRef], required)
 </span><span class="">  326: 
-</span><span class="">  327: =back
+</span><span class="">  327: Issue hashes with at least C&lt;type&gt; and C&lt;message&gt;.
 </span><span class="">  328: 
-</span><span class="">  329: =head3 Returns
+</span><span class="">  329: =back
 </span><span class="">  330: 
-</span><span class="">  331: A hash reference:
+</span><span class="">  331: =head3 Returns
 </span><span class="">  332: 
-</span><span class="">  333:     {
-</span><span class="">  334:         minutes =&gt; Int,   # total estimated minutes saved per month; 0 when no savings
-</span><span class="">  335:         cost    =&gt; Int,   # floor(minutes * 0.008); 0 when no savings
-</span><span class="">  336:     }
-</span><span class="">  337: 
-</span><span class="">  338: =head3 Side Effects
+</span><span class="">  333: A hash reference:
+</span><span class="">  334: 
+</span><span class="">  335:     {
+</span><span class="">  336:         minutes =&gt; Int,   # total estimated minutes saved per month; 0 when no savings
+</span><span class="">  337:         cost    =&gt; Int,   # floor(minutes * 0.008); 0 when no savings
+</span><span class="">  338:     }
 </span><span class="">  339: 
-</span><span class="">  340: None.  Pure function.
+</span><span class="">  340: =head3 Side Effects
 </span><span class="">  341: 
-</span><span class="">  342: =head3 Usage Example
+</span><span class="">  342: None.  Pure function.
 </span><span class="">  343: 
-</span><span class="">  344:     my $s = estimate_savings(\@issues);
-</span><span class="">  345:     say &quot;Save $s-&gt;{minutes} min/month&quot;;
-</span><span class="">  346: 
-</span><span class="">  347: =head3 API SPECIFICATION
+</span><span class="">  344: =head3 Usage Example
+</span><span class="">  345: 
+</span><span class="">  346:     my $s = estimate_savings(\@issues);
+</span><span class="">  347:     say &quot;Save $s-&gt;{minutes} min/month&quot;;
 </span><span class="">  348: 
-</span><span class="">  349: =head4 Input
+</span><span class="">  349: =head3 API SPECIFICATION
 </span><span class="">  350: 
-</span><span class="">  351:     { issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 } }
+</span><span class="">  351: =head4 Input
 </span><span class="">  352: 
-</span><span class="">  353: =head4 Output
+</span><span class="">  353:     { issues =&gt; { type =&gt; &#39;arrayref&#39;, required =&gt; 1 } }
 </span><span class="">  354: 
-</span><span class="">  355:     {
-</span><span class="">  356:         type =&gt; &#39;hashref&#39;,
-</span><span class="">  357:         keys =&gt; {
-</span><span class="">  358:             minutes =&gt; { type =&gt; &#39;scalar&#39; },
-</span><span class="">  359:             cost    =&gt; { type =&gt; &#39;scalar&#39; },
-</span><span class="">  360:         },
-</span><span class="">  361:     }
-</span><span class="">  362: 
-</span><span class="">  363: =head3 FORMAL SPECIFICATION
+</span><span class="">  355: =head4 Output
+</span><span class="">  356: 
+</span><span class="">  357:     {
+</span><span class="">  358:         type =&gt; &#39;hashref&#39;,
+</span><span class="">  359:         keys =&gt; {
+</span><span class="">  360:             minutes =&gt; { type =&gt; &#39;scalar&#39; },
+</span><span class="">  361:             cost    =&gt; { type =&gt; &#39;scalar&#39; },
+</span><span class="">  362:         },
+</span><span class="">  363:     }
 </span><span class="">  364: 
-</span><span class="">  365:     estimate_savings : seq Issue &acirc;&#134;&#146; { minutes: &acirc;&#132;&#149;, cost: &acirc;&#132;&#149; }
+</span><span class="">  365: =head3 FORMAL SPECIFICATION
 </span><span class="">  366: 
-</span><span class="">  367:     RATE &acirc;&#137;&#148; 0.008
-</span><span class="">  368:     savings(i) &acirc;&#137;&#148;
-</span><span class="">  369:         i.type = performance &acirc;&#136;&sect; i.message =~ /caching/     &acirc;&#134;&#146; 500
-</span><span class="">  370:         i.type = cost        &acirc;&#136;&sect; i.message =~ /concurrency/ &acirc;&#134;&#146; 50
-</span><span class="">  371:         i.type = cost        &acirc;&#136;&sect; i.message =~ /triggers/    &acirc;&#134;&#146; 100
-</span><span class="">  372:         otherwise                                          &acirc;&#134;&#146; 0
-</span><span class="">  373: 
-</span><span class="">  374:     total  &acirc;&#137;&#148; &acirc;&#136;&#145; { savings(i) &acirc;&#136;&pound; i &acirc;&#136;&#136; issues }
-</span><span class="">  375:     result &acirc;&#137;&#148; { minutes &acirc;&#134;&brvbar; total, cost &acirc;&#134;&brvbar; floor(total &Atilde;&#151; RATE) }
-</span><span class="">  376: 
-</span><span class="">  377: =cut
+</span><span class="">  367:     estimate_savings : seq Issue &acirc;&#134;&#146; { minutes: &acirc;&#132;&#149;, cost: &acirc;&#132;&#149; }
+</span><span class="">  368: 
+</span><span class="">  369:     RATE &acirc;&#137;&#148; 0.008
+</span><span class="">  370:     savings(i) &acirc;&#137;&#148;
+</span><span class="">  371:         i.type = performance &acirc;&#136;&sect; i.message =~ /caching/     &acirc;&#134;&#146; 500
+</span><span class="">  372:         i.type = cost        &acirc;&#136;&sect; i.message =~ /concurrency/ &acirc;&#134;&#146; 50
+</span><span class="">  373:         i.type = cost        &acirc;&#136;&sect; i.message =~ /triggers/    &acirc;&#134;&#146; 100
+</span><span class="">  374:         otherwise                                          &acirc;&#134;&#146; 0
+</span><span class="">  375: 
+</span><span class="">  376:     total  &acirc;&#137;&#148; &acirc;&#136;&#145; { savings(i) &acirc;&#136;&pound; i &acirc;&#136;&#136; issues }
+</span><span class="">  377:     result &acirc;&#137;&#148; { minutes &acirc;&#134;&brvbar; total, cost &acirc;&#134;&brvbar; floor(total &Atilde;&#151; RATE) }
 </span><span class="">  378: 
-</span><span class="">  379: sub estimate_savings($issues) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">380 → 385 → 404</span></span>  380: 	my %savings = (
-</span><span class="">  381: 		minutes =&gt; 0,
-</span><span class="">  382: 		cost =&gt; 0,
-</span><span class="">  383: 	);
-</span><span class="">  384: 
-</span><span class="">  385: 	for my $issue (@$issues) {
-</span><span class="">  386: 	# Estimate savings by issue type
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  387: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  388: 			# Caching saves ~5 minutes per workflow run
-</span><span class="">  389: 			# Assume 100 runs/month
-</span><span class="">  390: 			$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;
-</span><span class="">  391: 		} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  392: 			if ($issue-&gt;{message} =~ /concurrency/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  393: 				# Concurrency saves ~50 minutes/month by canceling old runs
-</span><span class="">  394: 				$savings{minutes} += 50;
-</span><span class="">  395: 			}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  396: 			if ($issue-&gt;{message} =~ /triggers/) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  397: 				# Trigger filters save ~100 minutes/month
-</span><span class="">  398: 				$savings{minutes} += 100;
-</span><span class="">  399: 			}
-</span><span class="">  400: 		}
-</span><span class="">  401: 	}
-</span><span class="">  402: 
-</span><span class="">  403: 	# Private repo pricing: ~$0.008 per minute
-</span><span class="">  404: 	$savings{cost} = int($savings{minutes} * 0.008);
-</span><span class="">  405: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  406: 	return \%savings;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  407: }
-</span><span class="">  408: 
-</span><span class="">  409: sub get_type_emoji($type) {
-</span><span class="">  410: 	my %emojis = (
-</span><span class="">  411: 		performance =&gt; &#39;&acirc;&#154;&iexcl;&#39;,
-</span><span class="">  412: 		security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,
-</span><span class="">  413: 		cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,
-</span><span class="">  414: 		maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,
-</span><span class="">  415: 	);
-</span><span class="">  416: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  417: 	return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  418: }
-</span><span class="">  419: 
-</span><span class="">  420: sub get_severity_badge($severity) {
-</span><span class="">  421: 	my %badges = (
-</span><span class="">  422: 		high   =&gt; &#39;&eth;&#159;&#148;&acute;&#39;,
-</span><span class="">  423: 		medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,
-</span><span class="">  424: 		low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,
-</span><span class="">  425: 	);
-</span><span class="">  426: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  427: 	return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  428: }
-</span><span class="">  429: 
-</span><span class="">  430: =head1 AUTHOR
+</span><span class="">  379: =cut
+</span><span class="">  380: 
+</span><span class="">  381: sub estimate_savings($issues) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">382 → 387 → 406</span></span>  382: 	my %savings = (
+</span><span class="">  383: 		minutes =&gt; 0,
+</span><span class="">  384: 		cost =&gt; 0,
+</span><span class="">  385: 	);
+</span><span class="">  386: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  387: 	for my $issue (@$issues) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  388: 	# Estimate savings by issue type
+</span><span class="">  389: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
+</span><span class="">  390: 			# Caching saves ~5 minutes per workflow run
+</span><span class="">  391: 			# Assume 100 runs/month
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  392: 			$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  393: 		} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
+</span><span class="">  394: 			if ($issue-&gt;{message} =~ /concurrency/) {
+</span><span class="">  395: 				# Concurrency saves ~50 minutes/month by canceling old runs
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  396: 				$savings{minutes} += 50;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  397: 			}
+</span><span class="">  398: 			if ($issue-&gt;{message} =~ /triggers/) {
+</span><span class="">  399: 				# Trigger filters save ~100 minutes/month
+</span><span class="">  400: 				$savings{minutes} += 100;
+</span><span class="">  401: 			}
+</span><span class="">  402: 		}
+</span><span class="">  403: 	}
+</span><span class="">  404: 
+</span><span class="">  405: 	# Private repo pricing: ~$0.008 per minute
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  406: 	$savings{cost} = int($savings{minutes} * 0.008);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  407: 
+</span><span class="">  408: 	return \%savings;
+</span><span class="">  409: }
+</span><span class="">  410: 
+</span><span class="">  411: sub get_type_emoji($type) {
+</span><span class="">  412: 	my %emojis = (
+</span><span class="">  413: 		performance =&gt; &#39;&acirc;&#154;&iexcl;&#39;,
+</span><span class="">  414: 		security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,
+</span><span class="">  415: 		cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,
+</span><span class="">  416: 		maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  417: 	);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  418: 
+</span><span class="">  419: 	return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;
+</span><span class="">  420: }
+</span><span class="">  421: 
+</span><span class="">  422: sub get_severity_badge($severity) {
+</span><span class="">  423: 	my %badges = (
+</span><span class="">  424: 		high   =&gt; &#39;&eth;&#159;&#148;&acute;&#39;,
+</span><span class="">  425: 		medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,
+</span><span class="">  426: 		low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  427: 	);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  428: 
+</span><span class="">  429: 	return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;
+</span><span class="">  430: }
 </span><span class="">  431: 
-</span><span class="">  432: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class="">  432: =head1 AUTHOR
 </span><span class="">  433: 
-</span><span class="">  434: L&lt;https://github.com/nigelhorne&gt;
+</span><span class="">  434: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 </span><span class="">  435: 
-</span><span class="">  436: =head1 LICENSE
+</span><span class="">  436: L&lt;https://github.com/nigelhorne&gt;
 </span><span class="">  437: 
-</span><span class="">  438: This is free software; you can redistribute it and/or modify it under
-</span><span class="">  439: the same terms as the Perl 5 programming language system itself.
-</span><span class="">  440: 
-</span><span class="">  441: =cut
+</span><span class="">  438: =head1 LICENSE
+</span><span class="">  439: 
+</span><span class="">  440: This is free software; you can redistribute it and/or modify it under
+</span><span class="">  441: the same terms as the Perl 5 programming language system itself.
 </span><span class="">  442: 
-</span><span class="">  443: 1;
+</span><span class="">  443: =cut
+</span><span class="">  444: 
+</span><span class="">  445: 1;
 </span></pre>
 
 <script>

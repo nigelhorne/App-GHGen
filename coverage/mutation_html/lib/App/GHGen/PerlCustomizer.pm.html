@@ -344,7 +344,7 @@ Approximate LCSAJ segments: 29<br>
 </span><span class="">    3: use v5.36;
 </span><span class="">    4: use strict;
 </span><span class="">    5: use warnings;
-</span><span class="">    6: use autodie qw(:all);
+</span><span class="">    6: use autodie;
 </span><span class="">    7: 
 </span><span class="">    8: use Path::Tiny;
 </span><span class="">    9: use Readonly;
@@ -355,7 +355,7 @@ Approximate LCSAJ segments: 29<br>
 </span><span class="">   14: 	generate_custom_perl_workflow
 </span><span class="">   15: );
 </span><span class="">   16: 
-</span><span class="">   17: our $VERSION = &#39;0.12&#39;;
+</span><span class="">   17: our $VERSION = &#39;0.13&#39;;
 </span><span class="">   18: 
 </span><span class="">   19: Readonly my $DEFAULT_TIMEOUT_MINUTES =&gt; 60;
 </span><span class="">   20: 
@@ -597,15 +597,15 @@ Approximate LCSAJ segments: 29<br>
 </span><span class="">  256: 
 </span><span class="">  257: =item 5. Install project dependencies
 </span><span class="">  258: 
-</span><span class="">  259: =item 6. B&lt;Lint and syntax check&gt; &acirc;&#128;&#148; all matrix cells (when C&lt;enable_linter&gt; is true); the unused-variable check via C&lt;PERL5OPT=-Mwarnings::unused&gt; is embedded at the end of this step when C&lt;enable_linter_unused&gt; is true
+</span><span class="">  259: =item 6. B&lt;Lint and syntax check&gt; - all matrix cells (when C&lt;enable_linter&gt; is true); the unused-variable check via C&lt;PERL5OPT=-Mwarnings::unused&gt; is embedded at the end of this step when C&lt;enable_linter_unused&gt; is true
 </span><span class="">  260: 
 </span><span class="">  261: =item 7. Run tests
 </span><span class="">  262: 
-</span><span class="">  263: =item 8. Run Perl::Critic &acirc;&#128;&#148; latest Perl + Ubuntu only (when C&lt;enable_critic&gt; is true)
+</span><span class="">  263: =item 8. Run Perl::Critic - latest Perl + Ubuntu only (when C&lt;enable_critic&gt; is true)
 </span><span class="">  264: 
-</span><span class="">  265: =item 9. B&lt;Check imports with perlimports&gt; &acirc;&#128;&#148; latest Perl + Ubuntu only (when C&lt;enable_perlimports&gt; is true)
+</span><span class="">  265: =item 9. B&lt;Check imports with perlimports&gt; - latest Perl + Ubuntu only (when C&lt;enable_perlimports&gt; is true)
 </span><span class="">  266: 
-</span><span class="">  267: =item 10. Test coverage &acirc;&#128;&#148; latest Perl + Ubuntu only (when C&lt;enable_coverage&gt; is true)
+</span><span class="">  267: =item 10. Test coverage - latest Perl + Ubuntu only (when C&lt;enable_coverage&gt; is true)
 </span><span class="">  268: 
 </span><span class="">  269: =item 11. Show cpanm build log on failure
 </span><span class="">  270: 
@@ -971,8 +971,8 @@ Approximate LCSAJ segments: 29<br>
 </span><span class="">  630: C&lt;perl.exe&gt; and a C&lt;libperl540.a&gt; from two different builds.  Any XS module
 </span><span class="">  631: compiled against that C&lt;libperl540.a&gt; receives handshake key
 </span><span class="">  632: C&lt;0x12c00080&gt;, but C&lt;perl.exe&gt; needs C&lt;0x12d00080&gt;.  Even
-</span><span class="">  633: C&lt;Win32::Process&gt; &acirc;&#128;&#148; a core Windows XS module bundled in the zip and loaded
-</span><span class="">  634: transitively by C&lt;IPC::System::Simple&gt; &acirc;&#128;&#148; fails to load with this mismatch,
+</span><span class="">  633: C&lt;Win32::Process&gt; - a core Windows XS module bundled in the zip and loaded
+</span><span class="">  634: transitively by C&lt;IPC::System::Simple&gt; - fails to load with this mismatch,
 </span><span class="">  635: so no XS-using test can pass on this combination.
 </span><span class="">  636: 
 </span><span class="">  637: Recompiling XS modules (e.g. via C&lt;cpanm --reinstall YAML::XS&gt;) does not

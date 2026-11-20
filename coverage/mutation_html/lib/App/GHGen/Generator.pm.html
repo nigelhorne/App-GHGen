@@ -345,7 +345,7 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">    4: 
 </span><span class="">    5: use strict;
 </span><span class="">    6: use warnings;
-</span><span class="">    7: use autodie qw(:all);
+</span><span class="">    7: use autodie;
 </span><span class="">    8: 
 </span><span class="">    9: use Carp qw(carp croak);
 </span><span class="">   10: use List::Util qw(uniq);
@@ -404,1165 +404,1167 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">   63: 	unknown_message  =&gt; &quot;Internal error: unknown message key &#39;%s&#39;&quot;,
 </span><span class="">   64: );
 </span><span class="">   65: 
-</span><span class="">   66: our $VERSION = &#39;0.12&#39;;
+</span><span class="">   66: our $VERSION = &#39;0.13&#39;;
 </span><span class="">   67: 
-</span><span class="">   68: =head1 NAME
+</span><span class="">   68: =encoding utf-8
 </span><span class="">   69: 
-</span><span class="">   70: App::GHGen::Generator - Generate GitHub Actions workflows
+</span><span class="">   70: =head1 NAME
 </span><span class="">   71: 
-</span><span class="">   72: =head1 SYNOPSIS
+</span><span class="">   72: App::GHGen::Generator - Generate GitHub Actions workflows
 </span><span class="">   73: 
-</span><span class="">   74:     use App::GHGen::Generator qw(generate_workflow);
-</span><span class="">   75:     use Path::Tiny;
-</span><span class="">   76: 
-</span><span class="">   77:     my $yaml = generate_workflow(&#39;perl&#39;);
-</span><span class="">   78:     path(&#39;.github/workflows/ci.yml&#39;)-&gt;spew_utf8($yaml);
-</span><span class="">   79: 
-</span><span class="">   80: =head1 FUNCTIONS
+</span><span class="">   74: =head1 SYNOPSIS
+</span><span class="">   75: 
+</span><span class="">   76:     use App::GHGen::Generator qw(generate_workflow);
+</span><span class="">   77:     use Path::Tiny;
+</span><span class="">   78: 
+</span><span class="">   79:     my $yaml = generate_workflow(&#39;perl&#39;);
+</span><span class="">   80:     path(&#39;.github/workflows/ci.yml&#39;)-&gt;spew_utf8($yaml);
 </span><span class="">   81: 
-</span><span class="">   82: =head2 generate_workflow($type, \%opts)
+</span><span class="">   82: =head1 FUNCTIONS
 </span><span class="">   83: 
-</span><span class="">   84: Generate a complete GitHub Actions workflow YAML string for the given project type.
+</span><span class="">   84: =head2 generate_workflow($type, \%opts)
 </span><span class="">   85: 
-</span><span class="">   86: =head3 Purpose
+</span><span class="">   86: Generate a complete GitHub Actions workflow YAML string for the given project type.
 </span><span class="">   87: 
-</span><span class="">   88: Dispatch to the appropriate language-specific workflow generator and return
-</span><span class="">   89: the resulting YAML string ready to be written to a C&lt;.github/workflows/&gt; file.
-</span><span class="">   90: 
-</span><span class="">   91: =head3 Arguments
+</span><span class="">   88: =head3 Purpose
+</span><span class="">   89: 
+</span><span class="">   90: Dispatch to the appropriate language-specific workflow generator and return
+</span><span class="">   91: the resulting YAML string ready to be written to a C&lt;.github/workflows/&gt; file.
 </span><span class="">   92: 
-</span><span class="">   93: =over 4
+</span><span class="">   93: =head3 Arguments
 </span><span class="">   94: 
-</span><span class="">   95: =item C&lt;$type&gt; (Str, required)
+</span><span class="">   95: =over 4
 </span><span class="">   96: 
-</span><span class="">   97: A project-type identifier.  Supported values: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;,
-</span><span class="">   98: C&lt;rust&gt;, C&lt;go&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;cpp&gt;, C&lt;php&gt;, C&lt;docker&gt;, C&lt;static&gt;.
-</span><span class="">   99: 
-</span><span class="">  100: =item C&lt;$opts&gt; (HashRef, optional)
+</span><span class="">   97: =item C&lt;$type&gt; (Str, required)
+</span><span class="">   98: 
+</span><span class="">   99: A project-type identifier.  Supported values: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;,
+</span><span class="">  100: C&lt;rust&gt;, C&lt;go&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;cpp&gt;, C&lt;php&gt;, C&lt;docker&gt;, C&lt;static&gt;.
 </span><span class="">  101: 
-</span><span class="">  102: =over 4
+</span><span class="">  102: =item C&lt;$opts&gt; (HashRef, optional)
 </span><span class="">  103: 
-</span><span class="">  104: =item C&lt;versions&gt; (ArrayRef of Str)
+</span><span class="">  104: =over 4
 </span><span class="">  105: 
-</span><span class="">  106: Language/runtime versions to test against, replacing the default matrix.
-</span><span class="">  107: Applies to C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;php&gt;, C&lt;go&gt;
-</span><span class="">  108: (Go Go-versions) and C&lt;rust&gt; (toolchains, e.g. C&lt;stable&gt;, C&lt;beta&gt;, C&lt;1.80&gt;).
-</span><span class="">  109: It is ignored for C&lt;cpp&gt;, C&lt;docker&gt; and C&lt;static&gt;, which have no version
-</span><span class="">  110: matrix.  Each entry may contain only letters, digits, C&lt;.&gt;, C&lt;-&gt;, C&lt;+&gt;,
-</span><span class="">  111: C&lt;*&gt; and C&lt;_&gt;; anything else croaks.
-</span><span class="">  112: 
-</span><span class="">  113: Defaults when C&lt;versions&gt; is not given: perl 5.36, 5.38, 5.40, 5.42;
-</span><span class="">  114: node 18.x, 20.x, 22.x; python 3.9-3.12; ruby 3.1-3.3; java 11, 17, 21;
-</span><span class="">  115: php 8.1-8.3; go 1.22; rust stable.
-</span><span class="">  116: 
-</span><span class="">  117: =back
+</span><span class="">  106: =item C&lt;versions&gt; (ArrayRef of Str)
+</span><span class="">  107: 
+</span><span class="">  108: Language/runtime versions to test against, replacing the default matrix.
+</span><span class="">  109: Applies to C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;php&gt;, C&lt;go&gt;
+</span><span class="">  110: (Go Go-versions) and C&lt;rust&gt; (toolchains, e.g. C&lt;stable&gt;, C&lt;beta&gt;, C&lt;1.80&gt;).
+</span><span class="">  111: It is ignored for C&lt;cpp&gt;, C&lt;docker&gt; and C&lt;static&gt;, which have no version
+</span><span class="">  112: matrix.  Each entry may contain only letters, digits, C&lt;.&gt;, C&lt;-&gt;, C&lt;+&gt;,
+</span><span class="">  113: C&lt;*&gt; and C&lt;_&gt;; anything else croaks.
+</span><span class="">  114: 
+</span><span class="">  115: Defaults when C&lt;versions&gt; is not given: perl 5.36, 5.38, 5.40, 5.42;
+</span><span class="">  116: node 18.x, 20.x, 22.x; python 3.9-3.12; ruby 3.1-3.3; java 11, 17, 21;
+</span><span class="">  117: php 8.1-8.3; go 1.22; rust stable.
 </span><span class="">  118: 
 </span><span class="">  119: =back
 </span><span class="">  120: 
-</span><span class="">  121: =head3 Returns
+</span><span class="">  121: =back
 </span><span class="">  122: 
-</span><span class="">  123: A multi-line YAML string beginning with C&lt;---&gt; when C&lt;$type&gt; is recognised,
-</span><span class="">  124: or C&lt;undef&gt; when the type is not supported.
-</span><span class="">  125: 
-</span><span class="">  126: =head3 Side Effects
+</span><span class="">  123: =head3 Returns
+</span><span class="">  124: 
+</span><span class="">  125: A multi-line YAML string beginning with C&lt;---&gt; when C&lt;$type&gt; is recognised,
+</span><span class="">  126: or C&lt;undef&gt; when the type is not supported.
 </span><span class="">  127: 
-</span><span class="">  128: The C&lt;perl&gt; type without C&lt;versions&gt; reads the current directory to detect
-</span><span class="">  129: project requirements (via L&lt;App::GHGen::PerlCustomizer&gt;).  Passing
-</span><span class="">  130: C&lt;versions&gt; for C&lt;cpp&gt;, C&lt;docker&gt; or C&lt;static&gt; emits a C&lt;carp&gt; warning.
-</span><span class="">  131: 
-</span><span class="">  132: =head3 Usage
+</span><span class="">  128: =head3 Side Effects
+</span><span class="">  129: 
+</span><span class="">  130: The C&lt;perl&gt; type without C&lt;versions&gt; reads the current directory to detect
+</span><span class="">  131: project requirements (via L&lt;App::GHGen::PerlCustomizer&gt;).  Passing
+</span><span class="">  132: C&lt;versions&gt; for C&lt;cpp&gt;, C&lt;docker&gt; or C&lt;static&gt; emits a C&lt;carp&gt; warning.
 </span><span class="">  133: 
-</span><span class="">  134:     use App::GHGen::Generator qw(generate_workflow);
-</span><span class="">  135:     my $yaml = generate_workflow(&#39;node&#39;) // die &quot;unsupported type&quot;;
-</span><span class="">  136:     path(&#39;.github/workflows/ci.yml&#39;)-&gt;spew_utf8($yaml);
-</span><span class="">  137: 
-</span><span class="">  138: =head3 EXAMPLE
+</span><span class="">  134: =head3 Usage
+</span><span class="">  135: 
+</span><span class="">  136:     use App::GHGen::Generator qw(generate_workflow);
+</span><span class="">  137:     my $yaml = generate_workflow(&#39;node&#39;) // die &quot;unsupported type&quot;;
+</span><span class="">  138:     path(&#39;.github/workflows/ci.yml&#39;)-&gt;spew_utf8($yaml);
 </span><span class="">  139: 
-</span><span class="">  140:     # Default matrix
-</span><span class="">  141:     my $default = generate_workflow(&#39;python&#39;);
-</span><span class="">  142: 
-</span><span class="">  143:     # Only test the two newest Pythons
-</span><span class="">  144:     my $custom = generate_workflow(&#39;python&#39;, { versions =&gt; [&#39;3.12&#39;, &#39;3.13&#39;] });
-</span><span class="">  145: 
-</span><span class="">  146:     # Go pins one version by default; --versions turns it into a matrix
-</span><span class="">  147:     my $go = generate_workflow(&#39;go&#39;, { versions =&gt; [&#39;1.23&#39;, &#39;1.24&#39;] });
-</span><span class="">  148: 
-</span><span class="">  149: =head3 MESSAGES
+</span><span class="">  140: =head3 EXAMPLE
+</span><span class="">  141: 
+</span><span class="">  142:     # Default matrix
+</span><span class="">  143:     my $default = generate_workflow(&#39;python&#39;);
+</span><span class="">  144: 
+</span><span class="">  145:     # Only test the two newest Pythons
+</span><span class="">  146:     my $custom = generate_workflow(&#39;python&#39;, { versions =&gt; [&#39;3.12&#39;, &#39;3.13&#39;] });
+</span><span class="">  147: 
+</span><span class="">  148:     # Go pins one version by default; --versions turns it into a matrix
+</span><span class="">  149:     my $go = generate_workflow(&#39;go&#39;, { versions =&gt; [&#39;1.23&#39;, &#39;1.24&#39;] });
 </span><span class="">  150: 
-</span><span class="">  151: =over 4
+</span><span class="">  151: =head3 MESSAGES
 </span><span class="">  152: 
-</span><span class="">  153: =item C&lt;Invalid version &#39;%s&#39; for --versions&gt; (croak)
+</span><span class="">  153: =over 4
 </span><span class="">  154: 
-</span><span class="">  155: An entry in C&lt;versions&gt; contains characters outside C&lt;[A-Za-z0-9_.+*-]&gt;.
-</span><span class="">  156: Remove the offending characters.
-</span><span class="">  157: 
-</span><span class="">  158: =item C&lt;--versions has no effect for type &#39;%s&#39;&gt; (carp)
+</span><span class="">  155: =item C&lt;Invalid version &#39;%s&#39; for --versions&gt; (croak)
+</span><span class="">  156: 
+</span><span class="">  157: An entry in C&lt;versions&gt; contains characters outside C&lt;[A-Za-z0-9_.+*-]&gt;.
+</span><span class="">  158: Remove the offending characters.
 </span><span class="">  159: 
-</span><span class="">  160: C&lt;versions&gt; was supplied for C&lt;cpp&gt;, C&lt;docker&gt; or C&lt;static&gt;, which have no
-</span><span class="">  161: version matrix.  The YAML is returned unchanged; drop the option.
-</span><span class="">  162: 
-</span><span class="">  163: =back
+</span><span class="">  160: =item C&lt;--versions has no effect for type &#39;%s&#39;&gt; (carp)
+</span><span class="">  161: 
+</span><span class="">  162: C&lt;versions&gt; was supplied for C&lt;cpp&gt;, C&lt;docker&gt; or C&lt;static&gt;, which have no
+</span><span class="">  163: version matrix.  The YAML is returned unchanged; drop the option.
 </span><span class="">  164: 
-</span><span class="">  165: =head3 API SPECIFICATION
+</span><span class="">  165: =back
 </span><span class="">  166: 
-</span><span class="">  167: =head4 Input
+</span><span class="">  167: =head3 API SPECIFICATION
 </span><span class="">  168: 
-</span><span class="">  169:     {
-</span><span class="">  170:         type =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
-</span><span class="">  171:         opts =&gt; {
-</span><span class="">  172:             type     =&gt; &#39;hashref&#39;,
-</span><span class="">  173:             optional =&gt; 1,
-</span><span class="">  174:             keys     =&gt; { versions =&gt; { type =&gt; &#39;arrayref&#39;, optional =&gt; 1 } },
-</span><span class="">  175:         },
-</span><span class="">  176:     }
-</span><span class="">  177: 
-</span><span class="">  178: =head4 Output
+</span><span class="">  169: =head4 Input
+</span><span class="">  170: 
+</span><span class="">  171:     {
+</span><span class="">  172:         type =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1 },
+</span><span class="">  173:         opts =&gt; {
+</span><span class="">  174:             type     =&gt; &#39;hashref&#39;,
+</span><span class="">  175:             optional =&gt; 1,
+</span><span class="">  176:             keys     =&gt; { versions =&gt; { type =&gt; &#39;arrayref&#39;, optional =&gt; 1 } },
+</span><span class="">  177:         },
+</span><span class="">  178:     }
 </span><span class="">  179: 
-</span><span class="">  180:     known type   &acirc;&#134;&#146; { type =&gt; &#39;scalar&#39; }   # YAML string
-</span><span class="">  181:     unknown type &acirc;&#134;&#146; undef
-</span><span class="">  182: 
-</span><span class="">  183: =head3 FORMAL SPECIFICATION
+</span><span class="">  180: =head4 Output
+</span><span class="">  181: 
+</span><span class="">  182:     known type   -&gt; { type =&gt; &#39;scalar&#39; }   # YAML string
+</span><span class="">  183:     unknown type -&gt; undef
 </span><span class="">  184: 
-</span><span class="">  185:     SupportedTypes &acirc;&#137;&#148; { perl, node, python, rust, go, ruby, java, cpp, php, docker, static }
+</span><span class="">  185: =head3 FORMAL SPECIFICATION
 </span><span class="">  186: 
-</span><span class="">  187:     generate_workflow : &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;* &acirc;&#136;&ordf; { &acirc;&#138;&yen; }
+</span><span class="">  187:     SupportedTypes &acirc;&#137;&#148; { perl, node, python, rust, go, ruby, java, cpp, php, docker, static }
 </span><span class="">  188: 
-</span><span class="">  189:     t &acirc;&#136;&#136; SupportedTypes &acirc;&#136;&sect; versions = &acirc;&#136;&#133;  &acirc;&#134;&#146; generators[t]()          (default matrix)
-</span><span class="">  190:     t &acirc;&#136;&#136; SupportedTypes &acirc;&#136;&sect; versions &acirc;&#137;&nbsp; &acirc;&#136;&#133;  &acirc;&#134;&#146; rewrite(generators[t](), versions)
-</span><span class="">  191:     t &acirc;&#136;&#137; SupportedTypes                 &acirc;&#134;&#146; &acirc;&#138;&yen;                        (undef)
-</span><span class="">  192: 
-</span><span class="">  193:     &acirc;&#136;&#128; v &acirc;&#136;&#136; versions &acirc;&#128;&cent; v &acirc;&#136;&#136; VersionToken      (else croak)
+</span><span class="">  189:     generate_workflow : &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;* &acirc;&#136;&ordf; { &acirc;&#138;&yen; }
+</span><span class="">  190: 
+</span><span class="">  191:     t &acirc;&#136;&#136; SupportedTypes &acirc;&#136;&sect; versions = &acirc;&#136;&#133;  &acirc;&#134;&#146; generators[t]()          (default matrix)
+</span><span class="">  192:     t &acirc;&#136;&#136; SupportedTypes &acirc;&#136;&sect; versions &acirc;&#137;&nbsp; &acirc;&#136;&#133;  &acirc;&#134;&#146; rewrite(generators[t](), versions)
+</span><span class="">  193:     t &acirc;&#136;&#137; SupportedTypes                 &acirc;&#134;&#146; &acirc;&#138;&yen;                        (undef)
 </span><span class="">  194: 
-</span><span class="">  195: =head3 PSEUDOCODE
+</span><span class="">  195:     &acirc;&#136;&#128; v &acirc;&#136;&#136; versions &acirc;&#128;&cent; v &acirc;&#136;&#136; VersionToken      (else croak)
 </span><span class="">  196: 
-</span><span class="">  197:     look up the generator for $type; return undef when there is none
-</span><span class="">  198:     when no versions were requested, return the generator&#39;s default YAML
-</span><span class="">  199:     validate every requested version (croak on an unsafe one)
-</span><span class="">  200:     warn when the type has no version matrix
-</span><span class="">  201:     perl:        regenerate with the explicit version list
-</span><span class="">  202:     node/python/ruby/java/php: replace the existing matrix list
-</span><span class="">  203:     go/rust:     replace the pinned version with a matrix reference and
-</span><span class="">  204:                  insert a one-key matrix under the job
-</span><span class="">  205: 
-</span><span class="">  206: =cut
+</span><span class="">  197: =head3 PSEUDOCODE
+</span><span class="">  198: 
+</span><span class="">  199:     look up the generator for $type; return undef when there is none
+</span><span class="">  200:     when no versions were requested, return the generator&#39;s default YAML
+</span><span class="">  201:     validate every requested version (croak on an unsafe one)
+</span><span class="">  202:     warn when the type has no version matrix
+</span><span class="">  203:     perl:        regenerate with the explicit version list
+</span><span class="">  204:     node/python/ruby/java/php: replace the existing matrix list
+</span><span class="">  205:     go/rust:     replace the pinned version with a matrix reference and
+</span><span class="">  206:                  insert a one-key matrix under the job
 </span><span class="">  207: 
-</span><span class="">  208: sub generate_workflow($type, $opts = {}) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">209 → 227 → 243</span></span>  209: 	my %generators = (
-</span><span class="">  210: 		perl   =&gt; \&amp;_generate_perl_workflow,
-</span><span class="">  211: 		node   =&gt; \&amp;_generate_node_workflow,
-</span><span class="">  212: 		python =&gt; \&amp;_generate_python_workflow,
-</span><span class="">  213: 		rust   =&gt; \&amp;_generate_rust_workflow,
-</span><span class="">  214: 		go     =&gt; \&amp;_generate_go_workflow,
-</span><span class="">  215: 		ruby   =&gt; \&amp;_generate_ruby_workflow,
-</span><span class="">  216: 		java   =&gt; \&amp;_generate_java_workflow,
-</span><span class="">  217: 		cpp    =&gt; \&amp;_generate_cpp_workflow,
-</span><span class="">  218: 		php    =&gt; \&amp;_generate_php_workflow,
-</span><span class="">  219: 		docker =&gt; \&amp;_generate_docker_workflow,
-</span><span class="">  220: 		static =&gt; \&amp;_generate_static_workflow,
-</span><span class="">  221: 	);
-</span><span class="">  222: 
-</span><span class="">  223: 	my $generator = $generators{$type};
-</span><span class="">  224: 	my $versions = $opts-&gt;{versions};
-</span><span class="">  225: 	my $yaml;
-</span><span class="">  226: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  227: 	if (!$generator) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  228: 		# Unknown type: documented to return undef rather than croak
-</span><span class="">  229: 		$yaml = undef;
-</span><span class="">  230: 	} elsif (!($versions &amp;&amp; @{$versions})) {
-</span><span class="">  231: 		$yaml = $generator-&gt;();
-</span><span class="">  232: 	} else {
-</span><span class="">  233: 		# Validate before touching the template so a bad value never reaches YAML
-</span><span class="">  234: 		_validate_versions($versions);
-</span><span class="">  235: 		carp _message(&#39;versions_ignored&#39;, $type) if $VERSIONLESS_TYPE{$type};
-</span><span class="">  236: 
-</span><span class="">  237: 		# Perl builds its matrix itself; the other types are rewritten text
-</span><span class="">  238: 		$yaml = ($type eq &#39;perl&#39;)
-</span><span class="">  239: 			? generate_custom_perl_workflow({ perl_versions =&gt; [ @{$versions} ] })
-</span><span class="">  240: 			: _apply_versions($type, $generator-&gt;(), $versions);
-</span><span class="">  241: 	}
-</span><span class="">  242: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  243: 	return $yaml;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  244: }
-</span><span class="">  245: 
-</span><span class="">  246: =head2 parse_version_list($text)
+</span><span class="">  208: =cut
+</span><span class="">  209: 
+</span><span class="">  210: sub generate_workflow($type, $opts = {}) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">211 → 229 → 245</span></span>  211: 	my %generators = (
+</span><span class="">  212: 		perl   =&gt; \&amp;_generate_perl_workflow,
+</span><span class="">  213: 		node   =&gt; \&amp;_generate_node_workflow,
+</span><span class="">  214: 		python =&gt; \&amp;_generate_python_workflow,
+</span><span class="">  215: 		rust   =&gt; \&amp;_generate_rust_workflow,
+</span><span class="">  216: 		go     =&gt; \&amp;_generate_go_workflow,
+</span><span class="">  217: 		ruby   =&gt; \&amp;_generate_ruby_workflow,
+</span><span class="">  218: 		java   =&gt; \&amp;_generate_java_workflow,
+</span><span class="">  219: 		cpp    =&gt; \&amp;_generate_cpp_workflow,
+</span><span class="">  220: 		php    =&gt; \&amp;_generate_php_workflow,
+</span><span class="">  221: 		docker =&gt; \&amp;_generate_docker_workflow,
+</span><span class="">  222: 		static =&gt; \&amp;_generate_static_workflow,
+</span><span class="">  223: 	);
+</span><span class="">  224: 
+</span><span class="">  225: 	my $generator = $generators{$type};
+</span><span class="">  226: 	my $versions = $opts-&gt;{versions};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  227: 	my $yaml;
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  228: 
+</span><span class="">  229: 	if (!$generator) {
+</span><span class="">  230: 		# Unknown type: documented to return undef rather than croak
+</span><span class="">  231: 		$yaml = undef;
+</span><span class="">  232: 	} elsif (!($versions &amp;&amp; @{$versions})) {
+</span><span class="">  233: 		$yaml = $generator-&gt;();
+</span><span class="">  234: 	} else {
+</span><span class="">  235: 		# Validate before touching the template so a bad value never reaches YAML
+</span><span class="">  236: 		_validate_versions($versions);
+</span><span class="">  237: 		carp _message(&#39;versions_ignored&#39;, $type) if $VERSIONLESS_TYPE{$type};
+</span><span class="">  238: 
+</span><span class="">  239: 		# Perl builds its matrix itself; the other types are rewritten text
+</span><span class="">  240: 		$yaml = ($type eq &#39;perl&#39;)
+</span><span class="">  241: 			? generate_custom_perl_workflow({ perl_versions =&gt; [ @{$versions} ] })
+</span><span class="">  242: 			: _apply_versions($type, $generator-&gt;(), $versions);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  243: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  244: 
+</span><span class="">  245: 	return $yaml;
+</span><span class="">  246: }
 </span><span class="">  247: 
-</span><span class="">  248: Turn a comma-separated C&lt;--versions&gt; string into a validated list of versions.
+</span><span class="">  248: =head2 parse_version_list($text)
 </span><span class="">  249: 
-</span><span class="">  250: =head3 Purpose
+</span><span class="">  250: Turn a comma-separated C&lt;--versions&gt; string into a validated list of versions.
 </span><span class="">  251: 
-</span><span class="">  252: Give the command line and the API one definition of what a version list is,
-</span><span class="">  253: so C&lt;--versions=5.40, 5.42&gt; means the same thing everywhere.
-</span><span class="">  254: 
-</span><span class="">  255: =head3 Arguments
+</span><span class="">  252: =head3 Purpose
+</span><span class="">  253: 
+</span><span class="">  254: Give the command line and the API one definition of what a version list is,
+</span><span class="">  255: so C&lt;--versions=5.40, 5.42&gt; means the same thing everywhere.
 </span><span class="">  256: 
-</span><span class="">  257: =over 4
+</span><span class="">  257: =head3 Arguments
 </span><span class="">  258: 
-</span><span class="">  259: =item C&lt;$text&gt; (Str, required)
+</span><span class="">  259: =over 4
 </span><span class="">  260: 
-</span><span class="">  261: Comma-separated versions.  Whitespace around entries is ignored, empty
-</span><span class="">  262: entries are dropped and duplicates are removed, keeping the first occurrence.
-</span><span class="">  263: 
-</span><span class="">  264: =back
+</span><span class="">  261: =item C&lt;$text&gt; (Str, required)
+</span><span class="">  262: 
+</span><span class="">  263: Comma-separated versions.  Whitespace around entries is ignored, empty
+</span><span class="">  264: entries are dropped and duplicates are removed, keeping the first occurrence.
 </span><span class="">  265: 
-</span><span class="">  266: =head3 Returns
+</span><span class="">  266: =back
 </span><span class="">  267: 
-</span><span class="">  268: An array reference of version strings, in the order given.
+</span><span class="">  268: =head3 Returns
 </span><span class="">  269: 
-</span><span class="">  270: =head3 Side Effects
+</span><span class="">  270: An array reference of version strings, in the order given.
 </span><span class="">  271: 
-</span><span class="">  272: None.
+</span><span class="">  272: =head3 Side Effects
 </span><span class="">  273: 
-</span><span class="">  274: =head3 Usage
+</span><span class="">  274: None.
 </span><span class="">  275: 
-</span><span class="">  276:     my $versions = parse_version_list($ARGV_versions);
-</span><span class="">  277:     my $yaml = generate_workflow(&#39;node&#39;, { versions =&gt; $versions });
-</span><span class="">  278: 
-</span><span class="">  279: =head3 EXAMPLE
+</span><span class="">  276: =head3 Usage
+</span><span class="">  277: 
+</span><span class="">  278:     my $versions = parse_version_list($ARGV_versions);
+</span><span class="">  279:     my $yaml = generate_workflow(&#39;node&#39;, { versions =&gt; $versions });
 </span><span class="">  280: 
-</span><span class="">  281:     parse_version_list(&#39;20, 22,20&#39;);    # [&#39;20&#39;, &#39;22&#39;]
-</span><span class="">  282:     parse_version_list(&#39;5.40,5.42&#39;);    # [&#39;5.40&#39;, &#39;5.42&#39;]
-</span><span class="">  283:     parse_version_list(&#39;,&#39;);            # croaks: needs at least one version
-</span><span class="">  284: 
-</span><span class="">  285: =head3 MESSAGES
+</span><span class="">  281: =head3 EXAMPLE
+</span><span class="">  282: 
+</span><span class="">  283:     parse_version_list(&#39;20, 22,20&#39;);    # [&#39;20&#39;, &#39;22&#39;]
+</span><span class="">  284:     parse_version_list(&#39;5.40,5.42&#39;);    # [&#39;5.40&#39;, &#39;5.42&#39;]
+</span><span class="">  285:     parse_version_list(&#39;,&#39;);            # croaks: needs at least one version
 </span><span class="">  286: 
-</span><span class="">  287: =over 4
+</span><span class="">  287: =head3 MESSAGES
 </span><span class="">  288: 
-</span><span class="">  289: =item C&lt;--versions requires at least one version&gt; (croak)
+</span><span class="">  289: =over 4
 </span><span class="">  290: 
-</span><span class="">  291: C&lt;$text&gt; contained no entries.  Supply at least one version.
+</span><span class="">  291: =item C&lt;--versions requires at least one version&gt; (croak)
 </span><span class="">  292: 
-</span><span class="">  293: =item C&lt;Invalid version &#39;%s&#39; for --versions&gt; (croak)
+</span><span class="">  293: C&lt;$text&gt; contained no entries.  Supply at least one version.
 </span><span class="">  294: 
-</span><span class="">  295: An entry contains characters outside C&lt;[A-Za-z0-9_.+*-]&gt;.
+</span><span class="">  295: =item C&lt;Invalid version &#39;%s&#39; for --versions&gt; (croak)
 </span><span class="">  296: 
-</span><span class="">  297: =back
+</span><span class="">  297: An entry contains characters outside C&lt;[A-Za-z0-9_.+*-]&gt;.
 </span><span class="">  298: 
-</span><span class="">  299: =head3 API SPECIFICATION
+</span><span class="">  299: =back
 </span><span class="">  300: 
-</span><span class="">  301: =head4 Input
+</span><span class="">  301: =head3 API SPECIFICATION
 </span><span class="">  302: 
-</span><span class="">  303:     { text =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1, min =&gt; 1 } }
+</span><span class="">  303: =head4 Input
 </span><span class="">  304: 
-</span><span class="">  305: =head4 Output
+</span><span class="">  305:     { text =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1, min =&gt; 1 } }
 </span><span class="">  306: 
-</span><span class="">  307:     { type =&gt; &#39;arrayref&#39;, min =&gt; 1, element_type =&gt; &#39;scalar&#39; }
+</span><span class="">  307: =head4 Output
 </span><span class="">  308: 
-</span><span class="">  309: =head3 FORMAL SPECIFICATION
+</span><span class="">  309:     { type =&gt; &#39;arrayref&#39;, min =&gt; 1, element_type =&gt; &#39;scalar&#39; }
 </span><span class="">  310: 
-</span><span class="">  311:     VersionToken &acirc;&#137;&#148; { s : seq CHAR | s &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy; &acirc;&#136;&sect; ran s &acirc;&#138;&#134; [A-Za-z0-9_.+*-] }
+</span><span class="">  311: =head3 FORMAL SPECIFICATION
 </span><span class="">  312: 
-</span><span class="">  313:     parse_version_list : TEXT &acirc;&#135;&cedil; seq VersionToken
+</span><span class="">  313:     VersionToken &acirc;&#137;&#148; { s : seq CHAR | s &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy; &acirc;&#136;&sect; ran s &acirc;&#138;&#134; [A-Za-z0-9_.+*-] }
 </span><span class="">  314: 
-</span><span class="">  315:     items &acirc;&#137;&#148; nodup(split(&#39;,&#39;, text) &acirc;&#136;&#150; {&acirc;&#159;&uml;&acirc;&#159;&copy;})
-</span><span class="">  316:     items &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy; &acirc;&#136;&sect; items &acirc;&#138;&#134; VersionToken  &acirc;&#138;&cent;  parse_version_list(text) = items
-</span><span class="">  317: 
-</span><span class="">  318: =cut
+</span><span class="">  315:     parse_version_list : TEXT &acirc;&#135;&cedil; seq VersionToken
+</span><span class="">  316: 
+</span><span class="">  317:     items &acirc;&#137;&#148; nodup(split(&#39;,&#39;, text) &acirc;&#136;&#150; {&acirc;&#159;&uml;&acirc;&#159;&copy;})
+</span><span class="">  318:     items &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy; &acirc;&#136;&sect; items &acirc;&#138;&#134; VersionToken  &acirc;&#138;&cent;  parse_version_list(text) = items
 </span><span class="">  319: 
-</span><span class="">  320: sub parse_version_list($text) {
-</span><span class="">  321: 	my $versions = _split_unique($text);
-</span><span class="">  322: 
-</span><span class="">  323: 	# An empty list would silently fall back to the default matrix
-</span><span class="">  324: 	croak _message(&#39;no_versions&#39;) unless @{$versions};
-</span><span class="">  325: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  326: 	return _validate_versions($versions);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  327: }
-</span><span class="">  328: 
-</span><span class="">  329: =head2 parse_os_list($text)
+</span><span class="">  320: =cut
+</span><span class="">  321: 
+</span><span class="">  322: sub parse_version_list($text) {
+</span><span class="">  323: 	my $versions = _split_unique($text);
+</span><span class="">  324: 
+</span><span class="">  325: 	# An empty list would silently fall back to the default matrix
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  326: 	croak _message(&#39;no_versions&#39;) unless @{$versions};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  327: 
+</span><span class="">  328: 	return _validate_versions($versions);
+</span><span class="">  329: }
 </span><span class="">  330: 
-</span><span class="">  331: Turn a comma-separated C&lt;--os&gt; string into a list of GitHub runner labels.
+</span><span class="">  331: =head2 parse_os_list($text)
 </span><span class="">  332: 
-</span><span class="">  333: =head3 Purpose
+</span><span class="">  333: Turn a comma-separated C&lt;--os&gt; string into a list of GitHub runner labels.
 </span><span class="">  334: 
-</span><span class="">  335: Let users write C&lt;linux,macos&gt; instead of C&lt;ubuntu-latest,macos-latest&gt;,
-</span><span class="">  336: while still accepting a literal label such as C&lt;ubuntu-22.04&gt;.
-</span><span class="">  337: 
-</span><span class="">  338: =head3 Arguments
+</span><span class="">  335: =head3 Purpose
+</span><span class="">  336: 
+</span><span class="">  337: Let users write C&lt;linux,macos&gt; instead of C&lt;ubuntu-latest,macos-latest&gt;,
+</span><span class="">  338: while still accepting a literal label such as C&lt;ubuntu-22.04&gt;.
 </span><span class="">  339: 
-</span><span class="">  340: =over 4
+</span><span class="">  340: =head3 Arguments
 </span><span class="">  341: 
-</span><span class="">  342: =item C&lt;$text&gt; (Str, required)
+</span><span class="">  342: =over 4
 </span><span class="">  343: 
-</span><span class="">  344: Comma-separated names, case-insensitive: C&lt;linux&gt;, C&lt;ubuntu&gt;, C&lt;macos&gt;,
-</span><span class="">  345: C&lt;windows&gt;, or a literal label matching C&lt;(ubuntu|macos|windows)-...&gt;.
-</span><span class="">  346: 
-</span><span class="">  347: =back
+</span><span class="">  344: =item C&lt;$text&gt; (Str, required)
+</span><span class="">  345: 
+</span><span class="">  346: Comma-separated names, case-insensitive: C&lt;linux&gt;, C&lt;ubuntu&gt;, C&lt;macos&gt;,
+</span><span class="">  347: C&lt;windows&gt;, or a literal label matching C&lt;(ubuntu|macos|windows)-...&gt;.
 </span><span class="">  348: 
-</span><span class="">  349: =head3 Returns
+</span><span class="">  349: =back
 </span><span class="">  350: 
-</span><span class="">  351: An array reference of runner labels, in the order given, without duplicates.
+</span><span class="">  351: =head3 Returns
 </span><span class="">  352: 
-</span><span class="">  353: =head3 Side Effects
+</span><span class="">  353: An array reference of runner labels, in the order given, without duplicates.
 </span><span class="">  354: 
-</span><span class="">  355: None.
+</span><span class="">  355: =head3 Side Effects
 </span><span class="">  356: 
-</span><span class="">  357: =head3 Usage
+</span><span class="">  357: None.
 </span><span class="">  358: 
-</span><span class="">  359:     my $os = parse_os_list(&#39;linux,macos&#39;);   # no Windows jobs
-</span><span class="">  360:     my $yaml = generate_custom_perl_workflow({ os =&gt; $os });
-</span><span class="">  361: 
-</span><span class="">  362: =head3 EXAMPLE
+</span><span class="">  359: =head3 Usage
+</span><span class="">  360: 
+</span><span class="">  361:     my $os = parse_os_list(&#39;linux,macos&#39;);   # no Windows jobs
+</span><span class="">  362:     my $yaml = generate_custom_perl_workflow({ os =&gt; $os });
 </span><span class="">  363: 
-</span><span class="">  364:     parse_os_list(&#39;Linux, macOS&#39;);      # [&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;]
-</span><span class="">  365:     parse_os_list(&#39;ubuntu,linux&#39;);      # [&#39;ubuntu-latest&#39;]
-</span><span class="">  366:     parse_os_list(&#39;ubuntu-22.04&#39;);      # [&#39;ubuntu-22.04&#39;]
-</span><span class="">  367:     parse_os_list(&#39;bsd&#39;);               # croaks: unknown OS
-</span><span class="">  368: 
-</span><span class="">  369: =head3 MESSAGES
+</span><span class="">  364: =head3 EXAMPLE
+</span><span class="">  365: 
+</span><span class="">  366:     parse_os_list(&#39;Linux, macOS&#39;);      # [&#39;ubuntu-latest&#39;, &#39;macos-latest&#39;]
+</span><span class="">  367:     parse_os_list(&#39;ubuntu,linux&#39;);      # [&#39;ubuntu-latest&#39;]
+</span><span class="">  368:     parse_os_list(&#39;ubuntu-22.04&#39;);      # [&#39;ubuntu-22.04&#39;]
+</span><span class="">  369:     parse_os_list(&#39;bsd&#39;);               # croaks: unknown OS
 </span><span class="">  370: 
-</span><span class="">  371: =over 4
+</span><span class="">  371: =head3 MESSAGES
 </span><span class="">  372: 
-</span><span class="">  373: =item C&lt;Unknown OS &#39;%s&#39; for --os (use linux, macos, windows)&gt; (croak)
+</span><span class="">  373: =over 4
 </span><span class="">  374: 
-</span><span class="">  375: The name is neither a known short name nor a literal runner label.
+</span><span class="">  375: =item C&lt;Unknown OS &#39;%s&#39; for --os (use linux, macos, windows)&gt; (croak)
 </span><span class="">  376: 
-</span><span class="">  377: =item C&lt;--os requires at least one operating system&gt; (croak)
+</span><span class="">  377: The name is neither a known short name nor a literal runner label.
 </span><span class="">  378: 
-</span><span class="">  379: C&lt;$text&gt; contained no entries.
+</span><span class="">  379: =item C&lt;--os requires at least one operating system&gt; (croak)
 </span><span class="">  380: 
-</span><span class="">  381: =back
+</span><span class="">  381: C&lt;$text&gt; contained no entries.
 </span><span class="">  382: 
-</span><span class="">  383: =head3 API SPECIFICATION
+</span><span class="">  383: =back
 </span><span class="">  384: 
-</span><span class="">  385: =head4 Input
+</span><span class="">  385: =head3 API SPECIFICATION
 </span><span class="">  386: 
-</span><span class="">  387:     { text =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1, min =&gt; 1 } }
+</span><span class="">  387: =head4 Input
 </span><span class="">  388: 
-</span><span class="">  389: =head4 Output
+</span><span class="">  389:     { text =&gt; { type =&gt; &#39;scalar&#39;, required =&gt; 1, min =&gt; 1 } }
 </span><span class="">  390: 
-</span><span class="">  391:     { type =&gt; &#39;arrayref&#39;, min =&gt; 1, element_type =&gt; &#39;scalar&#39; }
+</span><span class="">  391: =head4 Output
 </span><span class="">  392: 
-</span><span class="">  393: =head3 FORMAL SPECIFICATION
+</span><span class="">  393:     { type =&gt; &#39;arrayref&#39;, min =&gt; 1, element_type =&gt; &#39;scalar&#39; }
 </span><span class="">  394: 
-</span><span class="">  395:     Label &acirc;&#137;&#148; { ubuntu-latest, macos-latest, windows-latest } &acirc;&#136;&ordf; LiteralLabel
+</span><span class="">  395: =head3 FORMAL SPECIFICATION
 </span><span class="">  396: 
-</span><span class="">  397:     parse_os_list : TEXT &acirc;&#135;&cedil; seq Label
+</span><span class="">  397:     Label &acirc;&#137;&#148; { ubuntu-latest, macos-latest, windows-latest } &acirc;&#136;&ordf; LiteralLabel
 </span><span class="">  398: 
-</span><span class="">  399:     names &acirc;&#137;&#148; split(&#39;,&#39;, lc text) &acirc;&#136;&#150; {&acirc;&#159;&uml;&acirc;&#159;&copy;}
-</span><span class="">  400:     labels &acirc;&#137;&#148; nodup(runner &acirc;&#136;&#152; names)       (runner is partial; undefined &acirc;&#134;&#146; croak)
-</span><span class="">  401:     labels &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy;  &acirc;&#138;&cent;  parse_os_list(text) = labels
-</span><span class="">  402: 
-</span><span class="">  403: =cut
+</span><span class="">  399:     parse_os_list : TEXT &acirc;&#135;&cedil; seq Label
+</span><span class="">  400: 
+</span><span class="">  401:     names &acirc;&#137;&#148; split(&#39;,&#39;, lc text) &acirc;&#136;&#150; {&acirc;&#159;&uml;&acirc;&#159;&copy;}
+</span><span class="">  402:     labels &acirc;&#137;&#148; nodup(runner &acirc;&#136;&#152; names)       (runner is partial; undefined &acirc;&#134;&#146; croak)
+</span><span class="">  403:     labels &acirc;&#137;&nbsp; &acirc;&#159;&uml;&acirc;&#159;&copy;  &acirc;&#138;&cent;  parse_os_list(text) = labels
 </span><span class="">  404: 
-</span><span class="">  405: sub parse_os_list($text) {
-</span><span class="">  406: 	# Lower-case first so &quot;Linux&quot; and &quot;LINUX&quot; are accepted
-</span><span class="">  407: 	my @labels = uniq map { _runner_label($_) } @{ _split_unique(lc($text)) };
-</span><span class="">  408: 
-</span><span class="">  409: 	croak _message(&#39;no_os&#39;) unless @labels;
+</span><span class="">  405: =cut
+</span><span class="">  406: 
+</span><span class="">  407: sub parse_os_list($text) {
+</span><span class="">  408: 	# Lower-case first so &quot;Linux&quot; and &quot;LINUX&quot; are accepted
+</span><span class="">  409: 	my @labels = uniq map { _runner_label($_) } @{ _split_unique(lc($text)) };
 </span><span class="">  410: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  411: 	return \@labels;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  412: }
-</span><span class="">  413: 
-</span><span class="">  414: # Purpose:      Split a comma-separated option value into trimmed, non-empty,
-</span><span class="">  415: #               de-duplicated entries (first occurrence wins).
-</span><span class="">  416: # Entry:        $text is a defined string.
-</span><span class="">  417: # Exit status: Returns an array reference, possibly empty.
-</span><span class="">  418: # Side effects: None.
-</span><span class="">  419: sub _split_unique($text) {
-</span><span class="">  420: 	my @entries = grep { length } map { s/\A\s+|\s+\z//gr } split /,/, $text;
-</span><span class="">  421: 
-</span><span class="">  422: 	return [ uniq @entries ];
-</span><span class="">  423: }
-</span><span class="">  424: 
-</span><span class="">  425: # Purpose:      Map one --os name to a GitHub runner label.
-</span><span class="">  426: # Entry:        $name is a trimmed, lower-case string.
-</span><span class="">  427: # Exit status: Returns the label; croaks with &#39;unknown_os&#39; otherwise.
-</span><span class="">  428: # Side effects: None.
-</span><span class="">  429: sub _runner_label($name) {
-</span><span class="">  430: 	my $label = $RUNNER_LABEL_FOR{$name}
-</span><span class="">  431: 		// ($name =~ $RUNNER_LABEL_PATTERN ? $name : undef);
-</span><span class="">  432: 
-</span><span class="">  433: 	croak _message(&#39;unknown_os&#39;, $name) unless defined $label;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  411: 	croak _message(&#39;no_os&#39;) unless @labels;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  412: 
+</span><span class="">  413: 	return \@labels;
+</span><span class="">  414: }
+</span><span class="">  415: 
+</span><span class="">  416: # Purpose:      Split a comma-separated option value into trimmed, non-empty,
+</span><span class="">  417: #               de-duplicated entries (first occurrence wins).
+</span><span class="">  418: # Entry:        $text is a defined string.
+</span><span class="">  419: # Exit status: Returns an array reference, possibly empty.
+</span><span class="">  420: # Side effects: None.
+</span><span class="">  421: sub _split_unique($text) {
+</span><span class="">  422: 	my @entries = grep { length } map { s/\A\s+|\s+\z//gr } split /,/, $text;
+</span><span class="">  423: 
+</span><span class="">  424: 	return [ uniq @entries ];
+</span><span class="">  425: }
+</span><span class="">  426: 
+</span><span class="">  427: # Purpose:      Map one --os name to a GitHub runner label.
+</span><span class="">  428: # Entry:        $name is a trimmed, lower-case string.
+</span><span class="">  429: # Exit status: Returns the label; croaks with &#39;unknown_os&#39; otherwise.
+</span><span class="">  430: # Side effects: None.
+</span><span class="">  431: sub _runner_label($name) {
+</span><span class="">  432: 	my $label = $RUNNER_LABEL_FOR{$name}
+</span><span class="">  433: 		// ($name =~ $RUNNER_LABEL_PATTERN ? $name : undef);
 </span><span class="">  434: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  435: 	return $label;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  436: }
-</span><span class="">  437: 
-</span><span class="">  438: # Purpose:      Reject any version that could break out of a YAML scalar.
-</span><span class="">  439: # Entry:        $versions is an array reference of strings.
-</span><span class="">  440: # Exit status: Returns $versions unchanged; croaks with &#39;invalid_version&#39;.
-</span><span class="">  441: # Side effects: None.
-</span><span class="">  442: sub _validate_versions($versions) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">443 → 443 → 448</span></span>  443: 	for my $version (@{$versions}) {
-</span><span class="">  444: 		croak _message(&#39;invalid_version&#39;, $version // &#39;undef&#39;)
-</span><span class="">  445: 			unless defined $version &amp;&amp; $version =~ $VERSION_PATTERN;
-</span><span class="">  446: 	}
-</span><span class="">  447: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	return $versions;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: }
-</span><span class="">  450: 
-</span><span class="">  451: # Purpose:      Format a message from %MESSAGES with sprintf interpolation.
-</span><span class="">  452: # Entry:        $key is a key of %MESSAGES; @args fill its placeholders.
-</span><span class="">  453: # Exit status: Returns the formatted string; an unknown key yields the
-</span><span class="">  454: #               &#39;unknown_message&#39; text instead, so a typo cannot hide an error.
-</span><span class="">  455: # Side effects: None.
-</span><span class="">  456: sub _message($key, @args) {
-</span><span class="">  457: 	my $format = $MESSAGES{$key};
-</span><span class="">  458: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  459: 	return defined $format
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  460: 		? sprintf($format, @args)
-</span><span class="">  461: 		: sprintf($MESSAGES{unknown_message}, $key);
-</span><span class="">  462: }
-</span><span class="">  463: 
-</span><span class="">  464: # Purpose:      Render version entries as a YAML list at the given indent.
-</span><span class="">  465: # Entry:        $indent is the dash column as spaces; $versions is an arrayref.
-</span><span class="">  466: # Exit status: Returns the YAML text; every entry is single-quoted so that
-</span><span class="">  467: #               3.10 stays a string and is not read as the number 3.1.
-</span><span class="">  468: # Side effects: None.
-</span><span class="">  469: sub _matrix_items($indent, $versions) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  470: 	return join &#39;&#39;, map { &quot;$indent- &#39;$_&#39;\n&quot; } @{$versions};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  471: }
-</span><span class="">  472: 
-</span><span class="">  473: # Purpose:      Rewrite the version matrix of a generated workflow.
-</span><span class="">  474: # Entry:        $type is a known generator type; $yaml is that type&#39;s template;
-</span><span class="">  475: #               $versions has been validated.
-</span><span class="">  476: # Exit status: Returns the rewritten YAML; types without a matrix (cpp,
-</span><span class="">  477: #               docker, static) come back unchanged.
-</span><span class="">  478: # Side effects: None.
-</span><span class="">  479: sub _apply_versions($type, $yaml, $versions) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">480 → 480 → 495</span></span>  480: 	if (my $key = $MATRIX_KEY_FOR{$type}) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  481: 		# Replace the existing list under &quot;&lt;key&gt;:&quot; keeping its indentation
-</span><span class="">  482: 		$yaml =~ s{^( +)\Q$key\E:\n(?: +- .*\n)+}{
-</span><span class="">  483: 			&quot;$1$key:\n&quot; . _matrix_items(&quot;$1  &quot;, $versions)
-</span><span class="">  484: 		}me;
-</span><span class="">  485: 	} elsif ($type eq &#39;go&#39;) {
-</span><span class="">  486: 		$yaml =~ s{$GO_PINNED_VERSION}{go-version: \${{ matrix.go-version }}};
-</span><span class="">  487: 		$yaml = _insert_matrix($yaml, &#39;go-version&#39;, $versions);
-</span><span class="">  488: 	} elsif ($type eq &#39;rust&#39;) {
-</span><span class="">  489: 		# dtolnay/rust-toolchain reads the toolchain from &quot;with:&quot; when the
-</span><span class="">  490: 		# ref is not a version, so point it at the matrix value
-</span><span class="">  491: 		$yaml =~ s{$RUST_TOOLCHAIN_STEP}{$1        with:\n          toolchain: \${{ matrix.rust-version }}\n};
-</span><span class="">  492: 		$yaml = _insert_matrix($yaml, &#39;rust-version&#39;, $versions);
-</span><span class="">  493: 	}
-</span><span class="">  494: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495: 	return $yaml;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  496: }
-</span><span class="">  497: 
-</span><span class="">  498: # Purpose:      Add a one-key strategy matrix to the (single) ubuntu job.
-</span><span class="">  499: # Entry:        $yaml has exactly one &quot;    runs-on: ubuntu-latest&quot; line.
-</span><span class="">  500: # Exit status: Returns the YAML with the matrix inserted after that line.
-</span><span class="">  501: # Side effects: None.
-</span><span class="">  502: sub _insert_matrix($yaml, $key, $versions) {
-</span><span class="">  503: 	my $block = &quot;    strategy:\n      matrix:\n        $key:\n&quot;
-</span><span class="">  504: 		. _matrix_items(&#39;          &#39;, $versions);
-</span><span class="">  505: 
-</span><span class="">  506: 	$yaml =~ s{^(    runs-on: ubuntu-latest\n)}{$1$block}m;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  435: 	croak _message(&#39;unknown_os&#39;, $name) unless defined $label;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  436: 
+</span><span class="">  437: 	return $label;
+</span><span class="">  438: }
+</span><span class="">  439: 
+</span><span class="">  440: # Purpose:      Reject any version that could break out of a YAML scalar.
+</span><span class="">  441: # Entry:        $versions is an array reference of strings.
+</span><span class="">  442: # Exit status: Returns $versions unchanged; croaks with &#39;invalid_version&#39;.
+</span><span class="">  443: # Side effects: None.
+</span><span class="">  444: sub _validate_versions($versions) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">445 → 445 → 450</span></span>  445: 	for my $version (@{$versions}) {
+</span><span class="">  446: 		croak _message(&#39;invalid_version&#39;, $version // &#39;undef&#39;)
+</span><span class="">  447: 			unless defined $version &amp;&amp; $version =~ $VERSION_PATTERN;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: 
+</span><span class="">  450: 	return $versions;
+</span><span class="">  451: }
+</span><span class="">  452: 
+</span><span class="">  453: # Purpose:      Format a message from %MESSAGES with sprintf interpolation.
+</span><span class="">  454: # Entry:        $key is a key of %MESSAGES; @args fill its placeholders.
+</span><span class="">  455: # Exit status: Returns the formatted string; an unknown key yields the
+</span><span class="">  456: #               &#39;unknown_message&#39; text instead, so a typo cannot hide an error.
+</span><span class="">  457: # Side effects: None.
+</span><span class="">  458: sub _message($key, @args) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  459: 	my $format = $MESSAGES{$key};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  460: 
+</span><span class="">  461: 	return defined $format
+</span><span class="">  462: 		? sprintf($format, @args)
+</span><span class="">  463: 		: sprintf($MESSAGES{unknown_message}, $key);
+</span><span class="">  464: }
+</span><span class="">  465: 
+</span><span class="">  466: # Purpose:      Render version entries as a YAML list at the given indent.
+</span><span class="">  467: # Entry:        $indent is the dash column as spaces; $versions is an arrayref.
+</span><span class="">  468: # Exit status: Returns the YAML text; every entry is single-quoted so that
+</span><span class="">  469: #               3.10 stays a string and is not read as the number 3.1.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  470: # Side effects: None.
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  471: sub _matrix_items($indent, $versions) {
+</span><span class="">  472: 	return join &#39;&#39;, map { &quot;$indent- &#39;$_&#39;\n&quot; } @{$versions};
+</span><span class="">  473: }
+</span><span class="">  474: 
+</span><span class="">  475: # Purpose:      Rewrite the version matrix of a generated workflow.
+</span><span class="">  476: # Entry:        $type is a known generator type; $yaml is that type&#39;s template;
+</span><span class="">  477: #               $versions has been validated.
+</span><span class="">  478: # Exit status: Returns the rewritten YAML; types without a matrix (cpp,
+</span><span class="">  479: #               docker, static) come back unchanged.
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  480: # Side effects: None.
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  481: sub _apply_versions($type, $yaml, $versions) {
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">482 → 482 → 497</span></span>  482: 	if (my $key = $MATRIX_KEY_FOR{$type}) {
+</span><span class="">  483: 		# Replace the existing list under &quot;&lt;key&gt;:&quot; keeping its indentation
+</span><span class="">  484: 		$yaml =~ s{^( +)\Q$key\E:\n(?: +- .*\n)+}{
+</span><span class="">  485: 			&quot;$1$key:\n&quot; . _matrix_items(&quot;$1  &quot;, $versions)
+</span><span class="">  486: 		}me;
+</span><span class="">  487: 	} elsif ($type eq &#39;go&#39;) {
+</span><span class="">  488: 		$yaml =~ s{$GO_PINNED_VERSION}{go-version: \${{ matrix.go-version }}};
+</span><span class="">  489: 		$yaml = _insert_matrix($yaml, &#39;go-version&#39;, $versions);
+</span><span class="">  490: 	} elsif ($type eq &#39;rust&#39;) {
+</span><span class="">  491: 		# dtolnay/rust-toolchain reads the toolchain from &quot;with:&quot; when the
+</span><span class="">  492: 		# ref is not a version, so point it at the matrix value
+</span><span class="">  493: 		$yaml =~ s{$RUST_TOOLCHAIN_STEP}{$1        with:\n          toolchain: \${{ matrix.rust-version }}\n};
+</span><span class="">  494: 		$yaml = _insert_matrix($yaml, &#39;rust-version&#39;, $versions);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495: 	}
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  496: 
+</span><span class="">  497: 	return $yaml;
+</span><span class="">  498: }
+</span><span class="">  499: 
+</span><span class="">  500: # Purpose:      Add a one-key strategy matrix to the (single) ubuntu job.
+</span><span class="">  501: # Entry:        $yaml has exactly one &quot;    runs-on: ubuntu-latest&quot; line.
+</span><span class="">  502: # Exit status: Returns the YAML with the matrix inserted after that line.
+</span><span class="">  503: # Side effects: None.
+</span><span class="">  504: sub _insert_matrix($yaml, $key, $versions) {
+</span><span class="">  505: 	my $block = &quot;    strategy:\n      matrix:\n        $key:\n&quot;
+</span><span class="">  506: 		. _matrix_items(&#39;          &#39;, $versions);
 </span><span class="">  507: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  508: 	return $yaml;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  509: }
-</span><span class="">  510: 
-</span><span class="">  511: =head2 list_workflow_types()
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  508: 	$yaml =~ s{^(    runs-on: ubuntu-latest\n)}{$1$block}m;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  509: 
+</span><span class="">  510: 	return $yaml;
+</span><span class="">  511: }
 </span><span class="">  512: 
-</span><span class="">  513: Return a flat hash of all supported workflow types and their descriptions.
+</span><span class="">  513: =head2 list_workflow_types()
 </span><span class="">  514: 
-</span><span class="">  515: =head3 Purpose
+</span><span class="">  515: Return a flat hash of all supported workflow types and their descriptions.
 </span><span class="">  516: 
-</span><span class="">  517: Enumerate every type that C&lt;generate_workflow&gt; can handle, with a one-line
-</span><span class="">  518: human-readable description for each.
-</span><span class="">  519: 
-</span><span class="">  520: =head3 Arguments
+</span><span class="">  517: =head3 Purpose
+</span><span class="">  518: 
+</span><span class="">  519: Enumerate every type that C&lt;generate_workflow&gt; can handle, with a one-line
+</span><span class="">  520: human-readable description for each.
 </span><span class="">  521: 
-</span><span class="">  522: None.
+</span><span class="">  522: =head3 Arguments
 </span><span class="">  523: 
-</span><span class="">  524: =head3 Returns
+</span><span class="">  524: None.
 </span><span class="">  525: 
-</span><span class="">  526: A flat hash (not a reference) mapping type strings to description strings.
-</span><span class="">  527: Contains exactly eleven entries: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;, C&lt;rust&gt;,
-</span><span class="">  528: C&lt;go&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;cpp&gt;, C&lt;php&gt;, C&lt;docker&gt;, C&lt;static&gt;.
-</span><span class="">  529: 
-</span><span class="">  530: =head3 Side Effects
+</span><span class="">  526: =head3 Returns
+</span><span class="">  527: 
+</span><span class="">  528: A flat hash (not a reference) mapping type strings to description strings.
+</span><span class="">  529: Contains exactly eleven entries: C&lt;perl&gt;, C&lt;node&gt;, C&lt;python&gt;, C&lt;rust&gt;,
+</span><span class="">  530: C&lt;go&gt;, C&lt;ruby&gt;, C&lt;java&gt;, C&lt;cpp&gt;, C&lt;php&gt;, C&lt;docker&gt;, C&lt;static&gt;.
 </span><span class="">  531: 
-</span><span class="">  532: None.  Pure function.
+</span><span class="">  532: =head3 Side Effects
 </span><span class="">  533: 
-</span><span class="">  534: =head3 Usage Example
+</span><span class="">  534: None.  Pure function.
 </span><span class="">  535: 
-</span><span class="">  536:     my %types = list_workflow_types();
-</span><span class="">  537:     say &quot;$_: $types{$_}&quot; for sort keys %types;
-</span><span class="">  538: 
-</span><span class="">  539: =head3 API SPECIFICATION
+</span><span class="">  536: =head3 Usage Example
+</span><span class="">  537: 
+</span><span class="">  538:     my %types = list_workflow_types();
+</span><span class="">  539:     say &quot;$_: $types{$_}&quot; for sort keys %types;
 </span><span class="">  540: 
-</span><span class="">  541: =head4 Input
+</span><span class="">  541: =head3 API SPECIFICATION
 </span><span class="">  542: 
-</span><span class="">  543:     # No parameters.
+</span><span class="">  543: =head4 Input
 </span><span class="">  544: 
-</span><span class="">  545: =head4 Output
+</span><span class="">  545:     # No parameters.
 </span><span class="">  546: 
-</span><span class="">  547:     { type =&gt; &#39;hashref&#39;, keys =&gt; { &#39;*&#39; =&gt; { type =&gt; &#39;scalar&#39; } } }
+</span><span class="">  547: =head4 Output
 </span><span class="">  548: 
-</span><span class="">  549: =head3 FORMAL SPECIFICATION
+</span><span class="">  549:     { type =&gt; &#39;hashref&#39;, keys =&gt; { &#39;*&#39; =&gt; { type =&gt; &#39;scalar&#39; } } }
 </span><span class="">  550: 
-</span><span class="">  551:     list_workflow_types : &acirc;&#134;&#146; &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  551: =head3 FORMAL SPECIFICATION
 </span><span class="">  552: 
-</span><span class="">  553:     result &acirc;&#137;&#148; { t &acirc;&#134;&brvbar; desc(t) &acirc;&#136;&pound; t &acirc;&#136;&#136; SupportedTypes }
-</span><span class="">  554:     |result| = 11
-</span><span class="">  555: 
-</span><span class="">  556: =cut
+</span><span class="">  553:     list_workflow_types : &acirc;&#134;&#146; &acirc;&#132;&curren;* &acirc;&#134;&#146; &acirc;&#132;&curren;*
+</span><span class="">  554: 
+</span><span class="">  555:     result &acirc;&#137;&#148; { t &acirc;&#134;&brvbar; desc(t) &acirc;&#136;&pound; t &acirc;&#136;&#136; SupportedTypes }
+</span><span class="">  556:     |result| = 11
 </span><span class="">  557: 
-</span><span class="">  558: sub list_workflow_types() {
-</span><span class="">  559:     return (
-</span><span class="">  560:         node   =&gt; &#39;Node.js/npm projects with testing and linting&#39;,
-</span><span class="">  561:         python =&gt; &#39;Python projects with pytest and coverage&#39;,
-</span><span class="">  562:         rust   =&gt; &#39;Rust projects with cargo, clippy, and formatting&#39;,
-</span><span class="">  563:         go     =&gt; &#39;Go projects with testing and race detection&#39;,
-</span><span class="">  564:         ruby   =&gt; &#39;Ruby projects with bundler and rake&#39;,
-</span><span class="">  565:         perl   =&gt; &#39;Perl projects with cpanm, prove, and coverage&#39;,
-</span><span class="">  566:         java   =&gt; &#39;Java projects with Maven or Gradle&#39;,
-</span><span class="">  567:         cpp    =&gt; &#39;C++ projects with CMake&#39;,
-</span><span class="">  568:         php    =&gt; &#39;PHP projects with Composer and PHPUnit&#39;,
-</span><span class="">  569:         docker =&gt; &#39;Docker image build and push workflow&#39;,
-</span><span class="">  570:         static =&gt; &#39;Static site deployment to GitHub Pages&#39;,
-</span><span class="">  571:     );
-</span><span class="">  572: }
-</span><span class="">  573: 
-</span><span class="">  574: # Private workflow generators
+</span><span class="">  558: =cut
+</span><span class="">  559: 
+</span><span class="">  560: sub list_workflow_types() {
+</span><span class="">  561: 	return (
+</span><span class="">  562: 		node   =&gt; &#39;Node.js/npm projects with testing and linting&#39;,
+</span><span class="">  563: 		python =&gt; &#39;Python projects with pytest and coverage&#39;,
+</span><span class="">  564: 		rust   =&gt; &#39;Rust projects with cargo, clippy, and formatting&#39;,
+</span><span class="">  565: 		go     =&gt; &#39;Go projects with testing and race detection&#39;,
+</span><span class="">  566: 		ruby   =&gt; &#39;Ruby projects with bundler and rake&#39;,
+</span><span class="">  567: 		perl   =&gt; &#39;Perl projects with cpanm, prove, and coverage&#39;,
+</span><span class="">  568: 		java   =&gt; &#39;Java projects with Maven or Gradle&#39;,
+</span><span class="">  569: 		cpp    =&gt; &#39;C++ projects with CMake&#39;,
+</span><span class="">  570: 		php    =&gt; &#39;PHP projects with Composer and PHPUnit&#39;,
+</span><span class="">  571: 		docker =&gt; &#39;Docker image build and push workflow&#39;,
+</span><span class="">  572: 		static =&gt; &#39;Static site deployment to GitHub Pages&#39;,
+</span><span class="">  573: 	);
+</span><span class="">  574: }
 </span><span class="">  575: 
-</span><span class="">  576: sub _generate_perl_workflow() {
-</span><span class="">  577: 	# Try to detect requirements from project
-</span><span class="">  578: 	my $reqs = detect_perl_requirements();
-</span><span class="">  579: 
-</span><span class="">  580: 	# Use detected min version or default to 5.36
-</span><span class="">  581: 	my $min_version = $reqs-&gt;{min_version} // &#39;5.36&#39;;
-</span><span class="">  582: 
-</span><span class="">  583: 	# Generate custom workflow with detected settings
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  584: 	return generate_custom_perl_workflow({
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  585: 		min_perl_version =&gt; $min_version,
-</span><span class="">  586: 		max_perl_version =&gt; &#39;5.40&#39;,
-</span><span class="">  587: 		os =&gt; [&#39;macos-latest&#39;, &#39;ubuntu-latest&#39;, &#39;windows-latest&#39;],
-</span><span class="">  588: 		enable_critic =&gt; 1,
-</span><span class="">  589: 		enable_coverage =&gt; 1,
-</span><span class="">  590: 	});
-</span><span class="">  591: }
-</span><span class="">  592: 
-</span><span class="">  593: sub _generate_node_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  594: 	return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  595: ---
-</span><span class="">  596: name: Node.js CI
-</span><span class="">  597: 
-</span><span class="">  598: &#39;on&#39;:
-</span><span class="">  599:   push:
-</span><span class="">  600:     branches:
-</span><span class="">  601:       - main
-</span><span class="">  602:       - develop
-</span><span class="">  603:   pull_request:
-</span><span class="">  604:     branches:
-</span><span class="">  605:       - main
-</span><span class="">  606:       - develop
-</span><span class="">  607: 
-</span><span class="">  608: concurrency:
-</span><span class="">  609:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  610:   cancel-in-progress: true
-</span><span class="">  611: 
-</span><span class="">  612: permissions:
-</span><span class="">  613:   contents: read
-</span><span class="">  614: 
-</span><span class="">  615: jobs:
-</span><span class="">  616:   test:
-</span><span class="">  617:     runs-on: ubuntu-latest
-</span><span class="">  618:     strategy:
-</span><span class="">  619:       matrix:
-</span><span class="">  620:         node-version:
-</span><span class="">  621:           - 18.x
-</span><span class="">  622:           - 20.x
-</span><span class="">  623:           - 22.x
-</span><span class="">  624:     steps:
-</span><span class="">  625:       - name: Checkout code
-</span><span class="">  626:         uses: actions/checkout@76
-</span><span class="">  627: 
-</span><span class="">  628:       - name: Setup Node.js ${{ matrix.node-version }}
-</span><span class="">  629:         uses: actions/setup-node@v4
-</span><span class="">  630:         with:
-</span><span class="">  631:           node-version: ${{ matrix.node-version }}
-</span><span class="">  632: 
-</span><span class="">  633:       - name: Cache dependencies
-</span><span class="">  634:         uses: actions/cache@v6
-</span><span class="">  635:         with:
-</span><span class="">  636:           path: ~/.npm
-</span><span class="">  637:           key: ${{ runner.os }}-node-${{ hashFiles(&#39;**/package-lock.json&#39;) }}
-</span><span class="">  638:           restore-keys: |
-</span><span class="">  639:             ${{ runner.os }}-node-
-</span><span class="">  640: 
-</span><span class="">  641:       - name: Install dependencies
-</span><span class="">  642:         run: npm ci
-</span><span class="">  643: 
-</span><span class="">  644:       - name: Run linter
-</span><span class="">  645:         run: npm run lint --if-present
-</span><span class="">  646: 
-</span><span class="">  647:       - name: Run tests
-</span><span class="">  648:         run: npm test
-</span><span class="">  649: 
-</span><span class="">  650:       - name: Build project
-</span><span class="">  651:         run: npm run build --if-present
-</span><span class="">  652: YAML
-</span><span class="">  653: }
-</span><span class="">  654: 
-</span><span class="">  655: sub _generate_python_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  656:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  657: ---
-</span><span class="">  658: name: Python CI
-</span><span class="">  659: 
-</span><span class="">  660: &#39;on&#39;:
-</span><span class="">  661:   push:
-</span><span class="">  662:     branches:
-</span><span class="">  663:       - main
-</span><span class="">  664:       - develop
-</span><span class="">  665:   pull_request:
-</span><span class="">  666:     branches:
-</span><span class="">  667:       - main
-</span><span class="">  668:       - develop
-</span><span class="">  669: 
-</span><span class="">  670: concurrency:
-</span><span class="">  671:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  672:   cancel-in-progress: true
-</span><span class="">  673: 
-</span><span class="">  674: permissions:
-</span><span class="">  675:   contents: read
-</span><span class="">  676: 
-</span><span class="">  677: jobs:
-</span><span class="">  678:   test:
-</span><span class="">  679:     runs-on: ubuntu-latest
-</span><span class="">  680:     strategy:
-</span><span class="">  681:       matrix:
-</span><span class="">  682:         python-version:
-</span><span class="">  683:           - &#39;3.9&#39;
-</span><span class="">  684:           - &#39;3.10&#39;
-</span><span class="">  685:           - &#39;3.11&#39;
-</span><span class="">  686:           - &#39;3.12&#39;
-</span><span class="">  687:     steps:
-</span><span class="">  688:       - name: Checkout code
-</span><span class="">  689:         uses: actions/checkout@v7
-</span><span class="">  690: 
-</span><span class="">  691:       - name: Set up Python ${{ matrix.python-version }}
-</span><span class="">  692:         uses: actions/setup-python@v5
-</span><span class="">  693:         with:
-</span><span class="">  694:           python-version: ${{ matrix.python-version }}
-</span><span class="">  695: 
-</span><span class="">  696:       - name: Cache pip packages
-</span><span class="">  697:         uses: actions/cache@v6
-</span><span class="">  698:         with:
-</span><span class="">  699:           path: ~/.cache/pip
-</span><span class="">  700:           key: ${{ runner.os }}-pip-${{ hashFiles(&#39;**/requirements.txt&#39;) }}
-</span><span class="">  701:           restore-keys: |
-</span><span class="">  702:             ${{ runner.os }}-pip-
-</span><span class="">  703: 
-</span><span class="">  704:       - name: Install dependencies
-</span><span class="">  705:         run: |
-</span><span class="">  706:           pip install -r requirements.txt
-</span><span class="">  707:           pip install pytest pytest-cov flake8
-</span><span class="">  708: 
-</span><span class="">  709:       - name: Lint with flake8
-</span><span class="">  710:         run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-</span><span class="">  711: 
-</span><span class="">  712:       - name: Run tests with coverage
-</span><span class="">  713:         run: pytest --cov=. --cov-report=xml
-</span><span class="">  714: YAML
-</span><span class="">  715: }
-</span><span class="">  716: 
-</span><span class="">  717: sub _generate_rust_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  718:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  719: ---
-</span><span class="">  720: name: Rust CI
-</span><span class="">  721: 
-</span><span class="">  722: &#39;on&#39;:
-</span><span class="">  723:   push:
-</span><span class="">  724:     branches:
-</span><span class="">  725:       - main
-</span><span class="">  726:   pull_request:
-</span><span class="">  727:     branches:
-</span><span class="">  728:       - main
-</span><span class="">  729: 
-</span><span class="">  730: concurrency:
-</span><span class="">  731:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  732:   cancel-in-progress: true
-</span><span class="">  733: 
-</span><span class="">  734: permissions:
-</span><span class="">  735:   contents: read
-</span><span class="">  736: 
-</span><span class="">  737: jobs:
-</span><span class="">  738:   test:
-</span><span class="">  739:     runs-on: ubuntu-latest
-</span><span class="">  740:     steps:
-</span><span class="">  741:       - name: Checkout code
-</span><span class="">  742:         uses: actions/checkout@v7
-</span><span class="">  743: 
-</span><span class="">  744:       - name: Setup Rust
-</span><span class="">  745:         uses: dtolnay/rust-toolchain@stable
-</span><span class="">  746: 
-</span><span class="">  747:       - name: Cache cargo
-</span><span class="">  748:         uses: actions/cache@v6
-</span><span class="">  749:         with:
-</span><span class="">  750:           path: |
-</span><span class="">  751:             ~/.cargo/bin/
-</span><span class="">  752:             ~/.cargo/registry/index/
-</span><span class="">  753:             ~/.cargo/registry/cache/
-</span><span class="">  754:             ~/.cargo/git/db/
-</span><span class="">  755:             target/
-</span><span class="">  756:           key: ${{ runner.os }}-cargo-${{ hashFiles(&#39;**/Cargo.lock&#39;) }}
-</span><span class="">  757: 
-</span><span class="">  758:       - name: Check formatting
-</span><span class="">  759:         run: cargo fmt -- --check
-</span><span class="">  760: 
-</span><span class="">  761:       - name: Run clippy
-</span><span class="">  762:         run: cargo clippy -- -D warnings
-</span><span class="">  763: 
-</span><span class="">  764:       - name: Run tests
-</span><span class="">  765:         run: cargo test --verbose
-</span><span class="">  766: 
-</span><span class="">  767:       - name: Build release
-</span><span class="">  768:         run: cargo build --release --verbose
-</span><span class="">  769: YAML
-</span><span class="">  770: }
-</span><span class="">  771: 
-</span><span class="">  772: sub _generate_go_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  773:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  774: ---
-</span><span class="">  775: name: Go CI
-</span><span class="">  776: 
-</span><span class="">  777: &#39;on&#39;:
-</span><span class="">  778:   push:
-</span><span class="">  779:     branches:
-</span><span class="">  780:       - main
-</span><span class="">  781:   pull_request:
-</span><span class="">  782:     branches:
-</span><span class="">  783:       - main
-</span><span class="">  784: 
-</span><span class="">  785: concurrency:
-</span><span class="">  786:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  787:   cancel-in-progress: true
-</span><span class="">  788: 
-</span><span class="">  789: permissions:
-</span><span class="">  790:   contents: read
-</span><span class="">  791: 
-</span><span class="">  792: jobs:
-</span><span class="">  793:   test:
-</span><span class="">  794:     runs-on: ubuntu-latest
-</span><span class="">  795:     steps:
-</span><span class="">  796:       - name: Checkout code
-</span><span class="">  797:         uses: actions/checkout@v7
-</span><span class="">  798: 
-</span><span class="">  799:       - name: Setup Go
-</span><span class="">  800:         uses: actions/setup-go@v5
-</span><span class="">  801:         with:
-</span><span class="">  802:           go-version: &#39;1.22&#39;
-</span><span class="">  803: 
-</span><span class="">  804:       - name: Cache Go modules
-</span><span class="">  805:         uses: actions/cache@v6
-</span><span class="">  806:         with:
-</span><span class="">  807:           path: ~/go/pkg/mod
-</span><span class="">  808:           key: ${{ runner.os }}-go-${{ hashFiles(&#39;**/go.sum&#39;) }}
-</span><span class="">  809:           restore-keys: |
-</span><span class="">  810:             ${{ runner.os }}-go-
-</span><span class="">  811: 
-</span><span class="">  812:       - name: Download dependencies
-</span><span class="">  813:         run: go mod download
-</span><span class="">  814: 
-</span><span class="">  815:       - name: Run go vet
-</span><span class="">  816:         run: go vet ./...
-</span><span class="">  817: 
-</span><span class="">  818:       - name: Run tests
-</span><span class="">  819:         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
-</span><span class="">  820: 
-</span><span class="">  821:       - name: Build
-</span><span class="">  822:         run: go build -v ./...
-</span><span class="">  823: YAML
-</span><span class="">  824: }
-</span><span class="">  825: 
-</span><span class="">  826: sub _generate_ruby_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  827:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  828: ---
-</span><span class="">  829: name: Ruby CI
-</span><span class="">  830: 
-</span><span class="">  831: &#39;on&#39;:
-</span><span class="">  832:   push:
-</span><span class="">  833:     branches:
-</span><span class="">  834:       - main
-</span><span class="">  835:   pull_request:
-</span><span class="">  836:     branches:
-</span><span class="">  837:       - main
-</span><span class="">  838: 
-</span><span class="">  839: concurrency:
-</span><span class="">  840:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  841:   cancel-in-progress: true
-</span><span class="">  842: 
-</span><span class="">  843: permissions:
-</span><span class="">  844:   contents: read
-</span><span class="">  845: 
-</span><span class="">  846: jobs:
-</span><span class="">  847:   test:
-</span><span class="">  848:     runs-on: ubuntu-latest
-</span><span class="">  849:     strategy:
-</span><span class="">  850:       matrix:
-</span><span class="">  851:         ruby-version:
-</span><span class="">  852:           - &#39;3.1&#39;
-</span><span class="">  853:           - &#39;3.2&#39;
-</span><span class="">  854:           - &#39;3.3&#39;
-</span><span class="">  855:     steps:
-</span><span class="">  856:       - name: Checkout code
-</span><span class="">  857:         uses: actions/checkout@v7
-</span><span class="">  858: 
-</span><span class="">  859:       - name: Set up Ruby
-</span><span class="">  860:         uses: ruby/setup-ruby@v1
-</span><span class="">  861:         with:
-</span><span class="">  862:           ruby-version: ${{ matrix.ruby-version }}
-</span><span class="">  863:           bundler-cache: true
-</span><span class="">  864: 
-</span><span class="">  865:       - name: Run tests
-</span><span class="">  866:         run: bundle exec rake test
-</span><span class="">  867: YAML
-</span><span class="">  868: }
-</span><span class="">  869: 
-</span><span class="">  870: sub _generate_docker_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  871:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  872: ---
-</span><span class="">  873: name: Docker Build
-</span><span class="">  874: 
-</span><span class="">  875: &#39;on&#39;:
-</span><span class="">  876:   push:
-</span><span class="">  877:     branches:
-</span><span class="">  878:       - main
-</span><span class="">  879:     tags:
-</span><span class="">  880:       - v*
-</span><span class="">  881:   pull_request:
-</span><span class="">  882:     branches:
-</span><span class="">  883:       - main
-</span><span class="">  884: 
-</span><span class="">  885: concurrency:
-</span><span class="">  886:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  887:   cancel-in-progress: true
-</span><span class="">  888: 
-</span><span class="">  889: permissions:
-</span><span class="">  890:   contents: read
-</span><span class="">  891:   packages: write
-</span><span class="">  892: 
-</span><span class="">  893: jobs:
-</span><span class="">  894:   build:
-</span><span class="">  895:     runs-on: ubuntu-latest
-</span><span class="">  896:     steps:
-</span><span class="">  897:       - name: Checkout code
-</span><span class="">  898:         uses: actions/checkout@v7
-</span><span class="">  899: 
-</span><span class="">  900:       - name: Set up Docker Buildx
-</span><span class="">  901:         uses: docker/setup-buildx-action@v3
-</span><span class="">  902: 
-</span><span class="">  903:       - name: Log in to Docker Hub
-</span><span class="">  904:         uses: docker/login-action@v3
-</span><span class="">  905:         with:
-</span><span class="">  906:           username: ${{ secrets.DOCKER_USERNAME }}
-</span><span class="">  907:           password: ${{ secrets.DOCKER_PASSWORD }}
-</span><span class="">  908:         if: github.event_name != &#39;pull_request&#39;
-</span><span class="">  909: 
-</span><span class="">  910:       - name: Extract metadata
-</span><span class="">  911:         id: meta
-</span><span class="">  912:         uses: docker/metadata-action@v5
-</span><span class="">  913:         with:
-</span><span class="">  914:           images: your-username/your-image
-</span><span class="">  915: 
-</span><span class="">  916:       - name: Build and push
-</span><span class="">  917:         uses: docker/build-push-action@v5
-</span><span class="">  918:         with:
-</span><span class="">  919:           context: .
-</span><span class="">  920:           push: ${{ github.event_name != &#39;pull_request&#39; }}
-</span><span class="">  921:           tags: ${{ steps.meta.outputs.tags }}
-</span><span class="">  922:           labels: ${{ steps.meta.outputs.labels }}
-</span><span class="">  923:           cache-from: type=gha
-</span><span class="">  924:           cache-to: type=gha,mode=max
-</span><span class="">  925: YAML
-</span><span class="">  926: }
-</span><span class="">  927: 
-</span><span class="">  928: sub _generate_static_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  929:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  930: ---
-</span><span class="">  931: name: Deploy Static Site
-</span><span class="">  932: 
-</span><span class="">  933: &#39;on&#39;:
-</span><span class="">  934:   push:
-</span><span class="">  935:     branches:
-</span><span class="">  936:       - main
-</span><span class="">  937: 
-</span><span class="">  938: permissions:
-</span><span class="">  939:   contents: read
-</span><span class="">  940:   pages: write
-</span><span class="">  941:   id-token: write
-</span><span class="">  942: 
-</span><span class="">  943: concurrency:
-</span><span class="">  944:   group: pages
-</span><span class="">  945:   cancel-in-progress: false
-</span><span class="">  946: 
-</span><span class="">  947: jobs:
-</span><span class="">  948:   build:
-</span><span class="">  949:     runs-on: ubuntu-latest
-</span><span class="">  950:     steps:
-</span><span class="">  951:       - name: Checkout
-</span><span class="">  952:         uses: actions/checkout@v7
-</span><span class="">  953: 
-</span><span class="">  954:       - name: Setup Pages
-</span><span class="">  955:         uses: actions/configure-pages@v4
-</span><span class="">  956: 
-</span><span class="">  957:       - name: Build
-</span><span class="">  958:         run: echo &quot;Add your build command here&quot;
-</span><span class="">  959: 
-</span><span class="">  960:       - name: Upload artifact
-</span><span class="">  961:         uses: actions/upload-pages-artifact@v3
-</span><span class="">  962:         with:
-</span><span class="">  963:           path: ./public
-</span><span class="">  964: 
-</span><span class="">  965:   deploy:
-</span><span class="">  966:     environment:
-</span><span class="">  967:       name: github-pages
-</span><span class="">  968:       url: ${{ steps.deployment.outputs.page_url }}
-</span><span class="">  969:     runs-on: ubuntu-latest
-</span><span class="">  970:     needs: build
-</span><span class="">  971:     steps:
-</span><span class="">  972:       - name: Deploy to GitHub Pages
-</span><span class="">  973:         id: deployment
-</span><span class="">  974:         uses: actions/deploy-pages@v4
-</span><span class="">  975: YAML
-</span><span class="">  976: }
-</span><span class="">  977: 
-</span><span class="">  978: sub _generate_java_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  979:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  980: ---
-</span><span class="">  981: name: Java CI
-</span><span class="">  982: 
-</span><span class="">  983: &#39;on&#39;:
-</span><span class="">  984:   push:
-</span><span class="">  985:     branches:
-</span><span class="">  986:       - main
-</span><span class="">  987:       - develop
-</span><span class="">  988:   pull_request:
-</span><span class="">  989:     branches:
-</span><span class="">  990:       - main
-</span><span class="">  991:       - develop
-</span><span class="">  992: 
-</span><span class="">  993: concurrency:
-</span><span class="">  994:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class="">  995:   cancel-in-progress: true
-</span><span class="">  996: 
-</span><span class="">  997: permissions:
-</span><span class="">  998:   contents: read
-</span><span class="">  999: 
-</span><span class=""> 1000: jobs:
-</span><span class=""> 1001:   test:
-</span><span class=""> 1002:     runs-on: ubuntu-latest
-</span><span class=""> 1003:     strategy:
-</span><span class=""> 1004:       matrix:
-</span><span class=""> 1005:         java-version:
-</span><span class=""> 1006:           - &#39;11&#39;
-</span><span class=""> 1007:           - &#39;17&#39;
-</span><span class=""> 1008:           - &#39;21&#39;
-</span><span class=""> 1009:     steps:
-</span><span class=""> 1010:       - name: Checkout code
-</span><span class=""> 1011:         uses: actions/checkout@v7
-</span><span class=""> 1012: 
-</span><span class=""> 1013:       - name: Set up JDK ${{ matrix.java-version }}
-</span><span class=""> 1014:         uses: actions/setup-java@v4
-</span><span class=""> 1015:         with:
-</span><span class=""> 1016:           java-version: ${{ matrix.java-version }}
-</span><span class=""> 1017:           distribution: &#39;temurin&#39;
-</span><span class=""> 1018: 
-</span><span class=""> 1019:       - name: Cache Maven packages
-</span><span class=""> 1020:         uses: actions/cache@v6
-</span><span class=""> 1021:         with:
-</span><span class=""> 1022:           path: ~/.m2/repository
-</span><span class=""> 1023:           key: ${{ runner.os }}-maven-${{ hashFiles(&#39;**/pom.xml&#39;) }}
-</span><span class=""> 1024:           restore-keys: |
-</span><span class=""> 1025:             ${{ runner.os }}-maven-
-</span><span class=""> 1026: 
-</span><span class=""> 1027:       - name: Build with Maven
-</span><span class=""> 1028:         run: mvn -B package --file pom.xml
-</span><span class=""> 1029: 
-</span><span class=""> 1030:       - name: Run tests
-</span><span class=""> 1031:         run: mvn -B test
-</span><span class=""> 1032: 
-</span><span class=""> 1033:       - name: Generate test report
-</span><span class=""> 1034:         if: always()
-</span><span class=""> 1035:         run: mvn surefire-report:report
-</span><span class=""> 1036: YAML
-</span><span class=""> 1037: }
-</span><span class=""> 1038: 
-</span><span class=""> 1039: sub _generate_cpp_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1040:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1041: ---
-</span><span class=""> 1042: name: C++ CI
-</span><span class=""> 1043: 
-</span><span class=""> 1044: &#39;on&#39;:
-</span><span class=""> 1045:   push:
-</span><span class=""> 1046:     branches:
-</span><span class=""> 1047:       - main
-</span><span class=""> 1048:   pull_request:
-</span><span class=""> 1049:     branches:
-</span><span class=""> 1050:       - main
-</span><span class=""> 1051: 
-</span><span class=""> 1052: concurrency:
-</span><span class=""> 1053:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class=""> 1054:   cancel-in-progress: true
-</span><span class=""> 1055: 
-</span><span class=""> 1056: permissions:
-</span><span class=""> 1057:   contents: read
-</span><span class=""> 1058: 
-</span><span class=""> 1059: jobs:
-</span><span class=""> 1060:   test:
-</span><span class=""> 1061:     runs-on: ${{ matrix.os }}
-</span><span class=""> 1062:     strategy:
-</span><span class=""> 1063:       matrix:
-</span><span class=""> 1064:         os:
-</span><span class=""> 1065:           - ubuntu-latest
-</span><span class=""> 1066:           - macos-latest
-</span><span class=""> 1067:           - windows-latest
-</span><span class=""> 1068:         build-type:
-</span><span class=""> 1069:           - Debug
-</span><span class=""> 1070:           - Release
-</span><span class=""> 1071:     steps:
-</span><span class=""> 1072:       - name: Checkout code
-</span><span class=""> 1073:         uses: actions/checkout@v7
-</span><span class=""> 1074: 
-</span><span class=""> 1075:       - name: Install CMake
-</span><span class=""> 1076:         uses: lukka/get-cmake@latest
-</span><span class=""> 1077: 
-</span><span class=""> 1078:       - name: Cache build artifacts
-</span><span class=""> 1079:         uses: actions/cache@v6
-</span><span class=""> 1080:         with:
-</span><span class=""> 1081:           path: |
-</span><span class=""> 1082:             build
-</span><span class=""> 1083:             ~/.cache/ccache
-</span><span class=""> 1084:           key: ${{ runner.os }}-${{ matrix.build-type }}-${{ hashFiles(&#39;**/CMakeLists.txt&#39;) }}
-</span><span class=""> 1085: 
-</span><span class=""> 1086:       - name: Configure CMake
-</span><span class=""> 1087:         run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
-</span><span class=""> 1088: 
-</span><span class=""> 1089:       - name: Build
-</span><span class=""> 1090:         run: cmake --build build --config ${{ matrix.build-type }}
-</span><span class=""> 1091: 
-</span><span class=""> 1092:       - name: Run tests
-</span><span class=""> 1093:         working-directory: build
-</span><span class=""> 1094:         run: ctest -C ${{ matrix.build-type }} --output-on-failure
-</span><span class=""> 1095: YAML
-</span><span class=""> 1096: }
-</span><span class=""> 1097: 
-</span><span class=""> 1098: sub _generate_php_workflow() {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1099:     return &lt;&lt;&#39;YAML&#39;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1100: ---
-</span><span class=""> 1101: name: PHP CI
-</span><span class=""> 1102: 
-</span><span class=""> 1103: &#39;on&#39;:
-</span><span class=""> 1104:   push:
-</span><span class=""> 1105:     branches:
-</span><span class=""> 1106:       - main
-</span><span class=""> 1107:       - develop
-</span><span class=""> 1108:   pull_request:
-</span><span class=""> 1109:     branches:
-</span><span class=""> 1110:       - main
-</span><span class=""> 1111:       - develop
-</span><span class=""> 1112: 
-</span><span class=""> 1113: concurrency:
-</span><span class=""> 1114:   group: ${{ github.workflow }}-${{ github.ref }}
-</span><span class=""> 1115:   cancel-in-progress: true
-</span><span class=""> 1116: 
-</span><span class=""> 1117: permissions:
-</span><span class=""> 1118:   contents: read
-</span><span class=""> 1119: 
-</span><span class=""> 1120: jobs:
-</span><span class=""> 1121:   test:
-</span><span class=""> 1122:     runs-on: ubuntu-latest
-</span><span class=""> 1123:     strategy:
-</span><span class=""> 1124:       matrix:
-</span><span class=""> 1125:         php-version:
-</span><span class=""> 1126:           - &#39;8.1&#39;
-</span><span class=""> 1127:           - &#39;8.2&#39;
-</span><span class=""> 1128:           - &#39;8.3&#39;
-</span><span class=""> 1129:     steps:
-</span><span class=""> 1130:       - name: Checkout code
-</span><span class=""> 1131:         uses: actions/checkout@v7
-</span><span class=""> 1132: 
-</span><span class=""> 1133:       - name: Setup PHP ${{ matrix.php-version }}
-</span><span class=""> 1134:         uses: shivammathur/setup-php@v2
-</span><span class=""> 1135:         with:
-</span><span class=""> 1136:           php-version: ${{ matrix.php-version }}
-</span><span class=""> 1137:           extensions: mbstring, xml, ctype, json
-</span><span class=""> 1138:           coverage: xdebug
-</span><span class=""> 1139: 
-</span><span class=""> 1140:       - name: Validate composer.json
-</span><span class=""> 1141:         run: composer validate --strict
-</span><span class=""> 1142: 
-</span><span class=""> 1143:       - name: Cache Composer packages
-</span><span class=""> 1144:         uses: actions/cache@v6
-</span><span class=""> 1145:         with:
-</span><span class=""> 1146:           path: vendor
-</span><span class=""> 1147:           key: ${{ runner.os }}-php-${{ hashFiles(&#39;**/composer.lock&#39;) }}
-</span><span class=""> 1148:           restore-keys: |
-</span><span class=""> 1149:             ${{ runner.os }}-php-
-</span><span class=""> 1150: 
-</span><span class=""> 1151:       - name: Install dependencies
-</span><span class=""> 1152:         run: composer install --prefer-dist --no-progress
-</span><span class=""> 1153: 
-</span><span class=""> 1154:       - name: Run PHPUnit tests
-</span><span class=""> 1155:         run: vendor/bin/phpunit --coverage-text
-</span><span class=""> 1156: 
-</span><span class=""> 1157:       - name: Run PHP CodeSniffer
-</span><span class=""> 1158:         run: vendor/bin/phpcs --standard=PSR12 src tests
-</span><span class=""> 1159:         continue-on-error: true
-</span><span class=""> 1160: YAML
-</span><span class=""> 1161: }
-</span><span class=""> 1162: 
-</span><span class=""> 1163: =head1 LIMITATIONS
+</span><span class="">  576: # Private workflow generators
+</span><span class="">  577: 
+</span><span class="">  578: sub _generate_perl_workflow() {
+</span><span class="">  579: 	# Try to detect requirements from project
+</span><span class="">  580: 	my $reqs = detect_perl_requirements();
+</span><span class="">  581: 
+</span><span class="">  582: 	# Use detected min version or default to 5.36
+</span><span class="">  583: 	my $min_version = $reqs-&gt;{min_version} // &#39;5.36&#39;;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  584: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  585: 	# Generate custom workflow with detected settings
+</span><span class="">  586: 	return generate_custom_perl_workflow({
+</span><span class="">  587: 		min_perl_version =&gt; $min_version,
+</span><span class="">  588: 		max_perl_version =&gt; &#39;5.40&#39;,
+</span><span class="">  589: 		os =&gt; [&#39;macos-latest&#39;, &#39;ubuntu-latest&#39;, &#39;windows-latest&#39;],
+</span><span class="">  590: 		enable_critic =&gt; 1,
+</span><span class="">  591: 		enable_coverage =&gt; 1,
+</span><span class="">  592: 	});
+</span><span class="">  593: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  594: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  595: sub _generate_node_workflow() {
+</span><span class="">  596: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  597: ---
+</span><span class="">  598: name: Node.js CI
+</span><span class="">  599: 
+</span><span class="">  600: &#39;on&#39;:
+</span><span class="">  601:   push:
+</span><span class="">  602:     branches:
+</span><span class="">  603:       - main
+</span><span class="">  604:       - develop
+</span><span class="">  605:   pull_request:
+</span><span class="">  606:     branches:
+</span><span class="">  607:       - main
+</span><span class="">  608:       - develop
+</span><span class="">  609: 
+</span><span class="">  610: concurrency:
+</span><span class="">  611:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  612:   cancel-in-progress: true
+</span><span class="">  613: 
+</span><span class="">  614: permissions:
+</span><span class="">  615:   contents: read
+</span><span class="">  616: 
+</span><span class="">  617: jobs:
+</span><span class="">  618:   test:
+</span><span class="">  619:     runs-on: ubuntu-latest
+</span><span class="">  620:     strategy:
+</span><span class="">  621:       matrix:
+</span><span class="">  622:         node-version:
+</span><span class="">  623:           - 18.x
+</span><span class="">  624:           - 20.x
+</span><span class="">  625:           - 22.x
+</span><span class="">  626:     steps:
+</span><span class="">  627:       - name: Checkout code
+</span><span class="">  628:         uses: actions/checkout@76
+</span><span class="">  629: 
+</span><span class="">  630:       - name: Setup Node.js ${{ matrix.node-version }}
+</span><span class="">  631:         uses: actions/setup-node@v4
+</span><span class="">  632:         with:
+</span><span class="">  633:           node-version: ${{ matrix.node-version }}
+</span><span class="">  634: 
+</span><span class="">  635:       - name: Cache dependencies
+</span><span class="">  636:         uses: actions/cache@v6
+</span><span class="">  637:         with:
+</span><span class="">  638:           path: ~/.npm
+</span><span class="">  639:           key: ${{ runner.os }}-node-${{ hashFiles(&#39;**/package-lock.json&#39;) }}
+</span><span class="">  640:           restore-keys: |
+</span><span class="">  641:             ${{ runner.os }}-node-
+</span><span class="">  642: 
+</span><span class="">  643:       - name: Install dependencies
+</span><span class="">  644:         run: npm ci
+</span><span class="">  645: 
+</span><span class="">  646:       - name: Run linter
+</span><span class="">  647:         run: npm run lint --if-present
+</span><span class="">  648: 
+</span><span class="">  649:       - name: Run tests
+</span><span class="">  650:         run: npm test
+</span><span class="">  651: 
+</span><span class="">  652:       - name: Build project
+</span><span class="">  653:         run: npm run build --if-present
+</span><span class="">  654: YAML
+</span><span class="">  655: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  656: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  657: sub _generate_python_workflow() {
+</span><span class="">  658: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  659: ---
+</span><span class="">  660: name: Python CI
+</span><span class="">  661: 
+</span><span class="">  662: &#39;on&#39;:
+</span><span class="">  663:   push:
+</span><span class="">  664:     branches:
+</span><span class="">  665:       - main
+</span><span class="">  666:       - develop
+</span><span class="">  667:   pull_request:
+</span><span class="">  668:     branches:
+</span><span class="">  669:       - main
+</span><span class="">  670:       - develop
+</span><span class="">  671: 
+</span><span class="">  672: concurrency:
+</span><span class="">  673:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  674:   cancel-in-progress: true
+</span><span class="">  675: 
+</span><span class="">  676: permissions:
+</span><span class="">  677:   contents: read
+</span><span class="">  678: 
+</span><span class="">  679: jobs:
+</span><span class="">  680:   test:
+</span><span class="">  681:     runs-on: ubuntu-latest
+</span><span class="">  682:     strategy:
+</span><span class="">  683:       matrix:
+</span><span class="">  684:         python-version:
+</span><span class="">  685:           - &#39;3.9&#39;
+</span><span class="">  686:           - &#39;3.10&#39;
+</span><span class="">  687:           - &#39;3.11&#39;
+</span><span class="">  688:           - &#39;3.12&#39;
+</span><span class="">  689:     steps:
+</span><span class="">  690:       - name: Checkout code
+</span><span class="">  691:         uses: actions/checkout@v7
+</span><span class="">  692: 
+</span><span class="">  693:       - name: Set up Python ${{ matrix.python-version }}
+</span><span class="">  694:         uses: actions/setup-python@v5
+</span><span class="">  695:         with:
+</span><span class="">  696:           python-version: ${{ matrix.python-version }}
+</span><span class="">  697: 
+</span><span class="">  698:       - name: Cache pip packages
+</span><span class="">  699:         uses: actions/cache@v6
+</span><span class="">  700:         with:
+</span><span class="">  701:           path: ~/.cache/pip
+</span><span class="">  702:           key: ${{ runner.os }}-pip-${{ hashFiles(&#39;**/requirements.txt&#39;) }}
+</span><span class="">  703:           restore-keys: |
+</span><span class="">  704:             ${{ runner.os }}-pip-
+</span><span class="">  705: 
+</span><span class="">  706:       - name: Install dependencies
+</span><span class="">  707:         run: |
+</span><span class="">  708:           pip install -r requirements.txt
+</span><span class="">  709:           pip install pytest pytest-cov flake8
+</span><span class="">  710: 
+</span><span class="">  711:       - name: Lint with flake8
+</span><span class="">  712:         run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+</span><span class="">  713: 
+</span><span class="">  714:       - name: Run tests with coverage
+</span><span class="">  715:         run: pytest --cov=. --cov-report=xml
+</span><span class="">  716: YAML
+</span><span class="">  717: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  718: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  719: sub _generate_rust_workflow() {
+</span><span class="">  720: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  721: ---
+</span><span class="">  722: name: Rust CI
+</span><span class="">  723: 
+</span><span class="">  724: &#39;on&#39;:
+</span><span class="">  725:   push:
+</span><span class="">  726:     branches:
+</span><span class="">  727:       - main
+</span><span class="">  728:   pull_request:
+</span><span class="">  729:     branches:
+</span><span class="">  730:       - main
+</span><span class="">  731: 
+</span><span class="">  732: concurrency:
+</span><span class="">  733:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  734:   cancel-in-progress: true
+</span><span class="">  735: 
+</span><span class="">  736: permissions:
+</span><span class="">  737:   contents: read
+</span><span class="">  738: 
+</span><span class="">  739: jobs:
+</span><span class="">  740:   test:
+</span><span class="">  741:     runs-on: ubuntu-latest
+</span><span class="">  742:     steps:
+</span><span class="">  743:       - name: Checkout code
+</span><span class="">  744:         uses: actions/checkout@v7
+</span><span class="">  745: 
+</span><span class="">  746:       - name: Setup Rust
+</span><span class="">  747:         uses: dtolnay/rust-toolchain@stable
+</span><span class="">  748: 
+</span><span class="">  749:       - name: Cache cargo
+</span><span class="">  750:         uses: actions/cache@v6
+</span><span class="">  751:         with:
+</span><span class="">  752:           path: |
+</span><span class="">  753:             ~/.cargo/bin/
+</span><span class="">  754:             ~/.cargo/registry/index/
+</span><span class="">  755:             ~/.cargo/registry/cache/
+</span><span class="">  756:             ~/.cargo/git/db/
+</span><span class="">  757:             target/
+</span><span class="">  758:           key: ${{ runner.os }}-cargo-${{ hashFiles(&#39;**/Cargo.lock&#39;) }}
+</span><span class="">  759: 
+</span><span class="">  760:       - name: Check formatting
+</span><span class="">  761:         run: cargo fmt -- --check
+</span><span class="">  762: 
+</span><span class="">  763:       - name: Run clippy
+</span><span class="">  764:         run: cargo clippy -- -D warnings
+</span><span class="">  765: 
+</span><span class="">  766:       - name: Run tests
+</span><span class="">  767:         run: cargo test --verbose
+</span><span class="">  768: 
+</span><span class="">  769:       - name: Build release
+</span><span class="">  770:         run: cargo build --release --verbose
+</span><span class="">  771: YAML
+</span><span class="">  772: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  773: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  774: sub _generate_go_workflow() {
+</span><span class="">  775: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  776: ---
+</span><span class="">  777: name: Go CI
+</span><span class="">  778: 
+</span><span class="">  779: &#39;on&#39;:
+</span><span class="">  780:   push:
+</span><span class="">  781:     branches:
+</span><span class="">  782:       - main
+</span><span class="">  783:   pull_request:
+</span><span class="">  784:     branches:
+</span><span class="">  785:       - main
+</span><span class="">  786: 
+</span><span class="">  787: concurrency:
+</span><span class="">  788:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  789:   cancel-in-progress: true
+</span><span class="">  790: 
+</span><span class="">  791: permissions:
+</span><span class="">  792:   contents: read
+</span><span class="">  793: 
+</span><span class="">  794: jobs:
+</span><span class="">  795:   test:
+</span><span class="">  796:     runs-on: ubuntu-latest
+</span><span class="">  797:     steps:
+</span><span class="">  798:       - name: Checkout code
+</span><span class="">  799:         uses: actions/checkout@v7
+</span><span class="">  800: 
+</span><span class="">  801:       - name: Setup Go
+</span><span class="">  802:         uses: actions/setup-go@v5
+</span><span class="">  803:         with:
+</span><span class="">  804:           go-version: &#39;1.22&#39;
+</span><span class="">  805: 
+</span><span class="">  806:       - name: Cache Go modules
+</span><span class="">  807:         uses: actions/cache@v6
+</span><span class="">  808:         with:
+</span><span class="">  809:           path: ~/go/pkg/mod
+</span><span class="">  810:           key: ${{ runner.os }}-go-${{ hashFiles(&#39;**/go.sum&#39;) }}
+</span><span class="">  811:           restore-keys: |
+</span><span class="">  812:             ${{ runner.os }}-go-
+</span><span class="">  813: 
+</span><span class="">  814:       - name: Download dependencies
+</span><span class="">  815:         run: go mod download
+</span><span class="">  816: 
+</span><span class="">  817:       - name: Run go vet
+</span><span class="">  818:         run: go vet ./...
+</span><span class="">  819: 
+</span><span class="">  820:       - name: Run tests
+</span><span class="">  821:         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+</span><span class="">  822: 
+</span><span class="">  823:       - name: Build
+</span><span class="">  824:         run: go build -v ./...
+</span><span class="">  825: YAML
+</span><span class="">  826: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  827: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  828: sub _generate_ruby_workflow() {
+</span><span class="">  829: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  830: ---
+</span><span class="">  831: name: Ruby CI
+</span><span class="">  832: 
+</span><span class="">  833: &#39;on&#39;:
+</span><span class="">  834:   push:
+</span><span class="">  835:     branches:
+</span><span class="">  836:       - main
+</span><span class="">  837:   pull_request:
+</span><span class="">  838:     branches:
+</span><span class="">  839:       - main
+</span><span class="">  840: 
+</span><span class="">  841: concurrency:
+</span><span class="">  842:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  843:   cancel-in-progress: true
+</span><span class="">  844: 
+</span><span class="">  845: permissions:
+</span><span class="">  846:   contents: read
+</span><span class="">  847: 
+</span><span class="">  848: jobs:
+</span><span class="">  849:   test:
+</span><span class="">  850:     runs-on: ubuntu-latest
+</span><span class="">  851:     strategy:
+</span><span class="">  852:       matrix:
+</span><span class="">  853:         ruby-version:
+</span><span class="">  854:           - &#39;3.1&#39;
+</span><span class="">  855:           - &#39;3.2&#39;
+</span><span class="">  856:           - &#39;3.3&#39;
+</span><span class="">  857:     steps:
+</span><span class="">  858:       - name: Checkout code
+</span><span class="">  859:         uses: actions/checkout@v7
+</span><span class="">  860: 
+</span><span class="">  861:       - name: Set up Ruby
+</span><span class="">  862:         uses: ruby/setup-ruby@v1
+</span><span class="">  863:         with:
+</span><span class="">  864:           ruby-version: ${{ matrix.ruby-version }}
+</span><span class="">  865:           bundler-cache: true
+</span><span class="">  866: 
+</span><span class="">  867:       - name: Run tests
+</span><span class="">  868:         run: bundle exec rake test
+</span><span class="">  869: YAML
+</span><span class="">  870: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  871: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  872: sub _generate_docker_workflow() {
+</span><span class="">  873: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  874: ---
+</span><span class="">  875: name: Docker Build
+</span><span class="">  876: 
+</span><span class="">  877: &#39;on&#39;:
+</span><span class="">  878:   push:
+</span><span class="">  879:     branches:
+</span><span class="">  880:       - main
+</span><span class="">  881:     tags:
+</span><span class="">  882:       - v*
+</span><span class="">  883:   pull_request:
+</span><span class="">  884:     branches:
+</span><span class="">  885:       - main
+</span><span class="">  886: 
+</span><span class="">  887: concurrency:
+</span><span class="">  888:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  889:   cancel-in-progress: true
+</span><span class="">  890: 
+</span><span class="">  891: permissions:
+</span><span class="">  892:   contents: read
+</span><span class="">  893:   packages: write
+</span><span class="">  894: 
+</span><span class="">  895: jobs:
+</span><span class="">  896:   build:
+</span><span class="">  897:     runs-on: ubuntu-latest
+</span><span class="">  898:     steps:
+</span><span class="">  899:       - name: Checkout code
+</span><span class="">  900:         uses: actions/checkout@v7
+</span><span class="">  901: 
+</span><span class="">  902:       - name: Set up Docker Buildx
+</span><span class="">  903:         uses: docker/setup-buildx-action@v3
+</span><span class="">  904: 
+</span><span class="">  905:       - name: Log in to Docker Hub
+</span><span class="">  906:         uses: docker/login-action@v3
+</span><span class="">  907:         with:
+</span><span class="">  908:           username: ${{ secrets.DOCKER_USERNAME }}
+</span><span class="">  909:           password: ${{ secrets.DOCKER_PASSWORD }}
+</span><span class="">  910:         if: github.event_name != &#39;pull_request&#39;
+</span><span class="">  911: 
+</span><span class="">  912:       - name: Extract metadata
+</span><span class="">  913:         id: meta
+</span><span class="">  914:         uses: docker/metadata-action@v5
+</span><span class="">  915:         with:
+</span><span class="">  916:           images: your-username/your-image
+</span><span class="">  917: 
+</span><span class="">  918:       - name: Build and push
+</span><span class="">  919:         uses: docker/build-push-action@v5
+</span><span class="">  920:         with:
+</span><span class="">  921:           context: .
+</span><span class="">  922:           push: ${{ github.event_name != &#39;pull_request&#39; }}
+</span><span class="">  923:           tags: ${{ steps.meta.outputs.tags }}
+</span><span class="">  924:           labels: ${{ steps.meta.outputs.labels }}
+</span><span class="">  925:           cache-from: type=gha
+</span><span class="">  926:           cache-to: type=gha,mode=max
+</span><span class="">  927: YAML
+</span><span class="">  928: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  929: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  930: sub _generate_static_workflow() {
+</span><span class="">  931: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  932: ---
+</span><span class="">  933: name: Deploy Static Site
+</span><span class="">  934: 
+</span><span class="">  935: &#39;on&#39;:
+</span><span class="">  936:   push:
+</span><span class="">  937:     branches:
+</span><span class="">  938:       - main
+</span><span class="">  939: 
+</span><span class="">  940: permissions:
+</span><span class="">  941:   contents: read
+</span><span class="">  942:   pages: write
+</span><span class="">  943:   id-token: write
+</span><span class="">  944: 
+</span><span class="">  945: concurrency:
+</span><span class="">  946:   group: pages
+</span><span class="">  947:   cancel-in-progress: false
+</span><span class="">  948: 
+</span><span class="">  949: jobs:
+</span><span class="">  950:   build:
+</span><span class="">  951:     runs-on: ubuntu-latest
+</span><span class="">  952:     steps:
+</span><span class="">  953:       - name: Checkout
+</span><span class="">  954:         uses: actions/checkout@v7
+</span><span class="">  955: 
+</span><span class="">  956:       - name: Setup Pages
+</span><span class="">  957:         uses: actions/configure-pages@v4
+</span><span class="">  958: 
+</span><span class="">  959:       - name: Build
+</span><span class="">  960:         run: echo &quot;Add your build command here&quot;
+</span><span class="">  961: 
+</span><span class="">  962:       - name: Upload artifact
+</span><span class="">  963:         uses: actions/upload-pages-artifact@v3
+</span><span class="">  964:         with:
+</span><span class="">  965:           path: ./public
+</span><span class="">  966: 
+</span><span class="">  967:   deploy:
+</span><span class="">  968:     environment:
+</span><span class="">  969:       name: github-pages
+</span><span class="">  970:       url: ${{ steps.deployment.outputs.page_url }}
+</span><span class="">  971:     runs-on: ubuntu-latest
+</span><span class="">  972:     needs: build
+</span><span class="">  973:     steps:
+</span><span class="">  974:       - name: Deploy to GitHub Pages
+</span><span class="">  975:         id: deployment
+</span><span class="">  976:         uses: actions/deploy-pages@v4
+</span><span class="">  977: YAML
+</span><span class="">  978: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  979: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  980: sub _generate_java_workflow() {
+</span><span class="">  981: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class="">  982: ---
+</span><span class="">  983: name: Java CI
+</span><span class="">  984: 
+</span><span class="">  985: &#39;on&#39;:
+</span><span class="">  986:   push:
+</span><span class="">  987:     branches:
+</span><span class="">  988:       - main
+</span><span class="">  989:       - develop
+</span><span class="">  990:   pull_request:
+</span><span class="">  991:     branches:
+</span><span class="">  992:       - main
+</span><span class="">  993:       - develop
+</span><span class="">  994: 
+</span><span class="">  995: concurrency:
+</span><span class="">  996:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class="">  997:   cancel-in-progress: true
+</span><span class="">  998: 
+</span><span class="">  999: permissions:
+</span><span class=""> 1000:   contents: read
+</span><span class=""> 1001: 
+</span><span class=""> 1002: jobs:
+</span><span class=""> 1003:   test:
+</span><span class=""> 1004:     runs-on: ubuntu-latest
+</span><span class=""> 1005:     strategy:
+</span><span class=""> 1006:       matrix:
+</span><span class=""> 1007:         java-version:
+</span><span class=""> 1008:           - &#39;11&#39;
+</span><span class=""> 1009:           - &#39;17&#39;
+</span><span class=""> 1010:           - &#39;21&#39;
+</span><span class=""> 1011:     steps:
+</span><span class=""> 1012:       - name: Checkout code
+</span><span class=""> 1013:         uses: actions/checkout@v7
+</span><span class=""> 1014: 
+</span><span class=""> 1015:       - name: Set up JDK ${{ matrix.java-version }}
+</span><span class=""> 1016:         uses: actions/setup-java@v4
+</span><span class=""> 1017:         with:
+</span><span class=""> 1018:           java-version: ${{ matrix.java-version }}
+</span><span class=""> 1019:           distribution: &#39;temurin&#39;
+</span><span class=""> 1020: 
+</span><span class=""> 1021:       - name: Cache Maven packages
+</span><span class=""> 1022:         uses: actions/cache@v6
+</span><span class=""> 1023:         with:
+</span><span class=""> 1024:           path: ~/.m2/repository
+</span><span class=""> 1025:           key: ${{ runner.os }}-maven-${{ hashFiles(&#39;**/pom.xml&#39;) }}
+</span><span class=""> 1026:           restore-keys: |
+</span><span class=""> 1027:             ${{ runner.os }}-maven-
+</span><span class=""> 1028: 
+</span><span class=""> 1029:       - name: Build with Maven
+</span><span class=""> 1030:         run: mvn -B package --file pom.xml
+</span><span class=""> 1031: 
+</span><span class=""> 1032:       - name: Run tests
+</span><span class=""> 1033:         run: mvn -B test
+</span><span class=""> 1034: 
+</span><span class=""> 1035:       - name: Generate test report
+</span><span class=""> 1036:         if: always()
+</span><span class=""> 1037:         run: mvn surefire-report:report
+</span><span class=""> 1038: YAML
+</span><span class=""> 1039: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1040: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1041: sub _generate_cpp_workflow() {
+</span><span class=""> 1042: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class=""> 1043: ---
+</span><span class=""> 1044: name: C++ CI
+</span><span class=""> 1045: 
+</span><span class=""> 1046: &#39;on&#39;:
+</span><span class=""> 1047:   push:
+</span><span class=""> 1048:     branches:
+</span><span class=""> 1049:       - main
+</span><span class=""> 1050:   pull_request:
+</span><span class=""> 1051:     branches:
+</span><span class=""> 1052:       - main
+</span><span class=""> 1053: 
+</span><span class=""> 1054: concurrency:
+</span><span class=""> 1055:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class=""> 1056:   cancel-in-progress: true
+</span><span class=""> 1057: 
+</span><span class=""> 1058: permissions:
+</span><span class=""> 1059:   contents: read
+</span><span class=""> 1060: 
+</span><span class=""> 1061: jobs:
+</span><span class=""> 1062:   test:
+</span><span class=""> 1063:     runs-on: ${{ matrix.os }}
+</span><span class=""> 1064:     strategy:
+</span><span class=""> 1065:       matrix:
+</span><span class=""> 1066:         os:
+</span><span class=""> 1067:           - ubuntu-latest
+</span><span class=""> 1068:           - macos-latest
+</span><span class=""> 1069:           - windows-latest
+</span><span class=""> 1070:         build-type:
+</span><span class=""> 1071:           - Debug
+</span><span class=""> 1072:           - Release
+</span><span class=""> 1073:     steps:
+</span><span class=""> 1074:       - name: Checkout code
+</span><span class=""> 1075:         uses: actions/checkout@v7
+</span><span class=""> 1076: 
+</span><span class=""> 1077:       - name: Install CMake
+</span><span class=""> 1078:         uses: lukka/get-cmake@latest
+</span><span class=""> 1079: 
+</span><span class=""> 1080:       - name: Cache build artifacts
+</span><span class=""> 1081:         uses: actions/cache@v6
+</span><span class=""> 1082:         with:
+</span><span class=""> 1083:           path: |
+</span><span class=""> 1084:             build
+</span><span class=""> 1085:             ~/.cache/ccache
+</span><span class=""> 1086:           key: ${{ runner.os }}-${{ matrix.build-type }}-${{ hashFiles(&#39;**/CMakeLists.txt&#39;) }}
+</span><span class=""> 1087: 
+</span><span class=""> 1088:       - name: Configure CMake
+</span><span class=""> 1089:         run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+</span><span class=""> 1090: 
+</span><span class=""> 1091:       - name: Build
+</span><span class=""> 1092:         run: cmake --build build --config ${{ matrix.build-type }}
+</span><span class=""> 1093: 
+</span><span class=""> 1094:       - name: Run tests
+</span><span class=""> 1095:         working-directory: build
+</span><span class=""> 1096:         run: ctest -C ${{ matrix.build-type }} --output-on-failure
+</span><span class=""> 1097: YAML
+</span><span class=""> 1098: }
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1099: 
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1100: sub _generate_php_workflow() {
+</span><span class=""> 1101: 	return &lt;&lt;&#39;YAML&#39;;
+</span><span class=""> 1102: ---
+</span><span class=""> 1103: name: PHP CI
+</span><span class=""> 1104: 
+</span><span class=""> 1105: &#39;on&#39;:
+</span><span class=""> 1106:   push:
+</span><span class=""> 1107:     branches:
+</span><span class=""> 1108:       - main
+</span><span class=""> 1109:       - develop
+</span><span class=""> 1110:   pull_request:
+</span><span class=""> 1111:     branches:
+</span><span class=""> 1112:       - main
+</span><span class=""> 1113:       - develop
+</span><span class=""> 1114: 
+</span><span class=""> 1115: concurrency:
+</span><span class=""> 1116:   group: ${{ github.workflow }}-${{ github.ref }}
+</span><span class=""> 1117:   cancel-in-progress: true
+</span><span class=""> 1118: 
+</span><span class=""> 1119: permissions:
+</span><span class=""> 1120:   contents: read
+</span><span class=""> 1121: 
+</span><span class=""> 1122: jobs:
+</span><span class=""> 1123:   test:
+</span><span class=""> 1124:     runs-on: ubuntu-latest
+</span><span class=""> 1125:     strategy:
+</span><span class=""> 1126:       matrix:
+</span><span class=""> 1127:         php-version:
+</span><span class=""> 1128:           - &#39;8.1&#39;
+</span><span class=""> 1129:           - &#39;8.2&#39;
+</span><span class=""> 1130:           - &#39;8.3&#39;
+</span><span class=""> 1131:     steps:
+</span><span class=""> 1132:       - name: Checkout code
+</span><span class=""> 1133:         uses: actions/checkout@v7
+</span><span class=""> 1134: 
+</span><span class=""> 1135:       - name: Setup PHP ${{ matrix.php-version }}
+</span><span class=""> 1136:         uses: shivammathur/setup-php@v2
+</span><span class=""> 1137:         with:
+</span><span class=""> 1138:           php-version: ${{ matrix.php-version }}
+</span><span class=""> 1139:           extensions: mbstring, xml, ctype, json
+</span><span class=""> 1140:           coverage: xdebug
+</span><span class=""> 1141: 
+</span><span class=""> 1142:       - name: Validate composer.json
+</span><span class=""> 1143:         run: composer validate --strict
+</span><span class=""> 1144: 
+</span><span class=""> 1145:       - name: Cache Composer packages
+</span><span class=""> 1146:         uses: actions/cache@v6
+</span><span class=""> 1147:         with:
+</span><span class=""> 1148:           path: vendor
+</span><span class=""> 1149:           key: ${{ runner.os }}-php-${{ hashFiles(&#39;**/composer.lock&#39;) }}
+</span><span class=""> 1150:           restore-keys: |
+</span><span class=""> 1151:             ${{ runner.os }}-php-
+</span><span class=""> 1152: 
+</span><span class=""> 1153:       - name: Install dependencies
+</span><span class=""> 1154:         run: composer install --prefer-dist --no-progress
+</span><span class=""> 1155: 
+</span><span class=""> 1156:       - name: Run PHPUnit tests
+</span><span class=""> 1157:         run: vendor/bin/phpunit --coverage-text
+</span><span class=""> 1158: 
+</span><span class=""> 1159:       - name: Run PHP CodeSniffer
+</span><span class=""> 1160:         run: vendor/bin/phpcs --standard=PSR12 src tests
+</span><span class=""> 1161:         continue-on-error: true
+</span><span class=""> 1162: YAML
+</span><span class=""> 1163: }
 </span><span class=""> 1164: 
-</span><span class=""> 1165: =over 4
+</span><span class=""> 1165: =head1 LIMITATIONS
 </span><span class=""> 1166: 
-</span><span class=""> 1167: =item * Workflows are text templates, not data
+</span><span class=""> 1167: =over 4
 </span><span class=""> 1168: 
-</span><span class=""> 1169: Every generator except C&lt;perl&gt; is a heredoc, and C&lt;--versions&gt; works by
-</span><span class=""> 1170: regex-rewriting that text.  It is tied to the exact layout of each template
-</span><span class=""> 1171: (indentation, the C&lt;ubuntu-latest&gt; job line, the pinned Go and Rust lines)
-</span><span class=""> 1172: and a template edit can silently stop it matching.  Building each workflow as
-</span><span class=""> 1173: a Perl data structure and serialising it with L&lt;YAML::XS&gt; would remove the
-</span><span class=""> 1174: whole class of problem; that is a rewrite of every generator, so it is not
-</span><span class=""> 1175: done here.  The tests in F&lt;t/versions_option.t&gt; parse the output as YAML to
-</span><span class=""> 1176: catch a broken rewrite.
-</span><span class=""> 1177: 
-</span><span class=""> 1178: =item * Default versions are fixed in the templates
+</span><span class=""> 1169: =item * Workflows are text templates, not data
+</span><span class=""> 1170: 
+</span><span class=""> 1171: Every generator except C&lt;perl&gt; is a heredoc, and C&lt;--versions&gt; works by
+</span><span class=""> 1172: regex-rewriting that text.  It is tied to the exact layout of each template
+</span><span class=""> 1173: (indentation, the C&lt;ubuntu-latest&gt; job line, the pinned Go and Rust lines)
+</span><span class=""> 1174: and a template edit can silently stop it matching.  Building each workflow as
+</span><span class=""> 1175: a Perl data structure and serialising it with L&lt;YAML::XS&gt; would remove the
+</span><span class=""> 1176: whole class of problem; that is a rewrite of every generator, so it is not
+</span><span class=""> 1177: done here.  The tests in F&lt;t/versions_option.t&gt; parse the output as YAML to
+</span><span class=""> 1178: catch a broken rewrite.
 </span><span class=""> 1179: 
-</span><span class=""> 1180: The defaults are not validated against what the setup actions support today,
-</span><span class=""> 1181: and some are end of life (node 18, python 3.9, ruby 3.1).  They are kept so
-</span><span class=""> 1182: existing output does not change.
-</span><span class=""> 1183: 
-</span><span class=""> 1184: =item * One version list per run
+</span><span class=""> 1180: =item * Default versions are fixed in the templates
+</span><span class=""> 1181: 
+</span><span class=""> 1182: The defaults are not validated against what the setup actions support today,
+</span><span class=""> 1183: and some are end of life (node 18, python 3.9, ruby 3.1).  They are kept so
+</span><span class=""> 1184: existing output does not change.
 </span><span class=""> 1185: 
-</span><span class=""> 1186: C&lt;--versions&gt; applies to the single generated type.  There is no way to give
-</span><span class=""> 1187: different lists to different jobs in one workflow.
-</span><span class=""> 1188: 
-</span><span class=""> 1189: =item * Messages are sprintf formats only
+</span><span class=""> 1186: =item * One version list per run
+</span><span class=""> 1187: 
+</span><span class=""> 1188: C&lt;--versions&gt; applies to the single generated type.  There is no way to give
+</span><span class=""> 1189: different lists to different jobs in one workflow.
 </span><span class=""> 1190: 
-</span><span class=""> 1191: C&lt;%MESSAGES&gt; can be reworded or translated by replacing its values, but there
-</span><span class=""> 1192: is no plural or grammatical-gender handling, and the table is a package
-</span><span class=""> 1193: global rather than per-object configuration.  The messages here take only
-</span><span class=""> 1194: strings, so none is needed yet.
-</span><span class=""> 1195: 
-</span><span class=""> 1196: =item * Version tokens are checked for safety, not meaning
+</span><span class=""> 1191: =item * Messages are sprintf formats only
+</span><span class=""> 1192: 
+</span><span class=""> 1193: C&lt;%MESSAGES&gt; can be reworded or translated by replacing its values, but there
+</span><span class=""> 1194: is no plural or grammatical-gender handling, and the table is a package
+</span><span class=""> 1195: global rather than per-object configuration.  The messages here take only
+</span><span class=""> 1196: strings, so none is needed yet.
 </span><span class=""> 1197: 
-</span><span class=""> 1198: C&lt;9.9.9&gt; is accepted for any language.  Whether the setup action can install
-</span><span class=""> 1199: it is only discovered when the workflow runs.
-</span><span class=""> 1200: 
-</span><span class=""> 1201: =item * Perl ignores project detection when versions are given
+</span><span class=""> 1198: =item * Version tokens are checked for safety, not meaning
+</span><span class=""> 1199: 
+</span><span class=""> 1200: C&lt;9.9.9&gt; is accepted for any language.  Whether the setup action can install
+</span><span class=""> 1201: it is only discovered when the workflow runs.
 </span><span class=""> 1202: 
-</span><span class=""> 1203: C&lt;generate_workflow(&#39;perl&#39;, { versions =&gt; ... })&gt; uses exactly the list given;
-</span><span class=""> 1204: the minimum Perl detected from F&lt;cpanfile&gt; or F&lt;Makefile.PL&gt; is not applied.
-</span><span class=""> 1205: 
-</span><span class=""> 1206: =back
+</span><span class=""> 1203: =item * Perl ignores project detection when versions are given
+</span><span class=""> 1204: 
+</span><span class=""> 1205: C&lt;generate_workflow(&#39;perl&#39;, { versions =&gt; ... })&gt; uses exactly the list given;
+</span><span class=""> 1206: the minimum Perl detected from F&lt;cpanfile&gt; or F&lt;Makefile.PL&gt; is not applied.
 </span><span class=""> 1207: 
-</span><span class=""> 1208: =head1 AUTHOR
+</span><span class=""> 1208: =back
 </span><span class=""> 1209: 
-</span><span class=""> 1210: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
+</span><span class=""> 1210: =head1 AUTHOR
 </span><span class=""> 1211: 
-</span><span class=""> 1212: L&lt;https://github.com/nigelhorne&gt;
+</span><span class=""> 1212: Nigel Horne E&lt;lt&gt;njh@nigelhorne.comE&lt;gt&gt;
 </span><span class=""> 1213: 
-</span><span class=""> 1214: =head1 COPYRIGHT AND LICENSE
+</span><span class=""> 1214: L&lt;https://github.com/nigelhorne&gt;
 </span><span class=""> 1215: 
-</span><span class=""> 1216: Copyright 2025-2026 Nigel Horne.
+</span><span class=""> 1216: =head1 COPYRIGHT AND LICENSE
 </span><span class=""> 1217: 
-</span><span class=""> 1218: Usage is subject to the GPL2 licence terms.
-</span><span class=""> 1219: If you use it,
-</span><span class=""> 1220: please let me know.
-</span><span class=""> 1221: 
-</span><span class=""> 1222: =cut
+</span><span class=""> 1218: Copyright 2025-2026 Nigel Horne.
+</span><span class=""> 1219: 
+</span><span class=""> 1220: Usage is subject to the GPL2 licence terms.
+</span><span class=""> 1221: If you use it,
+</span><span class=""> 1222: please let me know.
 </span><span class=""> 1223: 
-</span><span class=""> 1224: 1;
+</span><span class=""> 1224: =cut
+</span><span class=""> 1225: 
+</span><span class=""> 1226: 1;
 </span></pre>
 
 <script>
