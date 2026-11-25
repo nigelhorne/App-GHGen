@@ -41,7 +41,9 @@ subtest 'default includes all three operating systems' => sub {
 subtest '--os=linux,macos,windows equals the default' => sub {
 	my ($default) = generate();
 	my ($explicit) = generate('--os=linux,macos,windows');
-	is($explicit, $default, 'identical output');
+	like($explicit, qr/^# Options: --os=linux,macos,windows$/m, 'options recorded as a comment');
+	(my $stripped = $explicit) =~ s/^# Options:[^\n]*\n//m;
+	is($stripped, $default, 'otherwise identical output');
 };
 
 subtest '--os=linux,macos omits all Windows content' => sub {

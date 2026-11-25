@@ -210,6 +210,17 @@ C<--versions> replaces the version matrix.  The defaults are:
 C<--versions> has no effect for C<cpp>, C<docker> and C<static>; a warning is
 printed.  A value may contain only letters, digits and C<. + * - _>.
 
+When C<--os> and/or C<--versions> is given for a Perl workflow, the options
+are recorded as a comment on the line under the C<# Created by> comment, so
+the generated file shows how it was produced:
+
+    ---
+    # Created by App::GHGen::PerlCustomizer
+    # Options: --os=linux,macos --versions=5.40,5.42
+    name: Perl CI
+
+No comment is added when neither option is given.
+
 =head2 Interactive Mode
 
 Choose from a menu of available types:

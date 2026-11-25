@@ -139,6 +139,12 @@ sub cmd_generate() {
 		$yaml = generate_workflow($type, { versions => $version_list });
 	}
 
+	# Record --os / --versions as a comment under the "Created by" line
+	if ($type eq 'perl') {
+		my $note = join(' ', map { "--$_=$opts{$_}" } grep { defined $opts{$_} } qw(os versions));
+		$yaml =~ s/^(# Created by [^\n]*\n)/$1# Options: $note\n/m if length $note;
+	}
+
 	unless ($yaml) {
 		die colored(['red'], 'Error: '), "Unknown project type '$type'. Use --list to see options.";
 	}
@@ -505,6 +511,8 @@ Options:
                        python 3.9,3.10,3.11,3.12; ruby 3.1,3.2,3.3;
                        java 11,17,21; php 8.1,8.2,8.3; go 1.22; rust stable.
                        Ignored for cpp, docker and static.
+                       For Perl, --os/--versions are noted in a comment under
+                       the "Created by" line of the generated file.
 
 For Perl projects, C<--customize> presents the following options:
 

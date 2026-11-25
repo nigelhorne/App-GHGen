@@ -1,5 +1,10 @@
 Revision history for App-GHGen
 
+0.14
+	[ Enhancements ]
+	- ghgen generate records --os and --versions as an "# Options:" comment
+	  on the line under "# Created by" in generated Perl workflows
+
 0.13	Fri Nov 20 04:24:16 PM EST 2026
 	[ Enhancements ]
 	- Updated to actions-setup-perl to 1.44.5

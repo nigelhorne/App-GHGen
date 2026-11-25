@@ -174,6 +174,19 @@ ghgen generate --type=python --versions=3.12,3.13
 `--versions` has no effect for `cpp`, `docker` and `static`; a warning is
 printed.  A value may contain only letters, digits and `. + * - _`.
 
+When `--os` and/or `--versions` is given for a Perl workflow, the options
+are recorded as a comment on the line under the `# Created by` comment, so
+the generated file shows how it was produced:
+
+```yaml
+---
+# Created by App::GHGen::PerlCustomizer
+# Options: --os=linux,macos --versions=5.40,5.42
+name: Perl CI
+```
+
+No comment is added when neither option is given.
+
 ### Interactive Mode
 
 Choose from a menu of available types:
