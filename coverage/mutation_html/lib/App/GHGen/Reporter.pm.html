@@ -439,10 +439,10 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">   98: 
 </span><span class="">   99: 	$report .= &quot;## Summary\n\n&quot;;
 </span><span class="">  100: 	$report .= &quot;- &eth;&#159;&#147;&#138; **Issues found:** $total_issues\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  101: 	$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  102: 
-</span><span class="">  103: 	if (@$issues) {
-</span><span class="">  104: 		# Group by type
+</span><span class="">  101: 	$report .= &quot;- &acirc;&#156;&#133; **Fixes applied:** $total_fixes\n\n&quot;;
+</span><span class="">  102: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  103: 	if (@$issues) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  104: 		# Group by type
 </span><span class="">  105: 		my %by_type;
 </span><span class="">  106: 		push @{$by_type{$_-&gt;{type}}}, $_ for @$issues;
 </span><span class="">  107: 
@@ -455,10 +455,10 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  114: 
 </span><span class="">  115: 			for my $issue (@{$by_type{$type}}) {
 </span><span class="">  116: 				my $severity_badge = get_severity_badge($issue-&gt;{severity});
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  117: 				$report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  118: 
-</span><span class="">  119: 				if ($issue-&gt;{fix}) {
-</span><span class="">  120: 					$report .= &quot;&lt;details&gt;\n&quot;;
+</span><span class="">  117: 				$report .= &quot;**$severity_badge $issue-&gt;{message}**\n\n&quot;;
+</span><span class="">  118: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  119: 				if ($issue-&gt;{fix}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  120: 					$report .= &quot;&lt;details&gt;\n&quot;;
 </span><span class="">  121: 					$report .= &quot;&lt;summary&gt;&eth;&#159;&#146;&iexcl; Suggested Fix&lt;/summary&gt;\n\n&quot;;
 </span><span class="">  122: 					$report .= &quot;```yaml\n&quot;;
 </span><span class="">  123: 					$report .= &quot;$issue-&gt;{fix}\n&quot;;
@@ -469,22 +469,22 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  128: 		}
 </span><span class="">  129: 	}
 </span><span class="">  130: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  131: 	# Add savings estimate if available
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">132 → 133 → 145</span></span>  132: 	my $savings = estimate_savings($issues);
-</span><span class="">  133: 	if ($savings-&gt;{minutes} &gt; 0) {
-</span><span class="">  134: 		$report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;
+</span><span class="">  131: 	# Add savings estimate if available
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">132 → 133 → 145</span></span>  132: 	my $savings = estimate_savings($issues);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  133: 	if ($savings-&gt;{minutes} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  134: 		$report .= &quot;## &eth;&#159;&#146;&deg; Estimated Savings\n\n&quot;;
 </span><span class="">  135: 		$report .= &quot;By fixing these issues, you could save:\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  136: 		$report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  137: 
-</span><span class="">  138: 		if ($savings-&gt;{cost} &gt; 0) {
-</span><span class="">  139: 			$report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
+</span><span class="">  136: 		$report .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><span class="">  137: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  138: 		if ($savings-&gt;{cost} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  139: 			$report .= &quot;- &eth;&#159;&#146;&micro; **~\$$savings-&gt;{cost}/month** (for private repos)\n&quot;;
 </span><span class="">  140: 		}
 </span><span class="">  141: 
 </span><span class="">  142: 		$report .= &quot;\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  143: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  144: 
-</span><span class="">  145: 	return $report;
-</span><span class="">  146: }
+</span><span class="">  143: 	}
+</span><span class="">  144: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  145: 	return $report;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  146: }
 </span><span class="">  147: 
 </span><span class="">  148: =head2 generate_github_comment($issues, $fixes, $options)
 </span><span class="">  149: 
@@ -561,16 +561,16 @@ Approximate LCSAJ segments: 31<br>
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">220 → 225 → 229</span></span>  220: 	my $comment = &quot;## &eth;&#159;&#148;&#141; GHGen Workflow Analysis\n\n&quot;;
 </span><span class="">  221: 
 </span><span class="">  222: 	my $total_issues = scalar @$issues;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  223: 	my $total_fixes = scalar @$fixes;
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  224: 
-</span><span class="">  225: 	if ($total_fixes &gt; 0) {
-</span><span class="">  226: 		$comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  227: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  228: 
+</span><span class="">  223: 	my $total_fixes = scalar @$fixes;
+</span><span class="">  224: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  225: 	if ($total_fixes &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  226: 		$comment .= &quot;&acirc;&#156;&#133; **Applied $total_fixes automatic fix(es)**\n\n&quot;;
+</span><span class="">  227: 	}
+</span><span class="">  228: 
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">229 → 229 → 235</span></span>  229: 	if ($total_issues == 0) {
 </span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  230: 		$comment .= &quot;&eth;&#159;&#142;&#137; **No issues found!** Your workflows look great.\n\n&quot;;
-</span><span class="">  231: 		return $comment;
-</span><span class="">  232: 	}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  231: 		return $comment;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  232: 	}
 </span><span class="">  233: 
 </span><span class="">  234: 	# Summary table
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">235 → 241 → 248</span></span>  235: 	$comment .= &quot;| Category | Count | Auto-fixable |\n&quot;;
@@ -597,10 +597,10 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  256: 
 </span><span class="">  257: 		for my $issue (@{$by_type{$type}}) {
 </span><span class="">  258: 			my $badge = get_severity_badge($issue-&gt;{severity});
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  259: 			$comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  260: 
-</span><span class="">  261: 			if ($issue-&gt;{file}) {
-</span><span class="">  262: 				$comment .= &quot;  - File: `$issue-&gt;{file}`\n&quot;;
+</span><span class="">  259: 			$comment .= &quot;- $badge **$issue-&gt;{message}**\n&quot;;
+</span><span class="">  260: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  261: 			if ($issue-&gt;{file}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  262: 				$comment .= &quot;  - File: `$issue-&gt;{file}`\n&quot;;
 </span><span class="">  263: 			}
 </span><span class="">  264: 		}
 </span><span class="">  265: 
@@ -608,10 +608,10 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  267: 	}
 </span><span class="">  268: 
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">269 → 272 → 292</span></span>  269: 	$comment .= &quot;&lt;/details&gt;\n\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  270: 
-</span><p> <b> Mutants (Total: 5, Killed: 5, Survived: 0)</b><p><span class="">  271: 	# Add recommendations
-</span><span class="">  272: 	if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {
-</span><span class="">  273: 		$comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;
+</span><span class="">  270: 
+</span><span class="">  271: 	# Add recommendations
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  272: 	if ($total_fixes == 0 &amp;&amp; $total_issues &gt; 0) {
+</span><p> <b> Mutants (Total: 5, Killed: 5, Survived: 0)</b><p><span class="">  273: 		$comment .= &quot;### &eth;&#159;&#146;&iexcl; How to Fix\n\n&quot;;
 </span><span class="">  274: 		$comment .= &quot;Run these commands locally:\n\n&quot;;
 </span><span class="">  275: 		$comment .= &quot;```bash\n&quot;;
 </span><span class="">  276: 		$comment .= &quot;# Install ghgen\n&quot;;
@@ -629,25 +629,25 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  288: 		$comment .= &quot;```\n\n&quot;;
 </span><span class="">  289: 	}
 </span><span class="">  290: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  291: 	# Add savings estimate
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">292 → 293 → 305</span></span>  292: 	my $savings = estimate_savings($issues);
-</span><span class="">  293: 	if ($savings-&gt;{minutes} &gt; 0) {
-</span><span class="">  294: 		$comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
+</span><span class="">  291: 	# Add savings estimate
+</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">292 → 293 → 305</span></span>  292: 	my $savings = estimate_savings($issues);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  293: 	if ($savings-&gt;{minutes} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  294: 		$comment .= &quot;### &eth;&#159;&#146;&deg; Potential Savings\n\n&quot;;
 </span><span class="">  295: 		$comment .= &quot;By fixing these issues:\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  296: 		$comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  297: 
-</span><span class="">  298: 		if ($savings-&gt;{cost} &gt; 0) {
-</span><span class="">  299: 			$comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
+</span><span class="">  296: 		$comment .= &quot;- &acirc;&#143;&plusmn;&iuml;&cedil;&#143; Save **~$savings-&gt;{minutes} CI minutes/month**\n&quot;;
+</span><span class="">  297: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  298: 		if ($savings-&gt;{cost} &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  299: 			$comment .= &quot;- &eth;&#159;&#146;&micro; Save **~\$$savings-&gt;{cost}/month** (private repos)\n&quot;;
 </span><span class="">  300: 		}
 </span><span class="">  301: 
 </span><span class="">  302: 		$comment .= &quot;\n&quot;;
 </span><span class="">  303: 	}
 </span><span class="">  304: 
 </span><span class="">  305: 	$comment .= &quot;---\n&quot;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  306: 	$comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  307: 
-</span><span class="">  308: 	return $comment;
-</span><span class="">  309: }
+</span><span class="">  306: 	$comment .= &quot;*Analysis by [GHGen](https://github.com/your-org/ghgen)*\n&quot;;
+</span><span class="">  307: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  308: 	return $comment;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  309: }
 </span><span class="">  310: 
 </span><span class="">  311: =head2 estimate_savings($issues)
 </span><span class="">  312: 
@@ -725,29 +725,29 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  384: 		cost =&gt; 0,
 </span><span class="">  385: 	);
 </span><span class="">  386: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  387: 	for my $issue (@$issues) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  388: 	# Estimate savings by issue type
-</span><span class="">  389: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
-</span><span class="">  390: 			# Caching saves ~5 minutes per workflow run
+</span><span class="">  387: 	for my $issue (@$issues) {
+</span><span class="">  388: 	# Estimate savings by issue type
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  389: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  390: 			# Caching saves ~5 minutes per workflow run
 </span><span class="">  391: 			# Assume 100 runs/month
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  392: 			$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  393: 		} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
-</span><span class="">  394: 			if ($issue-&gt;{message} =~ /concurrency/) {
-</span><span class="">  395: 				# Concurrency saves ~50 minutes/month by canceling old runs
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  396: 				$savings{minutes} += 50;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  397: 			}
-</span><span class="">  398: 			if ($issue-&gt;{message} =~ /triggers/) {
-</span><span class="">  399: 				# Trigger filters save ~100 minutes/month
+</span><span class="">  392: 			$savings{minutes} += 500 if $issue-&gt;{message} =~ /caching/;
+</span><span class="">  393: 		} elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  394: 			if ($issue-&gt;{message} =~ /concurrency/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  395: 				# Concurrency saves ~50 minutes/month by canceling old runs
+</span><span class="">  396: 				$savings{minutes} += 50;
+</span><span class="">  397: 			}
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  398: 			if ($issue-&gt;{message} =~ /triggers/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  399: 				# Trigger filters save ~100 minutes/month
 </span><span class="">  400: 				$savings{minutes} += 100;
 </span><span class="">  401: 			}
 </span><span class="">  402: 		}
 </span><span class="">  403: 	}
 </span><span class="">  404: 
 </span><span class="">  405: 	# Private repo pricing: ~$0.008 per minute
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  406: 	$savings{cost} = int($savings{minutes} * 0.008);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  407: 
-</span><span class="">  408: 	return \%savings;
-</span><span class="">  409: }
+</span><span class="">  406: 	$savings{cost} = int($savings{minutes} * 0.008);
+</span><span class="">  407: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  408: 	return \%savings;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  409: }
 </span><span class="">  410: 
 </span><span class="">  411: sub get_type_emoji($type) {
 </span><span class="">  412: 	my %emojis = (
@@ -755,20 +755,20 @@ Approximate LCSAJ segments: 31<br>
 </span><span class="">  414: 		security =&gt; &#39;&eth;&#159;&#148;&#146;&#39;,
 </span><span class="">  415: 		cost =&gt; &#39;&eth;&#159;&#146;&deg;&#39;,
 </span><span class="">  416: 		maintenance =&gt; &#39;&eth;&#159;&#148;&sect;&#39;,
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  417: 	);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  418: 
-</span><span class="">  419: 	return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;
-</span><span class="">  420: }
+</span><span class="">  417: 	);
+</span><span class="">  418: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  419: 	return $emojis{$type} // &#39;&eth;&#159;&#147;&#140;&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  420: }
 </span><span class="">  421: 
 </span><span class="">  422: sub get_severity_badge($severity) {
 </span><span class="">  423: 	my %badges = (
 </span><span class="">  424: 		high   =&gt; &#39;&eth;&#159;&#148;&acute;&#39;,
 </span><span class="">  425: 		medium =&gt; &#39;&eth;&#159;&#159;&iexcl;&#39;,
 </span><span class="">  426: 		low =&gt; &#39;&eth;&#159;&#159;&cent;&#39;,
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  427: 	);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  428: 
-</span><span class="">  429: 	return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;
-</span><span class="">  430: }
+</span><span class="">  427: 	);
+</span><span class="">  428: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  429: 	return $badges{$severity} // &#39;&acirc;&#154;&ordf;&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  430: }
 </span><span class="">  431: 
 </span><span class="">  432: =head1 AUTHOR
 </span><span class="">  433: 

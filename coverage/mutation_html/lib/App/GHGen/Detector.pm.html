@@ -434,19 +434,19 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">   93: 
 </span><span class="">   94: 	# Check for each project type
 </span><span class="">   95: 	for my $type (qw(perl node python rust go ruby php java cpp docker)) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   96: 		my $detector = &quot;_detect_$type&quot;;
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">   97: 		my $score = __PACKAGE__-&gt;can($detector)-&gt;();
-</span><span class="">   98: 		push @detections, { type =&gt; $type, score =&gt; $score, indicators =&gt; [] } if $score &gt; 0;
-</span><span class="">   99: 	}
+</span><span class="">   96: 		my $detector = &quot;_detect_$type&quot;;
+</span><span class="">   97: 		my $score = __PACKAGE__-&gt;can($detector)-&gt;();
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">   98: 		push @detections, { type =&gt; $type, score =&gt; $score, indicators =&gt; [] } if $score &gt; 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">   99: 	}
 </span><span class="">  100: 
 </span><span class="">  101: 	# Sort by score (highest first)
 </span><span class="">  102: 	@detections = sort { $b-&gt;{score} &lt;=&gt; $a-&gt;{score} } @detections;
 </span><span class="">  103: 
 </span><span class="">  104: 	# `return;` returns () in list context and undef in scalar context &acirc;&#128;&#148; correct for both.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  105: 	# `return undef` would return (undef) in list context, i.e. a one-element list.
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  106: 	return unless @detections;
-</span><span class="">  107: 	return wantarray ? @detections : $detections[0]-&gt;{type};
-</span><span class="">  108: }
+</span><span class="">  105: 	# `return undef` would return (undef) in list context, i.e. a one-element list.
+</span><span class="">  106: 	return unless @detections;
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  107: 	return wantarray ? @detections : $detections[0]-&gt;{type};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  108: }
 </span><span class="">  109: 
 </span><span class="">  110: =head2 get_project_indicators($type)
 </span><span class="">  111: 
@@ -559,10 +559,10 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  218: 			&#39;Dockerfile&#39;, &#39;docker-compose.yml&#39;, &#39;docker-compose.yaml&#39;,
 </span><span class="">  219: 			&#39;.dockerignore&#39;
 </span><span class="">  220: 		],
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  221: 	);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  222: 
-</span><span class="">  223: 	return $type ? $indicators{$type} : \%indicators;
-</span><span class="">  224: }
+</span><span class="">  221: 	);
+</span><span class="">  222: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  223: 	return $type ? $indicators{$type} : \%indicators;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  224: }
 </span><span class="">  225: 
 </span><span class="">  226: # Detection functions - return a score (0 = not detected, higher = more confident)
 </span><span class="">  227: 
@@ -582,21 +582,21 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  241: 	# Weak indicators
 </span><span class="">  242: 	$score += 3  if path(&#39;lib&#39;)-&gt;exists &amp;&amp; path(&#39;lib&#39;)-&gt;is_dir;
 </span><span class="">  243: 	$score += 2  if path(&#39;t&#39;)-&gt;exists &amp;&amp; path(&#39;t&#39;)-&gt;is_dir;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  244: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  245: 	# Check for .pm files in lib/
+</span><span class="">  244: 
+</span><span class="">  245: 	# Check for .pm files in lib/
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  246: 	if (path(&#39;lib&#39;)-&gt;exists) {
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  247: 		my @pm_files = path(&#39;lib&#39;)-&gt;children(qr/\.pm$/);
-</span><span class="">  248: 		$score += 2 if @pm_files &gt; 0;
-</span><span class="">  249: 	}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  250: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  251: 	# Check for .t files in t/
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  247: 		my @pm_files = path(&#39;lib&#39;)-&gt;children(qr/\.pm$/);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  248: 		$score += 2 if @pm_files &gt; 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  249: 	}
+</span><span class="">  250: 
+</span><span class="">  251: 	# Check for .t files in t/
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">252 → 252 → 257</span></span>  252: 	if (path(&#39;t&#39;)-&gt;exists) {
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  253: 		my @t_files = path(&#39;t&#39;)-&gt;children(qr/\.t$/);
-</span><span class="">  254: 		$score += 1 if @t_files &gt; 0;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  255: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  256: 
-</span><span class="">  257: 	return $score;
-</span><span class="">  258: }
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  253: 		my @t_files = path(&#39;t&#39;)-&gt;children(qr/\.t$/);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  254: 		$score += 1 if @t_files &gt; 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  255: 	}
+</span><span class="">  256: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  257: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  258: }
 </span><span class="">  259: 
 </span><span class="">  260: sub _detect_node() {
 </span><span class="">  261: 	my $score = 0;
@@ -613,10 +613,10 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  272: 	$score += 3  if path(&#39;.npmrc&#39;)-&gt;exists;
 </span><span class="">  273: 
 </span><span class="">  274: 	# Weak indicators
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  275: 	$score += 2  if path(&#39;src&#39;)-&gt;exists &amp;&amp; path(&#39;src&#39;)-&gt;is_dir;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  276: 
-</span><span class="">  277: 	return $score;
-</span><span class="">  278: }
+</span><span class="">  275: 	$score += 2  if path(&#39;src&#39;)-&gt;exists &amp;&amp; path(&#39;src&#39;)-&gt;is_dir;
+</span><span class="">  276: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  277: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  278: }
 </span><span class="">  279: 
 </span><span class="">  280: sub _detect_python() {
 </span><span class="">  281: 	my $score = 0;
@@ -636,12 +636,12 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  295: 	# Weak indicators
 </span><span class="">  296: 	$score += 2  if path(&#39;venv&#39;)-&gt;exists || path(&#39;.venv&#39;)-&gt;exists;
 </span><span class="">  297: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  298: 	# Check for .py files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  299: 	my @py_files = path(&#39;.&#39;)-&gt;children(qr/\.py$/);
+</span><span class="">  298: 	# Check for .py files
+</span><span class="">  299: 	my @py_files = path(&#39;.&#39;)-&gt;children(qr/\.py$/);
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  300: 	$score += 2 if @py_files &gt; 0;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  301: 
-</span><span class="">  302: 	return $score;
-</span><span class="">  303: }
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  301: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  302: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  303: }
 </span><span class="">  304: 
 </span><span class="">  305: sub _detect_rust() {
 </span><span class="">  306: 	my $score = 0;
@@ -656,10 +656,10 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  315: 	$score += 3  if path(&#39;rust-toolchain.toml&#39;)-&gt;exists || path(&#39;rust-toolchain&#39;)-&gt;exists;
 </span><span class="">  316: 
 </span><span class="">  317: 	# Weak indicators
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  318: 	$score += 2  if path(&#39;target&#39;)-&gt;exists &amp;&amp; path(&#39;target&#39;)-&gt;is_dir;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  319: 
-</span><span class="">  320: 	return $score;
-</span><span class="">  321: }
+</span><span class="">  318: 	$score += 2  if path(&#39;target&#39;)-&gt;exists &amp;&amp; path(&#39;target&#39;)-&gt;is_dir;
+</span><span class="">  319: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  320: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  321: }
 </span><span class="">  322: 
 </span><span class="">  323: sub _detect_go() {
 </span><span class="">  324: 	my $score = 0;
@@ -671,13 +671,13 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  330: 	# Medium indicators
 </span><span class="">  331: 	$score += 5  if path(&#39;main.go&#39;)-&gt;exists;
 </span><span class="">  332: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  333: 	# Check for .go files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  334: 	my @go_files = path(&#39;.&#39;)-&gt;children(qr/\.go$/);
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  335: 	$score += 3 if @go_files &gt; 0;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  336: 	$score += 1 if @go_files &gt; 3;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  337: 
-</span><span class="">  338: 	return $score;
-</span><span class="">  339: }
+</span><span class="">  333: 	# Check for .go files
+</span><span class="">  334: 	my @go_files = path(&#39;.&#39;)-&gt;children(qr/\.go$/);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  335: 	$score += 3 if @go_files &gt; 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  336: 	$score += 1 if @go_files &gt; 3;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  337: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  338: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  339: }
 </span><span class="">  340: 
 </span><span class="">  341: sub _detect_ruby() {
 </span><span class="">  342: 	my $score = 0;
@@ -691,12 +691,12 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  350: 	$score += 4  if path(&#39;.ruby-version&#39;)-&gt;exists;
 </span><span class="">  351: 	$score += 3  if path(&#39;config.ru&#39;)-&gt;exists;
 </span><span class="">  352: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  353: 	# Check for .rb files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  354: 	my @rb_files = path(&#39;.&#39;)-&gt;children(qr/\.rb$/);
+</span><span class="">  353: 	# Check for .rb files
+</span><span class="">  354: 	my @rb_files = path(&#39;.&#39;)-&gt;children(qr/\.rb$/);
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  355: 	$score += 2 if @rb_files &gt; 0;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  356: 
-</span><span class="">  357: 	return $score;
-</span><span class="">  358: }
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  356: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  357: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  358: }
 </span><span class="">  359: 
 </span><span class="">  360: sub _detect_docker() {
 </span><span class="">  361: 	my $score = 0;
@@ -707,10 +707,10 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  366: 	$score += 8  if path(&#39;docker-compose.yaml&#39;)-&gt;exists;
 </span><span class="">  367: 
 </span><span class="">  368: 	# Medium indicators
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  369: 	$score += 3  if path(&#39;.dockerignore&#39;)-&gt;exists;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  370: 
-</span><span class="">  371: 	return $score;
-</span><span class="">  372: }
+</span><span class="">  369: 	$score += 3  if path(&#39;.dockerignore&#39;)-&gt;exists;
+</span><span class="">  370: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  371: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  372: }
 </span><span class="">  373: 
 </span><span class="">  374: sub _detect_php() {
 </span><span class="">  375: 	my $score = 0;
@@ -728,12 +728,12 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  387: 	$score += 2  if path(&#39;src&#39;)-&gt;exists &amp;&amp; path(&#39;src&#39;)-&gt;is_dir;
 </span><span class="">  388: 	$score += 2  if path(&#39;tests&#39;)-&gt;exists &amp;&amp; path(&#39;tests&#39;)-&gt;is_dir;
 </span><span class="">  389: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  390: 	# Check for .php files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  391: 	my @php_files = path(&#39;.&#39;)-&gt;children(qr/\.php$/);
+</span><span class="">  390: 	# Check for .php files
+</span><span class="">  391: 	my @php_files = path(&#39;.&#39;)-&gt;children(qr/\.php$/);
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  392: 	$score += 2 if @php_files &gt; 0;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  393: 
-</span><span class="">  394: 	return $score;
-</span><span class="">  395: }
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  393: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  394: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  395: }
 </span><span class="">  396: 
 </span><span class="">  397: sub _detect_java() {
 </span><span class="">  398: 	my $score = 0;
@@ -753,12 +753,12 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  412: 	$score += 3  if path(&#39;src/main/java&#39;)-&gt;exists;
 </span><span class="">  413: 	$score += 2  if path(&#39;src/test/java&#39;)-&gt;exists;
 </span><span class="">  414: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  415: 	# Check for .java files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  416: 	my @java_files = path(&#39;.&#39;)-&gt;children(qr/\.java$/);
+</span><span class="">  415: 	# Check for .java files
+</span><span class="">  416: 	my @java_files = path(&#39;.&#39;)-&gt;children(qr/\.java$/);
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  417: 	$score += 2 if @java_files &gt; 0;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  418: 
-</span><span class="">  419: 	return $score;
-</span><span class="">  420: }
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  418: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  419: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  420: }
 </span><span class="">  421: 
 </span><span class="">  422: sub _detect_cpp() {
 </span><span class="">  423: 	my $score = 0;
@@ -773,16 +773,16 @@ Approximate LCSAJ segments: 165<br>
 </span><span class="">  432: 	$score += 4  if path(&#39;meson.build&#39;)-&gt;exists;
 </span><span class="">  433: 	$score += 3  if path(&#39;.clang-format&#39;)-&gt;exists;
 </span><span class="">  434: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  435: 	# Check for C++ files
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  436: 	my @cpp_files = path(&#39;.&#39;)-&gt;children(qr/\.(?:cpp|cc|cxx|hpp|hxx|h)$/);
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  437: 	$score += 3 if @cpp_files &gt; 0;
-</span><span class="">  438: 	$score += 2 if @cpp_files &gt; 5;
-</span><span class="">  439: 
+</span><span class="">  435: 	# Check for C++ files
+</span><span class="">  436: 	my @cpp_files = path(&#39;.&#39;)-&gt;children(qr/\.(?:cpp|cc|cxx|hpp|hxx|h)$/);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  437: 	$score += 3 if @cpp_files &gt; 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  438: 	$score += 2 if @cpp_files &gt; 5;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  439: 
 </span><span class="">  440: 	# Check for include directory
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  441: 	$score += 2 if path(&#39;include&#39;)-&gt;exists &amp;&amp; path(&#39;include&#39;)-&gt;is_dir;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  442: 
-</span><span class="">  443: 	return $score;
-</span><span class="">  444: }
+</span><span class="">  441: 	$score += 2 if path(&#39;include&#39;)-&gt;exists &amp;&amp; path(&#39;include&#39;)-&gt;is_dir;
+</span><span class="">  442: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  443: 	return $score;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  444: }
 </span><span class="">  445: 
 </span><span class="">  446: =head1 AUTHOR
 </span><span class="">  447: 

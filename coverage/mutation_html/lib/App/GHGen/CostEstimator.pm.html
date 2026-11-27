@@ -290,7 +290,7 @@ a.intra-dot:hover { color: #7700bb; }
 <body>
 <button class="toggle" onclick="toggleTheme()">🌙 Toggle Theme</button>
 <h1>lib/App/GHGen/CostEstimator.pm</h1>
-<div class="nav"><a href="../../../../index.html">Index</a>
+<div class="nav"><a href="Analyzer.pm.html">⬅ Previous</a> <a href="../../../../index.html">Index</a>
  <a href="Detector.pm.html">Next ➡</a></div><div class='summary'>
 <strong>Structural Coverage (Approximate)</strong><p>
 TER1 (Statement): 100.00%<br>
@@ -467,10 +467,10 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  126: 	# Free tier: 2,000 minutes/month for private repos
 </span><span class="">  127: 	# Additional: $0.008 per minute
 </span><span class="">  128: 	my $cost_per_minute = 0.008;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  129: 	my $free_tier = 2000;
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  130: 
-</span><span class="">  131: 	my $billable_minutes = $total_minutes &gt; $free_tier ? ($total_minutes - $free_tier) : 0;
-</span><span class="">  132: 
+</span><span class="">  129: 	my $free_tier = 2000;
+</span><span class="">  130: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  131: 	my $billable_minutes = $total_minutes &gt; $free_tier ? ($total_minutes - $free_tier) : 0;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  132: 
 </span><span class="">  133: 	my $monthly_cost = $billable_minutes * $cost_per_minute;
 </span><span class="">  134: 
 </span><span class="">  135: 	return {
@@ -685,41 +685,41 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  344: 
 </span><span class="">  345: 	for my $issue (@$issues) {
 </span><span class="">  346: 		my $saving = 0;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  347: 		my $description = &#39;&#39;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  348: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  349: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
-</span><span class="">  350: 			if ($issue-&gt;{message} =~ /caching/) {
-</span><span class="">  351: 				# Caching typically saves 30-60 seconds per run
+</span><span class="">  347: 		my $description = &#39;&#39;;
+</span><span class="">  348: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  349: 		if ($issue-&gt;{type} eq &#39;performance&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  350: 			if ($issue-&gt;{message} =~ /caching/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  351: 				# Caching typically saves 30-60 seconds per run
 </span><span class="">  352: 				# Estimate 100 runs/month affected
 </span><span class="">  353: 				$saving = 100 * 0.75;  # 75 minutes
 </span><span class="">  354: 				$description = &#39;Adding dependency caching&#39;;
 </span><span class="">  355: 			}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  356: 		}
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  357: 		elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
-</span><span class="">  358: 			if ($issue-&gt;{message} =~ /concurrency/) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  359: 				# Concurrency saves by canceling superseded runs
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  360: 				# Estimate 10-20% of runs are canceled
-</span><span class="">  361: 				if ($current_usage) {
-</span><span class="">  362: 					$saving = $current_usage-&gt;{total_minutes} * 0.15;
+</span><span class="">  356: 		}
+</span><span class="">  357: 		elsif ($issue-&gt;{type} eq &#39;cost&#39;) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  358: 			if ($issue-&gt;{message} =~ /concurrency/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  359: 				# Concurrency saves by canceling superseded runs
+</span><span class="">  360: 				# Estimate 10-20% of runs are canceled
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  361: 				if ($current_usage) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  362: 					$saving = $current_usage-&gt;{total_minutes} * 0.15;
 </span><span class="">  363: 				} else {
 </span><span class="">  364: 					$saving = 50;  # Conservative estimate
 </span><span class="">  365: 				}
 </span><span class="">  366: 				$description = &#39;Adding concurrency controls&#39;;
 </span><span class="">  367: 			}
 </span><span class="">  368: 			elsif ($issue-&gt;{message} =~ /triggers/) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  369: 				# Trigger filters reduce unnecessary runs
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  370: 				# Estimate 20-30% of runs avoided
-</span><span class="">  371: 				if ($current_usage) {
-</span><span class="">  372: 					$saving = $current_usage-&gt;{total_minutes} * 0.25;
+</span><span class="">  369: 				# Trigger filters reduce unnecessary runs
+</span><span class="">  370: 				# Estimate 20-30% of runs avoided
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  371: 				if ($current_usage) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  372: 					$saving = $current_usage-&gt;{total_minutes} * 0.25;
 </span><span class="">  373: 				} else {
 </span><span class="">  374: 					$saving = 100;  # Conservative estimate
 </span><span class="">  375: 				}
 </span><span class="">  376: 				$description = &#39;Optimizing workflow triggers&#39;;
 </span><span class="">  377: 			}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  378: 		}
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  379: 
-</span><span class="">  380: 		if ($saving &gt; 0) {
-</span><span class="">  381: 			$savings{minutes} += $saving;
+</span><span class="">  378: 		}
+</span><span class="">  379: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  380: 		if ($saving &gt; 0) {
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  381: 			$savings{minutes} += $saving;
 </span><span class="">  382: 			push @{$savings{details}}, {
 </span><span class="">  383: 				description =&gt; $description,
 </span><span class="">  384: 				minutes =&gt; int($saving),
@@ -727,28 +727,28 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  386: 			};
 </span><span class="">  387: 		}
 </span><span class="">  388: 	}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  389: 
-</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  390: 	# Calculate percentage and cost
+</span><span class="">  389: 
+</span><span class="">  390: 	# Calculate percentage and cost
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">391 → 391 → 397</span></span>  391: 	if ($current_usage &amp;&amp; $current_usage-&gt;{total_minutes} &gt; 0) {
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  392: 		$savings{percentage} = int(($savings{minutes} / $current_usage-&gt;{total_minutes}) * 100);
-</span><span class="">  393: 	} elsif ($savings{minutes} &gt; 0) {
-</span><span class="">  394: 		$savings{percentage} = 30;  # Estimate 30% savings
+</span><p> <b> Mutants (Total: 4, Killed: 4, Survived: 0)</b><p><span class="">  392: 		$savings{percentage} = int(($savings{minutes} / $current_usage-&gt;{total_minutes}) * 100);
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  393: 	} elsif ($savings{minutes} &gt; 0) {
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  394: 		$savings{percentage} = 30;  # Estimate 30% savings
 </span><span class="">  395: 	}
 </span><span class="">  396: 
 </span><span class="">  397: 	$savings{cost} = sprintf(&#39;%.2f&#39;, $savings{minutes} * 0.008);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  398: 	$savings{minutes} = int($savings{minutes});
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  399: 
-</span><span class="">  400: 	return \%savings;
-</span><span class="">  401: }
+</span><span class="">  398: 	$savings{minutes} = int($savings{minutes});
+</span><span class="">  399: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  400: 	return \%savings;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  401: }
 </span><span class="">  402: 
 </span><span class="">  403: sub estimate_runs_per_month($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">404 → 409 → 422</span></span>  404: 	my $on = $workflow-&gt;{on} or return 50;  # Default estimate
 </span><span class="">  405: 
 </span><span class="">  406: 	my $runs = 0;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  407: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  408: 	# Parse different trigger formats
-</span><span class="">  409: 	if (ref $on eq &#39;ARRAY&#39;) {
-</span><span class="">  410: 		for my $trigger (@$on) {
+</span><span class="">  407: 
+</span><span class="">  408: 	# Parse different trigger formats
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  409: 	if (ref $on eq &#39;ARRAY&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  410: 		for my $trigger (@$on) {
 </span><span class="">  411: 			$runs += estimate_trigger_frequency($trigger);
 </span><span class="">  412: 		}
 </span><span class="">  413: 	}
@@ -758,10 +758,10 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  417: 		}
 </span><span class="">  418: 	} else {
 </span><span class="">  419: 		$runs += estimate_trigger_frequency($on);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  420: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  421: 
-</span><span class="">  422: 	return $runs || 50;  # Minimum estimate
-</span><span class="">  423: }
+</span><span class="">  420: 	}
+</span><span class="">  421: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  422: 	return $runs || 50;  # Minimum estimate
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  423: }
 </span><span class="">  424: 
 </span><span class="">  425: sub estimate_trigger_frequency($trigger, $config = undef) {
 </span><span class="">  426: 	# Estimates based on typical project activity
@@ -775,22 +775,22 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  434: 	);
 </span><span class="">  435: 
 </span><span class="">  436: 	my $base = $frequencies{$trigger} // 20;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  437: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  438: 	# Adjust based on configuration
+</span><span class="">  437: 
+</span><span class="">  438: 	# Adjust based on configuration
 </span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  439: 	if ($config &amp;&amp; ref $config eq &#39;HASH&#39;) {
 </span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  440: 		# If it has branches filter, likely fewer runs
-</span><span class="">  441: 		if ($config-&gt;{branches}) {
-</span><span class="">  442: 			$base *= 0.6;  # 40% reduction
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  441: 		if ($config-&gt;{branches}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  442: 			$base *= 0.6;  # 40% reduction
 </span><span class="">  443: 		}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  444: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  445: 		# If it has paths filter, significantly fewer runs
-</span><span class="">  446: 		if ($config-&gt;{paths}) {
-</span><span class="">  447: 			$base *= 0.3;  # 70% reduction
+</span><span class="">  444: 
+</span><span class="">  445: 		# If it has paths filter, significantly fewer runs
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  446: 		if ($config-&gt;{paths}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  447: 			$base *= 0.3;  # 70% reduction
 </span><span class="">  448: 		}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  449: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  450: 
-</span><span class="">  451: 	return int($base);
-</span><span class="">  452: }
+</span><span class="">  449: 	}
+</span><span class="">  450: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  451: 	return int($base);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  452: }
 </span><span class="">  453: 
 </span><span class="">  454: sub estimate_duration($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">455 → 462 → 466</span></span>  455: 	my $jobs = $workflow-&gt;{jobs} or return 5;  # Default 5 minutes
@@ -805,38 +805,38 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  464: 	}
 </span><span class="">  465: 
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">466 → 466 → 478</span></span>  466: 	for my $job (values %$jobs) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  467: 		my $duration = estimate_job_duration($job);
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  468: 
-</span><span class="">  469: 		if ($has_dependencies) {
-</span><span class="">  470: 			# Sequential - add durations
+</span><span class="">  467: 		my $duration = estimate_job_duration($job);
+</span><span class="">  468: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  469: 		if ($has_dependencies) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  470: 			# Sequential - add durations
 </span><span class="">  471: 			$total_duration += $duration;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  472: 		} else {
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  473: 			# Parallel - track maximum
-</span><span class="">  474: 			$max_parallel_duration = $duration if $duration &gt; $max_parallel_duration;
-</span><span class="">  475: 		}
+</span><span class="">  472: 		} else {
+</span><span class="">  473: 			# Parallel - track maximum
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  474: 			$max_parallel_duration = $duration if $duration &gt; $max_parallel_duration;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  475: 		}
 </span><span class="">  476: 	}
 </span><span class="">  477: 
 </span><span class="">  478: 	my $estimated = $has_dependencies ? $total_duration : $max_parallel_duration;
 </span><span class="">  479: 
 </span><span class="">  480: 	# Factor in matrix multiplier
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  481: 	my $matrix_factor = estimate_matrix_factor($workflow);
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  482: 
-</span><span class="">  483: 	return int($estimated * $matrix_factor) || 5;
-</span><span class="">  484: }
+</span><span class="">  481: 	my $matrix_factor = estimate_matrix_factor($workflow);
+</span><span class="">  482: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  483: 	return int($estimated * $matrix_factor) || 5;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  484: }
 </span><span class="">  485: 
 </span><span class="">  486: sub estimate_job_duration($job) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">487 → 491 → 530</span></span>  487: 	my $steps = $job-&gt;{steps} or return 3;
 </span><span class="">  488: 
 </span><span class="">  489: 	my $duration = 0;
 </span><span class="">  490: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  491: 	for my $step (@$steps) {
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  492: 		# Estimate based on step type
-</span><span class="">  493: 		if ($step-&gt;{uses}) {
-</span><span class="">  494: 			my $uses = $step-&gt;{uses};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  496: 			# Common actions and their typical durations
-</span><span class="">  497: 			if ($uses =~ /checkout/) {
-</span><span class="">  498: 				$duration += 0.5;
+</span><span class="">  491: 	for my $step (@$steps) {
+</span><span class="">  492: 		# Estimate based on step type
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  493: 		if ($step-&gt;{uses}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  494: 			my $uses = $step-&gt;{uses};
+</span><span class="">  495: 
+</span><span class="">  496: 			# Common actions and their typical durations
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  497: 			if ($uses =~ /checkout/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  498: 				$duration += 0.5;
 </span><span class="">  499: 			}
 </span><span class="">  500: 			elsif ($uses =~ /setup-(?:node|python|go|ruby)/) {
 </span><span class="">  501: 				$duration += 1;
@@ -848,10 +848,10 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  507: 		}
 </span><span class="">  508: 		elsif ($step-&gt;{run}) {
 </span><span class="">  509: 			my $run = $step-&gt;{run};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  510: 
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  511: 			# Estimate based on command
-</span><span class="">  512: 			if ($run =~ /npm (?:install|ci)/) {
-</span><span class="">  513: 				$duration += 2;  # npm install takes time
+</span><span class="">  510: 
+</span><span class="">  511: 			# Estimate based on command
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  512: 			if ($run =~ /npm (?:install|ci)/) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  513: 				$duration += 2;  # npm install takes time
 </span><span class="">  514: 			}
 </span><span class="">  515: 			elsif ($run =~ /pip install/) {
 </span><span class="">  516: 				$duration += 1.5;
@@ -866,10 +866,10 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  525: 				$duration += 0.5;  # Generic command
 </span><span class="">  526: 			}
 </span><span class="">  527: 		}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  528: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  529: 
-</span><span class="">  530: 	return $duration || 3;
-</span><span class="">  531: }
+</span><span class="">  528: 	}
+</span><span class="">  529: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  530: 	return $duration || 3;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  531: }
 </span><span class="">  532: 
 </span><span class="">  533: sub estimate_matrix_factor($workflow) {
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">534 → 538 → 557</span></span>  534: 	my $jobs = $workflow-&gt;{jobs} or return 1;
@@ -885,18 +885,18 @@ Approximate LCSAJ segments: 79<br>
 </span><span class="">  544: 
 </span><span class="">  545: 		# Calculate matrix size
 </span><span class="">  546: 		for my $key (keys %$matrix) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  547: 			next if $key eq &#39;include&#39; || $key eq &#39;exclude&#39;;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  548: 			my $values = $matrix-&gt;{$key};
-</span><span class="">  549: 			if (ref $values eq &#39;ARRAY&#39;) {
-</span><span class="">  550: 				$size *= scalar @$values;
+</span><span class="">  547: 			next if $key eq &#39;include&#39; || $key eq &#39;exclude&#39;;
+</span><span class="">  548: 			my $values = $matrix-&gt;{$key};
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  549: 			if (ref $values eq &#39;ARRAY&#39;) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  550: 				$size *= scalar @$values;
 </span><span class="">  551: 			}
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  552: 		}
-</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  553: 
-</span><span class="">  554: 		$max_matrix_size = $size if $size &gt; $max_matrix_size;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  555: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  556: 
-</span><span class="">  557: 	return $max_matrix_size;
-</span><span class="">  558: }
+</span><span class="">  552: 		}
+</span><span class="">  553: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  554: 		$max_matrix_size = $size if $size &gt; $max_matrix_size;
+</span><p> <b> Mutants (Total: 3, Killed: 3, Survived: 0)</b><p><span class="">  555: 	}
+</span><span class="">  556: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  557: 	return $max_matrix_size;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  558: }
 </span><span class="">  559: 
 </span><span class="">  560: =head1 AUTHOR
 </span><span class="">  561: 

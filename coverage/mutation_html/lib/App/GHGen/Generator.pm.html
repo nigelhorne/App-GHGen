@@ -565,10 +565,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  224: 
 </span><span class="">  225: 	my $generator = $generators{$type};
 </span><span class="">  226: 	my $versions = $opts-&gt;{versions};
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  227: 	my $yaml;
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  228: 
-</span><span class="">  229: 	if (!$generator) {
-</span><span class="">  230: 		# Unknown type: documented to return undef rather than croak
+</span><span class="">  227: 	my $yaml;
+</span><span class="">  228: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  229: 	if (!$generator) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  230: 		# Unknown type: documented to return undef rather than croak
 </span><span class="">  231: 		$yaml = undef;
 </span><span class="">  232: 	} elsif (!($versions &amp;&amp; @{$versions})) {
 </span><span class="">  233: 		$yaml = $generator-&gt;();
@@ -581,10 +581,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  240: 		$yaml = ($type eq &#39;perl&#39;)
 </span><span class="">  241: 			? generate_custom_perl_workflow({ perl_versions =&gt; [ @{$versions} ] })
 </span><span class="">  242: 			: _apply_versions($type, $generator-&gt;(), $versions);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  243: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  244: 
-</span><span class="">  245: 	return $yaml;
-</span><span class="">  246: }
+</span><span class="">  243: 	}
+</span><span class="">  244: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  245: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  246: }
 </span><span class="">  247: 
 </span><span class="">  248: =head2 parse_version_list($text)
 </span><span class="">  249: 
@@ -664,10 +664,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  323: 	my $versions = _split_unique($text);
 </span><span class="">  324: 
 </span><span class="">  325: 	# An empty list would silently fall back to the default matrix
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  326: 	croak _message(&#39;no_versions&#39;) unless @{$versions};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  327: 
-</span><span class="">  328: 	return _validate_versions($versions);
-</span><span class="">  329: }
+</span><span class="">  326: 	croak _message(&#39;no_versions&#39;) unless @{$versions};
+</span><span class="">  327: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  328: 	return _validate_versions($versions);
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  329: }
 </span><span class="">  330: 
 </span><span class="">  331: =head2 parse_os_list($text)
 </span><span class="">  332: 
@@ -749,10 +749,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  408: 	# Lower-case first so &quot;Linux&quot; and &quot;LINUX&quot; are accepted
 </span><span class="">  409: 	my @labels = uniq map { _runner_label($_) } @{ _split_unique(lc($text)) };
 </span><span class="">  410: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  411: 	croak _message(&#39;no_os&#39;) unless @labels;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  412: 
-</span><span class="">  413: 	return \@labels;
-</span><span class="">  414: }
+</span><span class="">  411: 	croak _message(&#39;no_os&#39;) unless @labels;
+</span><span class="">  412: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  413: 	return \@labels;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  414: }
 </span><span class="">  415: 
 </span><span class="">  416: # Purpose:      Split a comma-separated option value into trimmed, non-empty,
 </span><span class="">  417: #               de-duplicated entries (first occurrence wins).
@@ -773,10 +773,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  432: 	my $label = $RUNNER_LABEL_FOR{$name}
 </span><span class="">  433: 		// ($name =~ $RUNNER_LABEL_PATTERN ? $name : undef);
 </span><span class="">  434: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  435: 	croak _message(&#39;unknown_os&#39;, $name) unless defined $label;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  436: 
-</span><span class="">  437: 	return $label;
-</span><span class="">  438: }
+</span><span class="">  435: 	croak _message(&#39;unknown_os&#39;, $name) unless defined $label;
+</span><span class="">  436: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  437: 	return $label;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  438: }
 </span><span class="">  439: 
 </span><span class="">  440: # Purpose:      Reject any version that could break out of a YAML scalar.
 </span><span class="">  441: # Entry:        $versions is an array reference of strings.
@@ -786,10 +786,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">445 → 445 → 450</span></span>  445: 	for my $version (@{$versions}) {
 </span><span class="">  446: 		croak _message(&#39;invalid_version&#39;, $version // &#39;undef&#39;)
 </span><span class="">  447: 			unless defined $version &amp;&amp; $version =~ $VERSION_PATTERN;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  448: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  449: 
-</span><span class="">  450: 	return $versions;
-</span><span class="">  451: }
+</span><span class="">  448: 	}
+</span><span class="">  449: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  450: 	return $versions;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  451: }
 </span><span class="">  452: 
 </span><span class="">  453: # Purpose:      Format a message from %MESSAGES with sprintf interpolation.
 </span><span class="">  454: # Entry:        $key is a key of %MESSAGES; @args fill its placeholders.
@@ -797,10 +797,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  456: #               &#39;unknown_message&#39; text instead, so a typo cannot hide an error.
 </span><span class="">  457: # Side effects: None.
 </span><span class="">  458: sub _message($key, @args) {
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  459: 	my $format = $MESSAGES{$key};
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  460: 
-</span><span class="">  461: 	return defined $format
-</span><span class="">  462: 		? sprintf($format, @args)
+</span><span class="">  459: 	my $format = $MESSAGES{$key};
+</span><span class="">  460: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  461: 	return defined $format
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  462: 		? sprintf($format, @args)
 </span><span class="">  463: 		: sprintf($MESSAGES{unknown_message}, $key);
 </span><span class="">  464: }
 </span><span class="">  465: 
@@ -808,20 +808,20 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  467: # Entry:        $indent is the dash column as spaces; $versions is an arrayref.
 </span><span class="">  468: # Exit status: Returns the YAML text; every entry is single-quoted so that
 </span><span class="">  469: #               3.10 stays a string and is not read as the number 3.1.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  470: # Side effects: None.
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  471: sub _matrix_items($indent, $versions) {
-</span><span class="">  472: 	return join &#39;&#39;, map { &quot;$indent- &#39;$_&#39;\n&quot; } @{$versions};
-</span><span class="">  473: }
+</span><span class="">  470: # Side effects: None.
+</span><span class="">  471: sub _matrix_items($indent, $versions) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  472: 	return join &#39;&#39;, map { &quot;$indent- &#39;$_&#39;\n&quot; } @{$versions};
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  473: }
 </span><span class="">  474: 
 </span><span class="">  475: # Purpose:      Rewrite the version matrix of a generated workflow.
 </span><span class="">  476: # Entry:        $type is a known generator type; $yaml is that type&#39;s template;
 </span><span class="">  477: #               $versions has been validated.
 </span><span class="">  478: # Exit status: Returns the rewritten YAML; types without a matrix (cpp,
 </span><span class="">  479: #               docker, static) come back unchanged.
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  480: # Side effects: None.
-</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  481: sub _apply_versions($type, $yaml, $versions) {
-</span><span class=""><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">482 → 482 → 497</span></span>  482: 	if (my $key = $MATRIX_KEY_FOR{$type}) {
-</span><span class="">  483: 		# Replace the existing list under &quot;&lt;key&gt;:&quot; keeping its indentation
+</span><span class="">  480: # Side effects: None.
+</span><span class="">  481: sub _apply_versions($type, $yaml, $versions) {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."><span class="lcsaj-tip"><span class="lcsaj-dot">●</span><span class="lcsaj-tip-text">482 → 482 → 497</span></span>  482: 	if (my $key = $MATRIX_KEY_FOR{$type}) {
+</span><p> <b> Mutants (Total: 1, Killed: 1, Survived: 0)</b><p><span class="">  483: 		# Replace the existing list under &quot;&lt;key&gt;:&quot; keeping its indentation
 </span><span class="">  484: 		$yaml =~ s{^( +)\Q$key\E:\n(?: +- .*\n)+}{
 </span><span class="">  485: 			&quot;$1$key:\n&quot; . _matrix_items(&quot;$1  &quot;, $versions)
 </span><span class="">  486: 		}me;
@@ -833,10 +833,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  492: 		# ref is not a version, so point it at the matrix value
 </span><span class="">  493: 		$yaml =~ s{$RUST_TOOLCHAIN_STEP}{$1        with:\n          toolchain: \${{ matrix.rust-version }}\n};
 </span><span class="">  494: 		$yaml = _insert_matrix($yaml, &#39;rust-version&#39;, $versions);
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  495: 	}
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  496: 
-</span><span class="">  497: 	return $yaml;
-</span><span class="">  498: }
+</span><span class="">  495: 	}
+</span><span class="">  496: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  497: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  498: }
 </span><span class="">  499: 
 </span><span class="">  500: # Purpose:      Add a one-key strategy matrix to the (single) ubuntu job.
 </span><span class="">  501: # Entry:        $yaml has exactly one &quot;    runs-on: ubuntu-latest&quot; line.
@@ -846,10 +846,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  505: 	my $block = &quot;    strategy:\n      matrix:\n        $key:\n&quot;
 </span><span class="">  506: 		. _matrix_items(&#39;          &#39;, $versions);
 </span><span class="">  507: 
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  508: 	$yaml =~ s{^(    runs-on: ubuntu-latest\n)}{$1$block}m;
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  509: 
-</span><span class="">  510: 	return $yaml;
-</span><span class="">  511: }
+</span><span class="">  508: 	$yaml =~ s{^(    runs-on: ubuntu-latest\n)}{$1$block}m;
+</span><span class="">  509: 
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  510: 	return $yaml;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  511: }
 </span><span class="">  512: 
 </span><span class="">  513: =head2 list_workflow_types()
 </span><span class="">  514: 
@@ -922,20 +922,20 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  581: 
 </span><span class="">  582: 	# Use detected min version or default to 5.36
 </span><span class="">  583: 	my $min_version = $reqs-&gt;{min_version} // &#39;5.36&#39;;
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  584: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  585: 	# Generate custom workflow with detected settings
-</span><span class="">  586: 	return generate_custom_perl_workflow({
-</span><span class="">  587: 		min_perl_version =&gt; $min_version,
+</span><span class="">  584: 
+</span><span class="">  585: 	# Generate custom workflow with detected settings
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  586: 	return generate_custom_perl_workflow({
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  587: 		min_perl_version =&gt; $min_version,
 </span><span class="">  588: 		max_perl_version =&gt; &#39;5.40&#39;,
 </span><span class="">  589: 		os =&gt; [&#39;macos-latest&#39;, &#39;ubuntu-latest&#39;, &#39;windows-latest&#39;],
 </span><span class="">  590: 		enable_critic =&gt; 1,
 </span><span class="">  591: 		enable_coverage =&gt; 1,
 </span><span class="">  592: 	});
 </span><span class="">  593: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  594: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  595: sub _generate_node_workflow() {
-</span><span class="">  596: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  597: ---
+</span><span class="">  594: 
+</span><span class="">  595: sub _generate_node_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  596: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  597: ---
 </span><span class="">  598: name: Node.js CI
 </span><span class="">  599: 
 </span><span class="">  600: &#39;on&#39;:
@@ -994,10 +994,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  653:         run: npm run build --if-present
 </span><span class="">  654: YAML
 </span><span class="">  655: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  656: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  657: sub _generate_python_workflow() {
-</span><span class="">  658: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  659: ---
+</span><span class="">  656: 
+</span><span class="">  657: sub _generate_python_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  658: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  659: ---
 </span><span class="">  660: name: Python CI
 </span><span class="">  661: 
 </span><span class="">  662: &#39;on&#39;:
@@ -1056,10 +1056,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  715:         run: pytest --cov=. --cov-report=xml
 </span><span class="">  716: YAML
 </span><span class="">  717: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  718: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  719: sub _generate_rust_workflow() {
-</span><span class="">  720: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  721: ---
+</span><span class="">  718: 
+</span><span class="">  719: sub _generate_rust_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  720: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  721: ---
 </span><span class="">  722: name: Rust CI
 </span><span class="">  723: 
 </span><span class="">  724: &#39;on&#39;:
@@ -1111,10 +1111,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  770:         run: cargo build --release --verbose
 </span><span class="">  771: YAML
 </span><span class="">  772: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  773: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  774: sub _generate_go_workflow() {
-</span><span class="">  775: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  776: ---
+</span><span class="">  773: 
+</span><span class="">  774: sub _generate_go_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  775: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  776: ---
 </span><span class="">  777: name: Go CI
 </span><span class="">  778: 
 </span><span class="">  779: &#39;on&#39;:
@@ -1165,10 +1165,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  824:         run: go build -v ./...
 </span><span class="">  825: YAML
 </span><span class="">  826: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  827: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  828: sub _generate_ruby_workflow() {
-</span><span class="">  829: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  830: ---
+</span><span class="">  827: 
+</span><span class="">  828: sub _generate_ruby_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  829: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  830: ---
 </span><span class="">  831: name: Ruby CI
 </span><span class="">  832: 
 </span><span class="">  833: &#39;on&#39;:
@@ -1209,10 +1209,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  868:         run: bundle exec rake test
 </span><span class="">  869: YAML
 </span><span class="">  870: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  871: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  872: sub _generate_docker_workflow() {
-</span><span class="">  873: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  874: ---
+</span><span class="">  871: 
+</span><span class="">  872: sub _generate_docker_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  873: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  874: ---
 </span><span class="">  875: name: Docker Build
 </span><span class="">  876: 
 </span><span class="">  877: &#39;on&#39;:
@@ -1267,10 +1267,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  926:           cache-to: type=gha,mode=max
 </span><span class="">  927: YAML
 </span><span class="">  928: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  929: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  930: sub _generate_static_workflow() {
-</span><span class="">  931: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  932: ---
+</span><span class="">  929: 
+</span><span class="">  930: sub _generate_static_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  931: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  932: ---
 </span><span class="">  933: name: Deploy Static Site
 </span><span class="">  934: 
 </span><span class="">  935: &#39;on&#39;:
@@ -1317,10 +1317,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class="">  976:         uses: actions/deploy-pages@v4
 </span><span class="">  977: YAML
 </span><span class="">  978: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  979: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  980: sub _generate_java_workflow() {
-</span><span class="">  981: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class="">  982: ---
+</span><span class="">  979: 
+</span><span class="">  980: sub _generate_java_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic.">  981: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class="">  982: ---
 </span><span class="">  983: name: Java CI
 </span><span class="">  984: 
 </span><span class="">  985: &#39;on&#39;:
@@ -1378,10 +1378,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class=""> 1037:         run: mvn surefire-report:report
 </span><span class=""> 1038: YAML
 </span><span class=""> 1039: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1040: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1041: sub _generate_cpp_workflow() {
-</span><span class=""> 1042: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class=""> 1043: ---
+</span><span class=""> 1040: 
+</span><span class=""> 1041: sub _generate_cpp_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1042: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1043: ---
 </span><span class=""> 1044: name: C++ CI
 </span><span class=""> 1045: 
 </span><span class=""> 1046: &#39;on&#39;:
@@ -1437,10 +1437,10 @@ Approximate LCSAJ segments: 27<br>
 </span><span class=""> 1096:         run: ctest -C ${{ matrix.build-type }} --output-on-failure
 </span><span class=""> 1097: YAML
 </span><span class=""> 1098: }
-</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1099: 
-</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1100: sub _generate_php_workflow() {
-</span><span class=""> 1101: 	return &lt;&lt;&#39;YAML&#39;;
-</span><span class=""> 1102: ---
+</span><span class=""> 1099: 
+</span><span class=""> 1100: sub _generate_php_workflow() {
+</span><span class="killed tooltip" data-tooltip="Mutations here were killed. Tests are effectively covering this logic."> 1101: 	return &lt;&lt;&#39;YAML&#39;;
+</span><p> <b> Mutants (Total: 2, Killed: 2, Survived: 0)</b><p><span class=""> 1102: ---
 </span><span class=""> 1103: name: PHP CI
 </span><span class=""> 1104: 
 </span><span class=""> 1105: &#39;on&#39;:
